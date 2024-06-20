@@ -34,8 +34,8 @@ class TopicCompletedModalReducerTest {
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
-                    it.event is TopicCompletedModalClickedCloseHyperskillAnalyticEvent &&
-                    it.event.route == analyticRoute
+                    it.analyticEvent is TopicCompletedModalClickedCloseHyperskillAnalyticEvent &&
+                    it.analyticEvent.route == analyticRoute
             }
         }
     }
@@ -52,8 +52,8 @@ class TopicCompletedModalReducerTest {
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
-                    it.event is TopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent &&
-                    it.event.route == analyticRoute
+                    it.analyticEvent is TopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent &&
+                    it.analyticEvent.route == analyticRoute
             }
         }
     }
@@ -70,8 +70,8 @@ class TopicCompletedModalReducerTest {
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
-                    it.event is TopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent &&
-                    it.event.route == analyticRoute
+                    it.analyticEvent is TopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent &&
+                    it.analyticEvent.route == analyticRoute
             }
         }
     }
@@ -87,8 +87,8 @@ class TopicCompletedModalReducerTest {
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
-                    it.event is TopicCompletedModalShownHyperskillAnalyticEvent &&
-                    it.event.route == analyticRoute
+                    it.analyticEvent is TopicCompletedModalShownHyperskillAnalyticEvent &&
+                    it.analyticEvent.route == analyticRoute
             }
         }
     }
@@ -104,8 +104,8 @@ class TopicCompletedModalReducerTest {
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
-                    it.event is TopicCompletedModalHiddenHyperskillAnalyticEvent &&
-                    it.event.route == analyticRoute
+                    it.analyticEvent is TopicCompletedModalHiddenHyperskillAnalyticEvent &&
+                    it.analyticEvent.route == analyticRoute
             }
         }
     }
@@ -121,8 +121,8 @@ class TopicCompletedModalReducerTest {
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
-                    it.event is TopicCompletedModalUserDidTakeScreenshotHyperskillAnalyticEvent &&
-                    it.event.route == analyticRoute
+                    it.analyticEvent is TopicCompletedModalUserDidTakeScreenshotHyperskillAnalyticEvent &&
+                    it.analyticEvent.route == analyticRoute
             }
         }
     }

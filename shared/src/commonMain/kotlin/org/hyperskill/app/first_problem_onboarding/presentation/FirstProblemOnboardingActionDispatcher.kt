@@ -1,6 +1,5 @@
 package org.hyperskill.app.first_problem_onboarding.presentation
 
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.FetchNextLearningActivityResult
@@ -20,7 +19,6 @@ internal class FirstProblemOnboardingActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val learningActivityRepository: LearningActivitiesRepository,
     private val onboardingInteractor: OnboardingInteractor,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -67,8 +65,6 @@ internal class FirstProblemOnboardingActionDispatcher(
             }
             is InternalAction.SetFirstProblemOnboardingShownFlag ->
                 onboardingInteractor.setFirstProblemOnboardingWasShown(wasShown = true)
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }

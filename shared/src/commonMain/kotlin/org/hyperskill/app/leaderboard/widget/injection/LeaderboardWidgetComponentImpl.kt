@@ -4,6 +4,7 @@ import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.leaderboard.widget.presentation.LeaderboardWidgetActionDispatcher
 import org.hyperskill.app.leaderboard.widget.presentation.LeaderboardWidgetReducer
+import org.hyperskill.app.leaderboard.widget.presentation.MainLeaderboardWidgetActionDispatcher
 import org.hyperskill.app.leaderboard.widget.view.mapper.LeaderboardWidgetViewStateMapper
 
 internal class LeaderboardWidgetComponentImpl(
@@ -14,11 +15,13 @@ internal class LeaderboardWidgetComponentImpl(
 
     override val leaderboardWidgetActionDispatcher: LeaderboardWidgetActionDispatcher
         get() = LeaderboardWidgetActionDispatcher(
-            config = ActionDispatcherOptions(),
-            leaderboardRepository = appGraph.buildLeaderboardDataComponent().leaderboardRepository,
-            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
-            sentryInteractor = appGraph.sentryComponent.sentryInteractor
+            MainLeaderboardWidgetActionDispatcher(
+                config = ActionDispatcherOptions(),
+                leaderboardRepository = appGraph.buildLeaderboardDataComponent().leaderboardRepository,
+                currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+                sentryInteractor = appGraph.sentryComponent.sentryInteractor
+            ),
+            appGraph.analyticComponent.analyticInteractor
         )
 
     override val leaderboardWidgetViewStateMapper: LeaderboardWidgetViewStateMapper

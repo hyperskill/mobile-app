@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources.strings
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
@@ -32,7 +31,6 @@ internal class ProfileSettingsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileSettingsInteractor: ProfileSettingsInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val analyticInteractor: AnalyticInteractor,
     private val authorizationFlow: MutableSharedFlow<UserDeauthorized>,
     private val platform: Platform,
     private val userAgentInfo: UserAgentInfo,
@@ -76,8 +74,6 @@ internal class ProfileSettingsActionDispatcher(
 
                 onNewMessage(Message.FeedbackEmailDataPrepared(feedbackEmailData))
             }
-            is Action.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetMagicLink -> getLink(action.path, ::onNewMessage)
             else -> {
                 // no op

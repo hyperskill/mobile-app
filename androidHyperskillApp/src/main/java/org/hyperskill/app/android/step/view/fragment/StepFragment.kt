@@ -89,11 +89,9 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
             viewLifecycleOwner = viewLifecycleOwner,
             menuHost = requireActivity() as MenuHost,
             onTheoryClick = ::onTheoryClick,
-            onSecondaryActionClick = ::onSecondaryActionClick
+            onSecondaryActionClick = ::onSecondaryActionClick,
+            onBackClick = ::onNavigationClick
         )
-        viewBinding.stepAppBar.stepToolbar.setNavigationOnClickListener {
-            onNavigationClick()
-        }
         viewBinding.stepAppBar.stepQuizLimitsTextView.setOnClickListener {
             stepQuizToolbarCallback?.onLimitsClick()
         }

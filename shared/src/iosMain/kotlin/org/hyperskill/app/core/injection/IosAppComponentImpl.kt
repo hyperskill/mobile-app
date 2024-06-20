@@ -44,7 +44,10 @@ abstract class IosAppComponentImpl(
         )
 
     override fun buildPurchaseComponent(): PurchaseComponent =
-        PurchaseComponentImpl(IosPurchaseManagerImpl(getIosPurchaseManager()))
+        PurchaseComponentImpl(
+            purchaseManager = IosPurchaseManagerImpl(getIosPurchaseManager()),
+            analyticInteractor = analyticComponent.analyticInteractor
+        )
 
     override fun buildApplicationShortcutsDataComponent(): ApplicationShortcutsDataComponent =
         ApplicationShortcutsDataComponentImpl(this)

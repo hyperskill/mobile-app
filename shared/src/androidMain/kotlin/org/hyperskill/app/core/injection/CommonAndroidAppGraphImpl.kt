@@ -81,11 +81,15 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
-import org.hyperskill.app.users_questionnaire_onboarding.onboarding.injection.PlatformUsersQuestionnaireOnboardingComponent
-import org.hyperskill.app.users_questionnaire_onboarding.onboarding.injection.PlatformUsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.root.injection.PlatformWelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.root.injection.PlatformWelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.track_details.injection.PlatformWelcomeOnboardingTrackDetailsComponent
+import org.hyperskill.app.welcome_onboarding.track_details.injection.PlatformWelcomeOnboardingTrackDetailsComponentImpl
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
 
@@ -111,10 +115,11 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
 
     override fun buildPurchaseComponent(): PurchaseComponent =
         PurchaseComponentImpl(
-            AndroidPurchaseManager(
+            purchaseManager = AndroidPurchaseManager(
                 application = application,
                 isDebugMode = BuildConfig.DEBUG
-            )
+            ),
+            analyticInteractor = analyticComponent.analyticInteractor
         )
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
@@ -295,11 +300,6 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
             requestReviewComponent = buildRequestReviewModalComponent(stepRoute)
         )
 
-    override fun buildPlatformUsersQuestionnaireOnboardingComponent(): PlatformUsersQuestionnaireOnboardingComponent =
-        PlatformUsersQuestionnaireOnboardingComponentImpl(
-            usersQuestionnaireOnboardingComponent = buildUsersQuestionnaireOnboardingComponent()
-        )
-
     override fun buildPlatformPaywallComponent(
         paywallTransitionSource: PaywallTransitionSource
     ): PlatformPaywallComponent =
@@ -324,5 +324,19 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     ): PlatformTopicCompletedModalComponent =
         PlatformTopicCompletedModalComponentImpl(
             topicCompletedModalComponent = buildTopicCompletedModalComponent(params)
+        )
+
+    override fun buildPlatformWelcomeOnboardingComponent(
+        params: WelcomeOnboardingFeatureParams
+    ): PlatformWelcomeOnboardingComponent =
+        PlatformWelcomeOnboardingComponentImpl(
+            welcomeOnboardingComponent = buildWelcomeOnboardingComponent(params)
+        )
+
+    override fun buildPlatformWelcomeOnboardingTrackDetailsComponent(
+        track: WelcomeOnboardingTrack
+    ): PlatformWelcomeOnboardingTrackDetailsComponent =
+        PlatformWelcomeOnboardingTrackDetailsComponentImpl(
+            welcomeOnboardingTrackDetailsComponent = buildWelcomeOnboardingTrackDetailsComponent(track)
         )
 }

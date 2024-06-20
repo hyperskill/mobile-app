@@ -36,7 +36,7 @@ object StepFeedbackFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticEvent(val event: AnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
         data class SendFeedback(
             val route: HyperskillAnalyticRoute,
             val stepId: Long,

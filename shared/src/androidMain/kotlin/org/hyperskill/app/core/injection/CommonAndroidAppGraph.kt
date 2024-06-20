@@ -46,9 +46,12 @@ import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelecti
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
-import org.hyperskill.app.users_questionnaire_onboarding.onboarding.injection.PlatformUsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.root.injection.PlatformWelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.track_details.injection.PlatformWelcomeOnboardingTrackDetailsComponent
 
 interface CommonAndroidAppGraph : AppGraph {
     val application: Application
@@ -119,8 +122,6 @@ interface CommonAndroidAppGraph : AppGraph {
         stepRoute: StepRoute
     ): PlatformRequestReviewComponent
 
-    fun buildPlatformUsersQuestionnaireOnboardingComponent(): PlatformUsersQuestionnaireOnboardingComponent
-
     fun buildPlatformPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PlatformPaywallComponent
 
     fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent
@@ -132,4 +133,12 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformTopicCompletedModalComponent(
         params: TopicCompletedModalFeatureParams
     ): PlatformTopicCompletedModalComponent
+
+    fun buildPlatformWelcomeOnboardingComponent(
+        params: WelcomeOnboardingFeatureParams
+    ): PlatformWelcomeOnboardingComponent
+
+    fun buildPlatformWelcomeOnboardingTrackDetailsComponent(
+        track: WelcomeOnboardingTrack
+    ): PlatformWelcomeOnboardingTrackDetailsComponent
 }

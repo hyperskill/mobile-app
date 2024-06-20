@@ -2,33 +2,33 @@ import Foundation
 import shared
 
 final class UsersQuestionnaireOnboardingViewModel: FeatureViewModel<
-  UsersQuestionnaireOnboardingFeature.ViewState,
-  UsersQuestionnaireOnboardingFeatureMessage,
-  UsersQuestionnaireOnboardingFeatureActionViewAction
+  LegacyUsersQuestionnaireOnboardingFeature.ViewState,
+  LegacyUsersQuestionnaireOnboardingFeatureMessage,
+  LegacyUsersQuestionnaireOnboardingFeatureActionViewAction
 > {
     weak var moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?
 
     override func shouldNotifyStateDidChange(
-        oldState: UsersQuestionnaireOnboardingFeature.ViewState,
-        newState: UsersQuestionnaireOnboardingFeature.ViewState
+        oldState: LegacyUsersQuestionnaireOnboardingFeature.ViewState,
+        newState: LegacyUsersQuestionnaireOnboardingFeature.ViewState
     ) -> Bool {
         !oldState.isEqual(newState)
     }
 
     func selectChoice(_ choice: String) {
-        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageClickedChoice(choice: choice))
+        onNewMessage(LegacyUsersQuestionnaireOnboardingFeatureMessageClickedChoice(choice: choice))
     }
 
     func doTextInputValueChanged(_ value: String) {
-        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageTextInputValueChanged(text: value))
+        onNewMessage(LegacyUsersQuestionnaireOnboardingFeatureMessageTextInputValueChanged(text: value))
     }
 
     func doSend() {
-        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageSendButtonClicked())
+        onNewMessage(LegacyUsersQuestionnaireOnboardingFeatureMessageSendButtonClicked())
     }
 
     func doSkip() {
-        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageSkipButtonClicked())
+        onNewMessage(LegacyUsersQuestionnaireOnboardingFeatureMessageSkipButtonClicked())
     }
 
     func doCompleteOnboarding() {
@@ -36,6 +36,6 @@ final class UsersQuestionnaireOnboardingViewModel: FeatureViewModel<
     }
 
     func logViewedEvent() {
-        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageViewedEventMessage())
+        onNewMessage(LegacyUsersQuestionnaireOnboardingFeatureMessageViewedEventMessage())
     }
 }

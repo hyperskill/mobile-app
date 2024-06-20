@@ -2,6 +2,7 @@ package org.hyperskill.app.topics_repetitions.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -38,7 +39,6 @@ internal object TopicsRepetitionsFeatureBuilder {
             ActionDispatcherOptions(),
             topicsRepetitionsInteractor,
             currentProfileStateRepository,
-            analyticInteractor,
             sentryInteractor,
             topicRepeatedFlow,
             stepCompletedFlow
@@ -46,5 +46,8 @@ internal object TopicsRepetitionsFeatureBuilder {
 
         return ReduxFeature(State.Idle, topicsRepetitionsReducer)
             .wrapWithActionDispatcher(topicsRepetitionsActionDispatcher)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? Action.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

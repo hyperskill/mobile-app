@@ -4,8 +4,8 @@ import SwiftUI
 import UIKit
 
 protocol AppViewControllerProtocol: AnyObject {
-    func displayState(_ state: AppFeatureStateKs)
-    func displayViewAction(_ viewAction: AppFeatureActionViewActionKs)
+    func displayState(_ state: LegacyAppFeatureStateKs)
+    func displayViewAction(_ viewAction: LegacyAppFeatureActionViewActionKs)
 }
 
 extension AppViewController {
@@ -56,7 +56,7 @@ final class AppViewController: UIViewController {
 // MARK: - AppViewController: AppViewControllerProtocol -
 
 extension AppViewController: AppViewControllerProtocol {
-    func displayState(_ state: AppFeatureStateKs) {
+    func displayState(_ state: LegacyAppFeatureStateKs) {
         if case .ready(let data) = state {
             AppTabItemsAvailabilityService.shared.setIsMobileLeaderboardsEnabled(data.isMobileLeaderboardsEnabled)
         }
@@ -64,11 +64,11 @@ extension AppViewController: AppViewControllerProtocol {
         appView?.renderState(state)
     }
 
-    func displayViewAction(_ viewAction: AppFeatureActionViewActionKs) {
+    func displayViewAction(_ viewAction: LegacyAppFeatureActionViewActionKs) {
         switch viewAction {
         case .navigateTo(let navigateToViewAction):
             handleNavigateToViewAction(
-                AppFeatureActionViewActionNavigateToKs(navigateToViewAction)
+                LegacyAppFeatureActionViewActionNavigateToKs(navigateToViewAction)
             )
         case .streakRecoveryViewAction(let streakRecoveryViewAction):
             handleStreakRecoveryViewAction(
@@ -80,12 +80,12 @@ extension AppViewController: AppViewControllerProtocol {
             )
         case .welcomeOnboardingViewAction(let welcomeOnboardingViewAction):
             handleWelcomeOnboardingViewAction(
-                WelcomeOnboardingFeatureActionViewActionKs(welcomeOnboardingViewAction.viewAction)
+                LegacyWelcomeOnboardingFeatureActionViewActionKs(welcomeOnboardingViewAction.viewAction)
             )
         }
     }
 
-    private func handleNavigateToViewAction(_ viewAction: AppFeatureActionViewActionNavigateToKs) {
+    private func handleNavigateToViewAction(_ viewAction: LegacyAppFeatureActionViewActionNavigateToKs) {
         switch viewAction {
         case .authScreen(let data):
             router.route(.auth(isInSignUpMode: data.isInSignUpMode, moduleOutput: viewModel))
@@ -202,11 +202,11 @@ extension AppViewController: AppViewControllerProtocol {
     }
 
     private func handleWelcomeOnboardingViewAction(
-        _ viewAction: WelcomeOnboardingFeatureActionViewActionKs
+        _ viewAction: LegacyWelcomeOnboardingFeatureActionViewActionKs
     ) {
         switch viewAction {
         case .navigateTo(let navigateToViewAction):
-            switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            switch LegacyWelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .firstProblemOnboardingScreen(let data):
                 router.route(.firstProblemOnboarding(isNewUserMode: data.isNewUserMode, moduleOutput: viewModel))
             case .notificationOnboardingScreen:

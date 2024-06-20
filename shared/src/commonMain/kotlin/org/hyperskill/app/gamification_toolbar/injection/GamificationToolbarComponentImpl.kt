@@ -5,16 +5,18 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.gamification_toolbar.presentation.MainGamificationToolbarActionDispatcher
 
 internal class GamificationToolbarComponentImpl(
     private val appGraph: AppGraph,
     private val screen: GamificationToolbarScreen
 ) : GamificationToolbarComponent {
+
     override val gamificationToolbarReducer: GamificationToolbarReducer
         get() = GamificationToolbarReducer(screen)
 
-    override val gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
-        get() = GamificationToolbarActionDispatcher(
+    private val mainGamificationToolbarActionDispatcher: MainGamificationToolbarActionDispatcher
+        get() = MainGamificationToolbarActionDispatcher(
             config = ActionDispatcherOptions(),
             stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
@@ -24,7 +26,12 @@ internal class GamificationToolbarComponentImpl(
                 .currentGamificationToolbarDataStateRepository,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor
+        )
+
+    override val gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
+        get() = GamificationToolbarActionDispatcher(
+            mainGamificationToolbarActionDispatcher,
+            appGraph.analyticComponent.analyticInteractor
         )
 }

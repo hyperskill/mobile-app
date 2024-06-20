@@ -7,7 +7,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.tooling.preview.Preview
 import org.hyperskill.app.R
-import org.hyperskill.app.android.core.view.ui.widget.compose.HtmlText
+import org.hyperskill.app.android.core.view.ui.widget.compose.ClickableHtmlText
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 
 @Composable
@@ -16,7 +16,7 @@ fun ChallengeDescription(
     onLinkClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    HtmlText(
+    ClickableHtmlText(
         text = description,
         modifier = modifier,
         baseSpanStyle = SpanStyle(color = colorResource(id = R.color.color_on_surface_alpha_60)),

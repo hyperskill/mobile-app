@@ -1,5 +1,6 @@
 package org.hyperskill.app.analytic.domain.model
 
+import org.hyperskill.app.analytic.domain.model.monitor.AnalyticEventMonitor
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 
 interface Analytic {
@@ -8,6 +9,9 @@ interface Analytic {
     fun reportEvent(event: AnalyticEvent, forceReportEvent: Boolean = false)
 
     suspend fun flushEvents()
+
+    fun setUserProperty(key: String, value: Any)
+    fun removeUserProperty(key: String)
 
     fun setScreenOrientation(screenOrientation: ScreenOrientation)
     fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean)

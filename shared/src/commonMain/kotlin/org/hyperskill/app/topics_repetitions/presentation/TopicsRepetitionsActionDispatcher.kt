@@ -3,7 +3,6 @@ package org.hyperskill.app.topics_repetitions.presentation
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -20,7 +19,6 @@ internal class TopicsRepetitionsActionDispatcher(
     config: ActionDispatcherOptions,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val topicRepeatedFlow: TopicRepeatedFlow,
     stepCompletedFlow: StepCompletedFlow
@@ -92,8 +90,6 @@ internal class TopicsRepetitionsActionDispatcher(
                     )
                 )
             }
-            is Action.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             is Action.NotifyTopicRepeated ->
                 topicRepeatedFlow.notifyDataChanged(action.topicId)
             else -> {}

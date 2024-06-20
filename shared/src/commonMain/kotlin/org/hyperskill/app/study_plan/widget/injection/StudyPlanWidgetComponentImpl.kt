@@ -2,13 +2,14 @@ package org.hyperskill.app.study_plan.widget.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.study_plan.widget.presentation.MainStudyPlanWidgetActionDispatcher
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDispatcher
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 
 internal class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWidgetComponent {
-    override val studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
-        get() = StudyPlanWidgetActionDispatcher(
+    private val mainStudyPlanWidgetActionDispatcher: MainStudyPlanWidgetActionDispatcher
+        get() = MainStudyPlanWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
             learningActivitiesRepository = appGraph.buildLearningActivitiesDataComponent().learningActivitiesRepository,
             nextLearningActivityStateRepository = appGraph
@@ -17,8 +18,13 @@ internal class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : St
             currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             progressesRepository = appGraph.buildProgressesDataComponent().progressesRepository,
-            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor
+        )
+
+    override val studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
+        get() = StudyPlanWidgetActionDispatcher(
+            mainStudyPlanWidgetActionDispatcher,
+            appGraph.analyticComponent.analyticInteractor
         )
 
     override val studyPlanWidgetReducer: StudyPlanWidgetReducer

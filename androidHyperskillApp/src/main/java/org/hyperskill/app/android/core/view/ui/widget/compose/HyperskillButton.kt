@@ -44,6 +44,7 @@ object HyperskillButtonDefaults {
     ): ButtonColors =
         ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor,
+            disabledBackgroundColor = backgroundColor.copy(alpha = 0.38f),
             contentColor = contentColor
         )
 

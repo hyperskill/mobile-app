@@ -8,7 +8,6 @@ import com.amplitude.core.events.BaseEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticEventUserProperties
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEngine
-import org.hyperskill.app.analytic.domain.model.asMapWithoutUserId
 import org.hyperskill.app.analytic.domain.processor.AmplitudeAnalyticEventMapper
 import org.hyperskill.app.config.BuildKonfig
 
@@ -41,7 +40,7 @@ class AndroidAmplitudeAnalyticEngine(
                 BaseEvent().apply {
                     eventType = amplitudeAnalyticEvent.name
                     eventProperties = amplitudeAnalyticEvent.params.toMutableMap()
-                    this.userProperties = userProperties.asMapWithoutUserId().toMutableMap()
+                    this.userProperties = userProperties.properties.toMutableMap()
                     this.userId = userProperties.userId?.toString()
                 }
             )

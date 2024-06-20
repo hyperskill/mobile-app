@@ -19,6 +19,12 @@ struct StepView: View {
                 .animation(.default, value: viewModel.state)
 
             let _ = renderStepToolbarViewState(viewModel.stepToolbarViewStateKs)
+
+            if viewModel.state.isLoadingShowed {
+                let _ = ProgressHUD.show()
+            } else {
+                let _ = ProgressHUD.dismissWithDelay()
+            }
         }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
@@ -32,6 +38,14 @@ struct StepView: View {
         }
         .environmentObject(stackRouter)
         .environmentObject(modalRouter)
+        .stepToolbar(
+            stepState: viewModel.state.stepState,
+            stepMenuActions: viewModel.state.stepMenuActions,
+            onShareButtonTap: viewModel.doShareMenuAction,
+            onReportButtonTap: viewModel.doReportMenuAction,
+            onSkipButtonTap: viewModel.doSkipMenuAction,
+            onOpenInWebButtonTap: viewModel.doOpenInWebMenuAction
+        )
     }
 
     // MARK: Private API
@@ -71,11 +85,7 @@ struct StepView: View {
 
             StepTheoryContentView(
                 viewData: viewModel.makeViewData(data.step),
-                startPracticingButton: startPracticingButton,
-                onTheoryFeedbackButtonTap: {
-                    let assembly = StepTheoryFeedbackModalAssembly(stepRoute: viewModel.stepRoute)
-                    modalRouter.present(module: assembly.makeModule(), modalPresentationStyle: .automatic)
-                }
+                startPracticingButton: startPracticingButton
             )
             .navigationTitle(data.step.title)
         case .practice:
@@ -112,18 +122,31 @@ struct StepView: View {
             handleStepCompletionViewAction(stepCompletionViewAction.viewAction)
         case .stepToolbarViewAction:
             break
-        case .openUrl(_):
-            #warning("TODO: ALTAPPS-1269")
-        case .reloadStep(_):
-            #warning("TODO: ALTAPPS-1269")
-        case .shareStepLink(_):
-            #warning("TODO: ALTAPPS-1269")
+        case .openUrl(let openUrlViewAction):
+            WebControllerManager.shared.presentWebControllerWithURLString(
+                openUrlViewAction.url,
+                controllerType: .inAppSafari
+            )
+        case .reloadStep(let reloadStepViewAction):
+            reloadStep(stepRoute: reloadStepViewAction.stepRoute)
+        case .shareStepLink(let shareStepLinkViewAction):
+            guard let url = URL(string: shareStepLinkViewAction.link) else {
+                return
+            }
+
+            let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            if let popoverPresentationController = activityViewController.popoverPresentationController {
+                popoverPresentationController.sourceView = modalRouter.rootViewController?.view
+            }
+
+            modalRouter.present(module: activityViewController, modalPresentationStyle: .fullScreen)
         case .showCantSkipError:
-            #warning("TODO: ALTAPPS-1269")
-        case .showFeedbackModal(_):
-            #warning("TODO: ALTAPPS-1269")
+            ProgressHUD.showError(status: Strings.Step.stepSkipFailedMessage)
+        case .showFeedbackModal(let showFeedbackModalViewAction):
+            let assembly = StepFeedbackAssembly(stepRoute: showFeedbackModalViewAction.stepRoute)
+            modalRouter.present(module: assembly.makeModule(), modalPresentationStyle: .automatic)
         case .showLoadingError:
-            #warning("TODO: ALTAPPS-1269")
+            ProgressHUD.showError(status: Strings.Common.error)
         }
     }
 
@@ -132,10 +155,7 @@ struct StepView: View {
         case .showStartPracticingError(let showPracticingErrorStatusViewAction):
             ProgressHUD.showError(status: showPracticingErrorStatusViewAction.message)
         case .reloadStep(let reloadStepViewAction):
-            stackRouter.replaceTopViewController(
-                StepAssembly(stepRoute: reloadStepViewAction.stepRoute).makeModule(),
-                animated: false
-            )
+            reloadStep(stepRoute: reloadStepViewAction.stepRoute)
         case .showTopicCompletedModal(let topicCompletedModalViewAction):
             presentTopicCompletedModal(
                 params: topicCompletedModalViewAction.params
@@ -159,6 +179,11 @@ struct StepView: View {
             presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
         case .showRequestUserReviewModal(let showRequestUserReviewModalViewAction):
             presentRequestReviewModal(stepRoute: showRequestUserReviewModalViewAction.stepRoute)
+        case .hapticFeedback(let hapticFeedbackViewAction):
+            switch StepCompletionFeatureActionViewActionHapticFeedbackKs(hapticFeedbackViewAction) {
+            case .topicCompleted:
+                FeedbackGenerator(feedbackType: .notification(.success)).triggerFeedback()
+            }
         }
     }
 
@@ -171,6 +196,13 @@ struct StepView: View {
         if !isDismissed {
             stackRouter.popViewController()
         }
+    }
+
+    private func reloadStep(stepRoute: StepRoute) {
+        stackRouter.replaceTopViewController(
+            StepAssembly(stepRoute: stepRoute).makeModule(),
+            animated: false
+        )
     }
 }
 

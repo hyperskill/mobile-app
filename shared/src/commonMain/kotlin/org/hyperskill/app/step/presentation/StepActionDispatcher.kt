@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
@@ -43,7 +42,6 @@ internal class StepActionDispatcher(
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val urlBuilder: HyperskillUrlBuilder,
     private val magicLinksInteractor: MagicLinksInteractor,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -72,8 +70,6 @@ internal class StepActionDispatcher(
                 stepInteractor.viewStep(action.stepId, action.stepContext)
             is InternalAction.UpdateNextLearningActivityState ->
                 handleUpdateNextLearningActivityStateAction(action)
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             is InternalAction.StartSolvingTimer ->
                 handleStartStepSolvingTimeLogging()
             is InternalAction.StopSolvingTimer ->
@@ -85,8 +81,8 @@ internal class StepActionDispatcher(
             is InternalAction.GetMagicLink ->
                 handleGetMagicLink(action.path, ::onNewMessage)
             is InternalAction.SkipStep -> handleSkipStep(action.stepId, ::onNewMessage)
-            is InternalAction.FetchNextLearningActivity ->
-                handleFetchNextLearningActivityStep(::onNewMessage)
+            is InternalAction.FetchNextRecommendedStep ->
+                handleFetchNextRecommendedStep(action, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -210,23 +206,37 @@ internal class StepActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildSkipStep(),
-            onError = { InternalMessage.StepSkipFailed }
+            onError = { e ->
+                logger.e(e) { "Failed to skip step" }
+                InternalMessage.StepSkipFailed
+            }
         ) {
             stepInteractor.skipStep(stepId)
             InternalMessage.StepSkipSuccess
         }.let(onNewMessage)
     }
 
-    private suspend fun handleFetchNextLearningActivityStep(
+    private suspend fun handleFetchNextRecommendedStep(
+        action: InternalAction.FetchNextRecommendedStep,
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildSkipStepNextLearningActivityLoading(),
-            onError = { InternalMessage.FetchNextLearningActivityError }
+            onError = { e ->
+                logger.e(e) { "Failed to fetch next recommended step" }
+                InternalMessage.FetchNextRecommendedStepError
+            }
         ) {
-            val nextLearningActivity =
-                nextLearningActivityStateRepository.getState(forceUpdate = true).getOrThrow()
-            InternalMessage.FetchNextLearningActivitySuccess(nextLearningActivity)
+            val nextRecommendedStep =
+                stepInteractor
+                    .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
+                    .getOrThrow()
+            if (nextRecommendedStep != null) {
+                InternalMessage.FetchNextRecommendedStepSuccess(nextRecommendedStep)
+            } else {
+                logger.w { "Next recommended step is not found" }
+                InternalMessage.FetchNextRecommendedStepError
+            }
         }.let(onNewMessage)
     }
 }

@@ -38,26 +38,8 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 state.copy(isPracticingLoading = false) to setOf(
                     Action.ViewAction.ShowStartPracticingError(message.errorMessage)
                 )
-            is Message.CheckTopicCompletionStatus.Completed -> {
-                val nextStepRoute =
-                    message.nextLearningActivity
-                        ?.let(LearningActivityTargetViewActionMapper::mapLearningActivityToStepRouteOrNull)
-                state.copy(
-                    continueButtonAction = ContinueButtonAction.NavigateToStudyPlan,
-                    isPracticingLoading = false,
-                    nextStepRoute = nextStepRoute
-                ) to setOf(
-                    InternalAction.LogTopicCompletedAnalyticEvent(topicId = message.topic.id),
-                    Action.ViewAction.ShowTopicCompletedModal(
-                        TopicCompletedModalFeatureParams(
-                            topic = message.topic,
-                            passedTopicsCount = message.passedTopicsCount,
-                            canContinueWithNextTopic = nextStepRoute != null,
-                            stepRoute = stepRoute
-                        )
-                    )
-                )
-            }
+            is Message.CheckTopicCompletionStatus.Completed ->
+                handleCheckTopicCompletionStatusCompleted(state, message)
             is Message.CheckTopicCompletionStatus.Uncompleted ->
                 state to setOf(InternalAction.FetchNextRecommendedStep(currentStep = state.currentStep))
             is Message.CheckTopicCompletionStatus.Error ->
@@ -212,6 +194,32 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
         } else {
             null
         }
+
+    private fun handleCheckTopicCompletionStatusCompleted(
+        state: State,
+        message: Message.CheckTopicCompletionStatus.Completed
+    ): StepCompletionReducerResult {
+        val nextStepRoute =
+            message.nextLearningActivity
+                ?.let(LearningActivityTargetViewActionMapper::mapLearningActivityToStepRouteOrNull)
+
+        return state.copy(
+            continueButtonAction = ContinueButtonAction.NavigateToStudyPlan,
+            isPracticingLoading = false,
+            nextStepRoute = nextStepRoute
+        ) to setOf(
+            InternalAction.LogTopicCompletedAnalyticEvent(topicId = message.topic.id),
+            Action.ViewAction.ShowTopicCompletedModal(
+                TopicCompletedModalFeatureParams(
+                    topic = message.topic,
+                    passedTopicsCount = message.passedTopicsCount,
+                    canContinueWithNextTopic = nextStepRoute != null,
+                    stepRoute = stepRoute
+                )
+            ),
+            Action.ViewAction.HapticFeedback.TopicCompleted
+        )
+    }
 
     private fun handleStepSolvedMessage(
         state: State,

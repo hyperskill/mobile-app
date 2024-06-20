@@ -1,53 +1,17 @@
 package org.hyperskill.app.step_toolbar.presentation
 
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
-import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
-import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.Action
-import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.InternalAction
-import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.InternalMessage
-import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.Message
-import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
+import org.hyperskill.app.analytic.presentation.SingleAnalyticEventActionDispatcher
+import org.hyperskill.app.core.presentation.CompositeActionDispatcher
 
-class StepToolbarActionDispatcher(
-    config: ActionDispatcherOptions,
-    topicCompletedFlow: TopicCompletedFlow,
-    private val progressesInteractor: ProgressesInteractor,
-    private val analyticInteractor: AnalyticInteractor
-) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
-
-    init {
-        topicCompletedFlow.observe()
-            .distinctUntilChanged()
-            .onEach { topicId ->
-                onNewMessage(InternalMessage.TopicCompleted(topicId))
-            }
-            .launchIn(actionScope)
-    }
-
-    override suspend fun doSuspendableAction(action: Action) {
-        when (action) {
-            is InternalAction.FetchTopicProgress ->
-                handleFetchTopicProgressAction(action, ::onNewMessage)
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.event)
+class StepToolbarActionDispatcher internal constructor(
+    mainStepToolbarActionDispatcher: MainStepToolbarActionDispatcher,
+    analyticInteractor: AnalyticInteractor
+) : CompositeActionDispatcher<StepToolbarFeature.Action, StepToolbarFeature.Message>(
+    listOf(
+        mainStepToolbarActionDispatcher,
+        SingleAnalyticEventActionDispatcher(analyticInteractor) {
+            (it as? StepToolbarFeature.InternalAction.LogAnalyticEvent)?.event
         }
-    }
-
-    private suspend fun handleFetchTopicProgressAction(
-        action: InternalAction.FetchTopicProgress,
-        onNewMessage: (Message) -> Unit
-    ) {
-        val message = progressesInteractor
-            .getTopicProgress(action.topicId, action.forceLoadFromRemote)
-            .fold(
-                onSuccess = { InternalMessage.FetchTopicProgressSuccess(it) },
-                onFailure = { InternalMessage.FetchTopicProgressError }
-            )
-        onNewMessage(message)
-    }
-}
+    )
+)

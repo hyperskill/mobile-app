@@ -2,6 +2,7 @@ package org.hyperskill.app.project_selection.list.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -11,6 +12,7 @@ import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListActionDispatcher
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.InternalAction
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.ViewState
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListReducer
@@ -46,8 +48,7 @@ internal object ProjectSelectionListFeatureBuilder {
             projectsRepository = projectsRepository,
             progressesRepository = progressesRepository,
             currentProfileStateRepository = currentProfileStateRepository,
-            sentryInteractor = sentryInteractor,
-            analyticInteractor = analyticInteractor
+            sentryInteractor = sentryInteractor
         )
         return ReduxFeature(
             initialState = ProjectSelectionListFeature.initialState(
@@ -59,6 +60,9 @@ internal object ProjectSelectionListFeatureBuilder {
             .wrapWithActionDispatcher(actionDispatcher)
             .transformState {
                 viewStateMapper.map(it.content)
+            }
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
             }
     }
 }
