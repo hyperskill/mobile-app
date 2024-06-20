@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.welcome_onbaording.entry_point.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.centerWithVerticalBias
 import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
 import org.hyperskill.app.R as SharedR
 
@@ -33,16 +36,21 @@ fun WelcomeOnboardingEntryPoint(
         modifier = modifier.padding(horizontal = WelcomeOnboardingDefault.horizontalPadding)
     ) {
         Spacer(modifier = Modifier.height(44.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Title(modifier = Modifier.align(Alignment.CenterHorizontally))
-            Spacer(modifier = Modifier.height(16.dp))
-            Description(modifier = Modifier.align(Alignment.CenterHorizontally))
-            Spacer(modifier = Modifier.height(32.dp))
-            Image(
-                painter = painterResource(id = R.drawable.img_welcome_onboarding_entry_point),
-                contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+        Box(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.align(Alignment.centerWithVerticalBias(-0.5f))
+            ) {
+                Title(modifier = Modifier.align(Alignment.CenterHorizontally))
+                Spacer(modifier = Modifier.height(16.dp))
+                Description(modifier = Modifier.align(Alignment.CenterHorizontally))
+                Spacer(modifier = Modifier.height(32.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.img_welcome_onboarding_entry_point),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
         HyperskillButton(
             onClick = onStartClick,
