@@ -566,6 +566,10 @@
 		2CF41A8E28505D2C000736D6 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* LatexView.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
 		2CF43414281281DB002893CD /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF43413281281DB002893CD /* AuthTextField.swift */; };
+		2CF52B332C2414BC00FE61D7 /* WelcomeOnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF52B302C2414BB00FE61D7 /* WelcomeOnboardingAssembly.swift */; };
+		2CF52B342C2414BC00FE61D7 /* WelcomeOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF52B312C2414BB00FE61D7 /* WelcomeOnboardingViewController.swift */; };
+		2CF52B352C2414BC00FE61D7 /* WelcomeOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF52B322C2414BB00FE61D7 /* WelcomeOnboardingViewModel.swift */; };
+		2CF52B382C24156B00FE61D7 /* WelcomeOnboardingStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF52B372C24156B00FE61D7 /* WelcomeOnboardingStartView.swift */; };
 		2CF5DF912B2853DA006E4ED7 /* SearchPlaceholderLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF5DF902B2853DA006E4ED7 /* SearchPlaceholderLoadingView.swift */; };
 		2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */; };
 		2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */; };
@@ -1327,6 +1331,10 @@
 		2CF41A8D28505D2C000736D6 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
 		2CF43413281281DB002893CD /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
+		2CF52B302C2414BB00FE61D7 /* WelcomeOnboardingAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingAssembly.swift; sourceTree = "<group>"; };
+		2CF52B312C2414BB00FE61D7 /* WelcomeOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingViewController.swift; sourceTree = "<group>"; };
+		2CF52B322C2414BB00FE61D7 /* WelcomeOnboardingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingViewModel.swift; sourceTree = "<group>"; };
+		2CF52B372C24156B00FE61D7 /* WelcomeOnboardingStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingStartView.swift; sourceTree = "<group>"; };
 		2CF5DF902B2853DA006E4ED7 /* SearchPlaceholderLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceholderLoadingView.swift; sourceTree = "<group>"; };
 		2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableViewData.swift; sourceTree = "<group>"; };
 		2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableView.swift; sourceTree = "<group>"; };
@@ -1868,6 +1876,7 @@
 				2CA382B42BC69DAE00F1DE26 /* UsersInterviewWidget */,
 				2CB559302B87024000D949CB /* UsersQuestionnaireOnboarding */,
 				E9F923F428A2632800C065A7 /* Welcome */,
+				2F40CD7E6B99AC9768335321 /* WelcomeOnboarding */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -3911,6 +3920,24 @@
 			path = SwiftStdlib;
 			sourceTree = "<group>";
 		};
+		2CF52B2F2C2414A000FE61D7 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				2CF52B302C2414BB00FE61D7 /* WelcomeOnboardingAssembly.swift */,
+				2CF52B312C2414BB00FE61D7 /* WelcomeOnboardingViewController.swift */,
+				2CF52B322C2414BB00FE61D7 /* WelcomeOnboardingViewModel.swift */,
+			);
+			path = Root;
+			sourceTree = "<group>";
+		};
+		2CF52B362C24153400FE61D7 /* Start */ = {
+			isa = PBXGroup;
+			children = (
+				2CF52B372C24156B00FE61D7 /* WelcomeOnboardingStartView.swift */,
+			);
+			path = Start;
+			sourceTree = "<group>";
+		};
 		2CF72AA12847755100E1C192 /* StepQuizTable */ = {
 			isa = PBXGroup;
 			children = (
@@ -3979,6 +4006,15 @@
 				2CFD32432AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift */,
 			);
 			path = Injection;
+			sourceTree = "<group>";
+		};
+		2F40CD7E6B99AC9768335321 /* WelcomeOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2CF52B2F2C2414A000FE61D7 /* Root */,
+				2CF52B362C24153400FE61D7 /* Start */,
+			);
+			path = WelcomeOnboarding;
 			sourceTree = "<group>";
 		};
 		3C00014807122833363E303F /* Search */ = {
@@ -4825,6 +4861,7 @@
 				2C97F50A28880B6F00DE77B7 /* SkeletonRoundedButton.swift in Sources */,
 				2CB279AD28C72A9500EDDCC8 /* TabBarRouter.swift in Sources */,
 				E9A3435029113FA400E0C0A4 /* StepQuizHintReactionButtonView.swift in Sources */,
+				2CF52B342C2414BC00FE61D7 /* WelcomeOnboardingViewController.swift in Sources */,
 				2C05AC512A0EACF50039C7EF /* ProjectSelectionListSkeletonView.swift in Sources */,
 				2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */,
 				2C42EFB327F2EA7B00B4648B /* StringResource+Localized.swift in Sources */,
@@ -4839,6 +4876,7 @@
 				E900D10128434D0400A77BBC /* StepQuizSortingView.swift in Sources */,
 				2C05AC622A0EDFC20039C7EF /* ProjectSelectionListGridCellView.swift in Sources */,
 				2C0DFB9A2923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift in Sources */,
+				2CF52B352C2414BC00FE61D7 /* WelcomeOnboardingViewModel.swift in Sources */,
 				E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */,
 				2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */,
 				2C7271242B6B634F005628B0 /* View+Task.swift in Sources */,
@@ -4913,6 +4951,7 @@
 				2C56611A2AEA418D00D607FB /* FillBlanksSelectCollectionViewCell.swift in Sources */,
 				E9A6250D28ABAE30009423EE /* WelcomeAssembly.swift in Sources */,
 				2C336D172865C9CD00C91342 /* UIView+TraitCollection.swift in Sources */,
+				2CF52B332C2414BC00FE61D7 /* WelcomeOnboardingAssembly.swift in Sources */,
 				2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */,
 				2C7CB6862ADFF389006F78DA /* FillBlanksQuizView.swift in Sources */,
 				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
@@ -5112,6 +5151,7 @@
 				2CFBFC192AD42D6400D4935D /* AppsFlyerInfo.swift in Sources */,
 				2C8EBE512A4D3DF700A77205 /* ProgressScreenCardView.swift in Sources */,
 				2C7994B12A129D6100874C16 /* TrackSelectionListSkeletonView.swift in Sources */,
+				2CF52B382C24156B00FE61D7 /* WelcomeOnboardingStartView.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
 				2C52F99C2B987397001524B5 /* PaywallView.swift in Sources */,
 				2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */,

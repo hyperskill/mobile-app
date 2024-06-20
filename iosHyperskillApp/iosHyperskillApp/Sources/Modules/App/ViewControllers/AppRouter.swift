@@ -79,6 +79,9 @@ final class AppRouter {
             case .welcome(let moduleOutput):
                 let assembly = WelcomeAssembly(output: moduleOutput)
                 return UIHostingController(rootView: assembly.makeModule())
+            case .welcomeOnboarding(let params):
+                let assembly = WelcomeOnboardingAssembly(params: params)
+                return assembly.makeModule()
             case .firstProblemOnboarding(let isNewUserMode, let moduleOutput):
                 let assembly = FirstProblemOnboardingAssembly(
                     isNewUserMode: isNewUserMode,
@@ -120,54 +123,12 @@ final class AppRouter {
 
             assert(viewController.children.count <= 2)
 
-            swapRootViewController(
+            UIViewController.swapRootViewController(
                 for: viewController,
                 from: fromViewController,
                 to: viewControllerToPresent
             )
         }
-    }
-
-    // MARK: Private API
-
-    private func swapRootViewController(
-        for viewController: UIViewController,
-        from oldViewController: UIViewController?,
-        to newViewController: UIViewController
-    ) {
-        oldViewController?.willMove(toParent: nil)
-
-        viewController.addChild(newViewController)
-
-        viewController.view.addSubview(newViewController.view)
-        newViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        newViewController.view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        newViewController.view.alpha = 0
-        newViewController.view.setNeedsLayout()
-        newViewController.view.layoutIfNeeded()
-
-        UIView.animate(
-            withDuration: Animation.swapRootViewControllerAnimationDuration,
-            delay: 0,
-            options: .transitionFlipFromLeft,
-            animations: {
-                newViewController.view.alpha = 1
-                oldViewController?.view.alpha = 0
-            },
-            completion: { isFinished in
-                guard isFinished else {
-                    return
-                }
-
-                oldViewController?.view.removeFromSuperview()
-                oldViewController?.removeFromParent()
-
-                newViewController.didMove(toParent: viewController)
-            }
-        )
     }
 
     // MARK: Inner Types
@@ -182,6 +143,7 @@ final class AppRouter {
         )
         case trackSelection
         case welcome(moduleOutput: WelcomeOutputProtocol?)
+        case welcomeOnboarding(params: WelcomeOnboardingFeatureParams)
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
         case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
         case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)

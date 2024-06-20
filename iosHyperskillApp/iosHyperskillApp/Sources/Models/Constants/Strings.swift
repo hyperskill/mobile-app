@@ -505,6 +505,16 @@ enum Strings {
         static let secondaryButton = sharedStrings.onboarding_secondary_button_text.localized()
     }
 
+    // MARK: - WelcomeOnboarding -
+
+    enum WelcomeOnboarding {
+        enum StartScreen {
+            static let title = sharedStrings.welcome_onboarding_entry_point_title.localized()
+            static let description = sharedStrings.welcome_onboarding_entry_point_description.localized()
+            static let startButton = sharedStrings.welcome_onboarding_entry_point_start_btn.localized()
+        }
+    }
+
     // MARK: - NotificationsOnboarding -
 
     enum NotificationsOnboarding {

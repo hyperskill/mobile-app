@@ -103,8 +103,17 @@ extension AppViewController: AppViewControllerProtocol {
         case .studyPlanWithStep(let data):
             router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
         case .welcomeOnboarding(let data):
-            print(data.profile)
-            #warning("TODO")
+            Task(priority: .userInitiated) {
+                let currentAuthorizationStatus = await NotificationPermissionStatus.current
+
+                await MainActor.run {
+                    let params = WelcomeOnboardingFeatureParams(
+                        profile: data.profile,
+                        isNotificationPermissionGranted: currentAuthorizationStatus.isRegistered
+                    )
+                    router.route(.welcomeOnboarding(params: params))
+                }
+            }
         }
     }
 
