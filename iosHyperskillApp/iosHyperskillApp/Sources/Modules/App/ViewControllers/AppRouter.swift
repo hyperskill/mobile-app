@@ -76,7 +76,7 @@ final class AppRouter {
                 )
                 navigationController.navigationBar.prefersLargeTitles = true
                 return navigationController
-            case .onboarding(let moduleOutput):
+            case .welcome(let moduleOutput):
                 let assembly = WelcomeAssembly(output: moduleOutput)
                 return UIHostingController(rootView: assembly.makeModule())
             case .firstProblemOnboarding(let isNewUserMode, let moduleOutput):
@@ -181,7 +181,7 @@ final class AppRouter {
             paywallTransitionSource: PaywallTransitionSource
         )
         case trackSelection
-        case onboarding(moduleOutput: WelcomeOutputProtocol?)
+        case welcome(moduleOutput: WelcomeOutputProtocol?)
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
         case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
         case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)

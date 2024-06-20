@@ -51,8 +51,6 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
-import org.hyperskill.app.main_legacy.injection.LegacyMainComponent
-import org.hyperskill.app.main_legacy.injection.LegacyMainComponentImpl
 import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
 import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
@@ -188,10 +186,6 @@ abstract class BaseAppGraph : AppGraph {
 
     override val mainComponent: MainComponent by lazy {
         MainComponentImpl(this)
-    }
-
-    override val legacyMainComponent: LegacyMainComponent by lazy {
-        LegacyMainComponentImpl(this)
     }
 
     override val networkComponent: NetworkComponent by lazy {

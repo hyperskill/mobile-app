@@ -4,7 +4,7 @@ import Foundation
 import shared
 import SwiftUI
 
-final class AppViewModel: FeatureViewModel<LegacyAppFeatureState, LegacyAppFeatureMessage, LegacyAppFeatureActionViewAction> {
+final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, AppFeatureActionViewAction> {
     weak var viewController: AppViewControllerProtocol?
 
     private var pushNotificationData: PushNotificationData?
@@ -29,7 +29,7 @@ final class AppViewModel: FeatureViewModel<LegacyAppFeatureState, LegacyAppFeatu
                     return
                 }
 
-                let stateKs = LegacyAppFeatureStateKs(strongSelf.state)
+                let stateKs = AppFeatureStateKs(strongSelf.state)
 
                 if case .ready = stateKs {
                     strongSelf.pushNotificationData = nil
@@ -44,19 +44,19 @@ final class AppViewModel: FeatureViewModel<LegacyAppFeatureState, LegacyAppFeatu
                     return
                 }
 
-                strongSelf.viewController?.displayViewAction(LegacyAppFeatureActionViewActionKs(viewAction))
+                strongSelf.viewController?.displayViewAction(AppFeatureActionViewActionKs(viewAction))
             }
         }
 
         subscribeForNotifications()
     }
 
-    override func shouldNotifyStateDidChange(oldState: LegacyAppFeatureState, newState: LegacyAppFeatureState) -> Bool {
-        LegacyAppFeatureStateKs(oldState) != LegacyAppFeatureStateKs(newState)
+    override func shouldNotifyStateDidChange(oldState: AppFeatureState, newState: AppFeatureState) -> Bool {
+        AppFeatureStateKs(oldState) != AppFeatureStateKs(newState)
     }
 
     func doLoadApp(forceUpdate: Bool = false) {
-        onNewMessage(LegacyAppFeatureMessageInitialize(pushNotificationData: pushNotificationData, forceUpdate: forceUpdate))
+        onNewMessage(AppFeatureMessageInitialize(pushNotificationData: pushNotificationData, forceUpdate: forceUpdate))
     }
 
     // MARK: Private API
@@ -97,7 +97,7 @@ extension AppViewModel: AuthOutputProtocol {
 
             await MainActor.run {
                 onNewMessage(
-                    LegacyAppFeatureMessageUserAuthorized(
+                    AppFeatureMessageUserAuthorized(
                         profile: profile,
                         isNotificationPermissionGranted: currentAuthorizationStatus.isRegistered
                     )
@@ -111,14 +111,14 @@ extension AppViewModel: AuthOutputProtocol {
 
 extension AppViewModel: WelcomeOutputProtocol {
     func handleWelcomeSignInRequested() {
-        onViewAction?(LegacyAppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: false))
+        onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: false))
     }
 
     func handleWelcomeSignUpRequested(isInSignUpMode: Bool) {
         if isInSignUpMode {
-            onViewAction?(LegacyAppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: isInSignUpMode))
+            onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: isInSignUpMode))
         } else {
-            onViewAction?(LegacyAppFeatureActionViewActionNavigateToTrackSelectionScreen())
+            onViewAction?(AppFeatureActionViewActionNavigateToTrackSelectionScreen())
         }
     }
 }
@@ -127,11 +127,11 @@ extension AppViewModel: WelcomeOutputProtocol {
 
 extension AppViewModel: NotificationsOnboardingOutputProtocol {
     func handleNotificationsOnboardingCompleted() {
-        onNewMessage(
-            LegacyAppFeatureMessageWelcomeOnboardingMessage(
-                message: LegacyWelcomeOnboardingFeatureMessageNotificationOnboardingCompleted()
-            )
-        )
+//        onNewMessage(
+//            AppFeatureMessageWelcomeOnboardingMessage(
+//                message: LegacyWelcomeOnboardingFeatureMessageNotificationOnboardingCompleted()
+//            )
+//        )
     }
 }
 
@@ -139,11 +139,11 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
 
 extension AppViewModel: UsersQuestionnaireOnboardingOutputProtocol {
     func handleUsersQuestionnaireOnboardingCompleted() {
-        onNewMessage(
-            LegacyAppFeatureMessageWelcomeOnboardingMessage(
-                message: LegacyWelcomeOnboardingFeatureMessageUsersQuestionnaireOnboardingCompleted()
-            )
-        )
+//        onNewMessage(
+//            AppFeatureMessageWelcomeOnboardingMessage(
+//                message: LegacyWelcomeOnboardingFeatureMessageUsersQuestionnaireOnboardingCompleted()
+//            )
+//        )
     }
 }
 
@@ -151,13 +151,13 @@ extension AppViewModel: UsersQuestionnaireOnboardingOutputProtocol {
 
 extension AppViewModel: FirstProblemOnboardingOutputProtocol {
     func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
-        onNewMessage(
-            LegacyAppFeatureMessageWelcomeOnboardingMessage(
-                message: LegacyWelcomeOnboardingFeatureMessageFirstProblemOnboardingCompleted(
-                    firstProblemStepRoute: stepRoute
-                )
-            )
-        )
+//        onNewMessage(
+//            AppFeatureMessageWelcomeOnboardingMessage(
+//                message: LegacyWelcomeOnboardingFeatureMessageFirstProblemOnboardingCompleted(
+//                    firstProblemStepRoute: stepRoute
+//                )
+//            )
+//        )
     }
 }
 
@@ -230,18 +230,18 @@ private extension AppViewModel {
 
     @objc
     func handleProjectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen() {
-        onViewAction?(LegacyAppFeatureActionViewActionNavigateToStudyPlan())
+        onViewAction?(AppFeatureActionViewActionNavigateToStudyPlan())
     }
 
     @objc
     func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
-        onViewAction?(
-            LegacyAppFeatureActionViewActionWelcomeOnboardingViewAction(
-                viewAction: LegacyWelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnboardingScreen(
-                    isNewUserMode: true
-                )
-            )
-        )
+//        onViewAction?(
+//            AppFeatureActionViewActionWelcomeOnboardingViewAction(
+//                viewAction: LegacyWelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnboardingScreen(
+//                    isNewUserMode: true
+//                )
+//            )
+//        )
     }
 
     @objc
@@ -259,7 +259,7 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
             return
         }
 
-        onNewMessage(LegacyAppFeatureMessageNotificationClicked(notificationData: pushNotificationData))
+        onNewMessage(AppFeatureMessageNotificationClicked(notificationData: pushNotificationData))
     }
 
     @objc
@@ -289,7 +289,7 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
 
     @objc
     private func handleApplicationWillEnterForeground() {
-        onNewMessage(LegacyAppFeatureMessageAppBecomesActive())
+        onNewMessage(AppFeatureMessageAppBecomesActive())
     }
 
     @objc
@@ -307,7 +307,7 @@ AppViewModel: \(#function) isPaywallShown not found in userInfo = \(String(descr
             return
         }
 
-        onNewMessage(LegacyAppFeatureMessageIsPaywallShownChanged(isPaywallShown: isPaywallShown))
+        onNewMessage(AppFeatureMessageIsPaywallShownChanged(isPaywallShown: isPaywallShown))
     }
 }
 
@@ -316,7 +316,7 @@ AppViewModel: \(#function) isPaywallShown not found in userInfo = \(String(descr
 extension AppViewModel: StreakRecoveryModalViewControllerDelegate {
     func streakRecoveryModalViewControllerDidTapRestoreStreakButton() {
         onNewMessage(
-            LegacyAppFeatureMessageStreakRecoveryMessage(
+            AppFeatureMessageStreakRecoveryMessage(
                 message: StreakRecoveryFeatureMessageRestoreStreakClicked()
             )
         )
@@ -324,7 +324,7 @@ extension AppViewModel: StreakRecoveryModalViewControllerDelegate {
 
     func streakRecoveryModalViewControllerDidTapNoThanksButton() {
         onNewMessage(
-            LegacyAppFeatureMessageStreakRecoveryMessage(
+            AppFeatureMessageStreakRecoveryMessage(
                 message: StreakRecoveryFeatureMessageNoThanksClicked()
             )
         )
@@ -332,7 +332,7 @@ extension AppViewModel: StreakRecoveryModalViewControllerDelegate {
 
     func streakRecoveryModalViewControllerDidAppear(_ viewController: StreakRecoveryModalViewController) {
         onNewMessage(
-            LegacyAppFeatureMessageStreakRecoveryMessage(
+            AppFeatureMessageStreakRecoveryMessage(
                 message: StreakRecoveryFeatureMessageStreakRecoveryModalShownEventMessage()
             )
         )
@@ -340,7 +340,7 @@ extension AppViewModel: StreakRecoveryModalViewControllerDelegate {
 
     func streakRecoveryModalViewControllerDidDisappear(_ viewController: StreakRecoveryModalViewController) {
         onNewMessage(
-            LegacyAppFeatureMessageStreakRecoveryMessage(
+            AppFeatureMessageStreakRecoveryMessage(
                 message: StreakRecoveryFeatureMessageStreakRecoveryModalHiddenEventMessage()
             )
         )
@@ -354,7 +354,7 @@ extension AppViewModel: BadgeEarnedModalViewControllerDelegate {
         _ viewController: BadgeEarnedModalViewController, badgeKind: BadgeKind
     ) {
         onNewMessage(
-            LegacyAppFeatureMessageNotificationClickHandlingMessage(
+            AppFeatureMessageNotificationClickHandlingMessage(
                 message: NotificationClickHandlingFeatureMessageEarnedBadgeModalShownEventMessage(badgeKind: badgeKind)
             )
         )
@@ -364,7 +364,7 @@ extension AppViewModel: BadgeEarnedModalViewControllerDelegate {
         _ viewController: BadgeEarnedModalViewController, badgeKind: BadgeKind
     ) {
         onNewMessage(
-            LegacyAppFeatureMessageNotificationClickHandlingMessage(
+            AppFeatureMessageNotificationClickHandlingMessage(
                 message: NotificationClickHandlingFeatureMessageEarnedBadgeModalHiddenEventMessage(badgeKind: badgeKind)
             )
         )

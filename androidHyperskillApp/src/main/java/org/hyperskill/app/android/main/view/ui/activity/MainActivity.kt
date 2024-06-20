@@ -293,7 +293,7 @@ class MainActivity :
             }
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
-            is AppFeature.Action.ViewAction.NavigateTo.Step ->
+            is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep ->
                 router.newRootChain(
                     MainScreen(Tabs.STUDY_PLAN),
                     StepScreen(action.stepRoute)

@@ -125,7 +125,7 @@ object AppFeature {
                 object TrackSelectionScreen : NavigateTo
                 object WelcomeScreen : NavigateTo
                 object StudyPlan : NavigateTo
-                data class Step(val stepRoute: StepRoute) : NavigateTo
+                data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo
                 data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
                 data class StudyPlanWithPaywall(
                     val paywallTransitionSource: PaywallTransitionSource

@@ -27,7 +27,6 @@ import org.hyperskill.app.logging.injection.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
-import org.hyperskill.app.main_legacy.injection.LegacyMainComponent
 import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
@@ -106,8 +105,6 @@ interface AppGraph {
     val loggerComponent: LoggerComponent
     val authComponent: AuthComponent
     val mainComponent: MainComponent
-    @Deprecated("Should be removed in ALTAPPS-1276")
-    val legacyMainComponent: LegacyMainComponent
     val analyticComponent: AnalyticComponent
     val sentryComponent: SentryComponent
     val streakFlowDataComponent: StreakFlowDataComponent

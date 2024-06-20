@@ -4,8 +4,8 @@ import SwiftUI
 import UIKit
 
 protocol AppViewControllerProtocol: AnyObject {
-    func displayState(_ state: LegacyAppFeatureStateKs)
-    func displayViewAction(_ viewAction: LegacyAppFeatureActionViewActionKs)
+    func displayState(_ state: AppFeatureStateKs)
+    func displayViewAction(_ viewAction: AppFeatureActionViewActionKs)
 }
 
 extension AppViewController {
@@ -56,7 +56,7 @@ final class AppViewController: UIViewController {
 // MARK: - AppViewController: AppViewControllerProtocol -
 
 extension AppViewController: AppViewControllerProtocol {
-    func displayState(_ state: LegacyAppFeatureStateKs) {
+    func displayState(_ state: AppFeatureStateKs) {
         if case .ready(let data) = state {
             AppTabItemsAvailabilityService.shared.setIsMobileLeaderboardsEnabled(data.isMobileLeaderboardsEnabled)
         }
@@ -64,11 +64,11 @@ extension AppViewController: AppViewControllerProtocol {
         appView?.renderState(state)
     }
 
-    func displayViewAction(_ viewAction: LegacyAppFeatureActionViewActionKs) {
+    func displayViewAction(_ viewAction: AppFeatureActionViewActionKs) {
         switch viewAction {
         case .navigateTo(let navigateToViewAction):
             handleNavigateToViewAction(
-                LegacyAppFeatureActionViewActionNavigateToKs(navigateToViewAction)
+                AppFeatureActionViewActionNavigateToKs(navigateToViewAction)
             )
         case .streakRecoveryViewAction(let streakRecoveryViewAction):
             handleStreakRecoveryViewAction(
@@ -78,19 +78,15 @@ extension AppViewController: AppViewControllerProtocol {
             handleClickedNotificationViewAction(
                 NotificationClickHandlingFeatureActionViewActionKs(clickedNotificationViewAction.viewAction)
             )
-        case .welcomeOnboardingViewAction(let welcomeOnboardingViewAction):
-            handleWelcomeOnboardingViewAction(
-                LegacyWelcomeOnboardingFeatureActionViewActionKs(welcomeOnboardingViewAction.viewAction)
-            )
         }
     }
 
-    private func handleNavigateToViewAction(_ viewAction: LegacyAppFeatureActionViewActionNavigateToKs) {
+    private func handleNavigateToViewAction(_ viewAction: AppFeatureActionViewActionNavigateToKs) {
         switch viewAction {
         case .authScreen(let data):
             router.route(.auth(isInSignUpMode: data.isInSignUpMode, moduleOutput: viewModel))
         case .welcomeScreen:
-            router.route(.onboarding(moduleOutput: viewModel))
+            router.route(.welcome(moduleOutput: viewModel))
         case .studyPlan:
             router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
         case .trackSelectionScreen:
@@ -104,6 +100,11 @@ extension AppViewController: AppViewControllerProtocol {
                     paywallTransitionSource: data.paywallTransitionSource
                 )
             )
+        case .studyPlanWithStep(let data):
+            router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
+        case .welcomeOnboarding(let data):
+            print(data.profile)
+            #warning("TODO")
         }
     }
 
@@ -204,6 +205,7 @@ extension AppViewController: AppViewControllerProtocol {
     private func handleWelcomeOnboardingViewAction(
         _ viewAction: LegacyWelcomeOnboardingFeatureActionViewActionKs
     ) {
+        #warning("TODO")
         switch viewAction {
         case .navigateTo(let navigateToViewAction):
             switch LegacyWelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
