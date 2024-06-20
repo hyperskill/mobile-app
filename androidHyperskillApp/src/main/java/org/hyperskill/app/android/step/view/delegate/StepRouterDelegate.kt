@@ -29,10 +29,12 @@ class StepRouterDelegate(
             currentFragment: Fragment?,
             nextFragment: Fragment
         ) {
-            fragmentTransaction.setCustomAnimations(
-                /* enter = */ R.anim.slide_in,
-                /* exit = */ R.anim.fade_out
-            )
+            if (currentFragment != null) {
+                fragmentTransaction.setCustomAnimations(
+                    /* enter = */ R.anim.navigation_slide_in,
+                    /* exit = */ R.anim.navigation_fade_out
+                )
+            }
         }
     }
 

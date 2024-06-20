@@ -35,9 +35,11 @@ import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboarding
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingViewModel
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
+
     companion object {
         const val WELCOME_ONBOARDING_COMPLETED = "WELCOME_ONBOARDING_COMPLETED"
         fun newInstance(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingFragment =
@@ -57,6 +59,9 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         super.onCreate(savedInstanceState)
         injectComponent()
         welcomeOnboardingViewModel.handleActions(this, ::onAction)
+        (navigator as? NestedAppNavigator)
+            ?.interceptors
+            ?.add(WelcomeOnboardingTransactionInterceptor)
     }
 
     private fun injectComponent() {
@@ -163,4 +168,5 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
             }
         }
     }
+
 }
