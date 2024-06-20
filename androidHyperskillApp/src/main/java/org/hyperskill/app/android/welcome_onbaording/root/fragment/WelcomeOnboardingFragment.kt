@@ -168,5 +168,4 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
             }
         }
     }
-
 }

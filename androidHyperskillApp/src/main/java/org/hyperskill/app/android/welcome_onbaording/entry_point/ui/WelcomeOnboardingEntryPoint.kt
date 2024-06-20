@@ -32,6 +32,8 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.shimmerShot
 import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
 import org.hyperskill.app.R as SharedR
 
+private const val ContentVerticalBias = -0.5f
+
 @Composable
 fun WelcomeOnboardingEntryPoint(
     modifier: Modifier = Modifier,
@@ -48,7 +50,7 @@ fun WelcomeOnboardingEntryPoint(
         Spacer(modifier = Modifier.height(44.dp))
         Box(modifier = Modifier.weight(1f)) {
             Column(
-                modifier = Modifier.align(Alignment.centerWithVerticalBias(-0.5f))
+                modifier = Modifier.align(Alignment.centerWithVerticalBias(ContentVerticalBias))
             ) {
                 Title(modifier = Modifier.align(Alignment.CenterHorizontally))
                 Spacer(modifier = Modifier.height(16.dp))
