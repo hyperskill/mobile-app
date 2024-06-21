@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import kotlin.random.Random
-import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration
 import kotlinx.coroutines.delay
 
 /**
@@ -29,12 +29,12 @@ import kotlinx.coroutines.delay
 @Composable
 fun TypewriterTextEffect(
     text: String,
-    startTypingDelayInMillis: Int? = null,
+    startTypingDelay: Duration? = null,
     minDelayInMillis: Long = 30,
     maxDelayInMillis: Long = 80,
     minCharacterChunk: Int = 1,
     maxCharacterChunk: Int = 3,
-    onEffectCompleted: () -> Unit = {},
+    onEffectCompleted: suspend () -> Unit = {},
     displayTextComposable: @Composable (displayedText: String) -> Unit
 ) {
     // Ensure minDelayInMillis is less than or equal to maxDelayInMillis
@@ -57,8 +57,8 @@ fun TypewriterTextEffect(
 
     // Launch the effect to update the displayedText value over time
     LaunchedEffect(text) {
-        if (startTypingDelayInMillis != null) {
-            delay(startTypingDelayInMillis.milliseconds)
+        if (startTypingDelay != null) {
+            delay(startTypingDelay)
         }
 
         val textLength = text.length

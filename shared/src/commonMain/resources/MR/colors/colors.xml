@@ -313,4 +313,9 @@
         <light>#C1C7CD</light>
         <dark>#697077</dark>
     </color>
+
+    <color name="text_label_focus">
+        <light>#455BD9</light>
+        <dark>#9EB9FB</dark>
+    </color>
 </resources>

@@ -12,22 +12,25 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.delay
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
-import org.hyperskill.app.android.core.view.ui.widget.compose.shimmer
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerShotState
+import org.hyperskill.app.android.core.view.ui.widget.compose.infiniteShimmer
+import org.hyperskill.app.android.core.view.ui.widget.compose.shimmerShot
+import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsViewModel
 
@@ -51,41 +54,46 @@ fun WelcomeOnboardingTrackDetails(
     onSelectClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val shimmerShotState = remember { ShimmerShotState() }
     Column(
         modifier = modifier.padding(WelcomeOnboardingTrackDetailsDefaults.padding)
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(
-                text = viewState.title,
-                style = MaterialTheme.typography.h5,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = colorResource(id = R.color.text_primary),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Box(modifier = Modifier.weight(1f)) {
-                Column(modifier = Modifier.align(Alignment.Center)) {
-                    WelcomeOnboardingTrackCard(
-                        imagePainter = viewState.track.imagePainter,
-                        trackTitle = viewState.trackTitle,
-                        trackDescription = viewState.trackDescriptionHtml
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = viewState.changeText,
-                        style = MaterialTheme.typography.body2,
-                        color = colorResource(id = R.color.text_secondary),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-                }
+            Column(modifier = Modifier.align(Alignment.Center)) {
+                Text(
+                    text = viewState.title,
+                    style = MaterialTheme.typography.h5,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = colorResource(id = R.color.text_primary),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                WelcomeOnboardingTrackCard(
+                    imagePainter = viewState.track.imagePainter,
+                    trackTitle = viewState.trackTitle,
+                    trackDescription = viewState.trackDescriptionHtml,
+                    onTitleTypingCompleted = {
+                        delay(WelcomeOnboardingDefault.runActionButtonShimmerDelay)
+                        if (!viewState.isLoadingShowed) {
+                            shimmerShotState.runShimmerAnimation()
+                        }
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = viewState.changeText,
+                    style = MaterialTheme.typography.body2,
+                    color = colorResource(id = R.color.text_secondary),
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
             }
         }
         HyperskillButton(
@@ -93,30 +101,31 @@ fun WelcomeOnboardingTrackDetails(
             enabled = !viewState.isLoadingShowed,
             modifier = Modifier
                 .fillMaxWidth()
-                .shimmer(isLoading = viewState.isLoadingShowed)
+                .infiniteShimmer(play = viewState.isLoadingShowed)
+                .shimmerShot(shimmerShotState)
         ) {
             Text(text = viewState.buttonText)
         }
     }
 }
 
-@Suppress("MaxLineLength")
 @Composable
 @Preview(showSystemUi = true)
 private fun WelcomeOnboardingTrackDetailsPreview() {
     HyperskillTheme {
         WelcomeOnboardingTrackDetails(
-            WelcomeOnboardingTrackDetailsFeature.ViewState(
-                track = WelcomeOnboardingTrack.KOTLIN,
-                title = stringResource(id = R.string.welcome_onboarding_track_details_title),
-                trackTitle = stringResource(id = R.string.welcome_onboarding_track_details_kotlin_title),
-                trackDescriptionHtml = stringResource(
-                    id = R.string.welcome_onboarding_track_details_kotlin_description
-                ),
-                changeText = stringResource(id = R.string.welcome_onboarding_track_details_change_text),
-                buttonText = stringResource(id = R.string.welcome_onboarding_track_details_continue_btn),
-                isLoadingShowed = false
-            ),
+            WelcomeOnboardingTrackDetailsPreviewData.PreviewViewState,
+            onSelectClick = {}
+        )
+    }
+}
+
+@Composable
+@Preview(showSystemUi = true, device = "id:pixel_2")
+private fun WelcomeOnboardingTrackDetailsSmallScreenPreview() {
+    HyperskillTheme {
+        WelcomeOnboardingTrackDetails(
+            WelcomeOnboardingTrackDetailsPreviewData.PreviewViewState,
             onSelectClick = {}
         )
     }

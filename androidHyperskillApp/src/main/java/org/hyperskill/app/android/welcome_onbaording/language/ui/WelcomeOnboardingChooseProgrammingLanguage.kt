@@ -23,7 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.TypewriterTextEffect
 import org.hyperskill.app.android.welcome_onbaording.questionnaire.ui.WelcomeQuestionnaireItem
+import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 
 @Composable
@@ -40,16 +42,21 @@ fun WelcomeOnboardingChooseProgrammingLanguage(
                 .align(Alignment.Center)
                 .padding(horizontal = 20.dp)
         ) {
-            Text(
+            TypewriterTextEffect(
                 text = stringResource(id = R.string.welcome_onboarding_pick_language_title),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(id = R.color.text_primary),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 14.dp)
-            )
+                startTypingDelay = WelcomeOnboardingDefault.startTypingAnimationDelayMillis
+            ) { text ->
+                Text(
+                    text = text,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.text_primary),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 14.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(32.dp))
             ProgrammingLanguageList(
                 items = languages,

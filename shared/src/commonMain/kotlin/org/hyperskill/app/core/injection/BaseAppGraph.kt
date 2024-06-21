@@ -39,8 +39,6 @@ import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponen
 import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponentImpl
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
-import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
-import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponentImpl
 import org.hyperskill.app.logging.injection.LoggerComponent
@@ -51,8 +49,6 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
-import org.hyperskill.app.main_legacy.injection.LegacyMainComponent
-import org.hyperskill.app.main_legacy.injection.LegacyMainComponentImpl
 import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
 import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
@@ -167,8 +163,6 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponentImpl
-import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.LegacyUsersQuestionnaireOnboardingComponent
-import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.LegacyUsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
@@ -188,10 +182,6 @@ abstract class BaseAppGraph : AppGraph {
 
     override val mainComponent: MainComponent by lazy {
         MainComponentImpl(this)
-    }
-
-    override val legacyMainComponent: LegacyMainComponent by lazy {
-        LegacyMainComponentImpl(this)
     }
 
     override val networkComponent: NetworkComponent by lazy {
@@ -508,9 +498,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildSearchComponent(): SearchComponent =
         SearchComponentImpl(this)
 
-    override fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent =
-        LegacyWelcomeOnboardingComponentImpl(this)
-
     override fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent =
         WelcomeOnboardingComponentImpl(this, params)
 
@@ -541,9 +528,6 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent =
         UsersInterviewWidgetComponentImpl(this)
-
-    override fun buildLegacyUsersQuestionnaireOnboardingComponent(): LegacyUsersQuestionnaireOnboardingComponent =
-        LegacyUsersQuestionnaireOnboardingComponentImpl(this)
 
     override fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
