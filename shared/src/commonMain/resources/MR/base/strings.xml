@@ -635,25 +635,6 @@
     <string name="users_interview_widget_title">We want to hear your story!</string>
     <string name="users_interview_widget_subtitle">Share your Hyperskill app experience in an online feedback session, and receive an Amazon gift card</string>
 
-    <!-- Questionnaire onboarding -->
-    <string name="users_questionnaire_onboarding_title_template">How did you hear about\n%s?</string>
-
-    <string name="users_questionnaire_onboarding_source_app_store">App Store</string>
-    <string name="users_questionnaire_onboarding_source_google_play">Google Play</string>
-    <string name="users_questionnaire_onboarding_source_google_search">Google Search</string>
-    <string name="users_questionnaire_onboarding_source_youtube">YouTube</string>
-    <string name="users_questionnaire_onboarding_source_instagram">Instagram</string>
-    <string name="users_questionnaire_onboarding_source_tiktok">TikTok</string>
-    <string name="users_questionnaire_onboarding_source_news">News/article/blog</string>
-    <string name="users_questionnaire_onboarding_source_friends">Friends/family</string>
-    <string name="users_questionnaire_onboarding_source_other">Other</string>
-
-    <string name="users_questionnaire_onboarding_text_input_placeholder">Type your answer here...</string>
-    <string name="users_questionnaire_onboarding_send_button_text">Send</string>
-    <string name="users_questionnaire_onboarding_skip_button_text">Skip</string>
-
-    <string name="users_questionnaire_onboarding_send_answer_success_message">Answer sent! Enjoy 10 extra problems on the first day.</string>
-
     <!-- Search -->
     <string name="search_title">Search</string>
     <string name="search_input_placeholder">Find topic</string>
@@ -757,7 +738,7 @@
     <string name="welcome_onboarding_entry_point_start_btn">Start my journey</string>
 
     <!--Welcome onboarding first questionnaire-->
-    <string name="welcome_questionnaire_how_did_you_hear_about_hyperskill_title">How did you hear about Hyperskill?</string>
+    <string name="welcome_questionnaire_title_template">How did you hear about\n%s?</string>
     <string name="welcome_questionnaire_tiktok_item">TikTok</string>
     <string name="welcome_questionnaire_google_item">Google Search</string>
     <string name="welcome_questionnaire_news_item">News/article/blog</string>

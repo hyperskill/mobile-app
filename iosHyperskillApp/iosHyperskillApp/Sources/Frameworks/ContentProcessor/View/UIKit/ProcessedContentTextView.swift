@@ -10,6 +10,7 @@ extension ProcessedContentTextView {
     struct Appearance {
         var font = UIFont.systemFont(ofSize: 17, weight: .regular)
         var textColor = UIColor.primaryText
+        var textAlignment = NSTextAlignment.natural
     }
 }
 
@@ -25,6 +26,7 @@ final class ProcessedContentTextView: UIView {
 
         textView.font = appearance.font
         textView.textColor = appearance.textColor
+        textView.textAlignment = appearance.textAlignment
 
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.textContainer.maximumNumberOfLines = 0
@@ -47,6 +49,7 @@ final class ProcessedContentTextView: UIView {
         let attributedLabel = AttributedLabel()
         attributedLabel.font = appearance.font
         attributedLabel.textColor = appearance.textColor
+        attributedLabel.textAlignment = appearance.textAlignment
         attributedLabel.numberOfLines = 0
         attributedLabel.isSelectable = true
         attributedLabel.onClick = { [weak self] (label, detection) in

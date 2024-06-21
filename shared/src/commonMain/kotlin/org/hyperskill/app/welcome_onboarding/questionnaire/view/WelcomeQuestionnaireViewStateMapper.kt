@@ -1,6 +1,7 @@
 package org.hyperskill.app.welcome_onboarding.questionnaire.view
 
 import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType.ClientSource
@@ -9,9 +10,14 @@ import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestion
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
 
 class WelcomeQuestionnaireViewStateMapper(
-    private val resourceProvider: ResourceProvider,
-    private val platformType: PlatformType
+    private val platform: Platform,
+    private val resourceProvider: ResourceProvider
 ) {
+    private val title = resourceProvider.getString(
+        SharedResources.strings.welcome_questionnaire_title_template,
+        resourceProvider.getString(platform.appNameResource)
+    )
+
     fun mapQuestionnaireTypeToViewState(type: WelcomeQuestionnaireType): WelcomeQuestionnaireViewState =
         when (type) {
             WelcomeQuestionnaireType.HOW_DID_YOU_HEAR_ABOUT_HYPERSKILL ->
@@ -22,9 +28,7 @@ class WelcomeQuestionnaireViewStateMapper(
 
     private fun getHowDidYouHearAboutHyperskillViewState(): WelcomeQuestionnaireViewState =
         WelcomeQuestionnaireViewState(
-            title = resourceProvider.getString(
-                SharedResources.strings.welcome_questionnaire_how_did_you_hear_about_hyperskill_title
-            ),
+            title = title,
             items = listOf(
                 WelcomeQuestionnaireItem(
                     ClientSource.TIK_TOK,
@@ -41,7 +45,7 @@ class WelcomeQuestionnaireViewStateMapper(
                 WelcomeQuestionnaireItem(
                     ClientSource.APP_STORE,
                     resourceProvider.getString(
-                        when (platformType) {
+                        when (platform.platformType) {
                             PlatformType.IOS ->
                                 SharedResources.strings.welcome_questionnaire_app_store_item
                             PlatformType.ANDROID ->
