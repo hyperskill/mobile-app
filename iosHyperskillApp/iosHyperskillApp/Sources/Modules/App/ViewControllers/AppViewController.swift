@@ -210,25 +210,6 @@ extension AppViewController: AppViewControllerProtocol {
             route()
         }
     }
-
-    private func handleWelcomeOnboardingViewAction(
-        _ viewAction: LegacyWelcomeOnboardingFeatureActionViewActionKs
-    ) {
-        #warning("TODO")
-        switch viewAction {
-        case .navigateTo(let navigateToViewAction):
-            switch LegacyWelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-            case .firstProblemOnboardingScreen(let data):
-                router.route(.firstProblemOnboarding(isNewUserMode: data.isNewUserMode, moduleOutput: viewModel))
-            case .notificationOnboardingScreen:
-                router.route(.notificationOnboarding(moduleOutput: viewModel))
-            case .studyPlanWithStep(let data):
-                router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
-            case .usersQuestionnaireOnboardingScreen:
-                router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
-            }
-        }
-    }
 }
 
 // MARK: - AppViewController: AppViewDelegate -

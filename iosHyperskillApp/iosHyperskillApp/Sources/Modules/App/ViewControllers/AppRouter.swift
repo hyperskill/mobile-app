@@ -85,18 +85,6 @@ final class AppRouter {
                     moduleOutput: moduleOutput
                 )
                 return assembly.makeModule()
-            case .firstProblemOnboarding(let isNewUserMode, let moduleOutput):
-                let assembly = FirstProblemOnboardingAssembly(
-                    isNewUserMode: isNewUserMode,
-                    output: moduleOutput
-                )
-                return assembly.makeModule()
-            case .notificationOnboarding(let moduleOutput):
-                let assembly = NotificationsOnboardingAssembly(output: moduleOutput)
-                return assembly.makeModule()
-            case .usersQuestionnaireOnboarding(let moduleOutput):
-                let assembly = UsersQuestionnaireOnboardingAssembly(moduleOutput: moduleOutput)
-                return assembly.makeModule()
             case .paywall(let paywallTransitionSource), .paywallModal(let paywallTransitionSource):
                 let assembly = PaywallAssembly(source: paywallTransitionSource)
                 return assembly.makeModule()
@@ -147,9 +135,6 @@ final class AppRouter {
         case trackSelection
         case welcome(moduleOutput: WelcomeOutputProtocol?)
         case welcomeOnboarding(params: WelcomeOnboardingFeatureParams, moduleOutput: WelcomeOnboardingOutputProtocol?)
-        case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
-        case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
-        case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)
         case paywall(paywallTransitionSource: PaywallTransitionSource)
         case paywallModal(paywallTransitionSource: PaywallTransitionSource)
     }

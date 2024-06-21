@@ -21,7 +21,6 @@ import org.hyperskill.app.leaderboard.injection.LeaderboardDataComponent
 import org.hyperskill.app.leaderboard.screen.injection.LeaderboardScreenComponent
 import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
-import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.logging.injection.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
@@ -194,8 +193,6 @@ interface AppGraph {
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
     fun buildSearchResultsDataComponent(): SearchResultsDataComponent
     fun buildSearchComponent(): SearchComponent
-    @Deprecated("Should be removed in ALTAPPS-1276")
-    fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent
     fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent
     fun buildWelcomeQuestionnaireComponent(): WelcomeQuestionnaireComponent
     fun buildWelcomeOnboardingTrackDetailsComponent(

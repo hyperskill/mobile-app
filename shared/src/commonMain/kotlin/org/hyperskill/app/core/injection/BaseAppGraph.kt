@@ -39,8 +39,6 @@ import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponen
 import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponentImpl
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
-import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
-import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponentImpl
 import org.hyperskill.app.logging.injection.LoggerComponent
@@ -501,9 +499,6 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildSearchComponent(): SearchComponent =
         SearchComponentImpl(this)
-
-    override fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent =
-        LegacyWelcomeOnboardingComponentImpl(this)
 
     override fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent =
         WelcomeOnboardingComponentImpl(this, params)

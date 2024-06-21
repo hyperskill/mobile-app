@@ -131,44 +131,6 @@ extension AppViewModel: WelcomeOnboardingOutputProtocol {
     }
 }
 
-// MARK: - AppViewModel: NotificationsOnboardingOutputProtocol -
-
-extension AppViewModel: NotificationsOnboardingOutputProtocol {
-    func handleNotificationsOnboardingCompleted() {
-//        onNewMessage(
-//            AppFeatureMessageWelcomeOnboardingMessage(
-//                message: LegacyWelcomeOnboardingFeatureMessageNotificationOnboardingCompleted()
-//            )
-//        )
-    }
-}
-
-// MARK: - AppViewModel: UsersQuestionnaireOnboardingOutputProtocol -
-
-extension AppViewModel: UsersQuestionnaireOnboardingOutputProtocol {
-    func handleUsersQuestionnaireOnboardingCompleted() {
-//        onNewMessage(
-//            AppFeatureMessageWelcomeOnboardingMessage(
-//                message: LegacyWelcomeOnboardingFeatureMessageUsersQuestionnaireOnboardingCompleted()
-//            )
-//        )
-    }
-}
-
-// MARK: - AppViewModel: FirstProblemOnboardingOutputProtocol -
-
-extension AppViewModel: FirstProblemOnboardingOutputProtocol {
-    func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
-//        onNewMessage(
-//            AppFeatureMessageWelcomeOnboardingMessage(
-//                message: LegacyWelcomeOnboardingFeatureMessageFirstProblemOnboardingCompleted(
-//                    firstProblemStepRoute: stepRoute
-//                )
-//            )
-//        )
-    }
-}
-
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
