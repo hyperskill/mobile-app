@@ -23,6 +23,8 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HtmlText
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillCard
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.TypewriterTextEffect
+import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
 import org.hyperskill.app.R as SharedR
 
 @Composable
@@ -30,7 +32,8 @@ fun WelcomeOnboardingTrackCard(
     imagePainter: Painter,
     trackTitle: String,
     trackDescription: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onTitleTypingCompleted: suspend () -> Unit = {}
 ) {
     HyperskillCard(modifier) {
         Column(modifier = Modifier.padding(bottom = 12.dp)) {
@@ -40,17 +43,24 @@ fun WelcomeOnboardingTrackCard(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
+            TypewriterTextEffect(
                 text = trackTitle,
-                style = MaterialTheme.typography.h4,
-                fontWeight = FontWeight.Bold,
-                fontSize = 28.sp,
-                color = colorResource(id = SharedR.color.color_on_surface_alpha_87),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
+                maxCharacterChunk = 1,
+                startTypingDelay = WelcomeOnboardingDefault.startTypingAnimationDelayMillis,
+                onEffectCompleted = onTitleTypingCompleted
+            ) { text ->
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.h4,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 28.sp,
+                    color = colorResource(id = SharedR.color.color_on_surface_alpha_87),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
             Spacer(modifier = Modifier.height(12.dp))
             HtmlText(text = trackDescription) { annotatedString ->
                 Text(

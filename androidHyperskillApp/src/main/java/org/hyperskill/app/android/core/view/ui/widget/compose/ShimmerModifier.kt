@@ -29,6 +29,11 @@ private val DefaultColors: List<Color> = listOf(
     Color.Transparent
 )
 
+object ShimmerDefaults {
+    const val InfiniteShimmerDurationMillis: Int = 2000
+    const val ShimmerShotDurationMillis: Int = 1200
+}
+
 /**
  * Applies shimmer animation to the target Composable.
  * Animation is playing one time.
@@ -56,21 +61,28 @@ fun Modifier.shimmerShot(shimmerState: ShimmerShotState): Modifier =
         }
     }
 
-fun Modifier.shimmer(
-    isLoading: Boolean,
+fun Modifier.infiniteShimmer(
+    play: Boolean,
     colors: List<Color> = DefaultColors,
-    durationMillis: Int = 2000,
+    durationMillis: Int = ShimmerDefaults.InfiniteShimmerDurationMillis,
+    delayMillis: Int = 0,
     easing: Easing = FastOutSlowInEasing
 ): Modifier =
-    if (isLoading) {
-        shimmer(colors, durationMillis, easing)
+    if (play) {
+        infiniteShimmer(
+            colors = colors,
+            durationMillis = durationMillis,
+            delayMillis = delayMillis,
+            easing = easing
+        )
     } else {
         this
     }
 
-private fun Modifier.shimmer(
+private fun Modifier.infiniteShimmer(
     colors: List<Color>,
     durationMillis: Int,
+    delayMillis: Int,
     easing: Easing
 ): Modifier =
     composed {
@@ -82,7 +94,8 @@ private fun Modifier.shimmer(
             animationSpec = infiniteRepeatable(
                 animation = tween(
                     durationMillis = durationMillis,
-                    easing = easing
+                    easing = easing,
+                    delayMillis = delayMillis.toInt()
                 ),
                 repeatMode = RepeatMode.Restart,
             ),
@@ -107,7 +120,7 @@ private fun Modifier.shimmer(
 @Stable
 class ShimmerShotState(
     val colors: List<Color> = DefaultColors,
-    durationMillis: Int = 1200,
+    durationMillis: Int = ShimmerDefaults.ShimmerShotDurationMillis,
     easing: Easing = FastOutSlowInEasing
 ) {
 

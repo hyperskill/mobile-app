@@ -8,4 +8,16 @@ import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnb
 
 class NotificationsOnboardingViewModel(
     viewContainer: FlowView<ViewState, Message, ViewAction>
-) : ReduxFlowViewModel<ViewState, Message, ViewAction>(viewContainer)
+) : ReduxFlowViewModel<ViewState, Message, ViewAction>(viewContainer) {
+    fun onAllowNotificationsClicked() {
+        onNewMessage(Message.AllowNotificationsClicked)
+    }
+
+    fun onSetLaterClicked() {
+        onNewMessage(Message.NotNowClicked)
+    }
+
+    fun onTimeClicked() {
+        onNewMessage(Message.DailyStudyRemindsIntervalHourClicked)
+    }
+}
