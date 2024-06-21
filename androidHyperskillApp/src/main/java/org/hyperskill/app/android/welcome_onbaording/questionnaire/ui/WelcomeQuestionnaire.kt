@@ -220,7 +220,7 @@ private fun WelcomeQuestionnairePreview(
     HyperskillTheme {
         WelcomeQuestionnaire(
             WelcomeQuestionnaireViewState(
-                title = stringResource(id = R.string.welcome_questionnaire_how_did_you_hear_about_hyperskill_title),
+                title = "How did you hear about\nHyperskill?",
                 items = items
             ),
             onItemClick = {}
