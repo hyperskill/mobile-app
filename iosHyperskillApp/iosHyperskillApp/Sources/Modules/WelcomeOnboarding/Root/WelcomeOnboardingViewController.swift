@@ -58,12 +58,11 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
             switch viewAction {
             case .startScreen:
                 let startView = WelcomeOnboardingStartView(
+                    onViewDidAppear: { [weak self] in
+                        self?.viewModel.doStartOnboardingViewed()
+                    },
                     onCallToActionButtonTap: { [weak self] in
-                        guard let self else {
-                            return
-                        }
-
-                        self.viewModel.doStartJourneyAction()
+                        self?.viewModel.doStartJourneyAction()
                     }
                 )
                 return UIHostingController(rootView: startView)
@@ -72,12 +71,11 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
 
                 let assembly = WelcomeOnboardingQuestionnaireAssembly(
                     type: questionnaireType,
+                    onViewDidAppear: { [weak self] in
+                        self?.viewModel.doQuestionnaireViewed(questionnaireType: questionnaireType)
+                    },
                     onQuestionnaireItemTap: { [weak self] item in
-                        guard let self else {
-                            return
-                        }
-
-                        self.viewModel.doQuestionnaireItemAction(
+                        self?.viewModel.doQuestionnaireItemAction(
                             questionnaireType: questionnaireType,
                             itemType: item.type
                         )
@@ -87,12 +85,11 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
                 return UIHostingController(rootView: assembly.makeModule())
             case .chooseProgrammingLanguage:
                 let chooseProgrammingLanguageView = WelcomeOnboardingChooseProgrammingLanguageView(
+                    onViewDidAppear: { [weak self] in
+                        self?.viewModel.doSelectProgrammingLanguageViewed()
+                    },
                     onProgrammingLanguageTap: { [weak self] language in
-                        guard let self else {
-                            return
-                        }
-
-                        self.viewModel.doProgrammingLanguageSelectAction(language: language)
+                        self?.viewModel.doSelectProgrammingLanguage(language: language)
                     }
                 )
                 return UIHostingController(rootView: chooseProgrammingLanguageView)

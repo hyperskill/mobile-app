@@ -15,41 +15,46 @@ struct WelcomeOnboardingStartView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
+    let onViewDidAppear: () -> Void
     let onCallToActionButtonTap: () -> Void
 
     var body: some View {
-        VerticalCenteredScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                if horizontalSizeClass == .regular {
-                    Spacer()
-                }
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: onViewDidAppear)
 
+            VerticalCenteredScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
-                    if horizontalSizeClass == .compact {
-                        Spacer()
-                    }
-                    header
-                        .padding(.vertical)
-                    if horizontalSizeClass == .compact {
+                    if horizontalSizeClass == .regular {
                         Spacer()
                     }
 
-                    illustration
-                        .padding(.vertical)
-                    if horizontalSizeClass == .compact {
-                        Spacer()
+                    VStack(spacing: 0) {
+                        if horizontalSizeClass == .compact {
+                            Spacer()
+                        }
+                        header
+                            .padding(.vertical)
+                        if horizontalSizeClass == .compact {
+                            Spacer()
+                        }
+
+                        illustration
+                            .padding(.vertical)
+                        if horizontalSizeClass == .compact {
+                            Spacer()
+                        }
+
+                        actionButton
+                            .padding(.top)
                     }
 
-                    actionButton
-                        .padding(.top)
+                    if horizontalSizeClass == .regular {
+                        Spacer()
+                    }
                 }
-
-                if horizontalSizeClass == .regular {
-                    Spacer()
-                }
+                .padding()
+                .frame(maxWidth: appearance.maxWidth)
             }
-            .padding()
-            .frame(maxWidth: appearance.maxWidth)
         }
     }
 
@@ -89,6 +94,6 @@ struct WelcomeOnboardingStartView: View {
 
 #if DEBUG
 #Preview {
-    WelcomeOnboardingStartView(onCallToActionButtonTap: {})
+    WelcomeOnboardingStartView(onViewDidAppear: {}, onCallToActionButtonTap: {})
 }
 #endif

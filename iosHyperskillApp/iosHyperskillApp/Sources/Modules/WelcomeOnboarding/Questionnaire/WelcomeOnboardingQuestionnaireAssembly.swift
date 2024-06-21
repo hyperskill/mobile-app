@@ -5,10 +5,16 @@ import SwiftUI
 final class WelcomeOnboardingQuestionnaireAssembly: Assembly {
     private let type: WelcomeQuestionnaireType
 
+    private let onViewDidAppear: () -> Void
     private let onQuestionnaireItemTap: (WelcomeQuestionnaireItem) -> Void
 
-    init(type: WelcomeQuestionnaireType, onQuestionnaireItemTap: @escaping (WelcomeQuestionnaireItem) -> Void) {
+    init(
+        type: WelcomeQuestionnaireType,
+        onViewDidAppear: @escaping () -> Void,
+        onQuestionnaireItemTap: @escaping (WelcomeQuestionnaireItem) -> Void
+    ) {
         self.type = type
+        self.onViewDidAppear = onViewDidAppear
         self.onQuestionnaireItemTap = onQuestionnaireItemTap
     }
 
@@ -21,6 +27,7 @@ final class WelcomeOnboardingQuestionnaireAssembly: Assembly {
 
         return WelcomeOnboardingQuestionnaireView(
             viewState: welcomeQuestionnaireViewState,
+            onViewDidAppear: onViewDidAppear,
             onQuestionnaireItemTap: onQuestionnaireItemTap
         )
     }

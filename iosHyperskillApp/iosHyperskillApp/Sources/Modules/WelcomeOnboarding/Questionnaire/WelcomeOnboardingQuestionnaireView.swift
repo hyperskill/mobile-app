@@ -12,22 +12,28 @@ extension WelcomeOnboardingQuestionnaireView {
 struct WelcomeOnboardingQuestionnaireView: View {
     let viewState: WelcomeQuestionnaireViewState
 
+    let onViewDidAppear: () -> Void
     let onQuestionnaireItemTap: (WelcomeQuestionnaireItem) -> Void
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: Appearance.spacing * 2) {
-                Text(viewState.title)
-                    .font(.title).bold()
-                    .foregroundColor(.newPrimaryText)
-                    .multilineTextAlignment(.center)
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: onViewDidAppear)
 
-                list
+            BackgroundView(color: Color.systemGroupedBackground)
+
+            ScrollView {
+                VStack(spacing: Appearance.spacing * 2) {
+                    Text(viewState.title)
+                        .font(.title).bold()
+                        .foregroundColor(.newPrimaryText)
+                        .multilineTextAlignment(.center)
+
+                    list
+                }
+                .padding()
             }
-            .padding()
+            .scrollBounceBehaviorBasedOnSize()
         }
-        .scrollBounceBehaviorBasedOnSize()
-        .background(Color.systemGroupedBackground.ignoresSafeArea())
     }
 
     @MainActor private var list: some View {
@@ -89,6 +95,7 @@ struct WelcomeOnboardingQuestionnaireView: View {
                 )
             ]
         ),
+        onViewDidAppear: {},
         onQuestionnaireItemTap: { _ in }
     )
 }

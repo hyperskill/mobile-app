@@ -39,8 +39,16 @@ final class WelcomeOnboardingViewModel: FeatureViewModel<
         !oldState.isEqual(newState)
     }
 
+    func doStartOnboardingViewed() {
+        onNewMessage(WelcomeOnboardingFeatureMessageStartOnboardingViewed())
+    }
+
     func doStartJourneyAction() {
         onNewMessage(WelcomeOnboardingFeatureMessageStartJourneyClicked())
+    }
+
+    func doQuestionnaireViewed(questionnaireType: WelcomeQuestionnaireType) {
+        onNewMessage(WelcomeOnboardingFeatureMessageUserQuestionnaireViewed(questionnaireType: questionnaireType))
     }
 
     func doQuestionnaireItemAction(
@@ -55,7 +63,11 @@ final class WelcomeOnboardingViewModel: FeatureViewModel<
         )
     }
 
-    func doProgrammingLanguageSelectAction(language: WelcomeOnboardingProgrammingLanguage) {
+    func doSelectProgrammingLanguageViewed() {
+        onNewMessage(WelcomeOnboardingFeatureMessageSelectProgrammingLanguageViewed())
+    }
+
+    func doSelectProgrammingLanguage(language: WelcomeOnboardingProgrammingLanguage) {
         onNewMessage(WelcomeOnboardingFeatureMessageProgrammingLanguageSelected(language: language))
     }
 }

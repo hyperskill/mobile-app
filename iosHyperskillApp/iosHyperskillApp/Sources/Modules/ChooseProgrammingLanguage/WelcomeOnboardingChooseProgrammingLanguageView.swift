@@ -12,22 +12,28 @@ extension WelcomeOnboardingChooseProgrammingLanguageView {
 struct WelcomeOnboardingChooseProgrammingLanguageView: View {
     let languages: [WelcomeOnboardingProgrammingLanguage] = [.java, .javaScript, .kotlin, .python, .sql, .undefined]
 
+    let onViewDidAppear: () -> Void
     let onProgrammingLanguageTap: (WelcomeOnboardingProgrammingLanguage) -> Void
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: Appearance.spacing * 2) {
-                Text(Strings.WelcomeOnboarding.ChooseProgrammingLanguage.title)
-                    .font(.title).bold()
-                    .foregroundColor(.newPrimaryText)
-                    .multilineTextAlignment(.center)
+        ZStack {
+            UIViewControllerEventsWrapper(onViewDidAppear: onViewDidAppear)
 
-                list
+            BackgroundView(color: Color.systemGroupedBackground)
+
+            ScrollView {
+                VStack(spacing: Appearance.spacing * 2) {
+                    Text(Strings.WelcomeOnboarding.ChooseProgrammingLanguage.title)
+                        .font(.title).bold()
+                        .foregroundColor(.newPrimaryText)
+                        .multilineTextAlignment(.center)
+
+                    list
+                }
+                .padding()
             }
-            .padding()
+            .scrollBounceBehaviorBasedOnSize()
         }
-        .scrollBounceBehaviorBasedOnSize()
-        .background(Color.systemGroupedBackground.ignoresSafeArea())
     }
 
     @MainActor private var list: some View {
@@ -100,6 +106,7 @@ extension WelcomeOnboardingProgrammingLanguage {
 #if DEBUG
 #Preview {
     WelcomeOnboardingChooseProgrammingLanguageView(
+        onViewDidAppear: {},
         onProgrammingLanguageTap: { _ in }
     )
 }
