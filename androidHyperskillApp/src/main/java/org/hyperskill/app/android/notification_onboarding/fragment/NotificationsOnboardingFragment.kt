@@ -9,15 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
-import org.hyperskill.app.android.notification_onboarding.ui.NotificationsOnboardingScreen
+import org.hyperskill.app.android.notification_onboarding.ui.NotificationsOnboarding
 import org.hyperskill.app.android.profile.view.fragment.TimeIntervalPickerDialogFragment
 import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
 import org.hyperskill.app.core.view.handleActions
@@ -81,12 +82,10 @@ class NotificationsOnboardingFragment : Fragment(), TimeIntervalPickerDialogFrag
         savedInstanceState: Bundle?
     ): View =
         ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
-                MdcTheme(
-                    setTextColors = true,
-                    setDefaultFontFamily = true
-                ) {
-                    NotificationsOnboardingScreen(notificationsOnboardingViewModel)
+                HyperskillTheme {
+                    NotificationsOnboarding(notificationsOnboardingViewModel)
                 }
             }
         }
