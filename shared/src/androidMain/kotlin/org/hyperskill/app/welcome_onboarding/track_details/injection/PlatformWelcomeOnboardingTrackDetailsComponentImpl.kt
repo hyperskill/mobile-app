@@ -12,7 +12,7 @@ class PlatformWelcomeOnboardingTrackDetailsComponentImpl(
             mapOf(
                 WelcomeOnboardingTrackDetailsViewModel::class.java to {
                     WelcomeOnboardingTrackDetailsViewModel(
-                        welcomeOnboardingTrackDetailsComponent.welcomeOnboardingTrackDetails.wrapWithFlowView()
+                        welcomeOnboardingTrackDetailsComponent.welcomeOnboardingTrackDetailsFeature.wrapWithFlowView()
                     )
                 }
             )

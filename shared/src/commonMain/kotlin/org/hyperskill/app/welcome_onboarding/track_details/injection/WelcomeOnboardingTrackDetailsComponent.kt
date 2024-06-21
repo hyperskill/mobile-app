@@ -6,5 +6,5 @@ import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeO
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface WelcomeOnboardingTrackDetailsComponent {
-    val welcomeOnboardingTrackDetails: Feature<ViewState, Message, Action>
+    val welcomeOnboardingTrackDetailsFeature: Feature<ViewState, Message, Action>
 }

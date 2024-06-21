@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "welcome-onboarding-working-professionally.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}
