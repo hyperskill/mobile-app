@@ -7,6 +7,8 @@ final class WelcomeOnboardingViewModel: FeatureViewModel<
   WelcomeOnboardingFeatureMessage,
   WelcomeOnboardingFeatureActionViewAction
 > {
+    weak var moduleOutput: WelcomeOnboardingOutputProtocol?
+
     weak var viewController: WelcomeOnboardingViewControllerProtocol?
 
     private var objectWillChangeSubscription: AnyCancellable?
@@ -69,6 +71,18 @@ final class WelcomeOnboardingViewModel: FeatureViewModel<
 
     func doSelectProgrammingLanguage(language: WelcomeOnboardingProgrammingLanguage) {
         onNewMessage(WelcomeOnboardingFeatureMessageProgrammingLanguageSelected(language: language))
+    }
+
+    func doFinishOnboardingViewed() {
+        onNewMessage(WelcomeOnboardingFeatureMessageFinishOnboardingViewed())
+    }
+
+    func doFinishOnboarding() {
+        onNewMessage(WelcomeOnboardingFeatureMessageFinishClicked())
+    }
+
+    func doCompleteOnboarding(stepRoute: StepRoute?) {
+        moduleOutput?.handleWelcomeOnboardingCompleted(stepRoute: stepRoute)
     }
 }
 

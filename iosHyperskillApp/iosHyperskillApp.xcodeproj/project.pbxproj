@@ -369,6 +369,9 @@
 		2C9AA3F52C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3F42C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift */; };
 		2C9AA3FB2C2520F400F5170E /* WelcomeOnboardingTrackDetailsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3FA2C2520F400F5170E /* WelcomeOnboardingTrackDetailsContentView.swift */; };
 		2C9AA3FE2C25325000F5170E /* WelcomeOnboardingTrackDetailsOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3FD2C25325000F5170E /* WelcomeOnboardingTrackDetailsOutputProtocol.swift */; };
+		2C9AA4012C2552DB00F5170E /* WelcomeOnboardingFinishView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA4002C2552DB00F5170E /* WelcomeOnboardingFinishView.swift */; };
+		2C9AA4032C25540400F5170E /* WelcomeOnboardingFinishAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA4022C25540400F5170E /* WelcomeOnboardingFinishAssembly.swift */; };
+		2C9AA4052C2556F400F5170E /* WelcomeOnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA4042C2556F400F5170E /* WelcomeOnboardingOutputProtocol.swift */; };
 		2C9ACAA62B870E3D00FE63FA /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9ACAA52B870E3D00FE63FA /* AppRouter.swift */; };
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */; };
@@ -1142,6 +1145,9 @@
 		2C9AA3F42C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingChooseProgrammingLanguageView.swift; sourceTree = "<group>"; };
 		2C9AA3FA2C2520F400F5170E /* WelcomeOnboardingTrackDetailsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingTrackDetailsContentView.swift; sourceTree = "<group>"; };
 		2C9AA3FD2C25325000F5170E /* WelcomeOnboardingTrackDetailsOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingTrackDetailsOutputProtocol.swift; sourceTree = "<group>"; };
+		2C9AA4002C2552DB00F5170E /* WelcomeOnboardingFinishView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingFinishView.swift; sourceTree = "<group>"; };
+		2C9AA4022C25540400F5170E /* WelcomeOnboardingFinishAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingFinishAssembly.swift; sourceTree = "<group>"; };
+		2C9AA4042C2556F400F5170E /* WelcomeOnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingOutputProtocol.swift; sourceTree = "<group>"; };
 		2C9ACAA52B870E3D00FE63FA /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
@@ -3133,6 +3139,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		2C9AA3FF2C2552B000F5170E /* Finish */ = {
+			isa = PBXGroup;
+			children = (
+				2C9AA4022C25540400F5170E /* WelcomeOnboardingFinishAssembly.swift */,
+				2C9AA4002C2552DB00F5170E /* WelcomeOnboardingFinishView.swift */,
+			);
+			path = Finish;
+			sourceTree = "<group>";
+		};
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -3959,6 +3974,7 @@
 			isa = PBXGroup;
 			children = (
 				2CF52B302C2414BB00FE61D7 /* WelcomeOnboardingAssembly.swift */,
+				2C9AA4042C2556F400F5170E /* WelcomeOnboardingOutputProtocol.swift */,
 				2CF52B312C2414BB00FE61D7 /* WelcomeOnboardingViewController.swift */,
 				2CF52B322C2414BB00FE61D7 /* WelcomeOnboardingViewModel.swift */,
 			);
@@ -4061,6 +4077,7 @@
 				2CF52B392C24315F00FE61D7 /* Questionnaire */,
 				2C9AA3F32C2460F600F5170E /* ChooseProgrammingLanguage */,
 				E665CB7CBDF781ED26B45729 /* TrackDetails */,
+				2C9AA3FF2C2552B000F5170E /* Finish */,
 			);
 			path = WelcomeOnboarding;
 			sourceTree = "<group>";
@@ -5056,6 +5073,7 @@
 				2C708D3228E5AA700061A8DB /* KotlinThrowable+AsError.swift in Sources */,
 				2C1F5879280D2D1300372A37 /* WebOAuthURLParser.swift in Sources */,
 				E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */,
+				2C9AA4032C25540400F5170E /* WelcomeOnboardingFinishAssembly.swift in Sources */,
 				E9F2CC552922694F00691540 /* TopicsRepetitionsChartBar.swift in Sources */,
 				E94BB04A2A9DFAD700736B7C /* StepQuizParsonsViewModel.swift in Sources */,
 				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
@@ -5097,6 +5115,7 @@
 				2CACBCBE2B7A1365006D3AB2 /* UsersInterviewWidgetViewModel.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */,
+				2C9AA4012C2552DB00F5170E /* WelcomeOnboardingFinishView.swift in Sources */,
 				2C4623A12B999CAF002BDDBB /* PaywallHostingController.swift in Sources */,
 				2CFD32462AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift in Sources */,
 				2C195D042B8467EA0076B2C8 /* UsersQuestionnaireOnboardingContentView.swift in Sources */,
@@ -5120,6 +5139,7 @@
 				2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */,
 				2C54E4262A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift in Sources */,
 				2CEA454F2BD6B75C0011838D /* StepQuizToolbarContent.swift in Sources */,
+				2C9AA4052C2556F400F5170E /* WelcomeOnboardingOutputProtocol.swift in Sources */,
 				2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */,
 				2C7994AD2A12940D00874C16 /* TrackSelectionListGridView.swift in Sources */,
 				2C9AA3F52C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift in Sources */,

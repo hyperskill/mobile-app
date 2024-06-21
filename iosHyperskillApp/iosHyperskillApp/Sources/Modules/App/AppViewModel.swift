@@ -123,6 +123,14 @@ extension AppViewModel: WelcomeOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: WelcomeOnboardingOutputProtocol -
+
+extension AppViewModel: WelcomeOnboardingOutputProtocol {
+    func handleWelcomeOnboardingCompleted(stepRoute: StepRoute?) {
+        onNewMessage(AppFeatureMessageWelcomeOnboardingCompleted(stepRoute: stepRoute))
+    }
+}
+
 // MARK: - AppViewModel: NotificationsOnboardingOutputProtocol -
 
 extension AppViewModel: NotificationsOnboardingOutputProtocol {

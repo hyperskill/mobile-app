@@ -111,7 +111,7 @@ extension AppViewController: AppViewControllerProtocol {
                         profile: data.profile,
                         isNotificationPermissionGranted: currentAuthorizationStatus.isRegistered
                     )
-                    router.route(.welcomeOnboarding(params: params))
+                    router.route(.welcomeOnboarding(params: params, moduleOutput: viewModel))
                 }
             }
         }

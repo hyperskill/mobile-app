@@ -79,8 +79,11 @@ final class AppRouter {
             case .welcome(let moduleOutput):
                 let assembly = WelcomeAssembly(output: moduleOutput)
                 return UIHostingController(rootView: assembly.makeModule())
-            case .welcomeOnboarding(let params):
-                let assembly = WelcomeOnboardingAssembly(params: params)
+            case .welcomeOnboarding(let params, let moduleOutput):
+                let assembly = WelcomeOnboardingAssembly(
+                    params: params,
+                    moduleOutput: moduleOutput
+                )
                 return assembly.makeModule()
             case .firstProblemOnboarding(let isNewUserMode, let moduleOutput):
                 let assembly = FirstProblemOnboardingAssembly(
@@ -143,7 +146,7 @@ final class AppRouter {
         )
         case trackSelection
         case welcome(moduleOutput: WelcomeOutputProtocol?)
-        case welcomeOnboarding(params: WelcomeOnboardingFeatureParams)
+        case welcomeOnboarding(params: WelcomeOnboardingFeatureParams, moduleOutput: WelcomeOnboardingOutputProtocol?)
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
         case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
         case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)

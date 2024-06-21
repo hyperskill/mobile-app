@@ -44,8 +44,7 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
     func displayViewAction(_ viewAction: WelcomeOnboardingFeatureActionViewAction) {
         switch WelcomeOnboardingFeatureActionViewActionKs(viewAction) {
         case .completeWelcomeOnboarding(let data):
-            print(data.stepRoute as Any)
-            #warning("TODO")
+            viewModel.doCompleteOnboarding(stepRoute: data.stepRoute)
         case .navigateTo(let navigateToViewAction):
             handleNavigateToViewAction(
                 WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction)
@@ -102,11 +101,18 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
             case .notificationOnboarding:
                 let assembly = NotificationsOnboardingAssembly(output: viewModel)
                 return assembly.makeModule()
-            case .onboardingFinish:
-                break
+            case .onboardingFinish(let data):
+                let assembly = WelcomeOnboardingFinishAssembly(
+                    track: data.selectedTrack,
+                    onViewDidAppear: { [weak self] in
+                        self?.viewModel.doFinishOnboardingViewed()
+                    },
+                    onCallToActionButtonTap: { [weak self] in
+                        self?.viewModel.doFinishOnboarding()
+                    }
+                )
+                return UIHostingController(rootView: assembly.makeModule())
             }
-
-            return UIViewController()
         }()
 
         assert(children.count <= 2)
