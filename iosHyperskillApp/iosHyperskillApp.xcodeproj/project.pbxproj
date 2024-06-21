@@ -367,6 +367,8 @@
 		2C99B1002A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C99B0FF2A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift */; };
 		2C9AA3F22C245C5700F5170E /* WelcomeQuestionnaireItemType+ImageResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3F12C245C5700F5170E /* WelcomeQuestionnaireItemType+ImageResource.swift */; };
 		2C9AA3F52C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3F42C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift */; };
+		2C9AA3FB2C2520F400F5170E /* WelcomeOnboardingTrackDetailsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3FA2C2520F400F5170E /* WelcomeOnboardingTrackDetailsContentView.swift */; };
+		2C9AA3FE2C25325000F5170E /* WelcomeOnboardingTrackDetailsOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3FD2C25325000F5170E /* WelcomeOnboardingTrackDetailsOutputProtocol.swift */; };
 		2C9ACAA62B870E3D00FE63FA /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9ACAA52B870E3D00FE63FA /* AppRouter.swift */; };
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */; };
@@ -592,8 +594,10 @@
 		2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */; };
 		3CE2B6E310E441BA383B8175 /* ManageSubscriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C61ECFE11419FD50CC5FAFD /* ManageSubscriptionViewModel.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
+		4C9CC8CF9B59FCA5AC7579A8 /* WelcomeOnboardingTrackDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F778FFD8F6592522C9941118 /* WelcomeOnboardingTrackDetailsViewModel.swift */; };
 		4FBE20D41C99246C44E068AA /* UsersQuestionnaireOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772BEE130815F1450D253FE3 /* UsersQuestionnaireOnboardingViewModel.swift */; };
 		59B66CD4D1508049555D35AE /* ProgressScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18157582494D2909B214C /* ProgressScreenView.swift */; };
+		5CCA4D38FC27E5FEB81E445B /* WelcomeOnboardingTrackDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ECA036973EEC5E12A3AFAEF /* WelcomeOnboardingTrackDetailsView.swift */; };
 		60B4F143CF507F83C9581020 /* LeaderboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E205DEF27554501F7BE01AA /* LeaderboardViewModel.swift */; };
 		6579C94D6914636EE4DDA2E6 /* ManageSubscriptionAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501ED6A0BE25809989218DB /* ManageSubscriptionAssembly.swift */; };
 		7A628C36D862C98ED2046D4F /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 907B10B0F7D4970530A478A2 /* SearchView.swift */; };
@@ -725,6 +729,7 @@
 		ECD10958C8BA7D758D3D1F66 /* ProjectSelectionDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD7CF422D27CCAE2839046 /* ProjectSelectionDetailsAssembly.swift */; };
 		ED49113F88FF32AAFE6AFFBC /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEA48C62195F44E21D6491 /* SearchViewModel.swift */; };
 		EDBDC768EF7A93B1B7D68594 /* TopicCompletedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC85A7863C88FC3792A14F3C /* TopicCompletedModalView.swift */; };
+		EEADFF6C4BA197B98DB6C1B3 /* WelcomeOnboardingTrackDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A29AEEBC4B7881D8E2123B /* WelcomeOnboardingTrackDetailsAssembly.swift */; };
 		F759010A5FC990E99AAF0D76 /* ProgressScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A5BDA1E184CA8FBAAD8584 /* ProgressScreenViewModel.swift */; };
 		FF22113BBBA05BDE544C3F8D /* TopicCompletedModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2A5B0E69AEE0C8FB0B6DF7 /* TopicCompletedModalViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -1135,6 +1140,8 @@
 		2C99B0FF2A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanWidgetViewStateSectionItemStateWrapper.swift; sourceTree = "<group>"; };
 		2C9AA3F12C245C5700F5170E /* WelcomeQuestionnaireItemType+ImageResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WelcomeQuestionnaireItemType+ImageResource.swift"; sourceTree = "<group>"; };
 		2C9AA3F42C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingChooseProgrammingLanguageView.swift; sourceTree = "<group>"; };
+		2C9AA3FA2C2520F400F5170E /* WelcomeOnboardingTrackDetailsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingTrackDetailsContentView.swift; sourceTree = "<group>"; };
+		2C9AA3FD2C25325000F5170E /* WelcomeOnboardingTrackDetailsOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingTrackDetailsOutputProtocol.swift; sourceTree = "<group>"; };
 		2C9ACAA52B870E3D00FE63FA /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
@@ -1361,6 +1368,7 @@
 		2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
 		2E205DEF27554501F7BE01AA /* LeaderboardViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LeaderboardViewModel.swift; sourceTree = "<group>"; };
+		38A29AEEBC4B7881D8E2123B /* WelcomeOnboardingTrackDetailsAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingTrackDetailsAssembly.swift; sourceTree = "<group>"; };
 		3944E4546DEF47A28B2E7292 /* NotificationsOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingView.swift; sourceTree = "<group>"; };
 		4527BBE3E83FB9D7E4155AB3 /* TopicCompletedModalAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalAssembly.swift; sourceTree = "<group>"; };
 		46D1A5B08EE626D2D612CEAE /* RequestReviewModalViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RequestReviewModalViewModel.swift; sourceTree = "<group>"; };
@@ -1368,6 +1376,7 @@
 		4FF61AAE06DC019B8C49543C /* RequestReviewModalAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RequestReviewModalAssembly.swift; sourceTree = "<group>"; };
 		515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.release.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.release.xcconfig"; sourceTree = "<group>"; };
 		522FFA89F67884772E338BD7 /* LeaderboardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		5ECA036973EEC5E12A3AFAEF /* WelcomeOnboardingTrackDetailsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingTrackDetailsView.swift; sourceTree = "<group>"; };
 		5FB20AE82459AAF98DA40D48 /* TrackSelectionDetailsViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsViewModel.swift; sourceTree = "<group>"; };
 		71D01125D308034C53D75DA6 /* ProjectSelectionDetailsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1500,6 +1509,7 @@
 		E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsService.swift; sourceTree = "<group>"; };
 		E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatus.swift; sourceTree = "<group>"; };
 		E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationsCenterDelegate.swift; sourceTree = "<group>"; };
+		F778FFD8F6592522C9941118 /* WelcomeOnboardingTrackDetailsViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingTrackDetailsViewModel.swift; sourceTree = "<group>"; };
 		FEDCC11294912B8656C8B264 /* ProjectSelectionDetailsViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1885,7 +1895,6 @@
 				2CB559302B87024000D949CB /* UsersQuestionnaireOnboarding */,
 				E9F923F428A2632800C065A7 /* Welcome */,
 				2F40CD7E6B99AC9768335321 /* WelcomeOnboarding */,
-				2C9AA3F32C2460F600F5170E /* ChooseProgrammingLanguage */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -3115,6 +3124,15 @@
 			path = ChooseProgrammingLanguage;
 			sourceTree = "<group>";
 		};
+		2C9AA3FC2C2520FD00F5170E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C9AA3FA2C2520F400F5170E /* WelcomeOnboardingTrackDetailsContentView.swift */,
+				5ECA036973EEC5E12A3AFAEF /* WelcomeOnboardingTrackDetailsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -4041,6 +4059,8 @@
 				2CF52B2F2C2414A000FE61D7 /* Root */,
 				2CF52B362C24153400FE61D7 /* Start */,
 				2CF52B392C24315F00FE61D7 /* Questionnaire */,
+				2C9AA3F32C2460F600F5170E /* ChooseProgrammingLanguage */,
+				E665CB7CBDF781ED26B45729 /* TrackDetails */,
 			);
 			path = WelcomeOnboarding;
 			sourceTree = "<group>";
@@ -4159,6 +4179,17 @@
 				9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E665CB7CBDF781ED26B45729 /* TrackDetails */ = {
+			isa = PBXGroup;
+			children = (
+				38A29AEEBC4B7881D8E2123B /* WelcomeOnboardingTrackDetailsAssembly.swift */,
+				2C9AA3FD2C25325000F5170E /* WelcomeOnboardingTrackDetailsOutputProtocol.swift */,
+				F778FFD8F6592522C9941118 /* WelcomeOnboardingTrackDetailsViewModel.swift */,
+				2C9AA3FC2C2520FD00F5170E /* Views */,
+			);
+			path = TrackDetails;
 			sourceTree = "<group>";
 		};
 		E6992F3BBF430924F32DC178 /* Leaderboard */ = {
@@ -5006,6 +5037,7 @@
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				E9950E9528894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift in Sources */,
+				2C9AA3FB2C2520F400F5170E /* WelcomeOnboardingTrackDetailsContentView.swift in Sources */,
 				E9A022AE291D0E3F004317DB /* TopicsRepetitionsCardView.swift in Sources */,
 				2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */,
 				E9F923F628A2633D00C065A7 /* WelcomeView.swift in Sources */,
@@ -5240,6 +5272,7 @@
 				2CB0ADF02B04B2E30089D557 /* ChallengeWidgetErrorView.swift in Sources */,
 				2C05AC5F2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift in Sources */,
 				2C1061AC285C3C4300EBD614 /* StepQuizChoiceViewModel.swift in Sources */,
+				2C9AA3FE2C25325000F5170E /* WelcomeOnboardingTrackDetailsOutputProtocol.swift in Sources */,
 				2C0EB9502A151B56006DC84B /* TrackSelectionListViewModel.swift in Sources */,
 				E9ACD3412937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift in Sources */,
 				2C0EB9562A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift in Sources */,
@@ -5449,6 +5482,9 @@
 				EDBDC768EF7A93B1B7D68594 /* TopicCompletedModalView.swift in Sources */,
 				2C9D20C82BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift in Sources */,
 				FF22113BBBA05BDE544C3F8D /* TopicCompletedModalViewModel.swift in Sources */,
+				EEADFF6C4BA197B98DB6C1B3 /* WelcomeOnboardingTrackDetailsAssembly.swift in Sources */,
+				5CCA4D38FC27E5FEB81E445B /* WelcomeOnboardingTrackDetailsView.swift in Sources */,
+				4C9CC8CF9B59FCA5AC7579A8 /* WelcomeOnboardingTrackDetailsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

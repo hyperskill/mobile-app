@@ -93,8 +93,12 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
                     }
                 )
                 return UIHostingController(rootView: chooseProgrammingLanguageView)
-            case .trackDetails:
-                break
+            case .trackDetails(let data):
+                let assembly = WelcomeOnboardingTrackDetailsAssembly(
+                    track: data.track,
+                    moduleOutput: viewModel
+                )
+                return assembly.makeModule()
             case .notificationOnboarding:
                 break
             case .onboardingFinish:

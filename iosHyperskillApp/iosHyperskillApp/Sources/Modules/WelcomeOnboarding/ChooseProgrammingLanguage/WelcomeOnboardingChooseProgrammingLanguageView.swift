@@ -75,7 +75,7 @@ struct WelcomeOnboardingChooseProgrammingLanguageView: View {
     }
 }
 
-extension WelcomeOnboardingProgrammingLanguage {
+private extension WelcomeOnboardingProgrammingLanguage {
     // swiftlint:disable switch_case_on_newline
     var title: String? {
         switch self {

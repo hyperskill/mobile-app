@@ -71,3 +71,22 @@ final class WelcomeOnboardingViewModel: FeatureViewModel<
         onNewMessage(WelcomeOnboardingFeatureMessageProgrammingLanguageSelected(language: language))
     }
 }
+
+// MARK: - WelcomeOnboardingViewModel: WelcomeOnboardingTrackDetailsOutputProtocol -
+
+extension WelcomeOnboardingViewModel: WelcomeOnboardingTrackDetailsOutputProtocol {
+    func handleWelcomeOnboardingTrackDetailsTrackSelected(track: WelcomeOnboardingTrack) {
+        Task(priority: .userInitiated) {
+            let currentAuthorizationStatus = await NotificationPermissionStatus.current
+
+            await MainActor.run {
+                onNewMessage(
+                    WelcomeOnboardingFeatureMessageTrackSelected(
+                        selectedTrack: track,
+                        isNotificationPermissionGranted: currentAuthorizationStatus.isRegistered
+                    )
+                )
+            }
+        }
+    }
+}
