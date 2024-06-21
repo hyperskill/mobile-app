@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.android.splashscreen)
     implementation(libs.android.timepicker)
     implementation(libs.android.lottie)
+    implementation(libs.android.ui.insetter)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)

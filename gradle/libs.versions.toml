@@ -22,6 +22,8 @@ revenueCat = "7.4.0"
 googlePlayReview = "2.0.1"
 googlePlayInstallReferrer = "2.2"
 
+insetter = "0.6.1"
+
 appsFlyer = "6.13.0"
 amplitude = "1.16.7"
 
@@ -83,6 +85,7 @@ android-ui-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androi
 android-ui-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 android-ui-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
 android-ui-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
+android-ui-insetter = { module = "dev.chrisbanes.insetter:insetter", version.ref = "insetter" }
 android-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 android-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "androidxLifecycle" }
 android-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }

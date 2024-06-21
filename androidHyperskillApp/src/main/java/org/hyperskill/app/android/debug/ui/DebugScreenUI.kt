@@ -2,9 +2,12 @@ package org.hyperskill.app.android.debug.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -18,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTopAppBar
 import org.hyperskill.app.debug.domain.model.EndpointConfigType
 import org.hyperskill.app.debug.presentation.DebugFeature
@@ -69,23 +72,20 @@ fun DebugScreen(
     onFindStageInputChanged: (FindStageInput) -> Unit,
     onOpenStageClick: () -> Unit
 ) {
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         HyperskillTopAppBar(
             title = stringResource(id = R.string.debug_menu_title),
             onNavigationIconClick = onBackClick,
-            modifier = Modifier.fillMaxWidth(),
-            backgroundColor = MaterialTheme.colors.background
+            backgroundColor = MaterialTheme.colors.background,
+            modifier = Modifier.fillMaxWidth()
         )
         Column(
+            verticalArrangement = Arrangement.spacedBy(35.dp),
             modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(35.dp)
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
+                .padding(20.dp)
+                .windowInsetsPadding(WindowInsets.navigationBars)
         ) {
             EndpointSwitcher(
                 options = options,
@@ -101,12 +101,12 @@ fun DebugScreen(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showSystemUi = true, device = "id:pixel_4")
 private fun DebugScreenPreview() {
     var selectedOption by remember {
         mutableStateOf(EndpointConfigType.PRODUCTION)
     }
-    MdcTheme {
+    HyperskillTheme {
         DebugScreen(
             options = EndpointConfigType.values().toList(),
             selectedOption = selectedOption,

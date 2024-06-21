@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.webkit.WebView
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.widget.AuthSocialWebViewClient
@@ -71,6 +72,17 @@ class AuthSocialWebViewFragment :
         injectComponent()
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.let { window ->
+            window.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = DialogInAppWebViewBinding.inflate(inflater, container, false)
         if (webView == null) {
@@ -100,6 +112,19 @@ class AuthSocialWebViewFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewBinding.centeredAppbar.centeredToolbar.root.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        webView?.applyInsetter {
+            type(navigationBars = true) {
+                margin()
+            }
+            type(ime = true) {
+                margin()
+            }
+        }
         initViewStateDelegate()
         viewBinding.centeredAppbar.centeredToolbar.centeredToolbar.apply {
             setNavigationOnClickListener {
@@ -112,16 +137,6 @@ class AuthSocialWebViewFragment :
                 SocialAuthProviderRequestURLBuilder.build(provider, networkEndpointConfigInfo)
             )
         )
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dialog
-            ?.window
-            ?.let { window ->
-                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-            }
     }
 
     override fun onDestroyView() {

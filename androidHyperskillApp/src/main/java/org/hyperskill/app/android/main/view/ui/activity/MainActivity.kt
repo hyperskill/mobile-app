@@ -3,8 +3,10 @@ package org.hyperskill.app.android.main.view.ui.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -112,7 +114,9 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
+        )
 
         lifecycle.addObserver(
             ReduxViewLifecycleObserver(this, ::mainViewModel)
