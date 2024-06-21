@@ -57,7 +57,7 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
         let viewControllerToPresent: UIViewController = {
             switch viewAction {
             case .startScreen:
-                let welcomeOnboardingStartView = WelcomeOnboardingStartView(
+                let startView = WelcomeOnboardingStartView(
                     onCallToActionButtonTap: { [weak self] in
                         guard let self else {
                             return
@@ -66,7 +66,7 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
                         self.viewModel.doStartJourneyAction()
                     }
                 )
-                return UIHostingController(rootView: welcomeOnboardingStartView)
+                return UIHostingController(rootView: startView)
             case .welcomeOnboardingQuestionnaire(let data):
                 let questionnaireType = data.type
 
@@ -86,7 +86,16 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
 
                 return UIHostingController(rootView: assembly.makeModule())
             case .chooseProgrammingLanguage:
-                break
+                let chooseProgrammingLanguageView = WelcomeOnboardingChooseProgrammingLanguageView(
+                    onProgrammingLanguageTap: { [weak self] language in
+                        guard let self else {
+                            return
+                        }
+
+                        self.viewModel.doProgrammingLanguageSelectAction(language: language)
+                    }
+                )
+                return UIHostingController(rootView: chooseProgrammingLanguageView)
             case .trackDetails:
                 break
             case .notificationOnboarding:

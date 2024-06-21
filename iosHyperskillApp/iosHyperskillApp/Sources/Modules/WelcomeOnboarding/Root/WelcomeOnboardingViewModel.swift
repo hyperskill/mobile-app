@@ -54,4 +54,8 @@ final class WelcomeOnboardingViewModel: FeatureViewModel<
             )
         )
     }
+
+    func doProgrammingLanguageSelectAction(language: WelcomeOnboardingProgrammingLanguage) {
+        onNewMessage(WelcomeOnboardingFeatureMessageProgrammingLanguageSelected(language: language))
+    }
 }

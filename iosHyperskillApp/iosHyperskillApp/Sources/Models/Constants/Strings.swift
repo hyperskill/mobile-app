@@ -513,6 +513,17 @@ enum Strings {
             static let description = sharedStrings.welcome_onboarding_entry_point_description.localized()
             static let startButton = sharedStrings.welcome_onboarding_entry_point_start_btn.localized()
         }
+
+        enum ChooseProgrammingLanguage {
+            static let title = sharedStrings.welcome_onboarding_pick_language_title.localized()
+
+            static let langJava = sharedStrings.welcome_onboarding_lang_java.localized()
+            static let langJS = sharedStrings.welcome_onboarding_lang_js.localized()
+            static let langKotlin = sharedStrings.welcome_onboarding_lang_kotlin.localized()
+            static let langPython = sharedStrings.welcome_onboarding_lang_python.localized()
+            static let langSQL = sharedStrings.welcome_onboarding_lang_sql.localized()
+            static let langNotSure = sharedStrings.welcome_onboarding_lang_not_sure.localized()
+        }
     }
 
     // MARK: - NotificationsOnboarding -

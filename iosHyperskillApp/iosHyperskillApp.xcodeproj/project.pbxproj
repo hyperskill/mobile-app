@@ -366,6 +366,7 @@
 		2C99B0FD2A141BF10018627B /* StudyPlanSectionItemBadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C99B0FC2A141BF10018627B /* StudyPlanSectionItemBadgesView.swift */; };
 		2C99B1002A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C99B0FF2A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift */; };
 		2C9AA3F22C245C5700F5170E /* WelcomeQuestionnaireItemType+ImageResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3F12C245C5700F5170E /* WelcomeQuestionnaireItemType+ImageResource.swift */; };
+		2C9AA3F52C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AA3F42C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift */; };
 		2C9ACAA62B870E3D00FE63FA /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9ACAA52B870E3D00FE63FA /* AppRouter.swift */; };
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */; };
@@ -1133,6 +1134,7 @@
 		2C99B0FC2A141BF10018627B /* StudyPlanSectionItemBadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionItemBadgesView.swift; sourceTree = "<group>"; };
 		2C99B0FF2A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanWidgetViewStateSectionItemStateWrapper.swift; sourceTree = "<group>"; };
 		2C9AA3F12C245C5700F5170E /* WelcomeQuestionnaireItemType+ImageResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WelcomeQuestionnaireItemType+ImageResource.swift"; sourceTree = "<group>"; };
+		2C9AA3F42C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingChooseProgrammingLanguageView.swift; sourceTree = "<group>"; };
 		2C9ACAA52B870E3D00FE63FA /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
@@ -1883,6 +1885,7 @@
 				2CB559302B87024000D949CB /* UsersQuestionnaireOnboarding */,
 				E9F923F428A2632800C065A7 /* Welcome */,
 				2F40CD7E6B99AC9768335321 /* WelcomeOnboarding */,
+				2C9AA3F32C2460F600F5170E /* ChooseProgrammingLanguage */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -3102,6 +3105,14 @@
 				E9AB311229DED7E400645376 /* Item */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		2C9AA3F32C2460F600F5170E /* ChooseProgrammingLanguage */ = {
+			isa = PBXGroup;
+			children = (
+				2C9AA3F42C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift */,
+			);
+			path = ChooseProgrammingLanguage;
 			sourceTree = "<group>";
 		};
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
@@ -5079,6 +5090,7 @@
 				2CEA454F2BD6B75C0011838D /* StepQuizToolbarContent.swift in Sources */,
 				2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */,
 				2C7994AD2A12940D00874C16 /* TrackSelectionListGridView.swift in Sources */,
+				2C9AA3F52C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift in Sources */,
 				2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */,
 				E9AB311429DED7FE00645376 /* StudyPlanSectionItemIconView.swift in Sources */,
 				2C7CB66B2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift in Sources */,
