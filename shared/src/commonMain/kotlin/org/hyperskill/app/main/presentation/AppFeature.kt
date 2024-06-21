@@ -123,6 +123,7 @@ object AppFeature {
             sealed interface NavigateTo : ViewAction {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
                 object TrackSelectionScreen : NavigateTo
+                data class FirstProblemOnboarding(val isNewUserMode: Boolean) : NavigateTo
                 object WelcomeScreen : NavigateTo
                 object StudyPlan : NavigateTo
                 data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo

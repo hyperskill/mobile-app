@@ -131,6 +131,18 @@ extension AppViewModel: WelcomeOnboardingOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: FirstProblemOnboardingOutputProtocol -
+
+extension AppViewModel: FirstProblemOnboardingOutputProtocol {
+    func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
+        if let stepRoute {
+            onViewAction?(AppFeatureActionViewActionNavigateToStudyPlanWithStep(stepRoute: stepRoute))
+        } else {
+            onViewAction?(AppFeatureActionViewActionNavigateToStudyPlan())
+        }
+    }
+}
+
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
@@ -205,13 +217,7 @@ private extension AppViewModel {
 
     @objc
     func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
-//        onViewAction?(
-//            AppFeatureActionViewActionWelcomeOnboardingViewAction(
-//                viewAction: LegacyWelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnboardingScreen(
-//                    isNewUserMode: true
-//                )
-//            )
-//        )
+        onViewAction?(AppFeatureActionViewActionNavigateToFirstProblemOnboarding(isNewUserMode: true))
     }
 
     @objc

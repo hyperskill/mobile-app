@@ -91,6 +91,8 @@ extension AppViewController: AppViewControllerProtocol {
             router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
         case .trackSelectionScreen:
             router.route(.trackSelection)
+        case .firstProblemOnboarding(let data):
+            router.route(.firstProblemOnboarding(isNewUserMode: data.isNewUserMode, moduleOutput: viewModel))
         case .paywall(let data):
             router.route(.paywallModal(paywallTransitionSource: data.paywallTransitionSource))
         case .studyPlanWithPaywall(let data):
