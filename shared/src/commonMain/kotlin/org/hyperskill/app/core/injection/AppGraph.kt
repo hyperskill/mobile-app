@@ -88,7 +88,6 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
-import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.LegacyUsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponent
@@ -204,8 +203,6 @@ interface AppGraph {
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
     fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
     fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent
-    @Deprecated("Should be removed in ALTAPPS-1276")
-    fun buildLegacyUsersQuestionnaireOnboardingComponent(): LegacyUsersQuestionnaireOnboardingComponent
     fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent

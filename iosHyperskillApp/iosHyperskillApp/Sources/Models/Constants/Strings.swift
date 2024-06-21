@@ -283,16 +283,6 @@ enum Strings {
         static let subtitle = sharedStrings.users_interview_widget_subtitle.localized()
     }
 
-    // MARK: - UsersQuestionnaireOnboarding -
-
-    enum UsersQuestionnaireOnboarding {
-        static let textInputPlaceholder =
-            sharedStrings.users_questionnaire_onboarding_text_input_placeholder.localized()
-
-        static let sendButtot = sharedStrings.users_questionnaire_onboarding_send_button_text.localized()
-        static let skipButton = sharedStrings.users_questionnaire_onboarding_skip_button_text.localized()
-    }
-
     // MARK: - Topics widget -
 
     enum TopicsWidget {
