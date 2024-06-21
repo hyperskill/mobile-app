@@ -31,7 +31,6 @@ import org.hyperskill.app.android.clarity.ClarityDelegate
 import org.hyperskill.app.android.core.extensions.screenOrientation
 import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserver
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
-import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.first_problem_onboarding.navigation.FirstProblemOnboardingScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
