@@ -90,3 +90,11 @@ extension WelcomeOnboardingViewModel: WelcomeOnboardingTrackDetailsOutputProtoco
         }
     }
 }
+
+// MARK: - WelcomeOnboardingViewModel: NotificationsOnboardingOutputProtocol -
+
+extension WelcomeOnboardingViewModel: NotificationsOnboardingOutputProtocol {
+    func handleNotificationsOnboardingCompleted() {
+        onNewMessage(WelcomeOnboardingFeatureMessageNotificationPermissionOnboardingCompleted())
+    }
+}

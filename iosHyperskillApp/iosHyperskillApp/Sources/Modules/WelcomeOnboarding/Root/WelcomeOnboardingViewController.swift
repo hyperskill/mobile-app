@@ -100,7 +100,8 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
                 )
                 return assembly.makeModule()
             case .notificationOnboarding:
-                break
+                let assembly = NotificationsOnboardingAssembly(output: viewModel)
+                return assembly.makeModule()
             case .onboardingFinish:
                 break
             }
