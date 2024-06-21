@@ -12,6 +12,7 @@ extension ProcessedContentView {
     struct Appearance {
         var labelFont = UIFont.systemFont(ofSize: 17, weight: .regular)
         var labelTextColor = UIColor.primaryText
+        var labelTextAlignment = NSTextAlignment.natural
 
         var activityIndicatorViewStyle = UIActivityIndicatorView.Style.medium
         var activityIndicatorViewColor: UIColor?
@@ -29,7 +30,8 @@ final class ProcessedContentView: UIView {
     private lazy var textView: ProcessedContentTextView = {
         let appearance = ProcessedContentTextView.Appearance(
             font: appearance.labelFont,
-            textColor: appearance.labelTextColor
+            textColor: appearance.labelTextColor,
+            textAlignment: appearance.labelTextAlignment
         )
 
         let view = ProcessedContentTextView(

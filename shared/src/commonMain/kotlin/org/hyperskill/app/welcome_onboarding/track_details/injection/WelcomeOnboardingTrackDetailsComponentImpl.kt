@@ -11,7 +11,7 @@ internal class WelcomeOnboardingTrackDetailsComponentImpl(
     private val track: WelcomeOnboardingTrack,
     private val appGraph: AppGraph
 ) : WelcomeOnboardingTrackDetailsComponent {
-    override val welcomeOnboardingTrackDetails: Feature<ViewState, Message, Action>
+    override val welcomeOnboardingTrackDetailsFeature: Feature<ViewState, Message, Action>
         get() = WelcomeOnboardingTrackDetailsFeatureBuilder.build(
             track = track,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,

@@ -9,7 +9,7 @@ final class AppAssembly: UIKitAssembly {
     }
 
     func makeModule() -> UIViewController {
-        let feature = AppGraphBridge.sharedAppGraph.legacyMainComponent.legacyAppFeature()
+        let feature = AppGraphBridge.sharedAppGraph.mainComponent.appFeature()
 
         let viewModel = AppViewModel(
             pushNotificationData: pushNotificationData,

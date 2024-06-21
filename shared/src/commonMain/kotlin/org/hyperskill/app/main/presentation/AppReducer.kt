@@ -343,7 +343,7 @@ internal class AppReducer(
     ): ReducerResult =
         state to setOf(
             if (message.stepRoute != null) {
-                NavigateTo.Step(message.stepRoute)
+                NavigateTo.StudyPlanWithStep(message.stepRoute)
             } else {
                 NavigateTo.StudyPlan
             }
