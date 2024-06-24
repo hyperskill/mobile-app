@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -61,7 +62,8 @@ fun TopicSearchResult(
             }
             SearchResultsViewState.Error -> {
                 ScreenDataLoadingError(
-                    errorMessage = stringResource(id = R.string.search_placeholder_error_description)
+                    errorMessage = stringResource(id = R.string.search_placeholder_error_description),
+                    modifier = Modifier.padding(insetsPadding)
                 ) {
                     onNewMessage(Message.RetrySearchClicked)
                 }
