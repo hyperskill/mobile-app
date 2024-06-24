@@ -43,8 +43,7 @@ class GamificationToolbarDelegate(
 
                 val toolbar = viewBinding.gamificationToolbar
                 toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
-                    val currentHeight = height
-                    height = currentHeight + insetTop
+                    height += insetTop
                 }
                 toolbar.updatePaddingRelative(top = insetTop)
 
