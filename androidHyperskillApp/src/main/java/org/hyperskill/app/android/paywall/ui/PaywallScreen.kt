@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawing
@@ -23,7 +22,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.R
-import org.hyperskill.app.android.core.extensions.compose.plus
 import org.hyperskill.app.android.core.extensions.findActivity
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillProgressBar
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
@@ -84,7 +82,7 @@ fun PaywallScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(PaywallDefaults.BackgroundColor)
-                .consumeWindowInsets(WindowInsets.statusBars)
+                .consumeStatusBarInsets(viewState.isToolbarVisible)
         ) {
             val insets = WindowInsets.safeDrawing
             when (val contentState = viewState.contentState) {
@@ -113,8 +111,7 @@ fun PaywallScreen(
                         onBuySubscriptionClick = onBuySubscriptionClick,
                         onContinueWithLimitsClick = onContinueWithLimitsClick,
                         onTermsOfServiceClick = onTermsOfServiceClick,
-                        padding = padding + insets.asPaddingValues(),
-                        modifier = Modifier.windowInsetsPadding(insets)
+                        padding = padding
                     )
                 ViewStateContent.SubscriptionSyncLoading ->
                     SubscriptionSyncLoading(
@@ -158,6 +155,14 @@ private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
             )
         )
 }
+
+@Composable
+private fun Modifier.consumeStatusBarInsets(isToolbarVisible: Boolean): Modifier =
+    if (isToolbarVisible) {
+        consumeWindowInsets(WindowInsets.statusBars)
+    } else {
+        this
+    }
 
 @Preview(showBackground = true)
 @Composable

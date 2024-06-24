@@ -2,9 +2,10 @@ package org.hyperskill.app.android.manage_subscription.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -18,7 +19,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.R
-import org.hyperskill.app.android.core.extensions.compose.plus
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillProgressBar
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTopAppBar
@@ -52,7 +52,6 @@ fun ManageSubscriptionScreen(
     onRetryLoadingClick: () -> Unit,
     onActionButtonClick: () -> Unit
 ) {
-    val insets = WindowInsets.navigationBars
     Scaffold(
         topBar = {
             HyperskillTopAppBar(
@@ -62,31 +61,36 @@ fun ManageSubscriptionScreen(
             )
         }
     ) { padding ->
-        when (viewState) {
-            ViewState.Idle -> {
-                // no op
-            }
-            ViewState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .consumeWindowInsets(WindowInsets.statusBars)
+        ) {
+            val insets = WindowInsets.safeDrawing
+            when (viewState) {
+                ViewState.Idle -> {
+                    // no op
+                }
+                ViewState.Loading -> {
                     HyperskillProgressBar(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
-            }
-            ViewState.Error -> {
-                ScreenDataLoadingError(
-                    errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
-                    modifier = Modifier.windowInsetsPadding(insets)
-                ) {
-                    onRetryLoadingClick()
+                ViewState.Error -> {
+                    ScreenDataLoadingError(
+                        errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
+                        modifier = Modifier.windowInsetsPadding(insets)
+                    ) {
+                        onRetryLoadingClick()
+                    }
                 }
-            }
-            is ViewState.Content -> {
-                ManageSubscriptionContent(
-                    state = viewState,
-                    onActionButtonClick = onActionButtonClick,
-                    padding = padding + insets.asPaddingValues()
-                )
+                is ViewState.Content -> {
+                    ManageSubscriptionContent(
+                        state = viewState,
+                        onActionButtonClick = onActionButtonClick,
+                        padding = padding
+                    )
+                }
             }
         }
     }
