@@ -6,17 +6,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
@@ -41,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.compose.plus
 
 @Composable
 fun HyperskillTopAppBar(
@@ -51,7 +49,7 @@ fun HyperskillTopAppBar(
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
-        navigationIcon = onNavigationIconClick?.let {
+        navigationIcon = if (onNavigationIconClick != null) {
             {
                 IconButton(onClick = onNavigationIconClick) {
                     Icon(
@@ -61,6 +59,8 @@ fun HyperskillTopAppBar(
                     )
                 }
             }
+        } else {
+            null
         },
         title = {
             Text(
@@ -71,7 +71,6 @@ fun HyperskillTopAppBar(
         backgroundColor = backgroundColor,
         actions = actions,
         modifier = modifier
-            .consumeWindowInsets(WindowInsets.statusBars.only(WindowInsetsSides.Top))
     )
 }
 
@@ -89,7 +88,7 @@ private fun TopAppBar(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         elevation = elevation,
-        contentPadding = AppBarDefaults.ContentPadding,
+        contentPadding = AppBarDefaults.ContentPadding + WindowInsets.statusBars.asPaddingValues(),
         shape = RectangleShape,
         modifier = modifier
     ) {
@@ -147,8 +146,8 @@ private fun AppBar(
     ) {
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Row(
-                Modifier.fillMaxWidth()
-                    .windowInsetsTopHeight(WindowInsets.statusBars)
+                Modifier
+                    .fillMaxWidth()
                     .padding(contentPadding)
                     .height(AppBarHeight),
                 horizontalArrangement = Arrangement.Start,
@@ -167,7 +166,8 @@ private val AppBarHorizontalPadding = 4.dp
 private val TitleInsetWithoutIcon = Modifier.width(16.dp - AppBarHorizontalPadding)
 
 // Start inset for the title when there is a navigation icon provided
-private val TitleIconModifier = Modifier.fillMaxHeight()
+private val TitleIconModifier = Modifier
+    .fillMaxHeight()
     .width(72.dp - AppBarHorizontalPadding)
 
 // -16 dp is used to fix spacing between navigation icon and title

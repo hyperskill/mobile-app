@@ -2,12 +2,13 @@ package org.hyperskill.app.android.paywall.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -58,6 +59,7 @@ fun PaywallScreen(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PaywallScreen(
     viewState: ViewState,
@@ -78,45 +80,47 @@ fun PaywallScreen(
             }
         }
     ) { padding ->
-        val insets = WindowInsets.navigationBars.union(WindowInsets.statusBars)
-        when (val contentState = viewState.contentState) {
-            ViewStateContent.Idle -> {
-                // no op
-            }
-            ViewStateContent.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(PaywallDefaults.BackgroundColor)
-                ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(PaywallDefaults.BackgroundColor)
+                .consumeWindowInsets(WindowInsets.statusBars)
+        ) {
+            val insets = WindowInsets.safeDrawing
+            when (val contentState = viewState.contentState) {
+                ViewStateContent.Idle -> {
+                    // no op
+                }
+                ViewStateContent.Loading -> {
                     HyperskillProgressBar(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+                ViewStateContent.Error ->
+                    ScreenDataLoadingError(
+                        errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
+                        modifier = Modifier
+                            .background(PaywallDefaults.BackgroundColor)
+                            .windowInsetsPadding(insets)
+                    ) {
+                        onRetryLoadingClick()
+                    }
+                is ViewStateContent.Content ->
+                    PaywallContent(
+                        buyButtonText = contentState.buyButtonText,
+                        isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
+                        priceText = contentState.priceText,
+                        onBuySubscriptionClick = onBuySubscriptionClick,
+                        onContinueWithLimitsClick = onContinueWithLimitsClick,
+                        onTermsOfServiceClick = onTermsOfServiceClick,
+                        padding = padding + insets.asPaddingValues(),
+                        modifier = Modifier.windowInsetsPadding(insets)
+                    )
+                ViewStateContent.SubscriptionSyncLoading ->
+                    SubscriptionSyncLoading(
+                        modifier = Modifier.windowInsetsPadding(insets)
+                    )
             }
-            ViewStateContent.Error ->
-                ScreenDataLoadingError(
-                    errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
-                    modifier = Modifier
-                        .background(PaywallDefaults.BackgroundColor)
-                        .windowInsetsPadding(insets)
-                ) {
-                    onRetryLoadingClick()
-                }
-            is ViewStateContent.Content ->
-                PaywallContent(
-                    buyButtonText = contentState.buyButtonText,
-                    isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
-                    priceText = contentState.priceText,
-                    onBuySubscriptionClick = onBuySubscriptionClick,
-                    onContinueWithLimitsClick = onContinueWithLimitsClick,
-                    onTermsOfServiceClick = onTermsOfServiceClick,
-                    padding = padding + insets.asPaddingValues()
-                )
-            ViewStateContent.SubscriptionSyncLoading ->
-                SubscriptionSyncLoading(
-                    modifier = Modifier.windowInsetsPadding(insets)
-                )
         }
     }
 }
