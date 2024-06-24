@@ -197,8 +197,6 @@ class ProfileFragment :
                 height += insetTop
             }
             collapsingToolbarLayout.expandedTitleMarginTop = insetTop
-
-            insets
         }
     }
 

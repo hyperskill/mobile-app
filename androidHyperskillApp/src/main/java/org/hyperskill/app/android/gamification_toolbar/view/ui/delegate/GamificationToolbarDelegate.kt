@@ -53,8 +53,6 @@ class GamificationToolbarDelegate(
                     insetTop = insetTop,
                     subtitle = subtitle
                 )
-
-                insets
             }
             gamificationAppBar.setElevationOnCollapsed(lifecycleOwner.lifecycle)
             gamificationAppBar.setExpanded(true)
