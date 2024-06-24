@@ -2,6 +2,7 @@ package org.hyperskill.app.paywall.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithBatchAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -47,7 +48,6 @@ internal object PaywallFeatureBuilder {
 
         val paywallActionDispatcher = PaywallActionDispatcher(
             config = ActionDispatcherOptions(),
-            analyticInteractor = analyticInteractor,
             purchaseInteractor = purchaseInteractor,
             subscriptionsRepository = subscriptionsRepository,
             sentryInteractor = sentryInteractor,
@@ -64,6 +64,9 @@ internal object PaywallFeatureBuilder {
             .wrapWithActionDispatcher(paywallActionDispatcher)
             .transformState { state ->
                 viewStateMapper.map(state, paywallTransitionSource)
+            }
+            .wrapWithBatchAnalyticLogger(analyticInteractor) {
+                (it as? PaywallFeature.InternalAction.LogAnalyticEvent)?.analyticEvents?.toList()
             }
     }
 }

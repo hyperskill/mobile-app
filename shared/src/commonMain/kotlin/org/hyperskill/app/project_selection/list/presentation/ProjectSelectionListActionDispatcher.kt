@@ -2,7 +2,6 @@ package org.hyperskill.app.project_selection.list.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
@@ -28,8 +27,7 @@ internal class ProjectSelectionListActionDispatcher(
     private val projectsRepository: ProjectsRepository,
     private val progressesRepository: ProgressesRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val sentryInteractor: SentryInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<ProjectSelectionListFeature.Action, Message>(
     config.createConfig()
 ) {
@@ -37,9 +35,6 @@ internal class ProjectSelectionListActionDispatcher(
         when (action) {
             is InternalAction.FetchContent ->
                 handleFetchContentAction(action, ::onNewMessage)
-            is InternalAction.LogAnalyticEvent -> {
-                analyticInteractor.logEvent(action.analyticEvent)
-            }
             else -> {
                 // no op
             }

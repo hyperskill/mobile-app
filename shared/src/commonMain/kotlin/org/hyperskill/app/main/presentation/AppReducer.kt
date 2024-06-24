@@ -2,6 +2,7 @@ package org.hyperskill.app.main.presentation
 
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.main.presentation.AppFeature.Action
+import org.hyperskill.app.main.presentation.AppFeature.Action.ViewAction.NavigateTo
 import org.hyperskill.app.main.presentation.AppFeature.InternalAction
 import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
 import org.hyperskill.app.main.presentation.AppFeature.Message
@@ -12,22 +13,18 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
-import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
-import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 internal class AppReducer(
     private val streakRecoveryReducer: StreakRecoveryReducer,
-    private val notificationClickHandlingReducer: NotificationClickHandlingReducer,
-    private val welcomeOnboardingReducer: WelcomeOnboardingReducer
+    private val notificationClickHandlingReducer: NotificationClickHandlingReducer
 ) : StateReducer<State, Message, Action> {
 
     companion object {
@@ -64,9 +61,9 @@ internal class AppReducer(
                 if (state is State.Ready && state.isAuthorized) {
                     val navigateToViewAction = when (message.reason) {
                         UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE ->
-                            Action.ViewAction.NavigateTo.WelcomeScreen
+                            NavigateTo.WelcomeScreen
                         UserDeauthorized.Reason.SIGN_OUT ->
-                            Action.ViewAction.NavigateTo.AuthScreen()
+                            NavigateTo.AuthScreen()
                     }
 
                     State.Ready(
@@ -79,9 +76,9 @@ internal class AppReducer(
                     null
                 }
             is Message.OpenAuthScreen ->
-                state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
+                state to setOf(NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
-                state to setOf(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+                state to setOf(NavigateTo.TrackSelectionScreen)
             is Message.StreakRecoveryMessage ->
                 if (state is State.Ready) {
                     val (streakRecoveryState, streakRecoveryActions) =
@@ -94,13 +91,12 @@ internal class AppReducer(
                 handleNotificationClicked(state, message)
             is Message.NotificationClickHandlingMessage ->
                 state to reduceNotificationClickHandlingMessage(message.message)
-            is Message.WelcomeOnboardingMessage ->
-                reduceWelcomeOnboardingMessage(state, message.message)
             is InternalMessage.SubscriptionChanged ->
                 handleSubscriptionChanged(state, message)
             is Message.IsPaywallShownChanged ->
                 handleIsPaywallShownChanged(state, message)
             is InternalMessage.PaymentAbilityResult -> handlePaymentAbilityResult(state, message)
+            is Message.WelcomeOnboardingCompleted -> handleWelcomeOnboardingCompleted(state, message)
         } ?: (state to emptySet())
 
     private fun handleFetchAppStartupConfigSuccess(
@@ -144,16 +140,16 @@ internal class AppReducer(
                                         )
                                     )
                                 )
-                            message.profile.isNewUser ->
-                                add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+                            WelcomeOnboardingFeature.shouldBeLaunchedOnStartup(message.profile) ->
+                                add(NavigateTo.WelcomeOnboarding(message.profile))
                             shouldShowPaywall(readyState) ->
                                 add(
-                                    Action.ViewAction.NavigateTo.StudyPlanWithPaywall(
+                                    NavigateTo.StudyPlanWithPaywall(
                                         PaywallTransitionSource.APP_BECOMES_ACTIVE
                                     )
                                 )
                             else ->
-                                add(Action.ViewAction.NavigateTo.StudyPlan)
+                                add(NavigateTo.StudyPlan)
                         }
                         addAll(
                             getOnAuthorizedAppStartUpActions(
@@ -174,7 +170,7 @@ internal class AppReducer(
                             )
                         }
                         addAll(getNotAuthorizedAppStartUpActions())
-                        add(Action.ViewAction.NavigateTo.WelcomeScreen)
+                        add(NavigateTo.WelcomeScreen)
                     }
                     addAll(streakRecoveryActions)
                 }
@@ -195,15 +191,7 @@ internal class AppReducer(
                 isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled,
                 canMakePayments = false
             )
-            val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
-                WelcomeOnboardingFeature.State(),
-                WelcomeOnboardingFeature.InternalMessage.OnboardingFlowRequested(
-                    message.profile,
-                    message.isNotificationPermissionGranted
-                )
-            )
-            authState.copy(welcomeOnboardingState = onboardingState) to
-                getAuthorizedUserActions(message.profile) + onboardingActions
+            authState to getAuthorizedUserActions(message.profile, message.isNotificationPermissionGranted)
         } else {
             state to emptySet()
         }
@@ -213,7 +201,7 @@ internal class AppReducer(
             state.incrementAppShowsCount() to buildSet {
                 when {
                     shouldShowPaywall(state) ->
-                        add(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE))
+                        add(NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE))
                     // Fetch actual payment ability state if it's not possible to make payment at the moment
                     !state.canMakePayments && state.subscription?.isFreemium == true ->
                         add(InternalAction.FetchPaymentAbility)
@@ -283,50 +271,6 @@ internal class AppReducer(
         }.toSet()
     }
 
-    private fun reduceWelcomeOnboardingMessage(
-        state: State,
-        message: WelcomeOnboardingFeature.Message
-    ): ReducerResult =
-        if (state is State.Ready) {
-            val (onboardingState, actions) =
-                reduceWelcomeOnboardingMessage(state.welcomeOnboardingState, message)
-            state.copy(welcomeOnboardingState = onboardingState) to actions
-        } else {
-            state to emptySet()
-        }
-
-    private fun reduceWelcomeOnboardingMessage(
-        state: WelcomeOnboardingFeature.State,
-        message: WelcomeOnboardingFeature.Message
-    ): Pair<WelcomeOnboardingFeature.State, Set<Action>> {
-        val (onboardingState, onboardingActions) =
-            welcomeOnboardingReducer.reduce(state, message)
-        val finishAction = onboardingActions.getFinishAction()
-        return if (finishAction != null) {
-            onboardingState to handleWelcomeOnboardingFinishAction(finishAction)
-        } else {
-            onboardingState to
-                onboardingActions.map {
-                    if (it is WelcomeOnboardingFeature.Action.ViewAction) {
-                        Action.ViewAction.WelcomeOnboardingViewAction(it)
-                    } else {
-                        Action.WelcomeOnboardingAction(it)
-                    }
-                }.toSet()
-        }
-    }
-
-    private fun handleWelcomeOnboardingFinishAction(
-        finishAction: WelcomeOnboardingFeature.Action.OnboardingFlowFinished
-    ): Set<Action> =
-        setOf(
-            if (finishAction.profile?.isNewUser == true) {
-                Action.ViewAction.NavigateTo.TrackSelectionScreen
-            } else {
-                Action.ViewAction.NavigateTo.StudyPlan
-            }
-        )
-
     private fun getOnAuthorizedAppStartUpActions(
         profileId: Long,
         subscription: Subscription?
@@ -341,8 +285,13 @@ internal class AppReducer(
     private fun getNotAuthorizedAppStartUpActions(): Set<Action> =
         setOf(Action.ClearUserInSentry)
 
-    private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
+    private fun getAuthorizedUserActions(profile: Profile, isNotificationPermissionGranted: Boolean): Set<Action> =
         setOf(
+            if (WelcomeOnboardingFeature.shouldBeLaunchedAfterAuthorization(profile, isNotificationPermissionGranted)) {
+                NavigateTo.WelcomeOnboarding(profile)
+            } else {
+                NavigateTo.StudyPlan
+            },
             InternalAction.FetchSubscription(forceUpdate = false),
             InternalAction.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.IdentifyUserInSentry(userId = profile.id),
@@ -387,4 +336,16 @@ internal class AppReducer(
         } else {
             state to emptySet()
         }
+
+    private fun handleWelcomeOnboardingCompleted(
+        state: State,
+        message: Message.WelcomeOnboardingCompleted
+    ): ReducerResult =
+        state to setOf(
+            if (message.stepRoute != null) {
+                NavigateTo.StudyPlanWithStep(message.stepRoute)
+            } else {
+                NavigateTo.StudyPlan
+            }
+        )
 }

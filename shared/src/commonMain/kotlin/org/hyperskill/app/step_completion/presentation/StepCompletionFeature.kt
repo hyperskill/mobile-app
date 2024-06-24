@@ -149,6 +149,10 @@ object StepCompletionFeature {
                 object Back : NavigateTo
                 object StudyPlan : NavigateTo
             }
+
+            sealed interface HapticFeedback : ViewAction {
+                object TopicCompleted : HapticFeedback
+            }
         }
     }
 

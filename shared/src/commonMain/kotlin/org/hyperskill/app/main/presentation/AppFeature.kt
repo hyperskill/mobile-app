@@ -6,9 +6,9 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 
 object AppFeature {
 
@@ -28,7 +28,6 @@ object AppFeature {
             val isAuthorized: Boolean,
             val isMobileLeaderboardsEnabled: Boolean,
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
-            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
             internal val isMobileOnlySubscriptionEnabled: Boolean,
             internal val canMakePayments: Boolean,
             internal val subscription: Subscription? = null,
@@ -78,6 +77,8 @@ object AppFeature {
             val isPaywallShown: Boolean
         ) : Message
 
+        data class WelcomeOnboardingCompleted(val stepRoute: StepRoute?) : Message
+
         /**
          * Message Wrappers
          */
@@ -85,10 +86,6 @@ object AppFeature {
 
         data class NotificationClickHandlingMessage(
             val message: NotificationClickHandlingFeature.Message
-        ) : Message
-
-        data class WelcomeOnboardingMessage(
-            val message: WelcomeOnboardingFeature.Message
         ) : Message
     }
 
@@ -116,10 +113,6 @@ object AppFeature {
             val action: NotificationClickHandlingFeature.Action
         ) : Action
 
-        data class WelcomeOnboardingAction(
-            val action: WelcomeOnboardingFeature.Action
-        ) : Action
-
         /**
          * Sentry
          */
@@ -130,12 +123,15 @@ object AppFeature {
             sealed interface NavigateTo : ViewAction {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
                 object TrackSelectionScreen : NavigateTo
+                data class FirstProblemOnboarding(val isNewUserMode: Boolean) : NavigateTo
                 object WelcomeScreen : NavigateTo
                 object StudyPlan : NavigateTo
+                data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo
                 data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
                 data class StudyPlanWithPaywall(
                     val paywallTransitionSource: PaywallTransitionSource
                 ) : NavigateTo
+                data class WelcomeOnboarding(val profile: Profile) : NavigateTo
             }
 
             /**
@@ -145,10 +141,6 @@ object AppFeature {
 
             data class ClickedNotificationViewAction(
                 val viewAction: NotificationClickHandlingFeature.Action.ViewAction
-            ) : ViewAction
-
-            data class WelcomeOnboardingViewAction(
-                val viewAction: WelcomeOnboardingFeature.Action.ViewAction
             ) : ViewAction
         }
     }

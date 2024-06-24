@@ -15,8 +15,6 @@ internal class StepFeedbackActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.event)
             is InternalAction.SendFeedback -> {
                 analyticInteractor.logEvent(
                     StepFeedbackModalSendButtonClickedHyperskillAnalyticEvent(

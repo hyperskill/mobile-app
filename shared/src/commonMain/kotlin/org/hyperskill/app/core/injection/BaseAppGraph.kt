@@ -163,14 +163,20 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponentImpl
-import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
-import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponentImpl
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponent
+import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponentImpl
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.questionnaire.injection.WelcomeQuestionnaireComponent
+import org.hyperskill.app.welcome_onboarding.questionnaire.injection.WelcomeQuestionnaireComponentImpl
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponent
+import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponentImpl
 
 abstract class BaseAppGraph : AppGraph {
 
@@ -492,8 +498,19 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildSearchComponent(): SearchComponent =
         SearchComponentImpl(this)
 
-    override fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent =
-        WelcomeOnboardingComponentImpl(this)
+    override fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent =
+        WelcomeOnboardingComponentImpl(this, params)
+
+    override fun buildWelcomeQuestionnaireComponent(): WelcomeQuestionnaireComponent =
+        WelcomeQuestionnaireComponentImpl(this)
+
+    override fun buildWelcomeOnboardingTrackDetailsComponent(
+        track: WelcomeOnboardingTrack
+    ): WelcomeOnboardingTrackDetailsComponent =
+        WelcomeOnboardingTrackDetailsComponentImpl(track, this)
+
+    override fun buildWelcomeOnboardingFinishComponent(): WelcomeOnboardingFinishComponent =
+        WelcomeOnboardingFinishComponentImpl(this)
 
     override fun buildRequestReviewDataComponent(): RequestReviewDataComponent =
         RequestReviewDataComponentImpl(this)
@@ -511,9 +528,6 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent =
         UsersInterviewWidgetComponentImpl(this)
-
-    override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
-        UsersQuestionnaireOnboardingComponentImpl(this)
 
     override fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams

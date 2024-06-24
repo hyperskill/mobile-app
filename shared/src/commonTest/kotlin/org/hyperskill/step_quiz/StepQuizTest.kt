@@ -11,11 +11,13 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
@@ -217,7 +219,11 @@ class StepQuizTest {
         )
 
         assertEquals(expectedState, actualState)
-        assertTrue(actualActions.isEmpty())
+        assertTrue {
+            actualActions.none {
+                it is StepQuizFeature.InternalAction.UpdateProblemsLimit
+            }
+        }
     }
 
     @Test
@@ -442,6 +448,181 @@ class StepQuizTest {
             finalActions.none {
                 it is StepQuizFeature.Action.ViewAction.NavigateTo.TheoryStepScreen
             }
+        }
+    }
+
+    @Test
+    fun `HapticFeedbackCorrectSubmission triggers when submission is correct`() {
+        val stepRoute = StepRoute.Learn.Step(1, null)
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = Step.stub(id = stepRoute.stepId),
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val (_, actions) = reducer.reduce(
+            initialState,
+            StepQuizFeature.Message.CreateSubmissionSuccess(
+                submission = Submission(status = SubmissionStatus.CORRECT),
+                newAttempt = null
+            )
+        )
+
+        assertContains(actions, StepQuizFeature.Action.ViewAction.HapticFeedback.CorrectSubmission)
+    }
+
+    @Test
+    fun `HapticFeedbackWrongSubmission triggers when submission is wrong`() {
+        val stepRoute = StepRoute.Learn.Step(1, null)
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = Step.stub(id = stepRoute.stepId),
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val (_, actions) = reducer.reduce(
+            initialState,
+            StepQuizFeature.Message.CreateSubmissionSuccess(
+                submission = Submission(status = SubmissionStatus.WRONG),
+                newAttempt = null
+            )
+        )
+
+        assertContains(actions, StepQuizFeature.Action.ViewAction.HapticFeedback.WrongSubmission)
+    }
+
+    @Test
+    fun `HapticFeedbackReplyValidationError triggers when ReplyValidationResult is Error`() {
+        val step = Step.stub(id = 1)
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Empty()
+
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val (_, actions) = reducer.reduce(
+            initialState,
+            StepQuizFeature.Message.CreateSubmissionReplyValidationResult(
+                step = step,
+                reply = Reply(),
+                replyValidation = ReplyValidationResult.Error("Error message")
+            )
+        )
+
+        assertContains(actions, StepQuizFeature.Action.ViewAction.HapticFeedback.ReplyValidationError)
+    }
+
+    @Test
+    fun `ScrollToCallToActionButton triggers when receiving ReplyValidationResult`() {
+        val step = Step.stub(id = 1)
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Empty()
+
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        listOf(
+            ReplyValidationResult.Success,
+            ReplyValidationResult.Error("Error message")
+        ).forEach { replyValidation ->
+            val (_, actions) = reducer.reduce(
+                initialState,
+                StepQuizFeature.Message.CreateSubmissionReplyValidationResult(
+                    step = step,
+                    reply = Reply(),
+                    replyValidation = replyValidation
+                )
+            )
+
+            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
+        }
+    }
+
+    @Test
+    fun `ScrollToCallToActionButton triggers when receiving correct or wrong submission`() {
+        val stepRoute = StepRoute.Learn.Step(1, null)
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = Step.stub(id = stepRoute.stepId),
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        listOf(
+            SubmissionStatus.CORRECT,
+            SubmissionStatus.WRONG
+        ).forEach { submissionStatus ->
+            val (_, actions) = reducer.reduce(
+                initialState,
+                StepQuizFeature.Message.CreateSubmissionSuccess(
+                    submission = Submission(status = submissionStatus),
+                    newAttempt = null
+                )
+            )
+
+            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
         }
     }
 }

@@ -54,6 +54,6 @@ object TopicCompletedModalFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticEvent(val event: AnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

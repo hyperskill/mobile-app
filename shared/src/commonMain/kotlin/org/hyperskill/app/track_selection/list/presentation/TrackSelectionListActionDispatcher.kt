@@ -2,7 +2,6 @@ package org.hyperskill.app.track_selection.list.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -17,7 +16,6 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class TrackSelectionListActionDispatcher(
     config: ActionDispatcherOptions,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val trackInteractor: TrackInteractor,
     private val progressesInteractor: ProgressesInteractor,
@@ -76,8 +74,6 @@ class TrackSelectionListActionDispatcher(
                         )
                     )
                 }
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             else -> {}
         }
     }

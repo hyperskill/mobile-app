@@ -131,5 +131,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     QUESTION_MARK("question_mark"),
     SPACEBOT("spacebot"),
     SCREENSHOT("screenshot"),
-    OPEN_IN_WEB("open_in_web")
+    OPEN_IN_WEB("open_in_web"),
+    START_MY_JOURNEY("start_my_journey"),
+    QUESTIONNAIRE_ITEM("questionnaire_item"),
+    PROGRAMMING_LANGUAGE("programming_language")
 }

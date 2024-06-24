@@ -88,10 +88,14 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
-import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponent
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.questionnaire.injection.WelcomeQuestionnaireComponent
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
@@ -188,13 +192,17 @@ interface AppGraph {
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
     fun buildSearchResultsDataComponent(): SearchResultsDataComponent
     fun buildSearchComponent(): SearchComponent
-    fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
+    fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent
+    fun buildWelcomeQuestionnaireComponent(): WelcomeQuestionnaireComponent
+    fun buildWelcomeOnboardingTrackDetailsComponent(
+        track: WelcomeOnboardingTrack
+    ): WelcomeOnboardingTrackDetailsComponent
+    fun buildWelcomeOnboardingFinishComponent(): WelcomeOnboardingFinishComponent
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
     fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
     fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent
-    fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent
     fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent

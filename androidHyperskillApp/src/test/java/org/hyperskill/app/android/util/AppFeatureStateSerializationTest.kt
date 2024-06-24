@@ -21,7 +21,7 @@ class AppFeatureStateSerializationTest {
                         isMobileOnlySubscriptionEnabled = true,
                         canMakePayments = true
                     )
-                else -> throw IllegalStateException("Unknown state class: $stateClass. Please add it to the test.")
+                else -> error("Unknown state class: $stateClass. Please add it to the test.")
             }
             val json = Json.encodeToString(AppFeature.State.serializer(), state)
             val decodedState = Json.decodeFromString(AppFeature.State.serializer(), json)

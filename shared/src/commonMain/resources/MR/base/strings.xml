@@ -485,12 +485,19 @@
     <string name="onboarding_secondary_button_text">I already have an account</string>
     <string name="onboarding_display_debug_screen">Display debug screen</string>
 
+    <!--Notifications onboarding-->
     <string name="notifications_onboarding_title_new">Choose a time for your daily practice and we\'ll remind you to
         stay on course
     </string>
     <string name="notifications_onboarding_daily_study_reminders_interval_prefix">Set time</string>
     <string name="notifications_onboarding_button_allow">Allow notifications</string>
     <string name="notifications_onboarding_button_not_now">Not now</string>
+
+    <string name="notifications_onboarding_set_later_btn">Set later</string>
+    <string name="notifications_onboarding_title">Build a habit with reminders</string>
+    <string name="notifications_onboarding_set_time_text">Set time:</string>
+    <string name="notifications_onboarding_set_later_description">You can always change this later</string>
+    <string name="notifications_onboarding_turn_on_btn">Yes, turn on</string>
 
     <!--  First problem onboarding  -->
     <string name="first_problem_onboarding_existing_user_title">Let\'s keep going!</string>
@@ -635,25 +642,6 @@
     <string name="users_interview_widget_title">We want to hear your story!</string>
     <string name="users_interview_widget_subtitle">Share your Hyperskill app experience in an online feedback session, and receive an Amazon gift card</string>
 
-    <!-- Questionnaire onboarding -->
-    <string name="users_questionnaire_onboarding_title_template">How did you hear about\n%s?</string>
-
-    <string name="users_questionnaire_onboarding_source_app_store">App Store</string>
-    <string name="users_questionnaire_onboarding_source_google_play">Google Play</string>
-    <string name="users_questionnaire_onboarding_source_google_search">Google Search</string>
-    <string name="users_questionnaire_onboarding_source_youtube">YouTube</string>
-    <string name="users_questionnaire_onboarding_source_instagram">Instagram</string>
-    <string name="users_questionnaire_onboarding_source_tiktok">TikTok</string>
-    <string name="users_questionnaire_onboarding_source_news">News/article/blog</string>
-    <string name="users_questionnaire_onboarding_source_friends">Friends/family</string>
-    <string name="users_questionnaire_onboarding_source_other">Other</string>
-
-    <string name="users_questionnaire_onboarding_text_input_placeholder">Type your answer here...</string>
-    <string name="users_questionnaire_onboarding_send_button_text">Send</string>
-    <string name="users_questionnaire_onboarding_skip_button_text">Skip</string>
-
-    <string name="users_questionnaire_onboarding_send_answer_success_message">Answer sent! Enjoy 10 extra problems on the first day.</string>
-
     <!-- Search -->
     <string name="search_title">Search</string>
     <string name="search_input_placeholder">Find topic</string>
@@ -750,4 +738,70 @@
     <string name="step_menu_report_action">Report</string>
     <string name="step_menu_skip_action">Skip</string>
     <string name="step_menu_open_in_web_action">Open in Web</string>
+
+    <!--Welcome onboarding-->
+    <string name="welcome_onboarding_entry_point_title">Welcome</string>
+    <string name="welcome_onboarding_entry_point_description">We\'re here to help you build the ideal study plan! A few quick questions will guide us.</string>
+    <string name="welcome_onboarding_entry_point_start_btn">Start my journey</string>
+
+    <!--Welcome onboarding first questionnaire-->
+    <string name="welcome_questionnaire_title_template">How did you hear about\n%s?</string>
+    <string name="welcome_questionnaire_tiktok_item">TikTok</string>
+    <string name="welcome_questionnaire_google_item">Google Search</string>
+    <string name="welcome_questionnaire_news_item">News/article/blog</string>
+    <string name="welcome_questionnaire_play_store_item">Play Store</string>
+    <string name="welcome_questionnaire_app_store_item">App Store</string>
+    <string name="welcome_questionnaire_facebook_item">Facebook/Instagram</string>
+    <string name="welcome_questionnaire_friends_item">Friends/family</string>
+    <string name="welcome_questionnaire_youtube_item">YouTube</string>
+    <string name="welcome_questionnaire_other_item">Other</string>
+
+    <!--Welcome onboarding learning goal questionnaire-->
+    <string name="welcome_questionnaire_learning_goal_title">Why are you learning to code?</string>
+    <string name="welcome_questionnaire_learning_goal_start_career_item">Start a programming-related career</string>
+    <string name="welcome_questionnaire_learning_goal_current_job_item">Get better at my current job</string>
+    <string name="welcome_questionnaire_learning_goal_change_stack_item">Change technology stack</string>
+    <string name="welcome_questionnaire_learning_goal_study_item">Complement my studies</string>
+    <string name="welcome_questionnaire_learning_goal_fun_item">Just for fun </string>
+    <string name="welcome_questionnaire_learning_goal_different_reason_item">For a different reason</string>
+
+    <!--Welcome onboarding background questionnaire-->
+    <string name="welcome_questionnaire_background_title">What\'s your coding background?</string>
+    <string name="welcome_questionnaire_background_no_experience_item">I have no coding experience</string>
+    <string name="welcome_questionnaire_background_basic_item">I have some basic understanding of programming concepts.</string>
+    <string name="welcome_questionnaire_background_medium_item">I have written some projects</string>
+    <string name="welcome_questionnaire_background_pro_item">I am working professional</string>
+
+    <!--Welcome onboarding pick language-->
+    <string name="welcome_onboarding_pick_language_title">Pick a language to learn!</string>
+    <string name="welcome_onboarding_lang_java">Java</string>
+    <string name="welcome_onboarding_lang_js">JavaScript</string>
+    <string name="welcome_onboarding_lang_kotlin">Kotlin</string>
+    <string name="welcome_onboarding_lang_python">Python</string>
+    <string name="welcome_onboarding_lang_sql">SQL</string>
+    <string name="welcome_onboarding_lang_not_sure">I\'m not sure yet</string>
+
+    <!--Welcome onboarding track details-->
+    <string name="welcome_onboarding_track_details_title">Here\'s the track for you!</string>
+    <string name="welcome_onboarding_track_details_change_text">You can always change this later</string>
+    <string name="welcome_onboarding_track_details_continue_btn">Continue</string>
+
+    <string name="welcome_onboarding_track_details_java_title">Java Developer</string>
+    <string name="welcome_onboarding_track_details_java_description"><![CDATA[Top choice for <b>backend</b> systems and <b>Android apps</b>. Master the language that powers millions of devices worldwide!]]></string>
+
+    <string name="welcome_onboarding_track_details_js_title">Frontend Developer</string>
+    <string name="welcome_onboarding_track_details_js_description"><![CDATA[Build anything from small <b>websites</b> to large-scale <b>web applications</b>. The ultimate language for web development]]></string>
+
+    <string name="welcome_onboarding_track_details_python_title">Python Developer</string>
+    <string name="welcome_onboarding_track_details_python_description"><![CDATA[The top choice for <b>data science</b> and <b>machine learning</b>. Start your journey with this easy-to-learn language and unlock a world of possibilities!]]></string>
+
+    <string name="welcome_onboarding_track_details_kotlin_title">Kotlin Developer</string>
+    <string name="welcome_onboarding_track_details_kotlin_description"><![CDATA[Enhance your development skills with the language that combines simplicity and power, perfect for <b>Android</b> and <b>server-side applications!</b>]]></string>
+
+    <string name="welcome_onboarding_track_details_sql_title">SQL</string>
+    <string name="welcome_onboarding_track_details_sql_description">Your pathway to becoming a data analyst. Gain the skills to query and analyze data effectively in any industry!</string>
+
+    <string name="welcome_onboarding_finish_screen_title">You\'re all set!</string>
+    <string name="welcome_onboarding_finish_screen_description">Embark on your journey in %s right now!</string>
+    <string name="welcome_onboarding_finish_btn">Start my journey</string>
 </resources>

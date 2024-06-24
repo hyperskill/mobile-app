@@ -2,6 +2,7 @@ package org.hyperskill.app.android.step.view.delegate
 
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.view.HapticFeedbackConstants
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -12,6 +13,7 @@ import co.touchlab.kermit.Logger
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.ShareUtils
 import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
+import org.hyperskill.app.android.core.extensions.performConfirmHapticFeedback
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
@@ -151,6 +153,9 @@ object StepDelegate {
                         manager = fragment.childFragmentManager,
                         tag = RequestReviewDialogFragment.TAG
                     )
+            StepCompletionFeature.Action.ViewAction.HapticFeedback.TopicCompleted -> {
+                fragment.requireView().performConfirmHapticFeedback(HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING)
+            }
         }
     }
 

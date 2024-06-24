@@ -2,6 +2,7 @@ package org.hyperskill.app.project_selection.details.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -61,8 +62,7 @@ object ProjectSelectionDetailsFeatureBuilder {
         val projectSelectionDetailsActionDispatcher = ProjectSelectionDetailsActionDispatcher(
             config = ActionDispatcherOptions(),
             projectSelectionDetailsInteractor = projectSelectionDetailsInteractor,
-            sentryInteractor = sentryInteractor,
-            analyticInteractor = analyticInteractor
+            sentryInteractor = sentryInteractor
         )
 
         val projectSelectionDetailsViewStateMapper = ProjectSelectionDetailsViewStateMapper(
@@ -86,5 +86,8 @@ object ProjectSelectionDetailsFeatureBuilder {
         )
             .wrapWithActionDispatcher(projectSelectionDetailsActionDispatcher)
             .transformState(projectSelectionDetailsViewStateMapper::map)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? ProjectSelectionDetailsFeature.InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

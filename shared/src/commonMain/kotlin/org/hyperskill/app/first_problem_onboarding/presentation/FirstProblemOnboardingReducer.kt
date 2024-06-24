@@ -140,9 +140,7 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
             InternalAction.LogAnalyticEvent(
                 FirstProblemOnboardingClickedLearningActionHyperskillAnalyticEvent(target)
             ),
-            InternalAction.LogAnalyticEvent(
-                OnboardingCompletionAppsFlyerAnalyticEvent(target.targetName)
-            )
+            InternalAction.LogAnalyticEvent(OnboardingCompletionAppsFlyerAnalyticEvent)
         )
     }
 

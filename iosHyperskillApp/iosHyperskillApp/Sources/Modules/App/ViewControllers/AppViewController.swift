@@ -78,10 +78,6 @@ extension AppViewController: AppViewControllerProtocol {
             handleClickedNotificationViewAction(
                 NotificationClickHandlingFeatureActionViewActionKs(clickedNotificationViewAction.viewAction)
             )
-        case .welcomeOnboardingViewAction(let welcomeOnboardingViewAction):
-            handleWelcomeOnboardingViewAction(
-                WelcomeOnboardingFeatureActionViewActionKs(welcomeOnboardingViewAction.viewAction)
-            )
         }
     }
 
@@ -90,11 +86,13 @@ extension AppViewController: AppViewControllerProtocol {
         case .authScreen(let data):
             router.route(.auth(isInSignUpMode: data.isInSignUpMode, moduleOutput: viewModel))
         case .welcomeScreen:
-            router.route(.onboarding(moduleOutput: viewModel))
+            router.route(.welcome(moduleOutput: viewModel))
         case .studyPlan:
             router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
         case .trackSelectionScreen:
             router.route(.trackSelection)
+        case .firstProblemOnboarding(let data):
+            router.route(.firstProblemOnboarding(isNewUserMode: data.isNewUserMode, moduleOutput: viewModel))
         case .paywall(let data):
             router.route(.paywallModal(paywallTransitionSource: data.paywallTransitionSource))
         case .studyPlanWithPaywall(let data):
@@ -104,6 +102,20 @@ extension AppViewController: AppViewControllerProtocol {
                     paywallTransitionSource: data.paywallTransitionSource
                 )
             )
+        case .studyPlanWithStep(let data):
+            router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
+        case .welcomeOnboarding(let data):
+            Task(priority: .userInitiated) {
+                let currentAuthorizationStatus = await NotificationPermissionStatus.current
+
+                await MainActor.run {
+                    let params = WelcomeOnboardingFeatureParams(
+                        profile: data.profile,
+                        isNotificationPermissionGranted: currentAuthorizationStatus.isRegistered
+                    )
+                    router.route(.welcomeOnboarding(params: params, moduleOutput: viewModel))
+                }
+            }
         }
     }
 
@@ -198,24 +210,6 @@ extension AppViewController: AppViewControllerProtocol {
 
         DispatchQueue.main.async {
             route()
-        }
-    }
-
-    private func handleWelcomeOnboardingViewAction(
-        _ viewAction: WelcomeOnboardingFeatureActionViewActionKs
-    ) {
-        switch viewAction {
-        case .navigateTo(let navigateToViewAction):
-            switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-            case .firstProblemOnboardingScreen(let data):
-                router.route(.firstProblemOnboarding(isNewUserMode: data.isNewUserMode, moduleOutput: viewModel))
-            case .notificationOnboardingScreen:
-                router.route(.notificationOnboarding(moduleOutput: viewModel))
-            case .studyPlanWithStep(let data):
-                router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
-            case .usersQuestionnaireOnboardingScreen:
-                router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
-            }
         }
     }
 }

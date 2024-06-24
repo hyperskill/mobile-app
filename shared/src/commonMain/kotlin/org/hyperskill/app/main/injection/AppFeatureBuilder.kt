@@ -22,8 +22,6 @@ import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispa
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -45,8 +43,6 @@ internal object AppFeatureBuilder {
         notificationClickHandlingActionDispatcher: NotificationClickHandlingActionDispatcher,
         notificationsInteractor: NotificationInteractor,
         pushNotificationsInteractor: PushNotificationsInteractor,
-        welcomeOnboardingReducer: WelcomeOnboardingReducer,
-        welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher,
         purchaseInteractor: PurchaseInteractor,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         subscriptionsInteractor: SubscriptionsInteractor,
@@ -55,8 +51,7 @@ internal object AppFeatureBuilder {
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer(
             streakRecoveryReducer = streakRecoveryReducer,
-            notificationClickHandlingReducer = clickedNotificationReducer,
-            welcomeOnboardingReducer = welcomeOnboardingReducer
+            notificationClickHandlingReducer = clickedNotificationReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val appActionDispatcher = AppActionDispatcher(
@@ -85,12 +80,6 @@ internal object AppFeatureBuilder {
                 notificationClickHandlingActionDispatcher.transform(
                     transformAction = { it.safeCast<Action.ClickedNotificationAction>()?.action },
                     transformMessage = Message::NotificationClickHandlingMessage
-                )
-            )
-            .wrapWithActionDispatcher(
-                welcomeOnboardingActionDispatcher.transform(
-                    transformAction = { it.safeCast<Action.WelcomeOnboardingAction>()?.action },
-                    transformMessage = Message::WelcomeOnboardingMessage
                 )
             )
     }

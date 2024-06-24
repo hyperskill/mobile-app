@@ -38,9 +38,9 @@ struct AuthSocialButton: View {
                         ,
                         alignment: .init(horizontal: .leading, vertical: .center)
                     )
+                    .addBorder(color: Color(appearance.borderColor), cornerRadius: appearance.cornerRadius)
             }
         )
-        .addBorder(color: Color(appearance.borderColor), cornerRadius: appearance.cornerRadius)
         .buttonStyle(BounceButtonStyle())
     }
 }
