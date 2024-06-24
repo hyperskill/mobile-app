@@ -20,6 +20,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.hyperskill.app.android.R
 import org.hyperskill.app.R as SharedR
@@ -47,6 +48,7 @@ fun ScreenDataLoadingError(
                 text = errorMessage,
                 style = MaterialTheme.typography.body1,
                 color = colorResource(id = SharedR.color.color_on_background),
+                textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_placeholders)))
