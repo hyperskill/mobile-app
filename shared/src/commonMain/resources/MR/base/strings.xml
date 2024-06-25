@@ -486,13 +486,6 @@
     <string name="onboarding_display_debug_screen">Display debug screen</string>
 
     <!--Notifications onboarding-->
-    <string name="notifications_onboarding_title_new">Choose a time for your daily practice and we\'ll remind you to
-        stay on course
-    </string>
-    <string name="notifications_onboarding_daily_study_reminders_interval_prefix">Set time</string>
-    <string name="notifications_onboarding_button_allow">Allow notifications</string>
-    <string name="notifications_onboarding_button_not_now">Not now</string>
-
     <string name="notifications_onboarding_set_later_btn">Set later</string>
     <string name="notifications_onboarding_title">Build a habit with reminders</string>
     <string name="notifications_onboarding_set_time_text">Set time:</string>

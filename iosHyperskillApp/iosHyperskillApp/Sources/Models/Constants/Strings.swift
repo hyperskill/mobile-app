@@ -519,13 +519,14 @@ enum Strings {
     // MARK: - NotificationsOnboarding -
 
     enum NotificationsOnboarding {
-        static let title = sharedStrings.notifications_onboarding_title_new.localized()
+        static let title = sharedStrings.notifications_onboarding_title.localized()
 
-        static let dailyStudyRemindersIntervalPrefix =
-          sharedStrings.notifications_onboarding_daily_study_reminders_interval_prefix.localized()
+        static let dailyStudyRemindersIntervalPrefix = sharedStrings.notifications_onboarding_set_time_text.localized()
+        static let dailyStudyRemindersIntervalDescription =
+            sharedStrings.notifications_onboarding_set_later_description.localized()
 
-        static let buttonPrimary = sharedStrings.notifications_onboarding_button_allow.localized()
-        static let buttonSecondary = sharedStrings.notifications_onboarding_button_not_now.localized()
+        static let buttonPrimary = sharedStrings.notifications_onboarding_turn_on_btn.localized()
+        static let buttonSecondary = sharedStrings.notifications_onboarding_set_later_btn.localized()
     }
 
     // MARK: - FirstProblemOnboarding -
