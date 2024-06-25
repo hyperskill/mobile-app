@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -65,6 +66,7 @@ class TopicsRepetitionFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyWindowInsets()
         viewBinding.topicsRepetitionToolbar.setNavigationOnClickListener {
             requireRouter().exit()
         }
@@ -90,15 +92,30 @@ class TopicsRepetitionFragment :
         topicsRepetitionViewModel.onNewMessage(TopicsRepetitionsFeature.Message.ViewedEventMessage)
     }
 
+    private fun applyWindowInsets() {
+        viewBinding.topicsRepetitionToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.topicsRepetitionContentContainer.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
+        viewBinding.topicsRepetitionError.root.applyInsetter {
+            type(statusBars = true, navigationBars = true) {
+                padding()
+            }
+        }
+    }
+
     private fun initViewStateDelegate() {
         viewStateDelegate = ViewStateDelegate<TopicsRepetitionsFeature.State>().apply {
             addState<TopicsRepetitionsFeature.State.Idle>(viewBinding.topicsRepetitionSkeleton.root)
             addState<TopicsRepetitionsFeature.State.Loading>(viewBinding.topicsRepetitionSkeleton.root)
             addState<TopicsRepetitionsFeature.State.NetworkError>(viewBinding.topicsRepetitionError.root)
-            addState<TopicsRepetitionsFeature.State.Content>(
-                viewBinding.topicsRepetitionAppBar,
-                viewBinding.topicsRepetitionContentNestedScroll
-            )
+            addState<TopicsRepetitionsFeature.State.Content>(viewBinding.topicsRepetitionContentNestedScroll)
         }
     }
 
