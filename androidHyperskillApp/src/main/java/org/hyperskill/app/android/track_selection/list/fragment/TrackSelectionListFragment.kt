@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
@@ -63,7 +64,7 @@ class TrackSelectionListFragment : Fragment(R.layout.fragment_track_selection_li
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         trackSelectionListViewModel.onNewMessage(TrackSelectionListFeature.Message.ViewedEventMessage)
-
+        applyWindowInsets()
         trackSelectionListDelegate = TrackSelectionListDelegate(
             context = requireContext(),
             recyclerView = viewBinding.trackSelectionListRecyclerView,
@@ -88,6 +89,24 @@ class TrackSelectionListFragment : Fragment(R.layout.fragment_track_selection_li
         }
         viewBinding.trackSelectionListError.tryAgain.setOnClickListener {
             trackSelectionListViewModel.onNewMessage(TrackSelectionListFeature.Message.RetryContentLoading)
+        }
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.trackSelectionListToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.trackSelectionListRecyclerView.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
+        viewBinding.trackSelectionListError.root.applyInsetter {
+            type(navigationBars = true) {
+                padding(true)
+            }
         }
     }
 

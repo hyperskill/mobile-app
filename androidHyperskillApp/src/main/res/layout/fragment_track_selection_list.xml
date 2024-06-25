@@ -29,6 +29,7 @@
         android:layout_height="match_parent"
         android:background="@color/color_background"
         android:visibility="gone"
+        android:clipToPadding="false"
         />
 
     <include

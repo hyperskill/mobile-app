@@ -104,7 +104,7 @@ class TopicsRepetitionFragment :
             }
         }
         viewBinding.topicsRepetitionError.root.applyInsetter {
-            type(statusBars = true, navigationBars = true) {
+            type(navigationBars = true) {
                 padding()
             }
         }
