@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
@@ -120,6 +121,8 @@ abstract class DefaultStepQuizFragment :
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        applyWindowInsets()
+
         val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
         viewBinding.root.addView(stepView)
 
@@ -151,6 +154,14 @@ abstract class DefaultStepQuizFragment :
         }
 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.stepQuizButtons.root.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
     }
 
     private fun renderStatistics(textView: TextView, step: Step) {

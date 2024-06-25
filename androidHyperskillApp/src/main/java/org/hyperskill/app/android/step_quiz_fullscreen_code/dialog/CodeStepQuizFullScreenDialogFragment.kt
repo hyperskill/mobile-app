@@ -278,7 +278,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private fun setupCodeEditorKeyboardExtension() {
         CodeEditorKeyboardExtensionUtil.setupKeyboardExtension(
             context = requireContext(),
-            rootView = viewBinding.coordinator,
+            window = requireActivity().window,
             recyclerView = viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtensionRecycler,
             codeLayout = codeLayout,
             codeToolbarAdapter = requireNotNull(codeToolbarAdapter),

@@ -2,13 +2,17 @@ package org.hyperskill.app.android.code.util
 
 import android.content.Context
 import android.view.View
+import android.view.Window
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
-import org.hyperskill.app.android.view.base.ui.extension.setOnKeyboardOpenListener
+import org.hyperskill.app.android.core.extensions.doOnApplyWindowInsets
 
 object CodeEditorKeyboardExtensionUtil {
 
@@ -24,8 +28,8 @@ object CodeEditorKeyboardExtensionUtil {
     }
 
     fun setupKeyboardExtension(
+        window: Window,
         context: Context,
-        rootView: View,
         recyclerView: RecyclerView,
         codeLayout: CodeEditorLayout,
         codeToolbarAdapter: CodeToolbarAdapter,
@@ -46,42 +50,34 @@ object CodeEditorKeyboardExtensionUtil {
 
         setupRecycler(context, recyclerView, codeToolbarAdapter)
 
-        // Flag is necessary,
-        // because keyboard listener is constantly invoked
-        // (probably global layout listener reacts to view changes)
-        var keyboardShown = false
-
-        setOnKeyboardOpenListener(
-            rootView,
-            onKeyboardHidden = {
-                if (keyboardShown) {
-                    recyclerView.isInvisible = true
-                    codeLayout.isNestedScrollingEnabled = true
-                    codeEditorKeyboardListener?.onCodeEditorKeyboardStateChanged(
-                        isKeyboardShown = false,
-                        toolbarHeight = 0
-                    )
-                    keyboardShown = false
+        window.decorView.doOnApplyWindowInsets(Insetter.CONSUME_NONE) { _, insets, _ ->
+            if (insets.isVisible(WindowInsetsCompat.Type.ime())) {
+                if (isToolbarEnabled()) {
+                    recyclerView.isInvisible = false
                 }
-            },
-            onKeyboardShown = {
-                if (!keyboardShown) {
-                    if (isToolbarEnabled()) {
-                        recyclerView.isInvisible = false
-                    }
-                    codeLayout.isNestedScrollingEnabled = false
-                    codeEditorKeyboardListener?.onCodeEditorKeyboardStateChanged(
-                        isKeyboardShown = true,
-                        toolbarHeight = recyclerView.height
-                    )
-                    keyboardShown = true
-                }
+                codeLayout.isNestedScrollingEnabled = false
+                codeEditorKeyboardListener?.onCodeEditorKeyboardStateChanged(
+                    isKeyboardShown = true,
+                    toolbarHeight = recyclerView.height
+                )
+            } else {
+                recyclerView.isInvisible = true
+                codeLayout.isNestedScrollingEnabled = true
+                codeEditorKeyboardListener?.onCodeEditorKeyboardStateChanged(
+                    isKeyboardShown = false,
+                    toolbarHeight = 0
+                )
             }
-        )
+        }
     }
 
     private fun setupRecycler(context: Context, recyclerView: RecyclerView, codeToolbarAdapter: CodeToolbarAdapter) {
         with(recyclerView) {
+            applyInsetter {
+                type(ime = true) {
+                    margin(animated = true)
+                }
+            }
             adapter = codeToolbarAdapter
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

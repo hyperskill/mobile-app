@@ -84,7 +84,7 @@ class CodeStepQuizFragment :
 
         CodeEditorKeyboardExtensionUtil.setupKeyboardExtension(
             context = requireContext(),
-            rootView = parentFragmentViewGroup,
+            window = requireActivity().window,
             recyclerView = extensionRecycler,
             codeLayout = viewBinding.stepQuizCodeEmbeddedEditor.codeStepLayout,
             codeToolbarAdapter = requireNotNull(codeToolbarAdapter),
