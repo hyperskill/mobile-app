@@ -2,6 +2,7 @@ import SwiftUI
 
 extension NotificationsOnboardingContentView {
     struct Appearance {
+        let spacing = LayoutInsets.defaultInset
         let interitemSpacing = LayoutInsets.smallInset
 
         let illustrationHeight: CGFloat = 230
@@ -34,14 +35,22 @@ struct NotificationsOnboardingContentView: View {
                     if horizontalSizeClass == .compact {
                         Spacer()
                     }
-                    header
-                        .padding(.vertical)
+
+                    Text(Strings.NotificationsOnboarding.title)
+                        .font(.title).bold()
+                        .foregroundColor(.newPrimaryText)
+                        .multilineTextAlignment(.center)
+
                     if horizontalSizeClass == .compact {
                         Spacer()
                     }
 
                     illustration
                         .padding(.vertical)
+
+                    dailyStudyRemindersInterval
+                        .padding(.vertical)
+
                     if horizontalSizeClass == .compact {
                         Spacer()
                     }
@@ -59,31 +68,6 @@ struct NotificationsOnboardingContentView: View {
         }
     }
 
-    @MainActor private var header: some View {
-        VStack(alignment: .center, spacing: appearance.interitemSpacing) {
-            Text(Strings.NotificationsOnboarding.title)
-                .font(.title)
-                .foregroundColor(.newPrimaryText)
-
-            HStack {
-                Text(Strings.NotificationsOnboarding.dailyStudyRemindersIntervalPrefix)
-                    .font(.body)
-                    .foregroundColor(.newPrimaryText)
-
-                Button(
-                    formattedDailyStudyRemindersInterval,
-                    action: {
-                        actionButtonsFeedbackGenerator.triggerFeedback()
-                        onDailyStudyRemindsIntervalButtonTap()
-                    }
-                )
-                .buttonStyle(GhostButtonStyle(maxWidth: nil))
-                .animation(.default, value: formattedDailyStudyRemindersInterval)
-            }
-        }
-        .multilineTextAlignment(.center)
-    }
-
     private var illustration: some View {
         Image(.notificationsOnboardingIllustration)
             .renderingMode(.original)
@@ -91,6 +75,37 @@ struct NotificationsOnboardingContentView: View {
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: .infinity)
             .frame(maxHeight: appearance.illustrationHeight)
+    }
+
+    @MainActor private var dailyStudyRemindersInterval: some View {
+        VStack(spacing: appearance.spacing) {
+            Button(
+                action: {
+                    actionButtonsFeedbackGenerator.triggerFeedback()
+                    onDailyStudyRemindsIntervalButtonTap()
+                },
+                label: {
+                    HStack {
+                        Text(Strings.NotificationsOnboarding.dailyStudyRemindersIntervalPrefix)
+                            .foregroundColor(.newPrimaryText)
+
+                        Text(formattedDailyStudyRemindersInterval)
+                            .foregroundColor(Color(ColorPalette.newButtonPrimary))
+                            .animation(.default, value: formattedDailyStudyRemindersInterval)
+                    }
+                    .font(.headline)
+                    .padding()
+                    .background(Color.systemSecondaryGroupedBackground)
+                    .clipShape(Capsule())
+                }
+            )
+            .buttonStyle(BounceButtonStyle())
+
+            Text(Strings.NotificationsOnboarding.dailyStudyRemindersIntervalDescription)
+                .font(.footnote)
+                .foregroundColor(.newSecondaryText)
+                .multilineTextAlignment(.center)
+        }
     }
 
     @MainActor private var actionButtons: some View {
@@ -117,22 +132,14 @@ struct NotificationsOnboardingContentView: View {
     }
 }
 
-struct NotificationsOnboardingContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        NotificationsOnboardingContentView(
-            formattedDailyStudyRemindersInterval: "12:00 – 13:00",
-            onDailyStudyRemindsIntervalButtonTap: {},
-            onPrimaryButtonTap: {},
-            onSecondaryButtonTap: {}
-        )
-        .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
-
-        NotificationsOnboardingContentView(
-            formattedDailyStudyRemindersInterval: "12:00 – 13:00",
-            onDailyStudyRemindsIntervalButtonTap: {},
-            onPrimaryButtonTap: {},
-            onSecondaryButtonTap: {}
-        )
-        .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
-    }
+#if DEBUG
+#Preview {
+    NotificationsOnboardingContentView(
+        formattedDailyStudyRemindersInterval: "12:00",
+        onDailyStudyRemindsIntervalButtonTap: {},
+        onPrimaryButtonTap: {},
+        onSecondaryButtonTap: {}
+    )
+    .background(Color.systemGroupedBackground)
 }
+#endif
