@@ -1,6 +1,7 @@
 import Foundation
 import IQKeyboardManagerSwift
 
+@MainActor
 enum KeyboardManager {
     static let defaultKeyboardDistanceFromTextField: CGFloat = 24
 
