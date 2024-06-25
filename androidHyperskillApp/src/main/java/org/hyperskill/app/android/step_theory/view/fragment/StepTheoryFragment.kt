@@ -2,12 +2,14 @@ package org.hyperskill.app.android.step_theory.view.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.graphics.Insets
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
 import androidx.core.view.marginBottom
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -67,6 +69,8 @@ class StepTheoryFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        applyWindowInsets()
+
         parentOfType(StepToolbarHost::class.java)
             ?.renderToolbarContent(StepToolbarContentViewState.Theory(step.title))
 
@@ -75,6 +79,14 @@ class StepTheoryFragment :
         renderSecondsToComplete(step.secondsToComplete)
 
         setupStepContentFragment(step)
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.stepTheoryPracticeActionLayout.applyInsetter {
+            type(navigationBars = true) {
+                margin()
+            }
+        }
     }
 
     private fun setupStartPracticeButton(
@@ -94,13 +106,14 @@ class StepTheoryFragment :
         }
     }
 
-    private fun updateContentBottomPadding() {
+    private fun updateContentBottomPadding(insets: Insets = Insets.NONE) {
         if (isResumed) {
             val buttonHeight = with(viewBinding.stepTheoryPracticeActionLayout) {
                 height + marginBottom
             }
             val contentPadding = viewBinding.stepTheoryContentContainer.paddingBottom
-            viewBinding.stepTheoryContentContainer.updatePadding(bottom = buttonHeight + contentPadding)
+            viewBinding.stepTheoryContentContainer
+                .updatePadding(bottom = buttonHeight + contentPadding + insets.bottom)
         }
     }
 
