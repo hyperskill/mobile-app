@@ -97,9 +97,6 @@ struct StepQuizView: View {
                         }
                     }
                     .padding()
-                    .introspectScrollView { scrollView in
-                        scrollView.shouldIgnoreScrollingAdjustment = true
-                    }
                 }
                 .stepQuizToolbar(
                     state: viewModel.state,
