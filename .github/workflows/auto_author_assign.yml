@@ -12,6 +12,6 @@ jobs:
     runs-on: ubuntu-22.04
     if: ${{ !github.event.pull_request.assignee }}
     steps:
-      - uses: toshimaru/auto-author-assign@v2.1.0
+      - uses: toshimaru/auto-author-assign@v2.1.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
