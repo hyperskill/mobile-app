@@ -28,14 +28,6 @@ enum Images {
 
     enum Step {
         static let clock = "step-time-to-complete"
-
-        enum Rating {
-            static let angry = "step-rating-angry"
-            static let happy = "step-rating-happy"
-            static let inLove = "step-rating-in-love"
-            static let neutral = "step-rating-neutral"
-            static let sad = "step-rating-sad"
-        }
     }
 
     // MARK: - StepQuiz -

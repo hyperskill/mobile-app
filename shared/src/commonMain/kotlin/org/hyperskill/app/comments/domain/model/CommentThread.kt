@@ -1,4 +1,4 @@
-package org.hyperskill.app.step.domain.model
+package org.hyperskill.app.comments.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -12,5 +12,7 @@ enum class CommentThread {
     @SerialName("hint")
     HINT,
     @SerialName("useful link")
-    USEFUL_LINK
+    USEFUL_LINK,
+
+    UNKNOWN
 }
