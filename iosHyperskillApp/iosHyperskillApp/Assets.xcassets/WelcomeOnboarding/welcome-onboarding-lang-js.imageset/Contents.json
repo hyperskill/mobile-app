@@ -3,6 +3,16 @@
     {
       "filename" : "welcome-onboarding-lang-js.pdf",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "welcome-onboarding-lang-js-dark.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
