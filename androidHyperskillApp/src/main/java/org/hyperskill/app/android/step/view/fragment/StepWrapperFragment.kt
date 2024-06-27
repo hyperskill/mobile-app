@@ -90,6 +90,7 @@ class StepWrapperFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewStateDelegate()
+        applyWindowInsets()
         StepDelegate.init(
             errorBinding = viewBinding.stepError,
             lifecycle = viewLifecycleOwner.lifecycle,

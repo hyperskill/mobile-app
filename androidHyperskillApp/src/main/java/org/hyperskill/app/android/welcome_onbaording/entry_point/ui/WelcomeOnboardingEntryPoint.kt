@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.welcome_onbaording.entry_point.ui
 
-import org.hyperskill.app.R as SharedR
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +33,7 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerShotState
 import org.hyperskill.app.android.core.view.ui.widget.compose.centerWithVerticalBias
 import org.hyperskill.app.android.core.view.ui.widget.compose.shimmerShot
 import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
+import org.hyperskill.app.R as SharedR
 
 private const val ContentVerticalBias = -0.5f
 
