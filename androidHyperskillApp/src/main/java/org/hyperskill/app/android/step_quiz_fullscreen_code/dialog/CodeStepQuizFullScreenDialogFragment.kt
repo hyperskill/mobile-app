@@ -9,7 +9,6 @@ import android.view.Window
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
@@ -36,6 +35,7 @@ import org.hyperskill.app.code.domain.model.ProgrammingLanguage
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.hideKeyboard
 
 class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
@@ -170,11 +170,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
                 override fun onPageScrollStateChanged(p0: Int) {}
                 override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
                 override fun onPageSelected(p0: Int) {
-                    if (isResumed) {
-                        val window = requireDialog().window ?: return
-                        WindowInsetsControllerCompat(window, requireView())
-                            .hide(WindowInsetsCompat.Type.ime())
-                    }
+                    view?.hideKeyboard()
                 }
             }
         )
@@ -268,6 +264,12 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             syncCodeStateWithParent()
         }
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        instructionsBinding = null
+        playgroundBinding = null
+        super.onDestroyView()
     }
 
     override fun onDestroy() {
