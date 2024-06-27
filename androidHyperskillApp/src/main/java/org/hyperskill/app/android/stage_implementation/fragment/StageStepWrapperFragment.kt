@@ -7,6 +7,7 @@ import androidx.core.view.MenuHost
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
@@ -99,7 +100,7 @@ class StageStepWrapperFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        applyWindowInsets()
         viewStateDelegate = ViewStateDelegate<StepFeature.StepState>().apply {
             addState<StepFeature.StepState.Idle>()
             addState<StepFeature.StepState.Loading>(viewBinding.stageImplementationProgress)
@@ -117,6 +118,24 @@ class StageStepWrapperFragment :
             onNewMessage = stepViewModel::onNewMessage
         )
         setupMenu()
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.stageImplementationAppBar.stageImplementationToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.stageImplementationError.root.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
+        viewBinding.stagePracticeContainer.applyInsetter {
+            type(ime = true) {
+                margin()
+            }
+        }
     }
 
     private fun setupMenu() {
