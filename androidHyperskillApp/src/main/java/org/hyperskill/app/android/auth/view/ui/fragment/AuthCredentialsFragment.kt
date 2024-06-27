@@ -60,13 +60,7 @@ class AuthCredentialsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        viewBinding.authEmailFragment.applyInsetter { 
-            type(statusBars = true, navigationBars = true) {
-                padding()
-            }
-        }
-        
+        applyWindowInsets()
         initViewStateDelegate()
         viewBinding.emailEditText.inputType =
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
@@ -119,6 +113,14 @@ class AuthCredentialsFragment :
         }
 
         authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ViewedEventMessage)
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.authEmailFragment.applyInsetter {
+            type(statusBars = true, navigationBars = true) {
+                padding()
+            }
+        }
     }
 
     private fun injectComponent() {

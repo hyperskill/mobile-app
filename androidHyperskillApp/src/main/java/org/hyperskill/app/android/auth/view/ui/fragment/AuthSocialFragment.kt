@@ -133,11 +133,7 @@ class AuthSocialFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewBinding.authSocialContentContainer.applyInsetter {
-            type(statusBars = true, navigationBars = true) {
-                padding()
-            }
-        }
+        applyWindowInsets()
 
         with(viewBinding.signInWithEmailMaterialButton) {
             isVisible = !isInSignUpMode
@@ -169,6 +165,14 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
 
         authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ViewedEventMessage)
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.authSocialContentContainer.applyInsetter {
+            type(statusBars = true, navigationBars = true) {
+                padding()
+            }
+        }
     }
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {

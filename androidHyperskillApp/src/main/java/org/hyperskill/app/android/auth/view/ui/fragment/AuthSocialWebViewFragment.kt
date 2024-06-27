@@ -112,6 +112,22 @@ class AuthSocialWebViewFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        applyWindowInsets()
+        initViewStateDelegate()
+        viewBinding.centeredAppbar.centeredToolbar.centeredToolbar.apply {
+            setNavigationOnClickListener {
+                dismiss()
+            }
+            setNavigationIcon(R.drawable.ic_close)
+        }
+        authSocialWebViewViewModel.onNewMessage(
+            AuthSocialWebViewFeature.Message.InitMessage(
+                SocialAuthProviderRequestURLBuilder.build(provider, networkEndpointConfigInfo)
+            )
+        )
+    }
+
+    private fun applyWindowInsets() {
         viewBinding.centeredAppbar.centeredToolbar.root.applyInsetter {
             type(statusBars = true) {
                 padding()
@@ -125,18 +141,6 @@ class AuthSocialWebViewFragment :
                 margin()
             }
         }
-        initViewStateDelegate()
-        viewBinding.centeredAppbar.centeredToolbar.centeredToolbar.apply {
-            setNavigationOnClickListener {
-                dismiss()
-            }
-            setNavigationIcon(R.drawable.ic_close)
-        }
-        authSocialWebViewViewModel.onNewMessage(
-            AuthSocialWebViewFeature.Message.InitMessage(
-                SocialAuthProviderRequestURLBuilder.build(provider, networkEndpointConfigInfo)
-            )
-        )
     }
 
     override fun onDestroyView() {
