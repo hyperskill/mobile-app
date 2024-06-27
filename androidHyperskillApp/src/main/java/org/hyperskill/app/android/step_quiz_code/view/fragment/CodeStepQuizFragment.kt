@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.util.CodeEditorKeyboardExtensionUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
@@ -82,9 +83,15 @@ class CodeStepQuizFragment :
         val extensionRecycler =
             parentFragmentViewGroup.findViewById<RecyclerView>(R.id.stepQuizCodeKeyboardExtensionRecycler)
 
+        extensionRecycler.applyInsetter {
+            type(ime = true) {
+                margin()
+            }
+        }
+
         CodeEditorKeyboardExtensionUtil.setupKeyboardExtension(
             context = requireContext(),
-            window = requireActivity().window,
+            rootView = viewBinding.root,
             recyclerView = extensionRecycler,
             codeLayout = viewBinding.stepQuizCodeEmbeddedEditor.codeStepLayout,
             codeToolbarAdapter = requireNotNull(codeToolbarAdapter),
@@ -93,7 +100,7 @@ class CodeStepQuizFragment :
                     StepQuizFeature.Message.CodeEditorClickedInputAccessoryButtonEventMessage(symbol)
                 )
             },
-            codeEditorKeyboardListener = { isKeyboardShown, toolbarHeight ->
+            codeEditorKeyboardListener = { isKeyboardShown, _, toolbarHeight ->
                 if (isResumed) {
                     onKeyboardStateChanged(isKeyboardShown)
                     viewBinding.root.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -152,8 +159,8 @@ class CodeStepQuizFragment :
             codeLayout = binding.stepQuizCodeEmbeddedEditor.codeStepLayout,
             config = config,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
-                binding.codeStepSamples.root,
-                true,
+                binding = binding.codeStepSamples,
+                isCollapsible = true,
                 onDetailsIsExpandedStateChanged = {
                     logAnalyticEventMessage(StepQuizFeature.Message.ClickedCodeDetailsEventMessage)
                 }

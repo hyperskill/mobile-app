@@ -2,7 +2,6 @@ package org.hyperskill.app.android.step_theory.view.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.graphics.Insets
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
 import androidx.core.view.marginBottom
@@ -106,14 +105,14 @@ class StepTheoryFragment :
         }
     }
 
-    private fun updateContentBottomPadding(insets: Insets = Insets.NONE) {
+    private fun updateContentBottomPadding() {
         if (isResumed) {
             val buttonHeight = with(viewBinding.stepTheoryPracticeActionLayout) {
                 height + marginBottom
             }
-            val contentPadding = viewBinding.stepTheoryContentContainer.paddingBottom
+            val contentPadding = requireContext().resources.getDimensionPixelOffset(R.dimen.step_content_padding)
             viewBinding.stepTheoryContentContainer
-                .updatePadding(bottom = buttonHeight + contentPadding + insets.bottom)
+                .updatePadding(bottom = buttonHeight + contentPadding)
         }
     }
 

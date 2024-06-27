@@ -2,13 +2,11 @@ package org.hyperskill.app.android.code.util
 
 import android.content.Context
 import android.view.View
-import android.view.Window
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.chrisbanes.insetter.Insetter
-import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
@@ -19,6 +17,7 @@ object CodeEditorKeyboardExtensionUtil {
     fun interface CodeEditorKeyboardListener {
         fun onCodeEditorKeyboardStateChanged(
             isKeyboardShown: Boolean,
+            insets: WindowInsetsCompat,
             toolbarHeight: Int
         )
     }
@@ -28,7 +27,7 @@ object CodeEditorKeyboardExtensionUtil {
     }
 
     fun setupKeyboardExtension(
-        window: Window,
+        rootView: View,
         context: Context,
         recyclerView: RecyclerView,
         codeLayout: CodeEditorLayout,
@@ -50,14 +49,16 @@ object CodeEditorKeyboardExtensionUtil {
 
         setupRecycler(context, recyclerView, codeToolbarAdapter)
 
-        window.decorView.doOnApplyWindowInsets(Insetter.CONSUME_NONE) { _, insets, _ ->
-            if (insets.isVisible(WindowInsetsCompat.Type.ime())) {
+        rootView.doOnApplyWindowInsets(Insetter.CONSUME_NONE) { _, insets, _ ->
+            val imeInsetsType = WindowInsetsCompat.Type.ime()
+            if (insets.isVisible(imeInsetsType)) {
                 if (isToolbarEnabled()) {
                     recyclerView.isInvisible = false
                 }
                 codeLayout.isNestedScrollingEnabled = false
                 codeEditorKeyboardListener?.onCodeEditorKeyboardStateChanged(
                     isKeyboardShown = true,
+                    insets = insets,
                     toolbarHeight = recyclerView.height
                 )
             } else {
@@ -65,6 +66,7 @@ object CodeEditorKeyboardExtensionUtil {
                 codeLayout.isNestedScrollingEnabled = true
                 codeEditorKeyboardListener?.onCodeEditorKeyboardStateChanged(
                     isKeyboardShown = false,
+                    insets = insets,
                     toolbarHeight = 0
                 )
             }
@@ -73,11 +75,6 @@ object CodeEditorKeyboardExtensionUtil {
 
     private fun setupRecycler(context: Context, recyclerView: RecyclerView, codeToolbarAdapter: CodeToolbarAdapter) {
         with(recyclerView) {
-            applyInsetter {
-                type(ime = true) {
-                    margin(animated = true)
-                }
-            }
             adapter = codeToolbarAdapter
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
