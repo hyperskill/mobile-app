@@ -1,5 +1,6 @@
 import UIKit
 
+@MainActor
 enum AppAppearance {
     static func themeApplication(window: UIWindow) {
         window.tintColor = ColorPalette.primary
