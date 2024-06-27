@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,7 +49,11 @@ fun TopicCompleted(
         enterTransitionState.targetState = true
     }
     val shimmerState = remember { ShimmerShotState() }
-    Column(modifier.padding(vertical = TopicCompletedDefaults.CONTENT_VERTICAL_PADDING)) {
+    Column(
+        modifier
+            .padding(vertical = TopicCompletedDefaults.CONTENT_VERTICAL_PADDING)
+            .safeDrawingPadding()
+    ) {
         TopicCompletedCloseButton(
             onClick = onCloseClick,
             modifier = Modifier
