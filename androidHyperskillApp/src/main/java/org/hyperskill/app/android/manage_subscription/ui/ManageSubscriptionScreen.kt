@@ -66,7 +66,6 @@ fun ManageSubscriptionScreen(
                 .fillMaxSize()
                 .consumeWindowInsets(WindowInsets.statusBars)
         ) {
-            val insets = WindowInsets.safeDrawing
             when (viewState) {
                 ViewState.Idle -> {
                     // no op
@@ -79,7 +78,7 @@ fun ManageSubscriptionScreen(
                 ViewState.Error -> {
                     ScreenDataLoadingError(
                         errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
-                        modifier = Modifier.windowInsetsPadding(insets)
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
                     ) {
                         onRetryLoadingClick()
                     }

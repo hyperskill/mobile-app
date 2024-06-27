@@ -71,16 +71,7 @@ class ProjectSelectionListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         projectSelectionListViewModel.onNewMessage(Message.ViewedEventMessage)
 
-        viewBinding.projectSelectionListToolbar.applyInsetter {
-            type(statusBars = true) {
-                padding()
-            }
-        }
-        viewBinding.projectSelectionListRecyclerView.applyInsetter {
-            type(navigationBars = true) {
-                padding()
-            }
-        }
+        applyWindowInsets()
 
         viewStateDelegate = ViewStateDelegate<ViewState>().apply {
             addState<ViewState.Idle>()
@@ -106,6 +97,19 @@ class ProjectSelectionListFragment :
         }
         viewBinding.projectSelectionListError.tryAgain.setOnClickListener {
             projectSelectionListViewModel.onNewMessage(Message.RetryContentLoading)
+        }
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.projectSelectionListToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.projectSelectionListRecyclerView.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
         }
     }
 

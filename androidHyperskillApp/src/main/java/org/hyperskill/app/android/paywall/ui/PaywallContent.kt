@@ -45,13 +45,12 @@ fun PaywallContent(
     modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues()
 ) {
-    val insets = WindowInsets.safeDrawing
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(PaywallDefaults.BackgroundColor)
             .padding(PaywallDefaults.ContentPadding + padding)
-            .windowInsetsPadding(insets)
+            .windowInsetsPadding(WindowInsets.safeDrawing)
     ) {
         Column(
             modifier = Modifier.weight(1f)

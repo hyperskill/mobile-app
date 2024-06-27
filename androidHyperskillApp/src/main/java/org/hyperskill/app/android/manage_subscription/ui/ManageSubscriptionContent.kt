@@ -40,13 +40,12 @@ fun ManageSubscriptionContent(
     modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues()
 ) {
-    val insets = WindowInsets.safeDrawing
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.layer_1))
             .padding(ManageSubscriptionDefaults.ContentPadding + padding)
-            .windowInsetsPadding(insets)
+            .windowInsetsPadding(WindowInsets.safeDrawing)
             .verticalScroll(rememberScrollState())
     ) {
         Column(

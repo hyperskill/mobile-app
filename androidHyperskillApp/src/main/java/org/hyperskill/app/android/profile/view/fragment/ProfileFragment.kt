@@ -124,7 +124,7 @@ class ProfileFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        handleWindowInsets()
+        applyWindowInsets()
         initViewStateDelegate()
         initToolbar()
         AboutMeDelegate.setup(viewBinding.profileAboutMeLayout, profileViewModel::onNewMessage)
@@ -181,7 +181,7 @@ class ProfileFragment :
         profileViewModel.onNewMessage(ProfileFeature.Message.ViewedEventMessage)
     }
 
-    private fun handleWindowInsets() {
+    private fun applyWindowInsets() {
         viewBinding.root.doOnApplyWindowInsets { _, insets, _ ->
             val insetTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
 

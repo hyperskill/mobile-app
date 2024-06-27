@@ -62,16 +62,7 @@ class ProjectSelectionDetailsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         projectSelectionDetailsViewModel.onNewMessage(Message.ViewedEventMessage)
 
-        viewBinding.projectSelectionDetailsToolbar.applyInsetter {
-            type(statusBars = true) {
-                padding()
-            }
-        }
-        viewBinding.root.applyInsetter {
-            type(navigationBars = true) {
-                padding()
-            }
-        }
+        applyWindowInsets()
 
         setupViewStateDelegate()
         viewBinding.projectSelectionDetailsToolbar.setNavigationOnClickListener {
@@ -82,6 +73,19 @@ class ProjectSelectionDetailsFragment :
         }
         viewBinding.projectSelectionDetailsError.tryAgain.setOnClickListener {
             projectSelectionDetailsViewModel.onNewMessage(Message.RetryContentLoading)
+        }
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.projectSelectionDetailsToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.root.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
         }
     }
 
