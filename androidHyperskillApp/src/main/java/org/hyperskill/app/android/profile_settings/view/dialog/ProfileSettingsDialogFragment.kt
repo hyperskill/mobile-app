@@ -7,13 +7,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import co.touchlab.kermit.Logger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -72,8 +75,24 @@ class ProfileSettingsDialogFragment :
         viewModelFactory = platformProfileSettingsComponent.reduxViewModelFactory
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog
+            ?.window
+            ?.let { window ->
+                window.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                WindowCompat.setDecorFitsSystemWindows(window, false)
+                window.setWindowAnimations(R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
+            }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        applyWindowInsets()
 
         initViewStateDelegate(viewBinding)
 
@@ -204,6 +223,19 @@ class ProfileSettingsDialogFragment :
 
         profileSettingsViewModel.onNewMessage(Message.InitMessage)
         profileSettingsViewModel.onNewMessage(Message.ViewedEventMessage)
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.settingsCenteredToolbar.root.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.settingsContent.root.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
     }
 
     private fun initViewStateDelegate(viewBinding: FragmentProfileSettingsBinding) {
