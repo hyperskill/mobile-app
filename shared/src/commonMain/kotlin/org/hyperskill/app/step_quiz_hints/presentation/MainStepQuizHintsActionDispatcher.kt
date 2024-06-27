@@ -1,6 +1,6 @@
 package org.hyperskill.app.step_quiz_hints.presentation
 
-import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
+import org.hyperskill.app.comments.domain.repository.CommentsRepository
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.likes.domain.interactor.LikesInteractor
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
@@ -20,7 +20,7 @@ internal class MainStepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizHintsInteractor: StepQuizHintsInteractor,
     private val likesInteractor: LikesInteractor,
-    private val commentsInteractor: CommentsInteractor,
+    private val commentsRepository: CommentsRepository,
     private val reactionsInteractor: ReactionsInteractor,
     private val userStorageInteractor: UserStorageInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
@@ -116,7 +116,7 @@ internal class MainStepQuizHintsActionDispatcher(
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsFetchNextHint()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                commentsInteractor
+                commentsRepository
                     .getComment(action.nextHintId)
                     .onSuccess {
                         onNewMessage(

@@ -384,4 +384,13 @@ object HyperskillSentryTransactionBuilder {
             name = "paywall-feature-fetch-subscription-price",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * CommentsScreenFeature
+     */
+    fun buildCommentsScreenFeatureFetchDiscussions(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "comments-screen-feature-fetch-discussions",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }
