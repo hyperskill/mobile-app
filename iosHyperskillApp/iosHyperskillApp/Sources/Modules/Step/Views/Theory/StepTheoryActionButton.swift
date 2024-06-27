@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StepActionButton: View {
+struct StepTheoryActionButton: View {
     let title: String
 
     let style: Style
@@ -19,6 +19,7 @@ struct StepActionButton: View {
                 alignment: .init(horizontal: .leading, vertical: .center)
             )
             .disabled(isLoading)
+            .animation(.default, value: isLoading)
 
         switch style {
         case .greenOutline:
@@ -40,24 +41,25 @@ struct StepActionButton: View {
     }
 }
 
-struct StepActionButton_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            VStack {
-                StepActionButton(title: "Start practicing", style: .greenOutline)
-                StepActionButton(title: "Start practicing", style: .greenFilled)
-                StepActionButton(title: "Start practicing", style: .violetFilled)
-                StepActionButton(title: "Start practicing", style: .violetFilled, isLoading: true)
-                StepActionButton(title: "Comments (0)", style: .violetOutline)
-            }
-
-            VStack {
-                StepActionButton(title: "Start practicing", style: .greenOutline)
-                StepActionButton(title: "Start practicing", style: .greenFilled)
-                StepActionButton(title: "Comments (0)", style: .violetOutline)
-            }
-            .preferredColorScheme(.dark)
-        }
-        .padding()
+#if DEBUG
+#Preview("Light") {
+    VStack {
+        StepTheoryActionButton(title: "Start practicing", style: .greenOutline)
+        StepTheoryActionButton(title: "Start practicing", style: .greenFilled)
+        StepTheoryActionButton(title: "Start practicing", style: .violetFilled)
+        StepTheoryActionButton(title: "Start practicing", style: .violetFilled, isLoading: true)
+        StepTheoryActionButton(title: "Comments (0)", style: .violetOutline)
     }
+    .padding()
 }
+
+#Preview("Dark") {
+    VStack {
+        StepTheoryActionButton(title: "Start practicing", style: .greenOutline)
+        StepTheoryActionButton(title: "Start practicing", style: .greenFilled)
+        StepTheoryActionButton(title: "Comments (0)", style: .violetOutline)
+    }
+    .preferredColorScheme(.dark)
+    .padding()
+}
+#endif

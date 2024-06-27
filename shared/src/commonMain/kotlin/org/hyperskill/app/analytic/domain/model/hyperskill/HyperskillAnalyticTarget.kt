@@ -118,7 +118,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     REQUEST_REVIEW_MODAL("request_review_modal"),
     WRITE_A_REQUEST("write_a_request"),
     MAYBE_LATER("maybe_later"),
-    CHOICE("choice"),
     SOLVE_ON_THE_WEB_VERSION("solve_on_the_web_version"),
     ACTIVE_SUBSCRIPTION_DETAILS("active_subscription_details"),
     SUBSCRIPTION_SUGGESTION_DETAILS("subscription_suggestion_details"),
@@ -132,6 +131,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SPACEBOT("spacebot"),
     SCREENSHOT("screenshot"),
     OPEN_IN_WEB("open_in_web"),
+    COMMENT("comment"),
     START_MY_JOURNEY("start_my_journey"),
     QUESTIONNAIRE_ITEM("questionnaire_item"),
     PROGRAMMING_LANGUAGE("programming_language")

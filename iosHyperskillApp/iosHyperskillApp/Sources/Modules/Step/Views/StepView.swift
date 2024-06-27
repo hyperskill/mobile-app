@@ -19,12 +19,7 @@ struct StepView: View {
                 .animation(.default, value: viewModel.state)
 
             let _ = renderStepToolbarViewState(viewModel.stepToolbarViewStateKs)
-
-            if viewModel.state.isLoadingShowed {
-                let _ = ProgressHUD.show()
-            } else {
-                let _ = ProgressHUD.dismissWithDelay()
-            }
+            let _ = handleLoadingIndicatorVisibility(isVisible: viewModel.state.isLoadingShowed)
         }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
@@ -39,12 +34,12 @@ struct StepView: View {
         .environmentObject(stackRouter)
         .environmentObject(modalRouter)
         .stepToolbar(
-            stepState: viewModel.state.stepState,
-            stepMenuActions: viewModel.state.stepMenuActions,
-            onShareButtonTap: viewModel.doShareMenuAction,
-            onReportButtonTap: viewModel.doReportMenuAction,
-            onSkipButtonTap: viewModel.doSkipMenuAction,
-            onOpenInWebButtonTap: viewModel.doOpenInWebMenuAction
+            state: viewModel.state,
+            onCommentButtonTap: viewModel.doCommentToolbarAction,
+            onShareButtonTap: viewModel.doShareToolbarMenuAction,
+            onReportButtonTap: viewModel.doReportToolbarMenuAction,
+            onSkipButtonTap: viewModel.doSkipToolbarMenuAction,
+            onOpenInWebButtonTap: viewModel.doOpenInWebToolbarMenuAction
         )
     }
 
@@ -116,7 +111,19 @@ struct StepView: View {
         }
     }
 
-    private func handleViewAction(_ viewAction: StepFeatureActionViewAction) {
+    private func handleLoadingIndicatorVisibility(isVisible: Bool) {
+        if isVisible {
+            ProgressHUD.show()
+        } else {
+            ProgressHUD.dismissWithDelay()
+        }
+    }
+}
+
+// MARK: - StepView (ViewAction) -
+
+private extension StepView {
+    func handleViewAction(_ viewAction: StepFeatureActionViewAction) {
         switch StepFeatureActionViewActionKs(viewAction) {
         case .stepCompletionViewAction(let stepCompletionViewAction):
             handleStepCompletionViewAction(stepCompletionViewAction.viewAction)
@@ -147,10 +154,12 @@ struct StepView: View {
             modalRouter.present(module: assembly.makeModule(), modalPresentationStyle: .automatic)
         case .showLoadingError:
             ProgressHUD.showError(status: Strings.Common.error)
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(navigateToViewAction)
         }
     }
 
-    private func handleStepCompletionViewAction(_ viewAction: StepCompletionFeatureActionViewAction) {
+    func handleStepCompletionViewAction(_ viewAction: StepCompletionFeatureActionViewAction) {
         switch StepCompletionFeatureActionViewActionKs(viewAction) {
         case .showStartPracticingError(let showPracticingErrorStatusViewAction):
             ProgressHUD.showError(status: showPracticingErrorStatusViewAction.message)
@@ -187,7 +196,7 @@ struct StepView: View {
         }
     }
 
-    private func dismissPanModalAndNavigateBack() {
+    func dismissPanModalAndNavigateBack() {
         let isDismissed = panModalPresenter.dismissPanModal(
             animated: true,
             completion: stackRouter.popViewController
@@ -198,11 +207,18 @@ struct StepView: View {
         }
     }
 
-    private func reloadStep(stepRoute: StepRoute) {
+    func reloadStep(stepRoute: StepRoute) {
         stackRouter.replaceTopViewController(
             StepAssembly(stepRoute: stepRoute).makeModule(),
             animated: false
         )
+    }
+
+    func handleNavigateToViewAction(_ viewAction: StepFeatureActionViewActionNavigateTo) {
+        switch StepFeatureActionViewActionNavigateToKs(viewAction) {
+        case .commentsScreen(let data):
+            print(data)
+        }
     }
 }
 

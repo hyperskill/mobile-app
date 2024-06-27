@@ -25,7 +25,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
  *
  * @see HyperskillAnalyticEvent
  */
-class StepToolbarActionClickedHyperskillAnalyticEvent(
+class StepToolbarMenuActionClickedHyperskillAnalyticEvent(
     action: StepMenuAction,
     stepRoute: StepRoute,
 ) : HyperskillAnalyticEvent(
@@ -38,9 +38,5 @@ class StepToolbarActionClickedHyperskillAnalyticEvent(
         StepMenuAction.SKIP -> HyperskillAnalyticTarget.SKIP
         StepMenuAction.OPEN_IN_WEB -> HyperskillAnalyticTarget.OPEN_IN_WEB
     },
-    context = mapOf(STEP_ID_KEY to stepRoute.stepId)
-) {
-    companion object {
-        private const val STEP_ID_KEY = "step_id"
-    }
-}
+    context = mapOf(StepAnalyticParams.PARAM_STEP_ID to stepRoute.stepId)
+)

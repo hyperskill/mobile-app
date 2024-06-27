@@ -19,7 +19,7 @@ struct StepTheoryContentView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
-                StepHeaderView(timeToComplete: viewData.formattedTimeToComplete)
+                StepTheoryHeaderView(timeToComplete: viewData.formattedTimeToComplete)
                 LatexView(
                     text: viewData.text,
                     configuration: .stepText(),
@@ -44,7 +44,7 @@ extension StepTheoryContentView {
 
     @MainActor @ViewBuilder private var footer: some View {
         if let startPracticingButton, isStepTextContentLoaded {
-            StepActionButton(
+            StepTheoryActionButton(
                 title: Strings.Step.startPracticing,
                 style: .violetFilled,
                 isLoading: startPracticingButton.isLoading,

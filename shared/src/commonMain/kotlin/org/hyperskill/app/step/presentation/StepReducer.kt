@@ -1,7 +1,8 @@
 package org.hyperskill.app.step.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.step.domain.analytic.StepToolbarActionClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step.domain.analytic.StepToolbarCommentClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step.domain.analytic.StepToolbarMenuActionClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -55,6 +56,7 @@ internal class StepReducer(
                     reduceStepToolbarMessage(state.stepToolbarState, message.message)
                 state.copy(stepToolbarState = stepToolbarState) to stepToolbarActions
             }
+            Message.CommentClicked -> handleCommentClicked(state)
 
             Message.ShareClicked -> handleShareClicked(state)
             is InternalMessage.ShareLinkReady -> handleShareLinkReady(state, message)
@@ -194,11 +196,21 @@ internal class StepReducer(
             state to emptySet()
         }
 
+    private fun handleCommentClicked(state: State): ReducerResult? =
+        if (state.stepState is StepState.Data) {
+            state to setOf(
+                InternalAction.LogAnalyticEvent(StepToolbarCommentClickedHyperskillAnalyticEvent(stepRoute)),
+                Action.ViewAction.NavigateTo.CommentsScreen(state.stepState.step)
+            )
+        } else {
+            null
+        }
+
     private fun handleShareClicked(state: State): ReducerResult =
         state to setOf(
             InternalAction.CreateStepShareLink(stepRoute),
             InternalAction.LogAnalyticEvent(
-                StepToolbarActionClickedHyperskillAnalyticEvent(
+                StepToolbarMenuActionClickedHyperskillAnalyticEvent(
                     StepMenuAction.SHARE,
                     stepRoute
                 )
@@ -212,7 +224,7 @@ internal class StepReducer(
         state to setOf(
             Action.ViewAction.ShowFeedbackModal(stepRoute),
             InternalAction.LogAnalyticEvent(
-                StepToolbarActionClickedHyperskillAnalyticEvent(
+                StepToolbarMenuActionClickedHyperskillAnalyticEvent(
                     StepMenuAction.REPORT, stepRoute
                 )
             )
@@ -222,7 +234,7 @@ internal class StepReducer(
         if (!state.isLoadingShowed && state.stepState is StepState.Data) {
             state.copy(isLoadingShowed = true) to setOf(
                 InternalAction.LogAnalyticEvent(
-                    StepToolbarActionClickedHyperskillAnalyticEvent(StepMenuAction.SKIP, stepRoute)
+                    StepToolbarMenuActionClickedHyperskillAnalyticEvent(StepMenuAction.SKIP, stepRoute)
                 ),
                 InternalAction.SkipStep(stepRoute.stepId)
             )
@@ -261,7 +273,7 @@ internal class StepReducer(
         state.copy(isLoadingShowed = true) to setOf(
             InternalAction.GetMagicLink(HyperskillUrlPath.Step(stepRoute)),
             InternalAction.LogAnalyticEvent(
-                StepToolbarActionClickedHyperskillAnalyticEvent(
+                StepToolbarMenuActionClickedHyperskillAnalyticEvent(
                     StepMenuAction.OPEN_IN_WEB, stepRoute
                 )
             )

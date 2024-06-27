@@ -27,6 +27,7 @@ object StepFeature {
         val stepState: StepState,
         val stepToolbarViewState: StepToolbarFeature.ViewState,
         val stepMenuActions: Set<StepMenuAction>,
+        val isCommentsToolbarItemAvailable: Boolean,
         val isLoadingShowed: Boolean
     )
 
@@ -52,6 +53,7 @@ object StepFeature {
         object ScreenShowed : Message
         object ScreenHidden : Message
 
+        object CommentClicked : Message
         object ShareClicked : Message
         object ReportClicked : Message
         object SkipClicked : Message
@@ -88,14 +90,6 @@ object StepFeature {
 
             data class ShowFeedbackModal(val stepRoute: StepRoute) : ViewAction
 
-            data class StepCompletionViewAction(
-                val viewAction: StepCompletionFeature.Action.ViewAction
-            ) : ViewAction
-
-            data class StepToolbarViewAction(
-                val viewAction: StepToolbarFeature.Action.ViewAction
-            ) : ViewAction
-
             data class OpenUrl(val url: String) : ViewAction
 
             object ShowLoadingError : ViewAction
@@ -103,6 +97,18 @@ object StepFeature {
             data class ReloadStep(val stepRoute: StepRoute) : ViewAction
 
             object ShowCantSkipError : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                data class CommentsScreen(val step: Step) : NavigateTo
+            }
+
+            data class StepCompletionViewAction(
+                val viewAction: StepCompletionFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class StepToolbarViewAction(
+                val viewAction: StepToolbarFeature.Action.ViewAction
+            ) : ViewAction
         }
     }
 
