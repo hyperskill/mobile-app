@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "welcome-onboarding-tiktok.pdf",
+      "filename" : "welcome-onboarding-app-store-light.pdf",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "welcome-onboarding-tiktok-dark.pdf",
+      "filename" : "welcome-onboarding-app-store-dark.pdf",
       "idiom" : "universal"
     }
   ],
