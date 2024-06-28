@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
@@ -70,6 +71,8 @@ class ProjectSelectionListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         projectSelectionListViewModel.onNewMessage(Message.ViewedEventMessage)
 
+        applyWindowInsets()
+
         viewStateDelegate = ViewStateDelegate<ViewState>().apply {
             addState<ViewState.Idle>()
             addState<ViewState.Loading>(viewBinding.projectSelectionListSkeleton.root)
@@ -94,6 +97,19 @@ class ProjectSelectionListFragment :
         }
         viewBinding.projectSelectionListError.tryAgain.setOnClickListener {
             projectSelectionListViewModel.onNewMessage(Message.RetryContentLoading)
+        }
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.projectSelectionListToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.projectSelectionListRecyclerView.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
         }
     }
 
