@@ -42,9 +42,11 @@ fun HyperskillCard(
                     it
                 }
             }
-            .apply {
+            .let {
                 if (contentPadding != null) {
-                    padding(contentPadding)
+                    it.padding(contentPadding)
+                } else {
+                    it
                 }
             },
         content = content
