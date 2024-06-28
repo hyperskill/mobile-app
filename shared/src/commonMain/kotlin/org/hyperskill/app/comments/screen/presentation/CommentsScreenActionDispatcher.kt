@@ -19,6 +19,9 @@ internal class CommentsScreenActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.FetchDiscussions -> handleFetchDiscussionsAction(action, ::onNewMessage)
+            else -> {
+                // no op
+            }
         }
     }
 

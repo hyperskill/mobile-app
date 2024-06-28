@@ -1,11 +1,14 @@
 package org.hyperskill.app.comments.screen.injection
 
 import co.touchlab.kermit.Logger
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.comments.screen.domain.interactor.CommentsScreenInteractor
 import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenActionDispatcher
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Action
+import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.InternalAction
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Message
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.ViewState
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenReducer
@@ -28,6 +31,7 @@ internal object CommentsScreenFeatureBuilder {
         params: CommentsScreenFeatureParams,
         commentsScreenInteractor: CommentsScreenInteractor,
         sentryInteractor: SentryInteractor,
+        analyticInteractor: AnalyticInteractor,
         resourceProvider: ResourceProvider,
         buildVariant: BuildVariant,
         logger: Logger
@@ -42,7 +46,7 @@ internal object CommentsScreenFeatureBuilder {
         )
 
         val commentThreadTitleMapper = CommentThreadTitleMapper(resourceProvider)
-        val viewStateMapper = CommentsScreenFeatureViewStateMapper(
+        val commentsScreenViewStateMapper = CommentsScreenFeatureViewStateMapper(
             commentThreadTitleMapper = commentThreadTitleMapper,
             resourceProvider = resourceProvider
         )
@@ -52,6 +56,9 @@ internal object CommentsScreenFeatureBuilder {
             reducer = commentsScreenReducer
         )
             .wrapWithActionDispatcher(commentsScreenActionDispatcher)
-            .transformState(viewStateMapper::map)
+            .transformState(commentsScreenViewStateMapper::map)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

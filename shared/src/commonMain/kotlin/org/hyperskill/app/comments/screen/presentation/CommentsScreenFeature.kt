@@ -1,26 +1,26 @@
 package org.hyperskill.app.comments.screen.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.discussions.domain.model.Discussion
 import org.hyperskill.app.discussions.remote.model.DiscussionsResponse
+import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.core.model.PagedList
 
 object CommentsScreenFeature {
     internal data class State(
-        val stepId: Long,
+        val stepRoute: StepRoute,
         val commentStatistics: CommentStatisticsEntry,
-        val discussionsState: DiscussionsState,
-        val commentsState: CommentsState
+        val discussionsState: DiscussionsState
     )
 
     internal fun initialState(params: CommentsScreenFeatureParams) =
         State(
-            stepId = params.stepId,
+            stepRoute = params.stepRoute,
             commentStatistics = params.commentStatistics,
-            discussionsState = DiscussionsState.Idle,
-            commentsState = CommentsState()
+            discussionsState = DiscussionsState.Idle
         )
 
     internal sealed interface DiscussionsState {
@@ -29,13 +29,10 @@ object CommentsScreenFeature {
         object Error : DiscussionsState
         data class Content(
             val discussions: PagedList<Discussion>,
+            val commentsMap: Map<Long, Comment>,
             val isLoadingNextPage: Boolean
         ) : DiscussionsState
     }
-
-    internal data class CommentsState(
-        val commentsMap: Map<Long, Comment> = emptyMap()
-    )
 
     data class ViewState(
         val navigationTitle: String
@@ -60,5 +57,7 @@ object CommentsScreenFeature {
 
     internal sealed interface InternalAction : Action {
         data class FetchDiscussions(val stepId: Long, val page: Int) : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

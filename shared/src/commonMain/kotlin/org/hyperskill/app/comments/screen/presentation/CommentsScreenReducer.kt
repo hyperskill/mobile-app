@@ -1,6 +1,6 @@
 package org.hyperskill.app.comments.screen.presentation
 
-import org.hyperskill.app.comments.domain.model.Comment
+import org.hyperskill.app.comments.screen.domain.analytic.CommentsScreenClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Action
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.DiscussionsState
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.InternalAction
@@ -25,7 +25,7 @@ internal class CommentsScreenReducer : StateReducer<State, Message, Action> {
     private fun handleInitialize(state: State): CommentsScreenReducerResult? =
         if (state.discussionsState is DiscussionsState.Idle) {
             state.updateDiscussionsState(DiscussionsState.Loading) to
-                setOf(InternalAction.FetchDiscussions(stepId = state.stepId, page = 1))
+                setOf(InternalAction.FetchDiscussions(stepId = state.stepRoute.stepId, page = 1))
         } else {
             null
         }
@@ -33,7 +33,12 @@ internal class CommentsScreenReducer : StateReducer<State, Message, Action> {
     private fun handleRetryContentLoading(state: State): CommentsScreenReducerResult? =
         if (state.discussionsState is DiscussionsState.Error) {
             state.updateDiscussionsState(DiscussionsState.Loading) to
-                setOf(InternalAction.FetchDiscussions(stepId = state.stepId, page = 1))
+                setOf(
+                    InternalAction.FetchDiscussions(stepId = state.stepRoute.stepId, page = 1),
+                    InternalAction.LogAnalyticEvent(
+                        CommentsScreenClickedRetryContentLoadingHyperskillAnalyticEvent(state.stepRoute)
+                    )
+                )
         } else {
             null
         }
@@ -51,35 +56,30 @@ internal class CommentsScreenReducer : StateReducer<State, Message, Action> {
     ): CommentsScreenReducerResult? =
         when (state.discussionsState) {
             DiscussionsState.Loading ->
-                state
-                    .updateDiscussionsState(
-                        DiscussionsState.Content(
-                            discussions = message.discussionsResponse.toPagedList(),
-                            isLoadingNextPage = false
-                        )
+                state.updateDiscussionsState(
+                    DiscussionsState.Content(
+                        discussions = message.discussionsResponse.toPagedList(),
+                        commentsMap = message.rootComments.associateBy { it.id },
+                        isLoadingNextPage = false
                     )
-                    .putAllComments(message.rootComments) to emptySet()
+                ) to emptySet()
             is DiscussionsState.Content -> {
                 val newDiscussions =
                     state.discussionsState.discussions.plus(message.discussionsResponse.toPagedList())
+                val newCommentsMap =
+                    state.discussionsState.commentsMap + message.rootComments.associateBy { it.id }
 
-                state
-                    .updateDiscussionsState(
-                        DiscussionsState.Content(
-                            discussions = newDiscussions,
-                            isLoadingNextPage = false
-                        )
+                state.updateDiscussionsState(
+                    DiscussionsState.Content(
+                        discussions = newDiscussions,
+                        commentsMap = newCommentsMap,
+                        isLoadingNextPage = false
                     )
-                    .putAllComments(message.rootComments) to emptySet()
+                ) to emptySet()
             }
             else -> null
         }
 
     private fun State.updateDiscussionsState(newDiscussionsState: DiscussionsState): State =
         copy(discussionsState = newDiscussionsState)
-
-    private fun State.putAllComments(newComments: List<Comment>): State {
-        val newCommentsMap = newComments.associateBy { it.id }
-        return copy(commentsState = commentsState.copy(commentsMap = commentsState.commentsMap + newCommentsMap))
-    }
 }

@@ -23,6 +23,7 @@ internal class CommentsScreenComponentImpl(
             params = params,
             commentsScreenInteractor = commentsScreenInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             logger = appGraph.loggerComponent.logger
