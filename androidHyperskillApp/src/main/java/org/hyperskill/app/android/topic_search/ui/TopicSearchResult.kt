@@ -1,7 +1,13 @@
 package org.hyperskill.app.android.topic_search.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -37,6 +43,7 @@ fun TopicSearchResult(
     onNewMessage: (Message) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val insetsPadding = WindowInsets.navigationBars.union(WindowInsets.ime).asPaddingValues()
     Box(modifier = modifier.fillMaxSize()) {
         when (viewState) {
             SearchResultsViewState.Idle -> {
@@ -48,11 +55,15 @@ fun TopicSearchResult(
                 )
             }
             SearchResultsViewState.Loading -> {
-                TopicSearchSkeleton(modifier = Modifier.fillMaxSize())
+                TopicSearchSkeleton(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = insetsPadding
+                )
             }
             SearchResultsViewState.Error -> {
                 ScreenDataLoadingError(
-                    errorMessage = stringResource(id = R.string.search_placeholder_error_description)
+                    errorMessage = stringResource(id = R.string.search_placeholder_error_description),
+                    modifier = Modifier.padding(insetsPadding)
                 ) {
                     onNewMessage(Message.RetrySearchClicked)
                 }
@@ -67,7 +78,8 @@ fun TopicSearchResult(
                 }
                 TopicSearchResultContent(
                     items = viewState.searchResults,
-                    onItemClick = onItemClick
+                    onItemClick = onItemClick,
+                    contentPadding = insetsPadding
                 )
             }
         }

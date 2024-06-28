@@ -2,22 +2,25 @@ package org.hyperskill.app.android.paywall.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.findActivity
@@ -30,19 +33,6 @@ import org.hyperskill.app.paywall.presentation.PaywallFeature
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewStateContent
 import org.hyperskill.app.paywall.presentation.PaywallViewModel
-
-object PaywallDefaults {
-    val ContentPadding = PaddingValues(
-        start = 24.dp,
-        end = 20.dp,
-        top = 24.dp,
-        bottom = 32.dp
-    )
-
-    val BackgroundColor: Color
-        @Composable
-        get() = colorResource(id = R.color.layer_1)
-}
 
 @Composable
 fun PaywallScreen(
@@ -68,6 +58,7 @@ fun PaywallScreen(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PaywallScreen(
     viewState: ViewState,
@@ -83,45 +74,51 @@ fun PaywallScreen(
                 HyperskillTopAppBar(
                     title = stringResource(id = R.string.paywall_screen_title),
                     onNavigationIconClick = onBackClick,
-                    backgroundColor = PaywallDefaults.BackgroundColor
+                    backgroundColor = PaywallDefaults.BackgroundColor,
                 )
             }
         }
     ) { padding ->
-        when (val contentState = viewState.contentState) {
-            ViewStateContent.Idle -> {
-                // no op
-            }
-            ViewStateContent.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(PaywallDefaults.BackgroundColor)
-                ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(PaywallDefaults.BackgroundColor)
+                .consumeStatusBarInsets(viewState.isToolbarVisible)
+        ) {
+            val insets = WindowInsets.safeDrawing
+            when (val contentState = viewState.contentState) {
+                ViewStateContent.Idle -> {
+                    // no op
+                }
+                ViewStateContent.Loading -> {
                     HyperskillProgressBar(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+                ViewStateContent.Error ->
+                    ScreenDataLoadingError(
+                        errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
+                        modifier = Modifier
+                            .background(PaywallDefaults.BackgroundColor)
+                            .windowInsetsPadding(insets)
+                    ) {
+                        onRetryLoadingClick()
+                    }
+                is ViewStateContent.Content ->
+                    PaywallContent(
+                        buyButtonText = contentState.buyButtonText,
+                        isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
+                        priceText = contentState.priceText,
+                        onBuySubscriptionClick = onBuySubscriptionClick,
+                        onContinueWithLimitsClick = onContinueWithLimitsClick,
+                        onTermsOfServiceClick = onTermsOfServiceClick,
+                        padding = padding
+                    )
+                ViewStateContent.SubscriptionSyncLoading ->
+                    SubscriptionSyncLoading(
+                        modifier = Modifier.windowInsetsPadding(insets)
+                    )
             }
-            ViewStateContent.Error ->
-                ScreenDataLoadingError(
-                    errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
-                    modifier = Modifier.background(PaywallDefaults.BackgroundColor)
-                ) {
-                    onRetryLoadingClick()
-                }
-            is ViewStateContent.Content ->
-                PaywallContent(
-                    buyButtonText = contentState.buyButtonText,
-                    isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
-                    priceText = contentState.priceText,
-                    onBuySubscriptionClick = onBuySubscriptionClick,
-                    onContinueWithLimitsClick = onContinueWithLimitsClick,
-                    onTermsOfServiceClick = onTermsOfServiceClick,
-                    padding = padding
-                )
-            ViewStateContent.SubscriptionSyncLoading ->
-                SubscriptionSyncLoading()
         }
     }
 }
@@ -159,6 +156,15 @@ private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
             )
         )
 }
+
+private fun Modifier.consumeStatusBarInsets(isToolbarVisible: Boolean): Modifier =
+    composed {
+        if (isToolbarVisible) {
+            consumeWindowInsets(WindowInsets.statusBars)
+        } else {
+            this
+        }
+    }
 
 @Preview(showBackground = true)
 @Composable

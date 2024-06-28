@@ -3,10 +3,13 @@ package org.hyperskill.app.android.welcome_onbaording.language.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
@@ -40,7 +43,8 @@ fun WelcomeOnboardingChooseProgrammingLanguage(
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = WelcomeOnboardingDefault.horizontalPadding)
+                .windowInsetsPadding(WindowInsets.safeDrawing)
         ) {
             TypewriterTextEffect(
                 text = stringResource(id = R.string.welcome_onboarding_pick_language_title),
