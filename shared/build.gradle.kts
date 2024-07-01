@@ -57,20 +57,18 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlin.coroutines.core)
-                implementation(libs.bundles.ktor.common)
-                implementation(libs.kotlin.datetime)
-                implementation(libs.kit.model)
-                implementation(libs.kit.presentation.reduxCoroutines)
-                implementation(libs.kermit)
+        commonMain.dependencies {
+            implementation(libs.kotlin.coroutines.core)
+            implementation(libs.bundles.ktor.common)
+            implementation(libs.kotlin.datetime)
+            implementation(libs.kit.model)
+            implementation(libs.kit.presentation.reduxCoroutines)
+            implementation(libs.kermit)
 
-                api(libs.kit.presentation.redux)
-                api(libs.mokoResources.main)
-                api(libs.mokoKswiftRuntime.main)
-                api(libs.multiplatform.settings)
-            }
+            api(libs.kit.presentation.redux)
+            api(libs.mokoResources.main)
+            api(libs.mokoKswiftRuntime.main)
+            api(libs.multiplatform.settings)
         }
         commonTest.dependencies {
             implementation(kotlin("test-common"))
@@ -106,33 +104,8 @@ kotlin {
             implementation(libs.kotlin.coroutines.test)
         }
 
-        val iosMain by creating {
-            dependsOn(commonMain)
-            dependencies {
-                implementation(libs.ktor.ios)
-            }
-        }
-        val iosX64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosArm64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
-        }
-
-        val iosTest by creating {
-            dependsOn(commonTest.get())
-        }
-        val iosX64Test by getting {
-            dependsOn(iosTest)
-        }
-        val iosArm64Test by getting {
-            dependsOn(iosTest)
-        }
-        val iosSimulatorArm64Test by getting {
-            dependsOn(iosTest)
+        iosMain.dependencies {
+            implementation(libs.ktor.ios)
         }
     }
 
@@ -224,7 +197,7 @@ buildkonfig {
     }
 }
 
-// Resources directory - src/commonMain/resources/MR
+// Resources directory - src/commonMain/moko-resources/
 multiplatformResources {
     resourcesPackage.set("org.hyperskill.app")
     resourcesClassName.set("SharedResources")
