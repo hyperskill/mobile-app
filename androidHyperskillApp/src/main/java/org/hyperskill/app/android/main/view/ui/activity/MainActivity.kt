@@ -23,6 +23,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -134,14 +136,7 @@ class MainActivity :
         initViewStateDelegate()
         lifecycle.addObserver(onForegroundObserver)
 
-        viewBinding.mainError.tryAgain.setOnClickListener {
-            mainViewModel.onNewMessage(
-                AppFeature.Message.Initialize(
-                    pushNotificationData = (parseClickedNotificationData(intent) as? PushNotificationClickedData)?.data,
-                    forceUpdate = true
-                )
-            )
-        }
+        setupView()
 
         startupViewModel(intent)
 
@@ -166,6 +161,23 @@ class MainActivity :
         viewStateDelegate.addState<AppFeature.State.Loading>(viewBinding.mainProgress)
         viewStateDelegate.addState<AppFeature.State.Ready>(viewBinding.mainNavigationContainer)
         viewStateDelegate.addState<AppFeature.State.NetworkError>(viewBinding.mainError.root)
+    }
+
+    private fun setupView() {
+        viewBinding.mainError.tryAgain.setOnClickListener {
+            mainViewModel.onNewMessage(
+                AppFeature.Message.Initialize(
+                    pushNotificationData = (parseClickedNotificationData(intent) as? PushNotificationClickedData)?.data,
+                    forceUpdate = true
+                )
+            )
+        }
+        viewBinding.root.applyInsetter {
+            type(navigationBars = true, displayCutout = true) {
+                margin(horizontal = true, animated = true)
+            }
+            consume(Insetter.CONSUME_AUTO)
+        }
     }
 
     private fun startupViewModel(intent: Intent?) {
