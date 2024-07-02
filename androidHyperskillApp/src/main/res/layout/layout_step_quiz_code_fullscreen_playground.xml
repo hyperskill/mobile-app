@@ -1,32 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/codeLayoutContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
-        android:id="@+id/codeStepLayout"
+        android:id="@+id/fullScreenCodeEditorLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/step_quiz_fullscreen_code_layout_bottom_padding"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/fullScreenPlaygroundFooter"
         android:fillViewport="true" />
 
-    <include
-        android:id="@+id/codeButtons"
+    <FrameLayout
+        android:id="@+id/fullScreenPlaygroundFooter"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_margin="16dp"
-        layout="@layout/layout_quiz_buttons" />
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <include
-        android:id="@+id/submitButtonSeparator"
-        android:layout_width="match_parent"
-        android:layout_height="?dividerVerticalSize"
-        android:layout_above="@id/codeButtons"
-        layout="@layout/view_divider_vertical" />
+        <LinearLayout
+            android:id="@+id/fullScreenButtonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</RelativeLayout>
+            <include
+                android:id="@+id/submitButtonSeparator"
+                android:layout_width="match_parent"
+                android:layout_height="?dividerVerticalSize"
+                layout="@layout/view_divider_vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/step_quiz_fullscreen_code_layout_buttons_padding">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/fullScreenRetryButton"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="@dimen/step_quiz_submit_button_height"
+                    android:layout_height="@dimen/step_quiz_submit_button_height"
+                    android:layout_marginEnd="16dp"
+                    app:icon="@drawable/ic_retry"
+                    app:strokeColor="@color/color_primary_alpha_38"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/fullScreenSubmitButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/ThemeOverlay.Blue"
+                    android:text="@string/step_quiz_code_run_solution_button_text"
+                    app:icon="@drawable/ic_run"
+                    app:iconPadding="@dimen/step_quiz_fullscreen_code_layout_action_button_icon_padding"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/fullScreenCodeKeyboardExtension"
+            layout="@layout/layout_step_quiz_code_keyboard_extension"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

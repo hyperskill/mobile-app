@@ -3,8 +3,11 @@ package org.hyperskill.app.android.main.view.ui.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
@@ -20,6 +23,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -58,7 +63,6 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
 import ru.nobird.android.view.navigation.router.observeResult
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -112,6 +116,10 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
+        enableEdgeToEdge(
+            navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
+        )
+
         lifecycle.addObserver(
             ReduxViewLifecycleObserver(this, ::mainViewModel)
         )
@@ -128,14 +136,7 @@ class MainActivity :
         initViewStateDelegate()
         lifecycle.addObserver(onForegroundObserver)
 
-        viewBinding.mainError.tryAgain.setOnClickListener {
-            mainViewModel.onNewMessage(
-                AppFeature.Message.Initialize(
-                    pushNotificationData = (parseClickedNotificationData(intent) as? PushNotificationClickedData)?.data,
-                    forceUpdate = true
-                )
-            )
-        }
+        setupView()
 
         startupViewModel(intent)
 
@@ -160,6 +161,23 @@ class MainActivity :
         viewStateDelegate.addState<AppFeature.State.Loading>(viewBinding.mainProgress)
         viewStateDelegate.addState<AppFeature.State.Ready>(viewBinding.mainNavigationContainer)
         viewStateDelegate.addState<AppFeature.State.NetworkError>(viewBinding.mainError.root)
+    }
+
+    private fun setupView() {
+        viewBinding.mainError.tryAgain.setOnClickListener {
+            mainViewModel.onNewMessage(
+                AppFeature.Message.Initialize(
+                    pushNotificationData = (parseClickedNotificationData(intent) as? PushNotificationClickedData)?.data,
+                    forceUpdate = true
+                )
+            )
+        }
+        viewBinding.root.applyInsetter {
+            type(navigationBars = true, displayCutout = true) {
+                margin(horizontal = true, animated = true)
+            }
+            consume(Insetter.CONSUME_AUTO)
+        }
     }
 
     private fun startupViewModel(intent: Intent?) {
@@ -234,15 +252,13 @@ class MainActivity :
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (intent != null) {
-            handleIntent(intent) { clickedNotificationData ->
-                if (clickedNotificationData is PushNotificationClickedData) {
-                    mainViewModel.onNewMessage(
-                        AppFeature.Message.NotificationClicked(clickedNotificationData.data)
-                    )
-                }
+        handleIntent(intent) { clickedNotificationData ->
+            if (clickedNotificationData is PushNotificationClickedData) {
+                mainViewModel.onNewMessage(
+                    AppFeature.Message.NotificationClicked(clickedNotificationData.data)
+                )
             }
         }
     }
@@ -328,15 +344,6 @@ class MainActivity :
             state.safeCast<AppFeature.State.Ready>()?.isMobileLeaderboardsEnabled ?: false
         )
         viewStateDelegate.switchState(state)
-        when (state) {
-            is AppFeature.State.Idle, AppFeature.State.Loading ->
-                window.statusBarColor = ContextCompat.getColor(this, org.hyperskill.app.R.color.color_black_900)
-            is AppFeature.State.Ready ->
-                window.statusBarColor = resolveColorAttribute(com.google.android.material.R.attr.colorPrimaryVariant)
-            else -> {
-                // no op
-            }
-        }
     }
 
     private fun handleIntent(

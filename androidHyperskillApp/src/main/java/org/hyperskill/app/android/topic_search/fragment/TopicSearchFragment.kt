@@ -17,6 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.Insetter
+import dev.chrisbanes.insetter.applyInsetter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -67,6 +69,7 @@ class TopicSearchFragment : Fragment(R.layout.fragment_search_topic) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        applyWindowInsets()
         setupToolbar()
         viewBinding.topicSearchComposeView.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
@@ -75,6 +78,15 @@ class TopicSearchFragment : Fragment(R.layout.fragment_search_topic) {
                     TopicSearchResult(viewModel = searchViewModel)
                 }
             }
+        }
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.topicSearchToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+            consume(Insetter.CONSUME_AUTO)
         }
     }
 

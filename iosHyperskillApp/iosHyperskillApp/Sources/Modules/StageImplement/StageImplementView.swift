@@ -47,9 +47,6 @@ struct StageImplementView: View {
                     )
                     .makeModule()
                 }
-                .introspectScrollView { scrollView in
-                    scrollView.shouldIgnoreScrollingAdjustment = true
-                }
             }
             .navigationTitle(data.navigationTitle)
         }

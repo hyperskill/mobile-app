@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePaddingRelative
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -13,10 +16,13 @@ import coil.ImageLoader
 import coil.load
 import coil.result
 import coil.transform.CircleCropTransformation
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.badges.view.delegate.ProfileBadgesDelegate
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
+import org.hyperskill.app.android.core.extensions.doOnApplyWindowInsets
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
@@ -118,6 +124,7 @@ class ProfileFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyWindowInsets()
         initViewStateDelegate()
         initToolbar()
         AboutMeDelegate.setup(viewBinding.profileAboutMeLayout, profileViewModel::onNewMessage)
@@ -172,6 +179,25 @@ class ProfileFragment :
             )
         )
         profileViewModel.onNewMessage(ProfileFeature.Message.ViewedEventMessage)
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.root.doOnApplyWindowInsets { _, insets, _ ->
+            val insetTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+
+            val toolbar = viewBinding.profileToolbar
+            toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
+                height += insetTop
+            }
+            toolbar.updatePaddingRelative(top = insetTop)
+
+            val collapsingToolbarLayout = viewBinding.profileCollapsingToolbarLayout
+
+            collapsingToolbarLayout.updateLayoutParams<AppBarLayout.LayoutParams> {
+                height += insetTop
+            }
+            collapsingToolbarLayout.expandedTitleMarginTop = insetTop
+        }
     }
 
     private fun initViewStateDelegate() {

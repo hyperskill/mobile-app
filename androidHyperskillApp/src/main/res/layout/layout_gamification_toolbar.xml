@@ -123,7 +123,7 @@
         </com.google.android.material.appbar.MaterialToolbar>
 
         <TextView
-            android:id="@+id/subtitle"
+            android:id="@+id/subtitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"

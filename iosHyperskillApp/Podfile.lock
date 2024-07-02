@@ -80,7 +80,7 @@ PODS:
     - GTMSessionFetcher/Core (< 4.0, >= 3.3)
   - GTMSessionFetcher/Core (3.4.1)
   - Highlightr (2.1.0)
-  - IQKeyboardManagerSwift (6.5.9)
+  - IQKeyboardManagerSwift (6.5.15)
   - Kanna (5.3.0)
   - lottie-ios (4.4.3)
   - nanopb (2.30910.0):
@@ -121,7 +121,7 @@ DEPENDENCIES:
   - Firebase/Messaging (= 10.24.0)
   - GoogleSignIn (= 7.1.0)
   - Highlightr (from `https://github.com/raspu/Highlightr.git`, branch `master`)
-  - IQKeyboardManagerSwift (= 6.5.9)
+  - IQKeyboardManagerSwift (= 6.5.15)
   - Kanna (= 5.3.0)
   - lottie-ios (= 4.4.3)
   - NukeUI (from `https://github.com/kean/NukeUI.git`, tag `0.8.3`)
@@ -226,7 +226,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   Highlightr: 683f05d5223cade533a78528a35c9f06e4caddf8
-  IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
+  IQKeyboardManagerSwift: 79fab21f451441935788dc5d80ded21c32685904
   Kanna: 6ecbd674bcbef2766a2acf80e99d1174440c5b9c
   lottie-ios: fcb5e73e17ba4c983140b7d21095c834b3087418
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
@@ -245,6 +245,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 8f24d65a7649cacd54958b5876e959828eef321e
+PODFILE CHECKSUM: 6b40c324341c8820013d46ff08bfa629d54b84c9
 
 COCOAPODS: 1.15.2

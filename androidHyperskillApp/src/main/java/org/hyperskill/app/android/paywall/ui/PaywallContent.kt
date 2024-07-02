@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -47,6 +50,7 @@ fun PaywallContent(
             .fillMaxSize()
             .background(PaywallDefaults.BackgroundColor)
             .padding(PaywallDefaults.ContentPadding + padding)
+            .windowInsetsPadding(WindowInsets.safeDrawing)
     ) {
         Column(
             modifier = Modifier.weight(1f)
@@ -143,7 +147,7 @@ private fun TermsOfService(
     )
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun PaywallContentPreview() {
     HyperskillTheme {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -92,6 +93,7 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
+                WindowCompat.setDecorFitsSystemWindows(window, false)
                 window.setWindowAnimations(R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
             }
     }

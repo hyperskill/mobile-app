@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
@@ -76,6 +77,7 @@ class StageImplementationFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        applyWindowInsets()
         viewStateDelegate = ViewStateDelegate<StageImplementFeature.ViewState>().apply {
             addState<StageImplementFeature.ViewState.Idle>()
             addState<StageImplementFeature.ViewState.Loading>(viewBinding.stageProgress)
@@ -86,6 +88,14 @@ class StageImplementationFragment :
             stageImplementationViewModel.onNewMessage(
                 StageImplementFeature.Message.Initialize(projectId = projectId, stageId = stageId, forceUpdate = true)
             )
+        }
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.stageError.root.applyInsetter {
+            type(statusBars = true, navigationBars = true) {
+                padding()
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import dev.chrisbanes.insetter.applyInsetter
 import kotlin.math.roundToInt
 import kotlinx.serialization.builtins.ListSerializer
 import org.hyperskill.app.android.R
@@ -72,8 +73,17 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyWindowInsets()
         setupAppBar()
         setStepFragment()
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.stepAppBar.stepToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
     }
 
     private fun setStepFragment() {

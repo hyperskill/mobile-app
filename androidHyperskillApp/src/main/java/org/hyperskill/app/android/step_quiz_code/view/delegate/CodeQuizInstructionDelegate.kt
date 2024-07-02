@@ -1,41 +1,28 @@
 package org.hyperskill.app.android.step_quiz_code.view.delegate
 
-import android.view.View
-import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.databinding.LayoutStepQuizCodeDetailsBinding
 import org.hyperskill.app.android.step.view.delegate.CollapsibleStepBlockDelegate
 import org.hyperskill.app.android.step_quiz_code.view.adapter.CodeDetailSampleAdapterDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
-import org.hyperskill.app.android.ui.custom.ArrowImageView
 import org.hyperskill.app.code.domain.model.ProgrammingLanguage
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
 class CodeQuizInstructionDelegate(
-    private val detailsContainerView: View,
+    private val binding: LayoutStepQuizCodeDetailsBinding,
     isCollapsible: Boolean,
     onDetailsIsExpandedStateChanged: (Boolean) -> Unit
 ) {
-    private val stepQuizCodeDetails: FrameLayout =
-        detailsContainerView.findViewById(R.id.stepQuizCodeDetailsFrameLayout)
-    private val stepQuizCodeDetailsArrow: ArrowImageView =
-        detailsContainerView.findViewById(R.id.stepQuizCodeDetailsArrow)
-    private val detailsCard: MaterialCardView =
-        detailsContainerView.findViewById(R.id.stepQuizCodeDetailsMaterialCard)
-    private val stepQuizCodeDetailsRecycler: RecyclerView =
-        detailsContainerView.findViewById(R.id.stepQuizCodeDetailsRecycler)
-
     private val stepQuizCodeDetailsAdapter = DefaultDelegateAdapter<CodeDetail>()
 
     init {
         stepQuizCodeDetailsAdapter += CodeDetailSampleAdapterDelegate()
 
-        with(stepQuizCodeDetailsRecycler) {
+        with(binding.stepQuizCodeDetailsRecycler) {
             layoutManager = LinearLayoutManager(context)
             adapter = stepQuizCodeDetailsAdapter
             isNestedScrollingEnabled = false
@@ -50,23 +37,23 @@ class CodeQuizInstructionDelegate(
 
         if (isCollapsible) {
             CollapsibleStepBlockDelegate.setupCollapsibleBlock(
-                arrowView = stepQuizCodeDetailsArrow,
-                headerView = stepQuizCodeDetails,
-                contentView = detailsCard,
+                arrowView = binding.stepQuizCodeDetailsArrow,
+                headerView = binding.stepQuizCodeDetailsFrameLayout,
+                contentView = binding.stepQuizCodeDetailsMaterialCard,
                 onContentExpandChanged = onDetailsIsExpandedStateChanged
             )
         } else {
-            stepQuizCodeDetailsArrow.isVisible = false
-            detailsCard.isVisible = true
+            binding.stepQuizCodeDetailsArrow.isVisible = false
+            binding.stepQuizCodeDetailsMaterialCard.isVisible = true
         }
     }
 
     fun setCodeDetailsData(details: List<CodeDetail>, lang: String?) {
         if (lang == ProgrammingLanguage.SQL.languageName) {
-            detailsContainerView.isVisible = false
+            binding.root.isVisible = false
         } else {
             stepQuizCodeDetailsAdapter.items = details
-            detailsContainerView.isVisible = details.isNotEmpty()
+            binding.root.isVisible = details.isNotEmpty()
         }
     }
 }
