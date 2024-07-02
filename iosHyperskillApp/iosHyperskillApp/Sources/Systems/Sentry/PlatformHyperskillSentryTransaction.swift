@@ -7,6 +7,6 @@ final class PlatformHyperskillSentryTransaction: HyperskillSentryTransaction {
 
     init(span: Span, name: String, operation: String, tags: [String: String]) {
         self.span = span
-        super.init(name: name, operation: operation, tags_: tags)
+        super.init(name: name, operation: operation, tags: tags)
     }
 }

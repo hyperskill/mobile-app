@@ -29,6 +29,15 @@ buildscript {
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
     apply(plugin = "com.github.ben-manes.versions")
+
+    // Workaround to avoid JVM incompatibility issue
+    afterEvaluate {
+        if (project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.library")) {
+            tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+                kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+            }
+        }
+    }
 }
 
 allprojects {

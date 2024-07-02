@@ -2,10 +2,12 @@ import com.android.build.api.dsl.LibraryBuildType
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import java.time.Year
+import java.util.Locale
 import org.gradle.internal.os.OperatingSystem
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.properties.Properties
@@ -31,7 +33,7 @@ dependencies {
 version = "1.0"
 
 kotlin {
-    android()
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -55,31 +57,27 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlin.coroutines.core)
-                implementation(libs.bundles.ktor.common)
-                implementation(libs.kit.model)
-                implementation(libs.kotlin.datetime)
-                implementation(libs.kit.presentation.reduxCoroutines)
-                implementation(libs.kermit)
+        commonMain.dependencies {
+            implementation(libs.kotlin.coroutines.core)
+            implementation(libs.bundles.ktor.common)
+            implementation(libs.kotlin.datetime)
+            implementation(libs.kit.model)
+            implementation(libs.kit.presentation.reduxCoroutines)
+            implementation(libs.kermit)
 
-                api(libs.kit.presentation.redux)
-                api(libs.mokoResources.main)
-                api(libs.mokoKswiftRuntime.main)
-                api(libs.multiplatform.settings)
-            }
+            api(libs.kit.presentation.redux)
+            api(libs.mokoResources.main)
+            api(libs.mokoKswiftRuntime.main)
+            api(libs.multiplatform.settings)
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-                implementation(libs.kotlin.coroutines.core)
-                implementation(libs.kotlin.coroutines.test)
-                implementation(libs.mokoResources.test)
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test-common"))
+            implementation(kotlin("test-annotations-common"))
+            implementation(libs.kotlin.coroutines.core)
+            implementation(libs.kotlin.coroutines.test)
+            implementation(libs.mokoResources.test)
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation(libs.android.security)
                 implementation(libs.ktor.android)
@@ -99,44 +97,23 @@ kotlin {
                 implementation(libs.googlePlay.installreferrer)
             }
         }
-        val androidUnitTest by getting {
-            dependsOn(commonTest)
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(kotlin("reflect"))
-                implementation(libs.bundles.android.test)
-                implementation(libs.kotlin.coroutines.test)
-            }
+        getByName("androidUnitTest").dependencies {
+            implementation(kotlin("test-junit"))
+            implementation(kotlin("reflect"))
+            implementation(libs.bundles.android.test)
+            implementation(libs.kotlin.coroutines.test)
         }
 
-        val iosMain by creating {
-            dependsOn(commonMain)
-            dependencies {
-                implementation(libs.ktor.ios)
-            }
+        iosMain.dependencies {
+            implementation(libs.ktor.ios)
         }
-        val iosX64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosArm64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
-        }
+    }
 
-        val iosTest by creating {
-            dependsOn(commonTest)
-        }
-        val iosX64Test by getting {
-            dependsOn(iosTest)
-        }
-        val iosArm64Test by getting {
-            dependsOn(iosTest)
-        }
-        val iosSimulatorArm64Test by getting {
-            dependsOn(iosTest)
-        }
+    // https://kotlinlang.org/docs/multiplatform-expect-actual.html#expected-and-actual-classes
+    // To suppress this warning about usage of expected and actual classes
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }
 
@@ -149,17 +126,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "META-INF/LGPL2.1"
             excludes += "META-INF/AL2.0"
         }
     }
     namespace = "org.hyperskill.app"
-
-    sourceSets {
-        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
-    }
 
     buildTypes {
         fun applyFlavorConfigsFromFile(libraryBuildType: LibraryBuildType) {
@@ -203,7 +176,7 @@ buildkonfig {
         listOf("production", "main").forEach { flavor ->
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
 
-            val fieldNamePrefix = "${flavor.toUpperCase()}_"
+            val fieldNamePrefix = "${flavor.uppercase(Locale.getDefault())}_"
             buildConfigField(
                 type = STRING,
                 name = "${fieldNamePrefix}FLAVOR",
@@ -224,10 +197,10 @@ buildkonfig {
     }
 }
 
-// Resources directory - src/commonMain/resources/MR
+// Resources directory - src/commonMain/moko-resources/
 multiplatformResources {
-    multiplatformResourcesPackage = "org.hyperskill.app"
-    multiplatformResourcesClassName = "SharedResources"
+    resourcesPackage.set("org.hyperskill.app")
+    resourcesClassName.set("SharedResources")
 }
 
 ktlint {
