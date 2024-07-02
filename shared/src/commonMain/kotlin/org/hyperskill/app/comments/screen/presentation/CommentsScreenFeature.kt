@@ -30,17 +30,19 @@ object CommentsScreenFeature {
         data class Content(
             val discussions: PagedList<Discussion>,
             val commentsMap: Map<Long, Comment>,
+            val loadingDiscussionReplies: Set<Long>,
             val isLoadingNextPage: Boolean
         ) : DiscussionsState
     }
 
-    data class ViewState(
-        val navigationTitle: String
-    )
-
     sealed interface Message {
         object Initialize : Message
         object RetryContentLoading : Message
+
+        data class ShowDiscussionRepliesClicked(val discussionId: Long) : Message
+        object ShowMoreDiscussionsClicked : Message
+
+        object ViewedEventMessage : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -48,6 +50,12 @@ object CommentsScreenFeature {
         data class DiscussionsFetchSuccess(
             val discussionsResponse: DiscussionsResponse,
             val rootComments: List<Comment>
+        ) : InternalMessage
+
+        data class DiscussionRepliesFetchError(val discussionId: Long) : InternalMessage
+        data class DiscussionRepliesFetchSuccess(
+            val discussionId: Long,
+            val replies: List<Comment>
         ) : InternalMessage
     }
 
@@ -57,6 +65,8 @@ object CommentsScreenFeature {
 
     internal sealed interface InternalAction : Action {
         data class FetchDiscussions(val stepId: Long, val page: Int) : InternalAction
+
+        data class FetchDiscussionReplies(val discussionId: Long, val repliesIds: List<Long>) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }

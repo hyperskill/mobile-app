@@ -134,5 +134,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     COMMENT("comment"),
     START_MY_JOURNEY("start_my_journey"),
     QUESTIONNAIRE_ITEM("questionnaire_item"),
-    PROGRAMMING_LANGUAGE("programming_language")
+    PROGRAMMING_LANGUAGE("programming_language"),
+    SHOW_MORE("show_more"),
+    SHOW_REPLIES("show_replies")
 }

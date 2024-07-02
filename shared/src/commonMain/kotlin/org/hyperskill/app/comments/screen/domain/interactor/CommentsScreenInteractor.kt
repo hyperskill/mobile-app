@@ -25,4 +25,7 @@ internal class CommentsScreenInteractor(
 
             return Result.success(discussionsResponse to rootComments)
         }
+
+    suspend fun getComments(commentsIds: List<Long>): Result<List<Comment>> =
+        commentsRepository.getComments(commentsIds)
 }

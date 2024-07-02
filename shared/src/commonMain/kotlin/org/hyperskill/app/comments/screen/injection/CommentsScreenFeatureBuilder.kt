@@ -10,14 +10,14 @@ import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Action
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.InternalAction
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Message
-import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.ViewState
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenReducer
 import org.hyperskill.app.comments.screen.view.mapper.CommentThreadTitleMapper
-import org.hyperskill.app.comments.screen.view.mapper.CommentsScreenFeatureViewStateMapper
+import org.hyperskill.app.comments.screen.view.mapper.CommentsScreenViewStateMapper
+import org.hyperskill.app.comments.screen.view.model.CommentsScreenViewState
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
-import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -32,10 +32,11 @@ internal object CommentsScreenFeatureBuilder {
         commentsScreenInteractor: CommentsScreenInteractor,
         sentryInteractor: SentryInteractor,
         analyticInteractor: AnalyticInteractor,
-        resourceProvider: ResourceProvider,
+        commentThreadTitleMapper: CommentThreadTitleMapper,
+        dateFormatter: SharedDateFormatter,
         buildVariant: BuildVariant,
         logger: Logger
-    ): Feature<ViewState, Message, Action> {
+    ): Feature<CommentsScreenViewState, Message, Action> {
         val commentsScreenReducer = CommentsScreenReducer()
             .wrapWithLogger(buildVariant, logger, LOG_TAG)
 
@@ -45,10 +46,9 @@ internal object CommentsScreenFeatureBuilder {
             sentryInteractor = sentryInteractor
         )
 
-        val commentThreadTitleMapper = CommentThreadTitleMapper(resourceProvider)
-        val commentsScreenViewStateMapper = CommentsScreenFeatureViewStateMapper(
+        val commentsScreenViewStateMapper = CommentsScreenViewStateMapper(
             commentThreadTitleMapper = commentThreadTitleMapper,
-            resourceProvider = resourceProvider
+            dateFormatter = dateFormatter
         )
 
         return ReduxFeature(

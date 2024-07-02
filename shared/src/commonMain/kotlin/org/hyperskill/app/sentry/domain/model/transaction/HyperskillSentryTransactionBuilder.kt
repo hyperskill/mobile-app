@@ -393,4 +393,10 @@ object HyperskillSentryTransactionBuilder {
             name = "comments-screen-feature-fetch-discussions",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    fun buildCommentsScreenFeatureFetchDiscussionReplies(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "comments-screen-feature-fetch-discussion-replies",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

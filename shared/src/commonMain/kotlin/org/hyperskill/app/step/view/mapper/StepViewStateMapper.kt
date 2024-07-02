@@ -36,9 +36,6 @@ internal class StepViewStateMapper(
 
     private fun isCommentsToolbarItemAvailable(stepState: StepFeature.StepState): Boolean {
         val step = (stepState as? StepFeature.StepState.Data)?.step ?: return false
-        return step.commentsStatistics
-            .firstOrNull { it.thread == CommentThread.COMMENT }
-            ?.totalCount
-            ?.let { it > 0 } ?: false
+        return step.commentsStatistics.any { it.thread == CommentThread.COMMENT && it.totalCount > 0 }
     }
 }

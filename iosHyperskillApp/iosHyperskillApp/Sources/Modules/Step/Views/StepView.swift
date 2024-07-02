@@ -217,7 +217,9 @@ private extension StepView {
     func handleNavigateToViewAction(_ viewAction: StepFeatureActionViewActionNavigateTo) {
         switch StepFeatureActionViewActionNavigateToKs(viewAction) {
         case .commentsScreen(let data):
-            print(data)
+            let assembly = CommentsAssembly(params: data.params)
+            let navigationController = UINavigationController(rootViewController: assembly.makeModule())
+            modalRouter.present(module: navigationController, modalPresentationStyle: .automatic)
         }
     }
 }

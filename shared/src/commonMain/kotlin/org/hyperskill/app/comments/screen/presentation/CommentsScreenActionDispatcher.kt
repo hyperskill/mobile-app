@@ -19,6 +19,7 @@ internal class CommentsScreenActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.FetchDiscussions -> handleFetchDiscussionsAction(action, ::onNewMessage)
+            is InternalAction.FetchDiscussionReplies -> handleFetchDiscussionRepliesAction(action, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -39,6 +40,25 @@ internal class CommentsScreenActionDispatcher(
                 .let { (discussionsResponse, rootComments) ->
                     InternalMessage.DiscussionsFetchSuccess(discussionsResponse, rootComments)
                 }
+        }.let(onNewMessage)
+    }
+
+    private suspend fun handleFetchDiscussionRepliesAction(
+        action: InternalAction.FetchDiscussionReplies,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildCommentsScreenFeatureFetchDiscussionReplies(),
+            onError = { InternalMessage.DiscussionRepliesFetchError(action.discussionId) }
+        ) {
+            val replies = commentsScreenInteractor
+                .getComments(action.repliesIds)
+                .getOrThrow()
+
+            InternalMessage.DiscussionRepliesFetchSuccess(
+                discussionId = action.discussionId,
+                replies = replies
+            )
         }.let(onNewMessage)
     }
 }
