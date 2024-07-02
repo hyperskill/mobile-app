@@ -1,6 +1,12 @@
 import shared
 import SwiftUI
 
+extension CommentsContentView {
+    enum Appearance {
+        static let replyLeadingInset = LayoutInsets.defaultInset * 2
+    }
+}
+
 struct CommentsContentView: View {
     let viewData: CommentsScreenViewStateDiscussionsViewStateContent
 
@@ -17,33 +23,53 @@ struct CommentsContentView: View {
                     case .emptyReplies:
                         EmptyView()
                     case .showRepliesButton:
-                        Button(
-                            "Show replies",
+                        actionButton(
+                            title: Strings.Comments.showRepliesButton,
                             action: {
                                 onShowDiscussionRepliesButtonTap(discussion.id.int64Value)
-                            }
+                            },
+                            alignment: .leading
                         )
                     case .loadingReplies:
-                        ProgressView()
+                        CommentsCommentSkeletonView()
+                            .padding(.leading, Appearance.replyLeadingInset)
                     case .content(let data):
                         ForEach(data.replies) { reply in
                             CommentsCommentView(comment: reply)
-                                .padding(.leading)
                         }
-                        .padding(.leading)
+                        .padding(.leading, Appearance.replyLeadingInset)
                     }
 
                     if viewData.discussions.isLastItem(discussion) && viewData.hasNextPage {
+                        Divider()
+
                         if viewData.isLoadingNextPage {
-                            ProgressView()
+                            CommentsCommentSkeletonView()
                         } else {
-                            Button("Show more", action: onShowMoreDiscussionsButtonTap)
+                            actionButton(
+                                title: Strings.Comments.showMoreButton,
+                                action: onShowMoreDiscussionsButtonTap
+                            )
                         }
+                    } else {
+                        Divider()
                     }
                 }
+                .listRowSeparatorHidden()
             }
         }
         .listStyle(.plain)
+    }
+
+    private func actionButton(
+        title: String,
+        action: @escaping () -> Void,
+        alignment: Alignment = .center
+    ) -> some View {
+        Button(title, action: action)
+            .buttonStyle(.plain)
+            .foregroundColor(Color(ColorPalette.newButtonPrimary))
+            .frame(maxWidth: .infinity, alignment: alignment)
     }
 }
 

@@ -1,22 +1,12 @@
 import shared
 import SwiftUI
 
-extension CommentsView {
-    struct Appearance {
-        let backgroundColor = Color.background
-    }
-}
-
 struct CommentsView: View {
-    private(set) var appearance = Appearance()
-
     @StateObject var viewModel: CommentsViewModel
 
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
-
-            BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
                 .animation(.default, value: viewModel.state)
@@ -37,11 +27,11 @@ struct CommentsView: View {
     private func buildBody() -> some View {
         switch viewModel.discussionsViewStateKs {
         case .idle, .loading:
-            ProgressView()
+            CommentsSkeletonView()
         case .error:
             PlaceholderView(
                 configuration: .networkError(
-                    backgroundColor: appearance.backgroundColor,
+                    backgroundColor: .clear,
                     action: viewModel.doRetryLoadCommentsScreen
                 )
             )

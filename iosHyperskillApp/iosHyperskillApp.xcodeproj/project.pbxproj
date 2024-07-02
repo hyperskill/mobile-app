@@ -566,6 +566,8 @@
 		2CF34F952C2E958D0054477E /* CommentsCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F942C2E958D0054477E /* CommentsCommentView.swift */; };
 		2CF34F972C2E9E7D0054477E /* RandomAccessCollection+IsLastItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F962C2E9E7D0054477E /* RandomAccessCollection+IsLastItem.swift */; };
 		2CF34F992C3397610054477E /* CommentsHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F982C3397610054477E /* CommentsHostingController.swift */; };
+		2CF34F9B2C34079C0054477E /* View+ListRowSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F9A2C34079C0054477E /* View+ListRowSeparator.swift */; };
+		2CF34F9D2C340DB60054477E /* CommentsSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F9C2C340DB60054477E /* CommentsSkeletonView.swift */; };
 		2CF41A8E28505D2C000736D6 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* LatexView.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
 		2CF43414281281DB002893CD /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF43413281281DB002893CD /* AuthTextField.swift */; };
@@ -1344,6 +1346,8 @@
 		2CF34F942C2E958D0054477E /* CommentsCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsCommentView.swift; sourceTree = "<group>"; };
 		2CF34F962C2E9E7D0054477E /* RandomAccessCollection+IsLastItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RandomAccessCollection+IsLastItem.swift"; sourceTree = "<group>"; };
 		2CF34F982C3397610054477E /* CommentsHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsHostingController.swift; sourceTree = "<group>"; };
+		2CF34F9A2C34079C0054477E /* View+ListRowSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ListRowSeparator.swift"; sourceTree = "<group>"; };
+		2CF34F9C2C340DB60054477E /* CommentsSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsSkeletonView.swift; sourceTree = "<group>"; };
 		2CF41A8D28505D2C000736D6 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
 		2CF43413281281DB002893CD /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
@@ -2101,6 +2105,7 @@
 				2C2ECCA6288C0BF7008DDCBA /* View+ConditionalViewModifier.swift */,
 				2CF4341128126C79002893CD /* View+EndEditing.swift */,
 				2C177EC22837B65500D841DB /* View+Frame.swift */,
+				2CF34F9A2C34079C0054477E /* View+ListRowSeparator.swift */,
 				E9FAF38E299F61AE001FC596 /* View+MeasureSize.swift */,
 				2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */,
 				2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */,
@@ -3946,6 +3951,7 @@
 		2CF34F922C2E8EB60054477E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CF34F9C2C340DB60054477E /* CommentsSkeletonView.swift */,
 				23AD201276B2C9E97A4AC1AC /* CommentsView.swift */,
 				2CF34F932C2E95610054477E /* Content */,
 			);
@@ -5122,6 +5128,7 @@
 				2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */,
 				2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
+				2CF34F9B2C34079C0054477E /* View+ListRowSeparator.swift in Sources */,
 				2C08A939287866A200F1DCA2 /* LazyAvatarView.swift in Sources */,
 				E9A1DA6A2ACFF31D006A9D4B /* FirstProblemOnboardingOutputProtocol.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
@@ -5229,6 +5236,7 @@
 				2C9D20CA2BFF512300F88A6C /* TopicCompletedModalContentView.swift in Sources */,
 				2CD4EDFB2B79D74B0091F0B2 /* TransparentBlurView.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
+				2CF34F9D2C340DB60054477E /* CommentsSkeletonView.swift in Sources */,
 				E9D537D02A71056100F21828 /* ProfileBadgesGridItemView.swift in Sources */,
 				2CB0ADEE2B04AD6D0089D557 /* ChallengeWidgetViewModel.swift in Sources */,
 				2CACBCC22B7A3E4E006D3AB2 /* UsersInterviewWidgetAssembly.swift in Sources */,

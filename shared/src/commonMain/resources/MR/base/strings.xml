@@ -799,4 +799,7 @@
     <string name="comment_thread_type_hint_text">Hint</string>
     <string name="comment_thread_type_useful_link_text">Useful links</string>
     <string name="comment_thread_type_solutions_text">Solutions</string>
+
+    <string name="comments_show_replies_btn">Show replies</string>
+    <string name="comments_show_more_btn">Show more</string>
 </resources>
