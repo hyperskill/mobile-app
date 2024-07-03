@@ -110,8 +110,8 @@ extension CommentsCommentView {
     CommentsContentView(
         viewData: .placeholder(hasNextPage: true, isLoadingNextPage: false),
         onShowDiscussionRepliesButtonTap: { _ in },
-        onShowMoreDiscussionsButtonTap: {}, 
-        onReactionButtonTap: { _,_  in }
+        onShowMoreDiscussionsButtonTap: {},
+        onReactionButtonTap: { _, _  in }
     )
 }
 
