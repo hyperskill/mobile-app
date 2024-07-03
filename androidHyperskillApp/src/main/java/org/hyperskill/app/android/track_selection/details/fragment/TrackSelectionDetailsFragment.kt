@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
@@ -13,7 +14,6 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackSelectionDetailsBinding
 import org.hyperskill.app.android.first_problem_onboarding.navigation.FirstProblemOnboardingScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.projects_selection.list.navigation.ProjectSelectionListScreen
 import org.hyperskill.app.android.track_selection.details.delegate.TrackSelectionDetailsDelegate
@@ -44,10 +44,6 @@ class TrackSelectionDetailsFragment :
         requireNotNull(viewModelProvider) { "ViewModelFactory must be initialized" }
     }
 
-    private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) {
-        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
-    }
-
     private val viewBinding: FragmentTrackSelectionDetailsBinding by viewBinding(
         FragmentTrackSelectionDetailsBinding::bind
     )
@@ -69,7 +65,7 @@ class TrackSelectionDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         trackSelectionDetailsViewModel.onNewMessage(Message.ViewedEventMessage)
-
+        applyWindowInsets()
         setupViewStateDelegate()
         with(viewBinding.projectSelectionDetailsToolbar) {
             navigationIcon = if (params.isNewUserMode) {
@@ -86,6 +82,24 @@ class TrackSelectionDetailsFragment :
         }
         viewBinding.trackSelectionDetailsSelectButton.setOnClickListener {
             trackSelectionDetailsViewModel.onNewMessage(Message.SelectTrackButtonClicked)
+        }
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.projectSelectionDetailsToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.trackSelectionDetailsSelectButton.applyInsetter {
+            type(navigationBars = true) {
+                margin()
+            }
+        }
+        viewBinding.trackSelectionDetailsError.root.applyInsetter {
+            type(statusBars = true, navigationBars = true) {
+                padding()
+            }
         }
     }
 

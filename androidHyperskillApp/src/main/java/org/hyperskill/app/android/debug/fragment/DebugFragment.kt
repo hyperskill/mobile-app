@@ -3,9 +3,12 @@ package org.hyperskill.app.android.debug.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -48,6 +51,7 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
+        debugViewModel.handleActions(this, onAction = ::handleAction)
     }
 
     private fun injectComponent() {
@@ -56,17 +60,22 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
         viewModelFactory = platformComponent.reduxViewModelFactory
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (view as ComposeView).setContent {
-            HyperskillTheme {
-                DebugScreen(
-                    viewModel = debugViewModel,
-                    onBackClick = ::onBackClick.takeIf { isBackNavigationEnabled }
-                )
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
+        ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
+            setContent {
+                HyperskillTheme {
+                    DebugScreen(
+                        viewModel = debugViewModel,
+                        onBackClick = ::onBackClick.takeIf { isBackNavigationEnabled }
+                    )
+                }
             }
         }
-        debugViewModel.handleActions(viewLifecycleOwner, onAction = ::handleAction)
-    }
 
     private fun handleAction(action: DebugFeature.Action.ViewAction) {
         when (action) {

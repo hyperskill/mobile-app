@@ -10,7 +10,7 @@ extension WelcomeQuestionnaireItemType {
             case .tikTok: .welcomeOnboardingTiktok
             case .googleSearch: .authSocialGoogleLogo
             case .news: .welcomeOnboardingNews
-            case .appStore: .authSocialAppleLogo
+            case .appStore: .welcomeOnboardingAppStore
             case .facebook: .welcomeOnboardingFacebook
             case .friends: .welcomeOnboardingFriends
             case .youtube: .welcomeOnboardingYoutube

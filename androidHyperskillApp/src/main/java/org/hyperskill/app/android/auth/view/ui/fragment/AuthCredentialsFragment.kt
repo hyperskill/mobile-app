@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import co.touchlab.kermit.Logger
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
@@ -59,6 +60,7 @@ class AuthCredentialsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyWindowInsets()
         initViewStateDelegate()
         viewBinding.emailEditText.inputType =
             InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
@@ -111,6 +113,14 @@ class AuthCredentialsFragment :
         }
 
         authCredentialsViewModel.onNewMessage(AuthCredentialsFeature.Message.ViewedEventMessage)
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.authEmailFragment.applyInsetter {
+            type(statusBars = true, navigationBars = true) {
+                padding()
+            }
+        }
     }
 
     private fun injectComponent() {

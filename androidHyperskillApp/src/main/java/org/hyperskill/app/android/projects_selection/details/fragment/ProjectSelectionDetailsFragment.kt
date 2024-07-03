@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
@@ -60,6 +61,9 @@ class ProjectSelectionDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         projectSelectionDetailsViewModel.onNewMessage(Message.ViewedEventMessage)
+
+        applyWindowInsets()
+
         setupViewStateDelegate()
         viewBinding.projectSelectionDetailsToolbar.setNavigationOnClickListener {
             requireRouter().exit()
@@ -69,6 +73,19 @@ class ProjectSelectionDetailsFragment :
         }
         viewBinding.projectSelectionDetailsError.tryAgain.setOnClickListener {
             projectSelectionDetailsViewModel.onNewMessage(Message.RetryContentLoading)
+        }
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.projectSelectionDetailsToolbar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
+        viewBinding.root.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
         }
     }
 

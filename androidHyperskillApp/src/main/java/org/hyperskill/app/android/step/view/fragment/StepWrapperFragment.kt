@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
@@ -83,8 +84,13 @@ class StepWrapperFragment :
         injectComponent()
     }
 
+    private fun injectComponent() {
+        viewModelFactory = HyperskillApp.graph().buildPlatformStepComponent(stepRoute).reduxViewModelFactory
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewStateDelegate()
+        applyWindowInsets()
         StepDelegate.init(
             errorBinding = viewBinding.stepError,
             lifecycle = viewLifecycleOwner.lifecycle,
@@ -92,8 +98,12 @@ class StepWrapperFragment :
         )
     }
 
-    private fun injectComponent() {
-        viewModelFactory = HyperskillApp.graph().buildPlatformStepComponent(stepRoute).reduxViewModelFactory
+    private fun applyWindowInsets() {
+        viewBinding.stepError.root.applyInsetter {
+            type(navigationBars = true) {
+                padding()
+            }
+        }
     }
 
     private fun initViewStateDelegate() {

@@ -4,9 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -45,9 +48,15 @@ fun WelcomeOnboardingEntryPoint(
         shimmerShotState.runShimmerAnimation()
     }
     Column(
-        modifier = modifier.padding(horizontal = WelcomeOnboardingDefault.horizontalPadding)
+        modifier = modifier
+            .windowInsetsPadding(WindowInsets.safeDrawing)
+            .padding(
+                start = WelcomeOnboardingDefault.horizontalPadding,
+                end = WelcomeOnboardingDefault.horizontalPadding,
+                bottom = WelcomeOnboardingDefault.buttonBottomPadding,
+                top = 44.dp,
+            )
     ) {
-        Spacer(modifier = Modifier.height(44.dp))
         Box(modifier = Modifier.weight(1f)) {
             Column(
                 modifier = Modifier.align(Alignment.centerWithVerticalBias(ContentVerticalBias))
@@ -68,7 +77,6 @@ fun WelcomeOnboardingEntryPoint(
             onClick = onStartClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = WelcomeOnboardingDefault.buttonBottomPadding)
                 .shimmerShot(shimmerShotState)
         ) {
             Text(text = stringResource(id = SharedR.string.welcome_onboarding_entry_point_start_btn))

@@ -1,7 +1,12 @@
 package org.hyperskill.app.android.manage_subscription.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,30 +61,35 @@ fun ManageSubscriptionScreen(
             )
         }
     ) { padding ->
-        when (viewState) {
-            ViewState.Idle -> {
-                // no op
-            }
-            ViewState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .consumeWindowInsets(WindowInsets.statusBars)
+        ) {
+            when (viewState) {
+                ViewState.Idle -> {
+                    // no op
+                }
+                ViewState.Loading -> {
                     HyperskillProgressBar(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
-            }
-            ViewState.Error -> {
-                ScreenDataLoadingError(
-                    errorMessage = stringResource(id = R.string.paywall_placeholder_error_description)
-                ) {
-                    onRetryLoadingClick()
+                ViewState.Error -> {
+                    ScreenDataLoadingError(
+                        errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
+                        modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+                    ) {
+                        onRetryLoadingClick()
+                    }
                 }
-            }
-            is ViewState.Content -> {
-                ManageSubscriptionContent(
-                    state = viewState,
-                    onActionButtonClick = onActionButtonClick,
-                    padding = padding
-                )
+                is ViewState.Content -> {
+                    ManageSubscriptionContent(
+                        state = viewState,
+                        onActionButtonClick = onActionButtonClick,
+                        padding = padding
+                    )
+                }
             }
         }
     }

@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -132,6 +133,8 @@ class AuthSocialFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        applyWindowInsets()
+
         with(viewBinding.signInWithEmailMaterialButton) {
             isVisible = !isInSignUpMode
             setOnClickListener {
@@ -162,6 +165,14 @@ class AuthSocialFragment :
         viewBinding.authButtonsRecyclerView.adapter = authMaterialCardViewsAdapter
 
         authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ViewedEventMessage)
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.authSocialContentContainer.applyInsetter {
+            type(statusBars = true, navigationBars = true) {
+                padding()
+            }
+        }
     }
 
     override fun onAction(action: AuthSocialFeature.Action.ViewAction) {

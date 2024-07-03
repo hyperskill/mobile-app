@@ -8,6 +8,7 @@ import androidx.core.view.marginBottom
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -63,6 +64,8 @@ class StepTheoryFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        applyWindowInsets()
+
         parentOfType(StepToolbarHost::class.java)
             ?.renderToolbarContent(StepToolbarContentViewState.Theory(step.title))
 
@@ -71,6 +74,14 @@ class StepTheoryFragment :
         renderSecondsToComplete(step.secondsToComplete)
 
         setupStepContentFragment(step)
+    }
+
+    private fun applyWindowInsets() {
+        viewBinding.stepTheoryPracticeActionLayout.applyInsetter {
+            type(navigationBars = true) {
+                margin()
+            }
+        }
     }
 
     private fun setupStartPracticeButton(
@@ -95,8 +106,9 @@ class StepTheoryFragment :
             val buttonHeight = with(viewBinding.stepTheoryPracticeActionLayout) {
                 height + marginBottom
             }
-            val contentPadding = viewBinding.stepTheoryContentContainer.paddingBottom
-            viewBinding.stepTheoryContentContainer.updatePadding(bottom = buttonHeight + contentPadding)
+            val contentPadding = requireContext().resources.getDimensionPixelOffset(R.dimen.step_content_padding)
+            viewBinding.stepTheoryContentContainer
+                .updatePadding(bottom = buttonHeight + contentPadding)
         }
     }
 

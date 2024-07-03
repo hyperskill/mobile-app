@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.smoothScrollToBottom
@@ -42,8 +43,17 @@ class StepPracticeFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyWindowInsets()
         initStepPracticeDescriptionFragment(step, stepRoute)
         initStepQuizFragment(step, stepRoute)
+    }
+
+    private fun applyWindowInsets() {
+        stepPracticeViewBinding.stepPracticeContainer.applyInsetter {
+            type(ime = true) {
+                margin()
+            }
+        }
     }
 
     private fun initStepPracticeDescriptionFragment(step: Step, stepRoute: StepRoute) {

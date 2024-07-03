@@ -21,6 +21,7 @@ dependencies {
     implementation(libs.android.ui.constraintlayout)
     implementation(libs.android.ui.swiperefreshlayout)
     implementation(libs.android.ui.core.ktx)
+    implementation(libs.android.ui.activity.ktx)
     implementation(libs.android.ui.fragment)
     implementation(libs.android.ui.fragment.ktx)
     implementation(libs.android.lifecycle.runtime)
@@ -71,6 +72,7 @@ dependencies {
     implementation(libs.android.splashscreen)
     implementation(libs.android.timepicker)
     implementation(libs.android.lottie)
+    implementation(libs.android.ui.insetter)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
