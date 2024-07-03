@@ -3,6 +3,7 @@ androidGradlePlugin = "8.2.2"
 kotlin = '1.9.24'
 kotlinCoroutines = '1.8.1'
 ktor = '2.3.12'
+datetime = '0.6.0'
 mokoResources = "0.24.1"
 mokoKswift = "0.7.0"
 adapters = '1.1.1'
@@ -51,7 +52,7 @@ plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle
 plugin-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
 plugin-mokoKswift = { module = "dev.icerock.moko:kswift-gradle-plugin", version.ref = "mokoKswift" }
 
-kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.4.0" }
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinCoroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinCoroutines" }
