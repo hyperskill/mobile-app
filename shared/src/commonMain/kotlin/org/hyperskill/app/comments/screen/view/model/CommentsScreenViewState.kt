@@ -1,5 +1,6 @@
 package org.hyperskill.app.comments.screen.view.model
 
+import org.hyperskill.app.comments.domain.model.CommentReaction
 import ru.nobird.app.core.model.Identifiable
 
 data class CommentsScreenViewState(
@@ -37,6 +38,7 @@ data class CommentsScreenViewState(
         val authorAvatar: String,
         val authorFullName: String,
         val formattedTime: String?,
-        val text: String
+        val text: String,
+        val reactions: List<CommentReaction>
     ) : Identifiable<Long>
 }

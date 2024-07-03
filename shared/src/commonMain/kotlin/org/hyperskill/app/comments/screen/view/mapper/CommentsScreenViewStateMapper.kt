@@ -6,6 +6,8 @@ import org.hyperskill.app.comments.screen.view.model.CommentsScreenViewState
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.discussions.domain.model.Discussion
 import org.hyperskill.app.discussions.domain.model.getRepliesIds
+import org.hyperskill.app.reactions.domain.model.ReactionType
+import org.hyperskill.app.reactions.domain.model.commentReactions
 
 internal class CommentsScreenViewStateMapper(
     private val commentThreadTitleMapper: CommentThreadTitleMapper,
@@ -72,7 +74,8 @@ internal class CommentsScreenViewStateMapper(
             authorAvatar = comment.user.avatar,
             authorFullName = comment.user.fullName,
             formattedTime = comment.time?.let { dateFormatter.formatTimeDistance(it) },
-            text = comment.localizedText
+            text = comment.localizedText,
+            reactions = comment.reactions.filter { it.value > 0 && it.reactionType in ReactionType.commentReactions }
         )
 
     private fun mapReplies(

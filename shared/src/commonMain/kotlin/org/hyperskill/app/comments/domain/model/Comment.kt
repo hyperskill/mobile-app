@@ -19,5 +19,7 @@ data class Comment(
     @SerialName("user")
     val user: CommentAuthor,
     @SerialName("time")
-    val time: Instant? = null
+    val time: Instant? = null,
+    @SerialName("reactions")
+    val reactions: List<CommentReaction>
 )

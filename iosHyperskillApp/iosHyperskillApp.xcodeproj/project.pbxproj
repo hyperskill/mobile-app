@@ -568,6 +568,7 @@
 		2CF34F992C3397610054477E /* CommentsHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F982C3397610054477E /* CommentsHostingController.swift */; };
 		2CF34F9B2C34079C0054477E /* View+ListRowSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F9A2C34079C0054477E /* View+ListRowSeparator.swift */; };
 		2CF34F9D2C340DB60054477E /* CommentsSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F9C2C340DB60054477E /* CommentsSkeletonView.swift */; };
+		2CF34F9F2C3520470054477E /* CommentsReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F9E2C3520470054477E /* CommentsReactionsView.swift */; };
 		2CF41A8E28505D2C000736D6 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* LatexView.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
 		2CF43414281281DB002893CD /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF43413281281DB002893CD /* AuthTextField.swift */; };
@@ -1348,6 +1349,7 @@
 		2CF34F982C3397610054477E /* CommentsHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsHostingController.swift; sourceTree = "<group>"; };
 		2CF34F9A2C34079C0054477E /* View+ListRowSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ListRowSeparator.swift"; sourceTree = "<group>"; };
 		2CF34F9C2C340DB60054477E /* CommentsSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsSkeletonView.swift; sourceTree = "<group>"; };
+		2CF34F9E2C3520470054477E /* CommentsReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsReactionsView.swift; sourceTree = "<group>"; };
 		2CF41A8D28505D2C000736D6 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
 		2CF43413281281DB002893CD /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
@@ -3963,6 +3965,7 @@
 			children = (
 				2CF34F942C2E958D0054477E /* CommentsCommentView.swift */,
 				2CF34F902C2E8EAE0054477E /* CommentsContentView.swift */,
+				2CF34F9E2C3520470054477E /* CommentsReactionsView.swift */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -4970,6 +4973,7 @@
 				2C42EFB327F2EA7B00B4648B /* StringResource+Localized.swift in Sources */,
 				2C76136A2B99CBA500AE3204 /* ManageSubscriptionFeatureViewStateKsExtensions.swift in Sources */,
 				2C2FD622281920B1004E7AF6 /* SentryInfo.swift in Sources */,
+				2CF34F9F2C3520470054477E /* CommentsReactionsView.swift in Sources */,
 				2C0DB91C28645ADA001EA35E /* CodeCompletionKeywords.swift in Sources */,
 				2C52A34C2BD0E99000A76AB3 /* Collection+SafeSubscript.swift in Sources */,
 				2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */,

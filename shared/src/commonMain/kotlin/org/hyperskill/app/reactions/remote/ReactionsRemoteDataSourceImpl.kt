@@ -12,7 +12,7 @@ import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.reactions.remote.model.ReactionsRequest
 import org.hyperskill.app.reactions.remote.model.ReactionsResponse
 
-class ReactionsRemoteDataSourceImpl(
+internal class ReactionsRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : ReactionsRemoteDataSource {
     override suspend fun createCommentReaction(
@@ -23,7 +23,7 @@ class ReactionsRemoteDataSourceImpl(
             httpClient
                 .post("/api/reactions") {
                     contentType(ContentType.Application.Json)
-                    setBody(ReactionsRequest(commentId, reaction.shortName))
+                    setBody(ReactionsRequest(commentId, reaction))
                 }.body<ReactionsResponse>().reactions.first()
         }
 }

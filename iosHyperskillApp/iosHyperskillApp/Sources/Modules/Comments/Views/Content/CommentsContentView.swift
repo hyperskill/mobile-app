@@ -83,7 +83,8 @@ extension CommentsCommentView {
             authorAvatar: comment.authorAvatar,
             authorFullName: comment.authorFullName,
             formattedTime: comment.formattedTime,
-            text: comment.text
+            text: comment.text,
+            reactions: comment.reactions
         )
     }
 }
@@ -114,7 +115,11 @@ Which version of python are you using? In python 3, the type function returns th
                         authorAvatar: "",
                         authorFullName: "mantraolympics",
                         formattedTime: "a month ago",
-                        text: text
+                        text: text,
+                        reactions: [
+                            CommentReaction(reactionType: .plus, value: 1, isSet: true),
+                            CommentReaction(reactionType: .fire, value: 2, isSet: false)
+                        ]
                     ),
                     replies: CommentsScreenViewStateDiscussionRepliesShowRepliesButton()
                 ),
@@ -124,7 +129,8 @@ Which version of python are you using? In python 3, the type function returns th
                         authorAvatar: "",
                         authorFullName: "mantraolympics",
                         formattedTime: "10 months ago",
-                        text: text
+                        text: text,
+                        reactions: []
                     ),
                     replies: CommentsScreenViewStateDiscussionRepliesEmptyReplies()
                 ),
@@ -134,7 +140,8 @@ Which version of python are you using? In python 3, the type function returns th
                         authorAvatar: "",
                         authorFullName: "mantraolympics",
                         formattedTime: "2 years ago",
-                        text: text
+                        text: text,
+                        reactions: []
                     ),
                     replies: CommentsScreenViewStateDiscussionRepliesContent(
                         replies: [
@@ -143,7 +150,8 @@ Which version of python are you using? In python 3, the type function returns th
                                 authorAvatar: "",
                                 authorFullName: "mantraolympics",
                                 formattedTime: "10 years ago",
-                                text: "The same for me"
+                                text: "The same for me",
+                                reactions: []
                             )
                         ]
                     )

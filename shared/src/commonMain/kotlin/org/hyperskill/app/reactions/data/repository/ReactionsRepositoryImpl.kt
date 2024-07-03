@@ -5,7 +5,7 @@ import org.hyperskill.app.reactions.domain.model.Reaction
 import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.reactions.domain.repository.ReactionsRepository
 
-class ReactionsRepositoryImpl(
+internal class ReactionsRepositoryImpl(
     private val reactionsRemoteDataSource: ReactionsRemoteDataSource
 ) : ReactionsRepository {
     override suspend fun createCommentReaction(commentId: Long, reaction: ReactionType): Result<Reaction> =

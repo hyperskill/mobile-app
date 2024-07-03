@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension CommentsCommentView {
@@ -13,6 +14,7 @@ struct CommentsCommentView: View {
     let authorFullName: String
     let formattedTime: String?
     let text: String
+    let reactions: [CommentReaction]
 
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
@@ -22,6 +24,11 @@ struct CommentsCommentView: View {
                 .font(.body)
                 .foregroundColor(.newPrimaryText)
                 .frame(maxWidth: .infinity, alignment: .leading)
+
+            CommentsReactionsView(
+                reactions: reactions,
+                onReactionTap: { _ in }
+            )
         }
     }
 
@@ -52,7 +59,11 @@ struct CommentsCommentView: View {
         formattedTime: "10 months ago",
         text: """
 Which version of python are you using? In python 3, the type function returns the <class data_type> format.
-"""
+""",
+        reactions: [
+            CommentReaction(reactionType: .plus, value: 1, isSet: true),
+            CommentReaction(reactionType: .fire, value: 2, isSet: false)
+        ]
     )
     .padding()
 }

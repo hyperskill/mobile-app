@@ -28,7 +28,7 @@ internal class StepQuizHintsComponentImpl(
             stepQuizHintsInteractor = stepQuizHintsInteractor,
             likesInteractor = appGraph.buildLikesDataComponent().likesInteractor,
             commentsRepository = appGraph.buildCommentsDataComponent().commentsRepository,
-            reactionsInteractor = appGraph.buildReactionsDataComponent().reactionsInteractor,
+            reactionsRepository = appGraph.buildReactionsDataComponent().reactionsRepository,
             userStorageInteractor = appGraph.buildUserStorageComponent().userStorageInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor
