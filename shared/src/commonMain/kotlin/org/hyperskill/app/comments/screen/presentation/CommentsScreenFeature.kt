@@ -6,6 +6,7 @@ import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.discussions.domain.model.Discussion
 import org.hyperskill.app.discussions.remote.model.DiscussionsResponse
+import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.core.model.PagedList
 
@@ -42,6 +43,8 @@ object CommentsScreenFeature {
         data class ShowDiscussionRepliesClicked(val discussionId: Long) : Message
         object ShowMoreDiscussionsClicked : Message
 
+        data class ReactionClicked(val commentId: Long, val reactionType: ReactionType) : Message
+
         object ViewedEventMessage : Message
     }
 
@@ -67,6 +70,9 @@ object CommentsScreenFeature {
         data class FetchDiscussions(val stepId: Long, val page: Int) : InternalAction
 
         data class FetchDiscussionReplies(val discussionId: Long, val repliesIds: List<Long>) : InternalAction
+
+        data class CreateCommentReaction(val commentId: Long, val reactionType: ReactionType) : InternalAction
+        data class RemoveCommentReaction(val commentId: Long, val reactionType: ReactionType) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }

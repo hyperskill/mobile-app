@@ -26,4 +26,16 @@ internal class ReactionsRemoteDataSourceImpl(
                     setBody(ReactionsRequest(commentId, reaction))
                 }.body<ReactionsResponse>().reactions.first()
         }
+
+    override suspend fun removeCommentReaction(
+        commentId: Long,
+        reaction: ReactionType
+    ): Result<Unit> =
+        runCatching {
+            httpClient
+                .post("/api/reactions/remove") {
+                    contentType(ContentType.Application.Json)
+                    setBody(ReactionsRequest(commentId, reaction))
+                }
+        }
 }

@@ -39,7 +39,8 @@ struct CommentsView: View {
             CommentsContentView(
                 viewData: viewData,
                 onShowDiscussionRepliesButtonTap: viewModel.doShowDiscussionReplies(discussionID:),
-                onShowMoreDiscussionsButtonTap: viewModel.doShowMoreDiscussions
+                onShowMoreDiscussionsButtonTap: viewModel.doShowMoreDiscussions, 
+                onReactionButtonTap: viewModel.doReactionMainAction(commentID:reactionType:)
             )
         }
     }

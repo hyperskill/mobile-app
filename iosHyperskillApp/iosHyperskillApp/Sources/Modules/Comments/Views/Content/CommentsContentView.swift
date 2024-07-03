@@ -13,11 +13,18 @@ struct CommentsContentView: View {
     let onShowDiscussionRepliesButtonTap: (Int64) -> Void
     let onShowMoreDiscussionsButtonTap: () -> Void
 
+    let onReactionButtonTap: (Int64, ReactionType) -> Void
+
     var body: some View {
         List {
             ForEach(viewData.discussions) { discussion in
                 Section {
-                    CommentsCommentView(comment: discussion.comment)
+                    CommentsCommentView(
+                        comment: discussion.comment,
+                        onReactionTap: { reaction in
+                            onReactionButtonTap(discussion.id.int64Value, reaction)
+                        }
+                    )
 
                     switch CommentsScreenViewStateDiscussionRepliesKs(discussion.replies) {
                     case .emptyReplies:
@@ -35,7 +42,12 @@ struct CommentsContentView: View {
                             .padding(.leading, Appearance.replyLeadingInset)
                     case .content(let data):
                         ForEach(data.replies) { reply in
-                            CommentsCommentView(comment: reply)
+                            CommentsCommentView(
+                                comment: reply,
+                                onReactionTap: { reaction in
+                                    onReactionButtonTap(reply.id.int64Value, reaction)
+                                }
+                            )
                         }
                         .padding(.leading, Appearance.replyLeadingInset)
                     }
@@ -78,13 +90,17 @@ extension CommentsScreenViewState.DiscussionItem: Identifiable {}
 extension CommentsScreenViewState.CommentItem: Identifiable {}
 
 extension CommentsCommentView {
-    init(comment: CommentsScreenViewState.CommentItem) {
+    init(
+        comment: CommentsScreenViewState.CommentItem,
+        onReactionTap: @escaping (ReactionType) -> Void
+    ) {
         self.init(
             authorAvatar: comment.authorAvatar,
             authorFullName: comment.authorFullName,
             formattedTime: comment.formattedTime,
             text: comment.text,
-            reactions: comment.reactions
+            reactions: comment.reactions,
+            onReactionTap: onReactionTap
         )
     }
 }
@@ -94,7 +110,8 @@ extension CommentsCommentView {
     CommentsContentView(
         viewData: .placeholder(hasNextPage: true, isLoadingNextPage: false),
         onShowDiscussionRepliesButtonTap: { _ in },
-        onShowMoreDiscussionsButtonTap: {}
+        onShowMoreDiscussionsButtonTap: {}, 
+        onReactionButtonTap: { _,_  in }
     )
 }
 

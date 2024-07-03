@@ -1,5 +1,6 @@
 package org.hyperskill.app.comments.screen.presentation
 
+import org.hyperskill.app.comments.screen.domain.analytic.CommentsScreenClickedReactionHyperskillAnalyticEvent
 import org.hyperskill.app.comments.screen.domain.analytic.CommentsScreenClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.comments.screen.domain.analytic.CommentsScreenClickedShowDiscussionRepliesHyperskillAnalyticEvent
 import org.hyperskill.app.comments.screen.domain.analytic.CommentsScreenClickedShowMoreDiscussionsHyperskillAnalyticEvent
@@ -12,6 +13,8 @@ import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Mes
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.State
 import org.hyperskill.app.discussions.domain.model.getRepliesIds
 import org.hyperskill.app.discussions.remote.model.toPagedList
+import org.hyperskill.app.reactions.domain.model.ReactionType
+import org.hyperskill.app.reactions.domain.model.commentReactions
 import ru.nobird.app.core.model.plus
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -29,6 +32,8 @@ internal class CommentsScreenReducer : StateReducer<State, Message, Action> {
             is Message.ShowDiscussionRepliesClicked -> handleShowDiscussionRepliesClicked(state, message)
             is InternalMessage.DiscussionRepliesFetchError -> handleDiscussionRepliesFetchError(state, message)
             is InternalMessage.DiscussionRepliesFetchSuccess -> handleDiscussionRepliesFetchSuccess(state, message)
+
+            is Message.ReactionClicked -> handleReactionClicked(state, message)
 
             Message.ViewedEventMessage -> handleViewedEvent(state)
         } ?: (state to emptySet())
@@ -169,6 +174,48 @@ internal class CommentsScreenReducer : StateReducer<State, Message, Action> {
         } else {
             null
         }
+
+    private fun handleReactionClicked(
+        state: State,
+        message: Message.ReactionClicked
+    ): CommentsScreenReducerResult? {
+        val discussionsState = state.discussionsState as? DiscussionsState.Content ?: return null
+        if (message.reactionType !in ReactionType.commentReactions) return null
+
+        val comment = discussionsState.commentsMap[message.commentId] ?: return null
+        val reactionIndex = comment.reactions
+            .indexOfFirst { it.reactionType == message.reactionType }
+            .takeIf { it != -1 }
+            ?: return null
+        val reaction = comment.reactions[reactionIndex]
+        val isSettingReaction = !reaction.isSet
+
+        val newReaction = reaction.copy(
+            value = if (isSettingReaction) reaction.value + 1 else reaction.value - 1,
+            isSet = isSettingReaction
+        )
+        val newComment = comment.copy(
+            reactions = comment.reactions.toMutableList().apply { this[reactionIndex] = newReaction }
+        )
+        val newCommentsMap = discussionsState.commentsMap.toMutableMap().apply { this[message.commentId] = newComment }
+
+        return state.updateDiscussionsState(
+            discussionsState.copy(commentsMap = newCommentsMap)
+        ) to setOf(
+            if (isSettingReaction) {
+                InternalAction.CreateCommentReaction(message.commentId, message.reactionType)
+            } else {
+                InternalAction.RemoveCommentReaction(message.commentId, message.reactionType)
+            },
+            InternalAction.LogAnalyticEvent(
+                CommentsScreenClickedReactionHyperskillAnalyticEvent(
+                    stepRoute = state.stepRoute,
+                    commentId = message.commentId,
+                    reactionType = message.reactionType
+                )
+            )
+        )
+    }
 
     private fun handleViewedEvent(state: State): CommentsScreenReducerResult =
         state to setOf(InternalAction.LogAnalyticEvent(CommentsScreenViewedHyperskillAnalyticEvent(state.stepRoute)))

@@ -20,6 +20,10 @@ internal class CommentsScreenActionDispatcher(
         when (action) {
             is InternalAction.FetchDiscussions -> handleFetchDiscussionsAction(action, ::onNewMessage)
             is InternalAction.FetchDiscussionReplies -> handleFetchDiscussionRepliesAction(action, ::onNewMessage)
+            is InternalAction.CreateCommentReaction ->
+                commentsScreenInteractor.createCommentReaction(action.commentId, action.reactionType)
+            is InternalAction.RemoveCommentReaction ->
+                commentsScreenInteractor.removeCommentReaction(action.commentId, action.reactionType)
             else -> {
                 // no op
             }

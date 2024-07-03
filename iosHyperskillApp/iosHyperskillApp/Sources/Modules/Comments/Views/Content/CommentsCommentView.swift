@@ -16,6 +16,8 @@ struct CommentsCommentView: View {
     let text: String
     let reactions: [CommentReaction]
 
+    let onReactionTap: (ReactionType) -> Void
+
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
             author
@@ -27,7 +29,7 @@ struct CommentsCommentView: View {
 
             CommentsReactionsView(
                 reactions: reactions,
-                onReactionTap: { _ in }
+                onReactionTap: onReactionTap
             )
         }
     }
@@ -63,7 +65,8 @@ Which version of python are you using? In python 3, the type function returns th
         reactions: [
             CommentReaction(reactionType: .plus, value: 1, isSet: true),
             CommentReaction(reactionType: .fire, value: 2, isSet: false)
-        ]
+        ],
+        onReactionTap: { _ in }
     )
     .padding()
 }

@@ -229,6 +229,7 @@
     <ID>PrintStackTrace:LatexWebView.kt$LatexWebView$e</ID>
     <ID>ReturnCount:ChallengeWidgetReducer.kt$ChallengeWidgetReducer$private fun handleStepSolvedMessage(state: State): ChallengeWidgetReducerResult?</ID>
     <ID>ReturnCount:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$private fun getLoadedWidgetContent(state: ChallengeWidgetFeature.State.Content): ChallengeWidgetViewState</ID>
+    <ID>ReturnCount:CommentsScreenReducer.kt$CommentsScreenReducer$private fun handleReactionClicked( state: State, message: Message.ReactionClicked ): CommentsScreenReducerResult?</ID>
     <ID>ReturnCount:CommentsScreenReducer.kt$CommentsScreenReducer$private fun handleShowDiscussionRepliesClicked( state: State, message: Message.ShowDiscussionRepliesClicked ): CommentsScreenReducerResult?</ID>
     <ID>ReturnCount:ExpandableTextView.kt$ExpandableTextView$private fun resolveDisplayedText(staticLayout: StaticLayout): CharSequence?</ID>
     <ID>ReturnCount:FillBlanksItemMapper.kt$FillBlanksItemMapper$internal fun map( componentsDataset: List&lt;Component&gt;, replyBlanks: List&lt;String&gt;? ): FillBlanksData?</ID>
@@ -303,6 +304,7 @@
     <ID>UseCheckOrError:FragmentSerializableArgumentDelegate.kt$BundleDelegate$throw IllegalStateException("Property ${property.name} could not be read")</ID>
     <ID>UseCheckOrError:FragmentSerializableArgumentDelegate.kt$FragmentSerializableArgumentDelegate$throw IllegalStateException("Cannot read property ${property.name} if no arguments have been set")</ID>
     <ID>UseCheckOrError:LoadingView.kt$LoadingView$throw IllegalStateException("Visibility should be one of VISIBLE, INVISIBLE, GONE")</ID>
+    <ID>UseCheckOrError:MainStepQuizHintsActionDispatcher.kt$MainStepQuizHintsActionDispatcher$throw IllegalStateException("Unknown reaction type: $action.reaction")</ID>
     <ID>UseCheckOrError:RepositoryCacheProxyTest.kt$RepositoryCacheProxyTest.&lt;no name provided&gt;$throw IllegalStateException("cache.clearCache should not be called")</ID>
     <ID>UseCheckOrError:RequestReviewModalViewStateMapper.kt$RequestReviewModalViewStateMapper$throw IllegalStateException("State.Negative shouldn't be mapped to ViewState")</ID>
     <ID>ViewModelForwarding:ManageSubscriptionScreen.kt$OnComposableShownFirstTime(viewModel) { viewModel.onNewMessage(Message.ViewedEventMessage) }</ID>

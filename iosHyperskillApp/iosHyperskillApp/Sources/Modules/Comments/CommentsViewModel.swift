@@ -32,6 +32,10 @@ final class CommentsViewModel: FeatureViewModel<
         onNewMessage(CommentsScreenFeatureMessageShowMoreDiscussionsClicked())
     }
 
+    func doReactionMainAction(commentID: Int64, reactionType: ReactionType) {
+        onNewMessage(CommentsScreenFeatureMessageReactionClicked(commentId: commentID, reactionType: reactionType))
+    }
+
     func logViewedEvent() {
         onNewMessage(CommentsScreenFeatureMessageViewedEventMessage())
     }

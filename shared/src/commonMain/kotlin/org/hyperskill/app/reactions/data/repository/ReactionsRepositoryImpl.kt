@@ -10,4 +10,7 @@ internal class ReactionsRepositoryImpl(
 ) : ReactionsRepository {
     override suspend fun createCommentReaction(commentId: Long, reaction: ReactionType): Result<Reaction> =
         reactionsRemoteDataSource.createCommentReaction(commentId, reaction)
+
+    override suspend fun removeCommentReaction(commentId: Long, reaction: ReactionType): Result<Unit> =
+        reactionsRemoteDataSource.removeCommentReaction(commentId, reaction)
 }

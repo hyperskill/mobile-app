@@ -19,7 +19,8 @@ internal class CommentsScreenComponentImpl(
     private val commentsScreenInteractor: CommentsScreenInteractor =
         CommentsScreenInteractor(
             discussionsRepository = appGraph.buildDiscussionsDataComponent().discussionsRepository,
-            commentsRepository = appGraph.buildCommentsDataComponent().commentsRepository
+            commentsRepository = appGraph.buildCommentsDataComponent().commentsRepository,
+            reactionsRepository = appGraph.buildReactionsDataComponent().reactionsRepository
         )
 
     override val commentsScreenFeature: Feature<CommentsScreenViewState, Message, Action>

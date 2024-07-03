@@ -5,4 +5,5 @@ import org.hyperskill.app.reactions.domain.model.ReactionType
 
 interface ReactionsRepository {
     suspend fun createCommentReaction(commentId: Long, reaction: ReactionType): Result<Reaction>
+    suspend fun removeCommentReaction(commentId: Long, reaction: ReactionType): Result<Unit>
 }
