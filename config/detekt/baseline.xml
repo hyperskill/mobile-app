@@ -168,7 +168,6 @@
     <ID>MatchingDeclarationName:FindStage.kt$FindStageInput</ID>
     <ID>MatchingDeclarationName:HyperskillButton.kt$HyperskillButtonDefaults</ID>
     <ID>MatchingDeclarationName:LeaderboardItem.kt$LeaderboardItemDefaults</ID>
-    <ID>MatchingDeclarationName:PaywallScreen.kt$PaywallDefaults</ID>
     <ID>MaxLineLength:ChallengeCardPreviewValues.kt$ChallengeCardPreviewValues$const</ID>
     <ID>MaxLineLength:ExpandableTextView.kt$ExpandableTextView$*</ID>
     <ID>MaxLineLength:HtmlText.kt$text</ID>
@@ -297,7 +296,6 @@
     <ID>UnusedParameter:DebugToolsHelper.kt$DebugToolsHelper$app: Application</ID>
     <ID>UnusedPrivateMember:StepQuizResolverTest.kt$StepQuizResolverTest$@Suppress("UNUSED_EXPRESSION") private fun marker( stepRoute: StepRoute, stepQuizState: StepQuizFeature.StepQuizState )</ID>
     <ID>UnusedPrivateProperty:MainActivity.kt$MainActivity$val splashScreen = installSplashScreen()</ID>
-    <ID>UnusedPrivateProperty:TrackSelectionDetailsFragment.kt$TrackSelectionDetailsFragment$private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) { HyperskillApp.graph().navigationComponent.mainScreenCicerone.router }</ID>
     <ID>UseCheckOrError:AndroidStepQuizTest.kt$AndroidStepQuizTest$throw IllegalStateException( "Unknown step route class: $concreteStepRouteClass. Please add it to the test." )</ID>
     <ID>UseCheckOrError:CollectionToJsonElement.kt$throw IllegalStateException("Can't serialize unknown type: $this")</ID>
     <ID>UseCheckOrError:ContextExtensions.kt$throw IllegalStateException("Can't find Activity in a given context")</ID>

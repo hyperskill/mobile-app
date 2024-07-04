@@ -15,7 +15,7 @@ import org.hyperskill.app.discussions.domain.model.getRepliesIds
 import org.hyperskill.app.discussions.remote.model.toPagedList
 import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.reactions.domain.model.commentReactions
-import ru.nobird.app.core.model.plus
+import ru.nobird.app.core.model.concatWithPagedList
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias CommentsScreenReducerResult = Pair<State, Set<Action>>
@@ -82,7 +82,7 @@ internal class CommentsScreenReducer : StateReducer<State, Message, Action> {
                 ) to emptySet()
             is DiscussionsState.Content -> {
                 val newDiscussions =
-                    state.discussionsState.discussions.plus(message.discussionsResponse.toPagedList())
+                    state.discussionsState.discussions.concatWithPagedList(message.discussionsResponse.toPagedList())
                 val newCommentsMap =
                     state.discussionsState.commentsMap + message.rootComments.associateBy { it.id }
 
