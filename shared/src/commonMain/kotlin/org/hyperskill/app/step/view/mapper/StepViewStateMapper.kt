@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.view.mapper
 
+import kotlin.enums.EnumEntries
 import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
@@ -20,7 +21,7 @@ internal class StepViewStateMapper(
         stepState: StepFeature.StepState,
         stepRoute: StepRoute
     ): Set<StepMenuAction> =
-        StepMenuAction.values().filter { action ->
+        StepMenuAction.entries.filter { action ->
             action != StepMenuAction.SKIP || isSkipButtonAvailable(stepState, stepRoute)
         }.toSet()
 

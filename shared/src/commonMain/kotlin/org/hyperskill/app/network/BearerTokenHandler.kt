@@ -90,7 +90,7 @@ internal object BearerTokenHandler {
     ): HttpClient {
         val currentAuthClientType =
             settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)
-        return when (NetworkClientType.values()[currentAuthClientType]) {
+        return when (NetworkClientType.entries[currentAuthClientType]) {
             NetworkClientType.CREDENTIALS ->
                 tokenCredentialsAuthClient
             NetworkClientType.SOCIAL ->

@@ -12,8 +12,8 @@ object BadgeCardStatePreview {
         getPreview(title = "Project Mastery Project Mastery", isMaxLevel = true)
 
     fun getAllBadgesPreview(): List<BadgesViewState.Badge> =
-        BadgeKind.values()
-            .toList()
+        BadgeKind
+            .entries
             .minus(BadgeKind.UNKNOWN)
             .mapIndexed { index, badgeKind ->
                 getPreview(

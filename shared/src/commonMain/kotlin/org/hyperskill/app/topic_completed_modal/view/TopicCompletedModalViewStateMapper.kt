@@ -66,7 +66,7 @@ internal class TopicCompletedModalViewStateMapper(
     }
 
     private fun getBackgroundAnimationStyle(passedTopicsCount: Int): ViewState.BackgroundAnimationStyle {
-        val styles = ViewState.BackgroundAnimationStyle.values()
+        val styles = ViewState.BackgroundAnimationStyle.entries.toTypedArray()
         return styles[passedTopicsCount % styles.size]
     }
 }
