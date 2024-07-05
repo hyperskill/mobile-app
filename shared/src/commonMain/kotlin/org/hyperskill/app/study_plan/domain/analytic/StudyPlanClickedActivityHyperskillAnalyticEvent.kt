@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.content_type.domain.model.ContentType
 import ru.nobird.app.core.model.mapOfNotNull
 
 /**
@@ -37,7 +38,7 @@ import ru.nobird.app.core.model.mapOfNotNull
 class StudyPlanClickedActivityHyperskillAnalyticEvent(
     val activityId: Long,
     val activityType: Int?,
-    val activityTargetType: String?,
+    val activityTargetType: ContentType?,
     val activityTargetId: Long?
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.StudyPlan(),

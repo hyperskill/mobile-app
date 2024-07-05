@@ -3,6 +3,7 @@ package org.hyperskill.app.learning_activities.domain.model
 import kotlin.math.floor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.content_type.domain.model.ContentType
 
 @Serializable
 data class LearningActivity(
@@ -13,7 +14,7 @@ data class LearningActivity(
     @SerialName("target_id")
     val targetId: Long?,
     @SerialName("target_type")
-    internal val targetTypeValue: String?,
+    internal val targetType: ContentType = ContentType.UNKNOWN,
     @SerialName("type")
     internal val typeValue: Int,
     @SerialName("title")
@@ -34,9 +35,6 @@ data class LearningActivity(
 
     val type: LearningActivityType?
         get() = LearningActivityType.getByValue(typeValue)
-
-    val targetType: LearningActivityTargetType?
-        get() = targetTypeValue?.let { LearningActivityTargetType.getByValue(it) }
 
     val progressPercentage: Int
         get() = floor(progress * 100).toInt()

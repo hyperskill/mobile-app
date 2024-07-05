@@ -1,6 +1,7 @@
 package org.hyperskill.app.first_problem_onboarding.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.content_type.domain.model.ContentType
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingClickedLearningActionHyperskillAnalyticEvent
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingViewedHyperskillAnalyticEvent
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.OnboardingCompletionAppsFlyerAnalyticEvent
@@ -11,7 +12,6 @@ import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnbo
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.ProfileState
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.State
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -152,7 +152,7 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
 
     private fun getNavigateActionByLearningActivity(learningActivity: LearningActivity?) =
         Action.ViewAction.CompleteFirstProblemOnboarding(
-            if (learningActivity?.targetType == LearningActivityTargetType.STEP) {
+            if (learningActivity?.targetType == ContentType.STEP) {
                 learningActivity.targetId?.let { stepId ->
                     StepRoute.Learn.Step(stepId = stepId, topicId = learningActivity.topicId)
                 }

@@ -6,10 +6,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
 import org.hyperskill.ResourceProviderStub
+import org.hyperskill.app.content_type.domain.model.ContentType
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.profile.domain.model.Profile
@@ -836,7 +836,7 @@ class StudyPlanWidgetTest {
                 activityId to stubLearningActivity(
                     activityId,
                     type = LearningActivityType.IMPLEMENT_STAGE,
-                    targetType = LearningActivityTargetType.STAGE,
+                    targetType = ContentType.STAGE,
                     targetId = stageId
                 )
             )
@@ -870,7 +870,7 @@ class StudyPlanWidgetTest {
                 activityId to stubLearningActivity(
                     activityId,
                     type = LearningActivityType.IMPLEMENT_STAGE,
-                    targetType = LearningActivityTargetType.STEP,
+                    targetType = ContentType.STEP,
                     targetId = 1L
                 )
             )
@@ -901,7 +901,7 @@ class StudyPlanWidgetTest {
                 activityId to stubLearningActivity(
                     activityId,
                     type = LearningActivityType.LEARN_TOPIC,
-                    targetType = LearningActivityTargetType.STEP,
+                    targetType = ContentType.STEP,
                     targetId = stepId
                 )
             )
@@ -945,7 +945,7 @@ class StudyPlanWidgetTest {
                 activityId to stubLearningActivity(
                     activityId,
                     type = LearningActivityType.LEARN_TOPIC,
-                    targetType = LearningActivityTargetType.STAGE,
+                    targetType = ContentType.STAGE,
                     targetId = 1L
                 )
             )
@@ -976,7 +976,7 @@ class StudyPlanWidgetTest {
                 activityId to stubLearningActivity(
                     activityId,
                     type = LearningActivityType.IMPLEMENT_STAGE,
-                    targetType = LearningActivityTargetType.STAGE,
+                    targetType = ContentType.STAGE,
                     targetId = 1L,
                     isIdeRequired = true
                 )
@@ -1350,7 +1350,7 @@ class StudyPlanWidgetTest {
         state: LearningActivityState = LearningActivityState.TODO,
         targetId: Long = 0L,
         type: LearningActivityType = LearningActivityType.LEARN_TOPIC,
-        targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
+        targetType: ContentType = ContentType.STEP,
         title: String = "",
         description: String? = null,
         isIdeRequired: Boolean = false,
@@ -1362,7 +1362,7 @@ class StudyPlanWidgetTest {
             stateValue = state.value,
             targetId = targetId,
             typeValue = type.value,
-            targetTypeValue = targetType.value,
+            targetType = targetType,
             title = title,
             description = description,
             isIdeRequired = isIdeRequired,
@@ -1396,7 +1396,7 @@ class StudyPlanWidgetTest {
         if (analyticAction.analyticEvent is StudyPlanClickedActivityHyperskillAnalyticEvent) {
             assertEquals(activity.id, analyticAction.analyticEvent.activityId)
             assertEquals(activity.type?.value, analyticAction.analyticEvent.activityType)
-            assertEquals(activity.targetType?.value, analyticAction.analyticEvent.activityTargetType)
+            assertEquals(activity.targetType, analyticAction.analyticEvent.activityTargetType)
             assertEquals(activity.targetId, analyticAction.analyticEvent.activityTargetId)
         } else {
             fail("Expected StudyPlanClickedActivityHyperskillAnalyticEvent")
