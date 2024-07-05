@@ -6,10 +6,8 @@ enum class BuildVariant(val value: String) {
     INTERNAL_RELEASE("internalRelease");
 
     companion object {
-        private val VALUES: Array<BuildVariant> = values()
-
         fun getByValue(value: String): BuildVariant? =
-            VALUES.firstOrNull { it.value == value }
+            entries.firstOrNull { it.value == value }
     }
 
     fun isDebug(): Boolean =
