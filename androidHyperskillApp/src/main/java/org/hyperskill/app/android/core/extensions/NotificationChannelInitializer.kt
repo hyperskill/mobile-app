@@ -15,7 +15,7 @@ object NotificationChannelInitializer {
             return
         }
 
-        val hyperskillNotificationChannel = HyperskillNotificationChannel.values()
+        val hyperskillNotificationChannel = HyperskillNotificationChannel.entries
         val androidChannels = ArrayList<NotificationChannel>(hyperskillNotificationChannel.size)
         hyperskillNotificationChannel.forEach {
             androidChannels.add(initChannel(context, it))

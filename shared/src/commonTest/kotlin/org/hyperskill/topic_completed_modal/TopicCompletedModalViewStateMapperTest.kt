@@ -28,7 +28,7 @@ class TopicCompletedModalViewStateMapperTest {
         val state = createState(passedTopicsCount)
         val viewState = viewStateMapper.map(state)
 
-        val styles = TopicCompletedModalFeature.ViewState.BackgroundAnimationStyle.values()
+        val styles = TopicCompletedModalFeature.ViewState.BackgroundAnimationStyle.entries
         val expectedBackgroundAnimationStyle = styles[passedTopicsCount % styles.size]
 
         assertEquals(expectedBackgroundAnimationStyle, viewState.backgroundAnimationStyle)
@@ -42,7 +42,7 @@ class TopicCompletedModalViewStateMapperTest {
 
         val expectedAvatarVariantIndex =
             passedTopicsCount % TopicCompletedModalViewStateMapper.SPACEBOT_AVATAR_VARIANT_COUNT
-        val styles = TopicCompletedModalFeature.ViewState.BackgroundAnimationStyle.values()
+        val styles = TopicCompletedModalFeature.ViewState.BackgroundAnimationStyle.entries
         val expectedBackgroundAnimationStyle = styles[passedTopicsCount % styles.size]
 
         assertEquals(expectedAvatarVariantIndex, viewState.spacebotAvatarVariantIndex)
@@ -57,7 +57,7 @@ class TopicCompletedModalViewStateMapperTest {
 
         val expectedAvatarVariantIndex =
             passedTopicsCount % TopicCompletedModalViewStateMapper.SPACEBOT_AVATAR_VARIANT_COUNT
-        val styles = TopicCompletedModalFeature.ViewState.BackgroundAnimationStyle.values()
+        val styles = TopicCompletedModalFeature.ViewState.BackgroundAnimationStyle.entries
         val expectedBackgroundAnimationStyle = styles[passedTopicsCount % styles.size]
 
         assertEquals(expectedAvatarVariantIndex, viewState.spacebotAvatarVariantIndex)

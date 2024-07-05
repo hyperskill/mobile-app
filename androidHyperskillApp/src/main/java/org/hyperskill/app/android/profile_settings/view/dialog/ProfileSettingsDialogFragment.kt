@@ -112,10 +112,12 @@ class ProfileSettingsDialogFragment :
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(org.hyperskill.app.R.string.settings_theme)
                 .setSingleChoiceItems(
-                    Theme.values().map { theme -> theme.getStringRepresentation(requireContext()) }.toTypedArray(),
-                    currentThemePosition
+                    /* items = */ Theme.entries.map { theme ->
+                        theme.getStringRepresentation(requireContext())
+                    }.toTypedArray(),
+                    /* checkedItem = */ currentThemePosition
                 ) { _, which ->
-                    val newTheme = Theme.values()[which]
+                    val newTheme = Theme.entries[which]
 
                     profileSettingsViewModel.onNewMessage(Message.ThemeChanged(theme = newTheme))
                     viewBinding.settingsContent.settingsThemeChosenTextView.text =

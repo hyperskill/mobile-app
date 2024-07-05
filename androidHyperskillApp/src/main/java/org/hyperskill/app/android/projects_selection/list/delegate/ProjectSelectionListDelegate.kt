@@ -79,7 +79,7 @@ class ProjectSelectionListDelegate(
         )
 
     private val levelTitleByLevelMap: Map<ProjectLevel, String> =
-        ProjectLevel.values().associateWith { level ->
+        ProjectLevel.entries.associateWith { level ->
             when (level) {
                 ProjectLevel.EASY ->
                     org.hyperskill.app.R.string.projects_list_easy_category_title
@@ -93,7 +93,7 @@ class ProjectSelectionListDelegate(
         }
 
     private val levelSubtitleByLevelMap: Map<ProjectLevel, String> =
-        ProjectLevel.values().associateWith { level ->
+        ProjectLevel.entries.associateWith { level ->
             when (level) {
                 ProjectLevel.EASY ->
                     org.hyperskill.app.R.string.projects_list_easy_category_description
@@ -115,7 +115,7 @@ class ProjectSelectionListDelegate(
         ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_9)
 
     private val levelIconByLevelMap: Map<ProjectLevel, Drawable?> =
-        ProjectLevel.values().associateWith { level ->
+        ProjectLevel.entries.associateWith { level ->
             when (level) {
                 ProjectLevel.EASY -> R.drawable.ic_level_easy
                 ProjectLevel.MEDIUM -> R.drawable.ic_level_medium
@@ -177,7 +177,7 @@ class ProjectSelectionListDelegate(
                 add(recommendedProjectsTitle)
             }
             addAll(state.recommendedProjects.map(::mapViewStateProject))
-            ProjectLevel.values().forEach { level ->
+            ProjectLevel.entries.forEach { level ->
                 val levelProjects = state.projectsByLevel[level]
                 if (!levelProjects.isNullOrEmpty()) {
                     add(

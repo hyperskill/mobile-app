@@ -46,7 +46,7 @@ class BadgesViewStateMapper(
     }
 
     private fun getLockedBadgeKinds(unlockedBadgeKinds: List<BadgeKind>): Set<BadgeKind> =
-        BadgeKind.values().subtract(unlockedBadgeKinds.toSet() + BadgeKind.UNKNOWN)
+        BadgeKind.entries.subtract(unlockedBadgeKinds.toSet() + BadgeKind.UNKNOWN)
 
     private fun mapUnlockedBadge(badge: Badge): BadgesViewState.Badge =
         BadgesViewState.Badge(
