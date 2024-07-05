@@ -296,7 +296,7 @@ class ProjectsListTest {
     fun `Project should be graduated if has Graduated kind for current track`() {
         val currentTrackId = 0L
         val otherTrackId = 1L
-        ProjectKind.values().forEach { kind ->
+        ProjectKind.entries.forEach { kind ->
             val project = Project.stub(
                 id = 0L,
                 tracks = mapOf(
@@ -387,7 +387,7 @@ class ProjectsListTest {
         )
         val viewState = viewStateMapper.map(content)
 
-        ProjectLevel.values().forEachIndexed { index, level ->
+        ProjectLevel.entries.forEachIndexed { index, level ->
             val expectedLevelProjectIds = sortedProjectsIds.windowed(3, 3)[index]
             assertEquals(
                 expectedLevelProjectIds,

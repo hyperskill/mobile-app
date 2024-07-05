@@ -73,10 +73,9 @@ enum class ProgrammingLanguage(val languageName: String) {
 
     companion object {
         fun of(languageName: String): ProgrammingLanguage? =
-            ProgrammingLanguage.values()
-                .find {
-                    it.languageName.equals(languageName, ignoreCase = true)
-                }
+            entries.find {
+                it.languageName.equals(languageName, ignoreCase = true)
+            }
     }
 }
 

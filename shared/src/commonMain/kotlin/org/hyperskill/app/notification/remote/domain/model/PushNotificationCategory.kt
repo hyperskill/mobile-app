@@ -18,7 +18,7 @@ enum class PushNotificationCategory(val backendName: String?) {
 
     companion object {
         fun getByBackendName(value: String): PushNotificationCategory =
-            PushNotificationCategory.values().firstOrNull {
+            entries.firstOrNull {
                 it.backendName == value
             } ?: UNKNOWN
     }

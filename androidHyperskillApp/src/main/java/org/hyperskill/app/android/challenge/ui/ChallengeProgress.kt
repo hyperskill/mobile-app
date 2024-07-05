@@ -110,7 +110,7 @@ private fun Modifier.applyStatusModifiers(status: ProgressStatus): Modifier =
 
 private class ChallengeProgressItemPreviewProvider : PreviewParameterProvider<ProgressStatus> {
     override val values: Sequence<ProgressStatus>
-        get() = ProgressStatus.values().asSequence()
+        get() = ProgressStatus.entries.asSequence()
 }
 
 @Preview(showBackground = true)
