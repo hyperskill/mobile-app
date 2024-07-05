@@ -4,6 +4,7 @@ import kotlin.math.max
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -32,6 +33,9 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
         private const val HOURS_IN_DAY = 24
         private const val MINUTES_IN_HOUR = 60
     }
+
+    fun formatTimeDistance(instant: Instant): String =
+        formatTimeDistance(Clock.System.now().toEpochMilliseconds() - instant.toEpochMilliseconds())
 
     fun formatTimeDistance(millis: Long): String {
         val duration = millis.toDuration(DurationUnit.MILLISECONDS)

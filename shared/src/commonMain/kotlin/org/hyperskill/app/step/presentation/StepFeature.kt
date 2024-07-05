@@ -1,6 +1,7 @@
 package org.hyperskill.app.step.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
@@ -27,6 +28,7 @@ object StepFeature {
         val stepState: StepState,
         val stepToolbarViewState: StepToolbarFeature.ViewState,
         val stepMenuActions: Set<StepMenuAction>,
+        val isCommentsToolbarItemAvailable: Boolean,
         val isLoadingShowed: Boolean
     )
 
@@ -52,6 +54,7 @@ object StepFeature {
         object ScreenShowed : Message
         object ScreenHidden : Message
 
+        object CommentClicked : Message
         object ShareClicked : Message
         object ReportClicked : Message
         object SkipClicked : Message
@@ -88,14 +91,6 @@ object StepFeature {
 
             data class ShowFeedbackModal(val stepRoute: StepRoute) : ViewAction
 
-            data class StepCompletionViewAction(
-                val viewAction: StepCompletionFeature.Action.ViewAction
-            ) : ViewAction
-
-            data class StepToolbarViewAction(
-                val viewAction: StepToolbarFeature.Action.ViewAction
-            ) : ViewAction
-
             data class OpenUrl(val url: String) : ViewAction
 
             object ShowLoadingError : ViewAction
@@ -103,6 +98,18 @@ object StepFeature {
             data class ReloadStep(val stepRoute: StepRoute) : ViewAction
 
             object ShowCantSkipError : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                data class CommentsScreen(val params: CommentsScreenFeatureParams) : NavigateTo
+            }
+
+            data class StepCompletionViewAction(
+                val viewAction: StepCompletionFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class StepToolbarViewAction(
+                val viewAction: StepToolbarFeature.Action.ViewAction
+            ) : ViewAction
         }
     }
 

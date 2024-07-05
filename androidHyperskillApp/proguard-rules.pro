@@ -122,3 +122,5 @@
 
 -keep class com.facebook.jni.** { *; }
 -keep class com.facebook.flipper.** { *; }
+
+-dontwarn org.slf4j.impl.StaticLoggerBinder

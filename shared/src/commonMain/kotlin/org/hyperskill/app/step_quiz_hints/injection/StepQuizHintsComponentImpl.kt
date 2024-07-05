@@ -8,7 +8,7 @@ import org.hyperskill.app.step_quiz_hints.presentation.MainStepQuizHintsActionDi
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 
-class StepQuizHintsComponentImpl(
+internal class StepQuizHintsComponentImpl(
     private val appGraph: AppGraph,
     private val stepRoute: StepRoute
 ) : StepQuizHintsComponent {
@@ -27,8 +27,8 @@ class StepQuizHintsComponentImpl(
             config = ActionDispatcherOptions(),
             stepQuizHintsInteractor = stepQuizHintsInteractor,
             likesInteractor = appGraph.buildLikesDataComponent().likesInteractor,
-            commentsInteractor = appGraph.buildCommentsDataComponent().commentsInteractor,
-            reactionsInteractor = appGraph.buildReactionsDataComponent().reactionsInteractor,
+            commentsRepository = appGraph.buildCommentsDataComponent().commentsRepository,
+            reactionsRepository = appGraph.buildReactionsDataComponent().reactionsRepository,
             userStorageInteractor = appGraph.buildUserStorageComponent().userStorageInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor

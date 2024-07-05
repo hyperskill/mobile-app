@@ -25,7 +25,6 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.argument
 
@@ -45,7 +44,6 @@ class StepTheoryFragment :
 
     private lateinit var resourceProvider: ResourceProvider
     private lateinit var dateFormatter: SharedDateFormatter
-    private lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
 
     private val viewBinding: FragmentStepTheoryBinding by viewBinding(FragmentStepTheoryBinding::bind)
 
@@ -59,10 +57,8 @@ class StepTheoryFragment :
     }
 
     private fun injectComponent() {
-        val stepComponent = HyperskillApp.graph().buildStepComponent(stepRoute)
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
         dateFormatter = HyperskillApp.graph().commonComponent.dateFormatter
-        commentThreadTitleMapper = stepComponent.commentThreadTitleMapper
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
