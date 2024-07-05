@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.R
+import org.hyperskill.app.android.comments.fragment.CommentsDialogFragment
 import org.hyperskill.app.android.core.extensions.ShareUtils
 import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
 import org.hyperskill.app.android.core.extensions.performConfirmHapticFeedback
@@ -94,7 +95,12 @@ object StepDelegate {
                 // no op
             }
             is StepFeature.Action.ViewAction.NavigateTo.CommentsScreen -> {
-                // TODO: ALTAPPS-1283 Implement navigation to comments screen
+                CommentsDialogFragment
+                    .newInstance(action.params)
+                    .showIfNotExists(
+                        fragment.childFragmentManager,
+                        CommentsDialogFragment.TAG
+                    )
             }
         }
     }

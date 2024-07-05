@@ -7,6 +7,8 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
+import org.hyperskill.app.comments.injection.PlatformCommentsComponent
+import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProblemOnboardingComponent
@@ -141,4 +143,8 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformWelcomeOnboardingTrackDetailsComponent(
         track: WelcomeOnboardingTrack
     ): PlatformWelcomeOnboardingTrackDetailsComponent
+
+    fun buildPlatformCommentsScreenComponent(
+        params: CommentsScreenFeatureParams
+    ): PlatformCommentsComponent
 }

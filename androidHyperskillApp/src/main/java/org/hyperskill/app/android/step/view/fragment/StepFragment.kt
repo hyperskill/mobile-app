@@ -158,7 +158,7 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
                     isVisible = true
                     setTextIfChanged(viewState.title)
                 }
-                renderTheoryAction(OpenTheoryMenuAction(isVisible = false, isEnabled = false))
+                renderAction(OpenTheoryMenuAction(isVisible = false, isEnabled = false))
                 TransitionManager.beginDelayedTransition(viewBinding.stepAppBar.stepToolbar)
             }
         }
@@ -187,7 +187,7 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         }
     }
 
-    override fun renderTheoryAction(action: OpenTheoryMenuAction) {
+    override fun renderAction(action: OpenTheoryMenuAction) {
         stepMenuDelegate?.renderMainMenuAction(action)
     }
 
