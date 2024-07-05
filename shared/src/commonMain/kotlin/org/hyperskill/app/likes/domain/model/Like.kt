@@ -2,6 +2,7 @@ package org.hyperskill.app.likes.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.content_type.domain.model.ContentType
 
 @Serializable
 data class Like(
@@ -12,7 +13,7 @@ data class Like(
     @SerialName("target_id")
     val targetId: Long,
     @SerialName("target_type")
-    val targetType: String,
+    val targetType: ContentType = ContentType.UNKNOWN,
     @SerialName("value")
     val value: Int,
     @SerialName("user")
