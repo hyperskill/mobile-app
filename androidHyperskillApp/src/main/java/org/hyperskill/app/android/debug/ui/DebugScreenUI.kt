@@ -108,7 +108,7 @@ private fun DebugScreenPreview() {
     }
     HyperskillTheme {
         DebugScreen(
-            options = EndpointConfigType.values().toList(),
+            options = EndpointConfigType.entries,
             selectedOption = selectedOption,
             onBackClick = {},
             onOptionClick = { newSelectedOption ->

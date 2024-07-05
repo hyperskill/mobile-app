@@ -12,7 +12,7 @@ internal object DebugViewStateMapper {
             is DebugFeature.State.Error -> DebugFeature.ViewState.Error
             is DebugFeature.State.Content -> {
                 DebugFeature.ViewState.Content(
-                    availableEndpointConfigs = EndpointConfigType.values().toList(),
+                    availableEndpointConfigs = EndpointConfigType.entries,
                     selectedEndpointConfig = state.selectedEndpointConfig,
                     isApplySettingsButtonAvailable = state.selectedEndpointConfig != state.currentEndpointConfig,
                     navigationInput = NavigationInput(

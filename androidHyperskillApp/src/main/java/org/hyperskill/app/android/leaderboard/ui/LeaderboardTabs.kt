@@ -19,9 +19,7 @@ fun LeaderboardTabs(
     selectedTab: Tab,
     onTabClick: (Tab) -> Unit
 ) {
-    val tabs = remember {
-        Tab.values()
-    }
+    val tabs = remember { Tab.entries }
     TabRow(
         selectedTabIndex = selectedTab.ordinal,
         backgroundColor = colorResource(id = R.color.color_background),

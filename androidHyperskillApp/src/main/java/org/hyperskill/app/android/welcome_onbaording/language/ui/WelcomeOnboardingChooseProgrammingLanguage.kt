@@ -37,7 +37,7 @@ fun WelcomeOnboardingChooseProgrammingLanguage(
     modifier: Modifier = Modifier
 ) {
     val languages = remember {
-        WelcomeOnboardingProgrammingLanguage.values().toList()
+        WelcomeOnboardingProgrammingLanguage.entries
     }
     Box(modifier = modifier.fillMaxSize()) {
         Column(

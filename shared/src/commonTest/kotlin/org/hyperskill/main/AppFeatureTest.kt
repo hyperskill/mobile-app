@@ -111,7 +111,7 @@ class AppFeatureTest {
     @Test
     fun `Paywall should not be shown for user with non freemium subscription on app startup`() {
         SubscriptionType
-            .values()
+            .entries
             .filterNot { it == SubscriptionType.FREEMIUM }
             .forEach { subscriptionType ->
                 val (_, actions) = appReducer.reduce(

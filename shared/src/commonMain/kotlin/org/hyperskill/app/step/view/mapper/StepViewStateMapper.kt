@@ -20,7 +20,7 @@ internal class StepViewStateMapper(
         stepState: StepFeature.StepState,
         stepRoute: StepRoute
     ): Set<StepMenuAction> =
-        StepMenuAction.values().filter { action ->
+        StepMenuAction.entries.filter { action ->
             action != StepMenuAction.SKIP || isSkipButtonAvailable(stepState, stepRoute)
         }.toSet()
 
