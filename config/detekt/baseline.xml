@@ -302,7 +302,6 @@
     <ID>UseCheckOrError:FragmentSerializableArgumentDelegate.kt$BundleDelegate$throw IllegalStateException("Property ${property.name} could not be read")</ID>
     <ID>UseCheckOrError:FragmentSerializableArgumentDelegate.kt$FragmentSerializableArgumentDelegate$throw IllegalStateException("Cannot read property ${property.name} if no arguments have been set")</ID>
     <ID>UseCheckOrError:LoadingView.kt$LoadingView$throw IllegalStateException("Visibility should be one of VISIBLE, INVISIBLE, GONE")</ID>
-    <ID>UseCheckOrError:MainStepQuizHintsActionDispatcher.kt$MainStepQuizHintsActionDispatcher$throw IllegalStateException("Unknown reaction type: $action.reaction")</ID>
     <ID>UseCheckOrError:RepositoryCacheProxyTest.kt$RepositoryCacheProxyTest.&lt;no name provided&gt;$throw IllegalStateException("cache.clearCache should not be called")</ID>
     <ID>UseCheckOrError:RequestReviewModalViewStateMapper.kt$RequestReviewModalViewStateMapper$throw IllegalStateException("State.Negative shouldn't be mapped to ViewState")</ID>
     <ID>ViewModelForwarding:ManageSubscriptionScreen.kt$OnComposableShownFirstTime(viewModel) { viewModel.onNewMessage(Message.ViewedEventMessage) }</ID>

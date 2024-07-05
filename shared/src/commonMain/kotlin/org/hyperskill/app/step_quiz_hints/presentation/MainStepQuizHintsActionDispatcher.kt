@@ -145,7 +145,7 @@ internal class MainStepQuizHintsActionDispatcher(
                     ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
                     ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
                     else -> {
-                        throw IllegalStateException("Unknown reaction type: $action.reaction")
+                        error("Unknown reaction type: $action.reaction")
                     }
                 }
             )
