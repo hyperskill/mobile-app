@@ -1,5 +1,6 @@
 package org.hyperskill.app.comments.domain.model
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,5 +17,9 @@ data class Comment(
     @SerialName("localized_text")
     val localizedText: String,
     @SerialName("user")
-    val user: CommentAuthor
+    val user: CommentAuthor,
+    @SerialName("time")
+    val time: Instant? = null,
+    @SerialName("reactions")
+    val reactions: List<CommentReaction>
 )

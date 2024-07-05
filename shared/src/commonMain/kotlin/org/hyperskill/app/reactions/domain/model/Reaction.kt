@@ -12,5 +12,5 @@ data class Reaction(
     @SerialName("comment")
     val commentId: Long,
     @SerialName("short_name")
-    val shortName: String
+    val reactionType: ReactionType = ReactionType.UNKNOWN
 )

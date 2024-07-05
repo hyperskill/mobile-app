@@ -663,4 +663,11 @@ enum Strings {
         static let planDetailsTitle = sharedStrings.manage_subscription_plan_details_title.localized()
         static let mobileOnlyWarning = sharedStrings.manage_subscription_mobile_only_warning.localized()
     }
+
+    // MARK: - Comments -
+
+    enum Comments {
+        static let showRepliesButton = sharedStrings.comments_show_replies_btn.localized()
+        static let showMoreButton = sharedStrings.comments_show_more_btn.localized()
+    }
 }

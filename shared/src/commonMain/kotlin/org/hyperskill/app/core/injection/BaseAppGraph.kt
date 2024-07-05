@@ -16,6 +16,9 @@ import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
 import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponentImpl
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
+import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
+import org.hyperskill.app.comments.screen.injection.CommentsScreenComponent
+import org.hyperskill.app.comments.screen.injection.CommentsScreenComponentImpl
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
 import org.hyperskill.app.devices.injection.DevicesDataComponent
@@ -538,4 +541,9 @@ abstract class BaseAppGraph : AppGraph {
         params: TopicCompletedModalFeatureParams
     ): TopicCompletedModalComponent =
         TopicCompletedModalComponentImpl(appGraph = this, params = params)
+
+    override fun buildCommentsScreenComponent(
+        params: CommentsScreenFeatureParams
+    ): CommentsScreenComponent =
+        CommentsScreenComponentImpl(appGraph = this, params = params)
 }

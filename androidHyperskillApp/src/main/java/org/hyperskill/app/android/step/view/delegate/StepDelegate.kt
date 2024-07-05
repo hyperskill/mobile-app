@@ -93,6 +93,9 @@ object StepDelegate {
             is StepFeature.Action.ViewAction.StepToolbarViewAction -> {
                 // no op
             }
+            is StepFeature.Action.ViewAction.NavigateTo.CommentsScreen -> {
+                // TODO: ALTAPPS-1283 Implement navigation to comments screen
+            }
         }
     }
 

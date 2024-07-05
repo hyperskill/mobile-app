@@ -61,6 +61,7 @@ object AmplitudeAnalyticEventMapper {
                 is HyperskillAnalyticRoute.Search,
                 is HyperskillAnalyticRoute.StudyPlan,
                 is HyperskillAnalyticRoute.Tracks,
+                is HyperskillAnalyticRoute.Comment,
                 HyperskillAnalyticRoute.Paywall,
                 HyperskillAnalyticRoute.None ->
                     analyticEvent.route.path

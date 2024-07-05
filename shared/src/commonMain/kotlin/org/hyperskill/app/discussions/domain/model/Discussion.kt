@@ -16,3 +16,6 @@ data class Discussion(
     @SerialName("comments")
     val commentsIds: List<Long>
 )
+
+internal fun Discussion.getRepliesIds(): Set<Long> =
+    commentsIds.toSet() - id

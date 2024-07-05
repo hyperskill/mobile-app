@@ -4,6 +4,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 
 @Serializable
 data class Step(
