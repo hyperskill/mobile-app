@@ -1,7 +1,6 @@
 package org.hyperskill.app.challenges.widget.presentation
 
 import org.hyperskill.app.challenges.domain.model.ChallengeStatus
-import org.hyperskill.app.challenges.domain.model.ChallengeTargetType
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent
@@ -11,6 +10,7 @@ import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.InternalMessage
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.Message
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.State
+import org.hyperskill.app.content_type.domain.model.ContentType
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ChallengeWidgetReducerResult = Pair<State, Set<Action>>
@@ -191,21 +191,18 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             val currentChallenge = state.challenge ?: return null
             val currentChallengeTargetType = currentChallenge.targetType
 
-            if (currentChallengeTargetType != null) {
-                return when (currentChallengeTargetType) {
-                    ChallengeTargetType.DAILY_STEP,
-                    ChallengeTargetType.TOPIC ->
-                        null
-                    ChallengeTargetType.PROJECT,
-                    ChallengeTargetType.STAGE ->
-                        state to setOf(InternalAction.FetchChallenges)
-                    ChallengeTargetType.STEP ->
-                        state.copy(
-                            challenge = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenge
-                        ) to emptySet()
-                }
-            } else {
-                return state to setOf(InternalAction.FetchChallenges)
+            return when (currentChallengeTargetType) {
+                ContentType.DAILY_STEP,
+                ContentType.TOPIC,
+                ContentType.UNKNOWN ->
+                    null
+                ContentType.PROJECT,
+                ContentType.STAGE ->
+                    state to setOf(InternalAction.FetchChallenges)
+                ContentType.STEP ->
+                    state.copy(
+                        challenge = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenge
+                    ) to emptySet()
             }
         } else {
             return null
@@ -214,7 +211,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleDailyStepCompletedMessage(state: State): ChallengeWidgetReducerResult? =
         if (state is State.Content &&
-            state.challenge?.targetType == ChallengeTargetType.DAILY_STEP
+            state.challenge?.targetType == ContentType.DAILY_STEP
         ) {
             state.copy(
                 challenge = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenge
@@ -225,7 +222,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleTopicCompletedMessage(state: State): ChallengeWidgetReducerResult? =
         if (state is State.Content &&
-            state.challenge?.targetType == ChallengeTargetType.TOPIC
+            state.challenge?.targetType == ContentType.TOPIC
         ) {
             state.copy(
                 challenge = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenge

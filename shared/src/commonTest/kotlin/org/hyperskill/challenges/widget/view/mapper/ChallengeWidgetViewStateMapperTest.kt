@@ -6,10 +6,10 @@ import kotlinx.datetime.Instant
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.challenges.domain.model.Challenge
 import org.hyperskill.app.challenges.domain.model.ChallengeStatus
-import org.hyperskill.app.challenges.domain.model.ChallengeTargetType
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.view.mapper.ChallengeWidgetViewStateMapper
 import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
+import org.hyperskill.app.content_type.domain.model.ContentType
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 
 class ChallengeWidgetViewStateMapperTest {
@@ -30,7 +30,7 @@ class ChallengeWidgetViewStateMapperTest {
             id = 6,
             title = TITLE,
             description = DESCRIPTION,
-            targetTypeValue = ChallengeTargetType.STEP.value,
+            targetType = ContentType.STEP,
             start = Instant.parse("2023-11-02T04:00:00Z"),
             end = Instant.parse("2023-11-03T04:00:00Z"),
             intervalsCount = 1,

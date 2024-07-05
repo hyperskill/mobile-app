@@ -7,8 +7,14 @@ import kotlinx.serialization.Serializable
 enum class ContentType {
     @SerialName("step")
     STEP,
+    @SerialName("dailystep")
+    DAILY_STEP,
     @SerialName("stage")
     STAGE,
+    @SerialName("project")
+    PROJECT,
+    @SerialName("topic")
+    TOPIC,
 
     UNKNOWN
 }
