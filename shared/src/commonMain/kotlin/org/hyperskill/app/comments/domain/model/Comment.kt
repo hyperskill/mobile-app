@@ -3,6 +3,7 @@ package org.hyperskill.app.comments.domain.model
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.content_type.domain.model.ContentType
 
 @Serializable
 data class Comment(
@@ -11,7 +12,7 @@ data class Comment(
     @SerialName("target_id")
     val targetId: Long,
     @SerialName("target_type")
-    val targetType: String,
+    val targetType: ContentType = ContentType.UNKNOWN,
     @SerialName("text")
     val text: String,
     @SerialName("localized_text")
