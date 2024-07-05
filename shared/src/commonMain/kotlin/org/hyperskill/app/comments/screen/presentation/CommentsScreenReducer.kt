@@ -195,9 +195,9 @@ internal class CommentsScreenReducer : StateReducer<State, Message, Action> {
             isSet = isSettingReaction
         )
         val newComment = comment.copy(
-            reactions = comment.reactions.toMutableList().apply { this[reactionIndex] = newReaction }
+            reactions = comment.reactions.mutate { set(reactionIndex, newReaction) }
         )
-        val newCommentsMap = discussionsState.commentsMap.toMutableMap().apply { this[message.commentId] = newComment }
+        val newCommentsMap = discussionsState.commentsMap.mutate { set(message.commentId, newComment) }
 
         return state.updateDiscussionsState(
             discussionsState.copy(commentsMap = newCommentsMap)

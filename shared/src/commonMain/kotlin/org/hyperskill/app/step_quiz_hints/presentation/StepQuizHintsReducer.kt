@@ -74,7 +74,7 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
                                     ReactionType.HELPFUL -> HyperskillAnalyticTarget.YES
                                     ReactionType.UNHELPFUL -> HyperskillAnalyticTarget.NO
                                     else -> {
-                                        throw IllegalArgumentException("Unsupported reaction type: ${message.reaction}")
+                                        error("Unsupported reaction type: ${message.reaction}")
                                     }
                                 },
                                 commentId = state.currentHint.id
