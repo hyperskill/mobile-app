@@ -20,6 +20,7 @@ import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step.presentation.StepFeature.ViewState
 import org.hyperskill.app.step.presentation.StepReducer
+import org.hyperskill.app.step.presentation.ViewStepActionDispatcher
 import org.hyperskill.app.step.view.mapper.StepViewStateMapper
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionActionDispatcher
@@ -88,5 +89,6 @@ internal object StepFeatureBuilder {
             .wrapWithAnalyticLogger(analyticInteractor) {
                 (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
             }
+            .wrapWithActionDispatcher(ViewStepActionDispatcher(stepInteractor))
     }
 }

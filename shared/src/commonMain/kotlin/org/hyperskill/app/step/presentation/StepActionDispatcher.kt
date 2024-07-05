@@ -66,8 +66,6 @@ internal class StepActionDispatcher(
         when (action) {
             is InternalAction.FetchStep ->
                 handleFetchStepAction(action, ::onNewMessage)
-            is InternalAction.ViewStep ->
-                stepInteractor.viewStep(action.stepId, action.stepContext)
             is InternalAction.UpdateNextLearningActivityState ->
                 handleUpdateNextLearningActivityStateAction(action)
             is InternalAction.StartSolvingTimer ->
