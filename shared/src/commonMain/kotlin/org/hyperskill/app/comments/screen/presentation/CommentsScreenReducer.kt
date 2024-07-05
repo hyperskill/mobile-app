@@ -11,11 +11,13 @@ import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Int
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.InternalMessage
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Message
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.State
+import org.hyperskill.app.core.utils.mutate
 import org.hyperskill.app.discussions.domain.model.getRepliesIds
 import org.hyperskill.app.discussions.remote.model.toPagedList
 import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.reactions.domain.model.commentReactions
 import ru.nobird.app.core.model.concatWithPagedList
+import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias CommentsScreenReducerResult = Pair<State, Set<Action>>
