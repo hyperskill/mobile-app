@@ -9,10 +9,12 @@ enum class ContentType {
     STEP,
     @SerialName("dailystep")
     DAILY_STEP,
+
     @SerialName("stage")
     STAGE,
     @SerialName("project")
     PROJECT,
+
     @SerialName("topic")
     TOPIC,
 

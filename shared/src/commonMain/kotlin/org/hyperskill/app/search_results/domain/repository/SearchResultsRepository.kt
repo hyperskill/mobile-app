@@ -1,7 +1,7 @@
 package org.hyperskill.app.search_results.domain.repository
 
+import org.hyperskill.app.content_type.domain.model.ContentType
 import org.hyperskill.app.search_results.domain.model.SearchResult
-import org.hyperskill.app.search_results.domain.model.SearchResultTargetType
 import org.hyperskill.app.search_results.remote.model.SearchResultsRequest
 import org.hyperskill.app.search_results.remote.model.SearchResultsResponse
 
@@ -21,5 +21,5 @@ suspend fun SearchResultsRepository.getTopicSearchResults(
             page = page
         )
     ).map { response: SearchResultsResponse ->
-        response.searchResults.filter { it.targetType == SearchResultTargetType.TOPIC }
+        response.searchResults.filter { it.targetType == ContentType.TOPIC }
     }
