@@ -192,10 +192,6 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             val currentChallengeTargetType = currentChallenge.targetType
 
             return when (currentChallengeTargetType) {
-                ContentType.DAILY_STEP,
-                ContentType.TOPIC,
-                ContentType.UNKNOWN ->
-                    null
                 ContentType.PROJECT,
                 ContentType.STAGE ->
                     state to setOf(InternalAction.FetchChallenges)
@@ -203,6 +199,11 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                     state.copy(
                         challenge = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenge
                     ) to emptySet()
+                ContentType.DAILY_STEP,
+                ContentType.TOPIC,
+                ContentType.COMMENT,
+                ContentType.UNKNOWN ->
+                    null
             }
         } else {
             return null

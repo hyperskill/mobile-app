@@ -16,5 +16,8 @@ enum class ContentType {
     @SerialName("topic")
     TOPIC,
 
+    @SerialName("comment")
+    COMMENT,
+
     UNKNOWN
 }
