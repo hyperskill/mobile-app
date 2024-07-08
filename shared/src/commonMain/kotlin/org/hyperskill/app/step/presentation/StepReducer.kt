@@ -6,7 +6,7 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.analytic.StepToolbarCommentClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepToolbarMenuActionClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
@@ -222,7 +222,7 @@ internal class StepReducer(
             InternalAction.CreateStepShareLink(stepRoute),
             InternalAction.LogAnalyticEvent(
                 StepToolbarMenuActionClickedHyperskillAnalyticEvent(
-                    StepMenuAction.SHARE,
+                    StepMenuSecondaryAction.SHARE,
                     stepRoute
                 )
             )
@@ -236,7 +236,7 @@ internal class StepReducer(
             Action.ViewAction.ShowFeedbackModal(stepRoute),
             InternalAction.LogAnalyticEvent(
                 StepToolbarMenuActionClickedHyperskillAnalyticEvent(
-                    StepMenuAction.REPORT, stepRoute
+                    StepMenuSecondaryAction.REPORT, stepRoute
                 )
             )
         )
@@ -245,7 +245,7 @@ internal class StepReducer(
         if (!state.isLoadingShowed && state.stepState is StepState.Data) {
             state.copy(isLoadingShowed = true) to setOf(
                 InternalAction.LogAnalyticEvent(
-                    StepToolbarMenuActionClickedHyperskillAnalyticEvent(StepMenuAction.SKIP, stepRoute)
+                    StepToolbarMenuActionClickedHyperskillAnalyticEvent(StepMenuSecondaryAction.SKIP, stepRoute)
                 ),
                 InternalAction.SkipStep(stepRoute.stepId)
             )
@@ -285,7 +285,7 @@ internal class StepReducer(
             InternalAction.GetMagicLink(HyperskillUrlPath.Step(stepRoute)),
             InternalAction.LogAnalyticEvent(
                 StepToolbarMenuActionClickedHyperskillAnalyticEvent(
-                    StepMenuAction.OPEN_IN_WEB, stepRoute
+                    StepMenuSecondaryAction.OPEN_IN_WEB, stepRoute
                 )
             )
         )

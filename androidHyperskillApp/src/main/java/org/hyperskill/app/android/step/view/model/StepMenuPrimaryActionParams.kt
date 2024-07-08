@@ -1,6 +1,6 @@
 package org.hyperskill.app.android.step.view.model
 
-data class OpenTheoryMenuAction(
+data class StepMenuPrimaryActionParams(
     val isVisible: Boolean,
     val isEnabled: Boolean
 )

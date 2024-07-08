@@ -8,14 +8,14 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import org.hyperskill.app.android.R
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 
 object StageStepMenuDelegate {
 
     fun setup(
         menuHost: MenuHost,
         viewLifecycleOwner: LifecycleOwner,
-        onActionClick: (StepMenuAction) -> Unit,
+        onActionClick: (StepMenuSecondaryAction) -> Unit,
         onBackClick: () -> Unit
     ) {
         menuHost.addMenuProvider(
@@ -27,7 +27,7 @@ object StageStepMenuDelegate {
 }
 
 private class StageMenuProvider(
-    private val onActionClick: (StepMenuAction) -> Unit,
+    private val onActionClick: (StepMenuSecondaryAction) -> Unit,
     private val onBackClick: () -> Unit
 ) : MenuProvider {
 
@@ -38,15 +38,15 @@ private class StageMenuProvider(
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.stageShare -> {
-                onActionClick(StepMenuAction.SHARE)
+                onActionClick(StepMenuSecondaryAction.SHARE)
                 true
             }
             R.id.stageFeedback -> {
-                onActionClick(StepMenuAction.REPORT)
+                onActionClick(StepMenuSecondaryAction.REPORT)
                 true
             }
             R.id.stageOpenInWeb -> {
-                onActionClick(StepMenuAction.OPEN_IN_WEB)
+                onActionClick(StepMenuSecondaryAction.OPEN_IN_WEB)
                 true
             }
             android.R.id.home -> {

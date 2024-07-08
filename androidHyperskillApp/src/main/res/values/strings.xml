@@ -36,6 +36,7 @@
 
     <!--Step menu-->
     <string name="step_menu_theory_item">Theory</string>
+    <string name="step_menu_comments_item">Comments</string>
     <string name="step_menu_theory_feedback_item">Theory feedback</string>
 
 </resources>
