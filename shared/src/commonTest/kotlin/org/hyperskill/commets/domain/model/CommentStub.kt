@@ -4,7 +4,7 @@ import kotlinx.datetime.Instant
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.CommentAuthor
 import org.hyperskill.app.comments.domain.model.CommentReaction
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 
 fun Comment.Companion.stub(
     id: Long = 0,

@@ -5,7 +5,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.contentType
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.likes.data.source.LikesRemoteDataSource
 import org.hyperskill.app.likes.domain.model.Like
 import org.hyperskill.app.likes.domain.model.LikeSubject

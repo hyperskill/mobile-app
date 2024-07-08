@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.datetime.Instant
 import org.hyperskill.app.challenges.domain.model.Challenge
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.network.injection.NetworkModule
 
 class ChallengeDeserializationTest {

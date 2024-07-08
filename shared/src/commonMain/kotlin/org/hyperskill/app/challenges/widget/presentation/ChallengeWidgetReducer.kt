@@ -10,7 +10,7 @@ import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.InternalMessage
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.Message
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.State
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ChallengeWidgetReducerResult = Pair<State, Set<Action>>

@@ -1,6 +1,6 @@
 package org.hyperskill.app.welcome_onboarding.root.presentation
 
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.OnboardingCompletionAppsFlyerAnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.StepRoute

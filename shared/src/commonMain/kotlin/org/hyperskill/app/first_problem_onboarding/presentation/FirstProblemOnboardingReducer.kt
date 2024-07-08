@@ -1,7 +1,7 @@
 package org.hyperskill.app.first_problem_onboarding.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingClickedLearningActionHyperskillAnalyticEvent
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingViewedHyperskillAnalyticEvent
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.OnboardingCompletionAppsFlyerAnalyticEvent

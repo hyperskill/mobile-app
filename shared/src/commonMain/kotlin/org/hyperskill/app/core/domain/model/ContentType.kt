@@ -1,4 +1,4 @@
-package org.hyperskill.app.content_type.domain.model
+package org.hyperskill.app.core.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

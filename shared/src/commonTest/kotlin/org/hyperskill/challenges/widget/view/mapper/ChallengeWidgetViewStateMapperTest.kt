@@ -9,7 +9,7 @@ import org.hyperskill.app.challenges.domain.model.ChallengeStatus
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.view.mapper.ChallengeWidgetViewStateMapper
 import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 
 class ChallengeWidgetViewStateMapperTest {

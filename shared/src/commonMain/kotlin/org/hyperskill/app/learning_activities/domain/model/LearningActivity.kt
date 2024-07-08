@@ -3,7 +3,7 @@ package org.hyperskill.app.learning_activities.domain.model
 import kotlin.math.floor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 
 @Serializable
 data class LearningActivity(

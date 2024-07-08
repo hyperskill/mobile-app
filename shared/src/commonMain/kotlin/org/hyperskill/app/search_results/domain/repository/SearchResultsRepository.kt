@@ -1,6 +1,6 @@
 package org.hyperskill.app.search_results.domain.repository
 
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.search_results.domain.model.SearchResult
 import org.hyperskill.app.search_results.remote.model.SearchResultsRequest
 import org.hyperskill.app.search_results.remote.model.SearchResultsResponse

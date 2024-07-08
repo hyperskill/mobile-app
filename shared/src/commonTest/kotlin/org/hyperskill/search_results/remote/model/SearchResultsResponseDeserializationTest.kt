@@ -2,7 +2,7 @@ package org.hyperskill.search_results.remote.model
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import org.hyperskill.app.content_type.domain.model.ContentType
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.search_results.domain.model.SearchResult
