@@ -587,6 +587,8 @@ internal class StepQuizReducer(
         when (stepBlockName) {
             BlockName.STRING -> reply.copy(text = reply.text?.trim())
             BlockName.NUMBER -> reply.copy(number = reply.number?.trim())
+            BlockName.MATH -> reply.copy(formula = reply.formula?.trim())
+            BlockName.PROMPT -> reply.copy(prompt = reply.prompt?.trim())
             else -> reply
         }
 
