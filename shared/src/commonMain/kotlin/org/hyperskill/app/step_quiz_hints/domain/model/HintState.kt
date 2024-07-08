@@ -10,10 +10,8 @@ enum class HintState(val userStorageValue: UserStorageValue) {
     UNHELPFUL(JsonPrimitive("unhelpful"));
 
     companion object {
-        private val VALUES: Array<HintState> = values()
-
         fun getByStringValue(value: String): HintState? =
-            VALUES.firstOrNull { it.userStorageValue.jsonPrimitive.content == value }
+            entries.firstOrNull { it.userStorageValue.jsonPrimitive.content == value }
     }
 
     val hasReaction: Boolean

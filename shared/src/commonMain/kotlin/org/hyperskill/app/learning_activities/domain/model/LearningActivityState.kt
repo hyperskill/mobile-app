@@ -6,9 +6,7 @@ enum class LearningActivityState(val value: Int) {
     COMPLETED(3);
 
     companion object {
-        private val VALUES: Array<LearningActivityState> = values()
-
         fun getByValue(value: Int): LearningActivityState? =
-            VALUES.firstOrNull { it.value == value }
+            entries.firstOrNull { it.value == value }
     }
 }
