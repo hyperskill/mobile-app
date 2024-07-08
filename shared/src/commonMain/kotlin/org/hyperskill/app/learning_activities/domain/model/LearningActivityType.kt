@@ -22,8 +22,6 @@ enum class LearningActivityType(val value: Int) {
     JOIN_STUDY_GROUP(110);
 
     companion object {
-        private val VALUES: Array<LearningActivityType> = values()
-
         fun supportedTypes(): Set<LearningActivityType> =
             setOf(
                 SELECT_PROJECT,
@@ -33,6 +31,6 @@ enum class LearningActivityType(val value: Int) {
             )
 
         fun getByValue(value: Int): LearningActivityType? =
-            VALUES.firstOrNull { it.value == value }
+            entries.firstOrNull { it.value == value }
     }
 }
