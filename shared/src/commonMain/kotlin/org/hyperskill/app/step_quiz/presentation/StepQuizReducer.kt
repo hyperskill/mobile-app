@@ -420,7 +420,8 @@ internal class StepQuizReducer(
                     )
                 }
                 ReplyValidationResult.Success -> {
-                    val submission = createLocalSubmission(state.stepQuizState, message.reply)
+                    val reply = prepareReplyForSubmission(state.stepQuizState.step.block.name, message.reply)
+                    val submission = createLocalSubmission(state.stepQuizState, reply)
                         .copy(status = SubmissionStatus.EVALUATION)
 
                     state.copy(
@@ -581,6 +582,13 @@ internal class StepQuizReducer(
             time = Clock.System.now().toString()
         )
     }
+
+    private fun prepareReplyForSubmission(stepBlockName: String, reply: Reply): Reply =
+        when (stepBlockName) {
+            BlockName.STRING -> reply.copy(text = reply.text?.trim())
+            BlockName.NUMBER -> reply.copy(number = reply.number?.trim())
+            else -> reply
+        }
 
     private fun getProblemOnboardingModalActions(
         step: Step,
