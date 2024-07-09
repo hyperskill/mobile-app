@@ -12,4 +12,8 @@ class CommentsViewModel(
     init {
         onNewMessage(Message.Initialize)
     }
+
+    fun onRetryClick() {
+        onNewMessage(Message.RetryContentLoading)
+    }
 }

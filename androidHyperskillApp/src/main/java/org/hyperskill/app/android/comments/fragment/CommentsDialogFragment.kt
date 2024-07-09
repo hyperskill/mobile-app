@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.comments.ui.Comments
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.comments.presentation.CommentsViewModel
@@ -65,7 +66,6 @@ class CommentsDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         super.onCreateDialog(savedInstanceState).apply {
             setCanceledOnTouchOutside(false)
-            setCancelable(false)
             requestWindowFeature(Window.FEATURE_NO_TITLE)
             setOnShowListener {
                 commentsViewModel.onNewMessage(CommentsScreenFeature.Message.ViewedEventMessage)
@@ -81,10 +81,17 @@ class CommentsDialogFragment : DialogFragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
                 HyperskillTheme {
-
+                    Comments(
+                        viewModel = commentsViewModel,
+                        onCloseClick = ::onCloseClick
+                    )
                 }
             }
         }
+
+    private fun onCloseClick() {
+        dismiss()
+    }
 
     private fun handleActions(action: CommentsScreenFeature.Action.ViewAction) {
         // no op

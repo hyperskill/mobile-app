@@ -802,4 +802,6 @@
 
     <string name="comments_show_replies_btn">Show replies</string>
     <string name="comments_show_more_btn">Show more</string>
+
+    <string name="comments_loading_error">Oops! We were unable to load the comments.</string>
 </resources>
