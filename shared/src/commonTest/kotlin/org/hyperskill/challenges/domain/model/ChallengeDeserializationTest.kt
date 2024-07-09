@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.datetime.Instant
 import org.hyperskill.app.challenges.domain.model.Challenge
-import org.hyperskill.app.challenges.domain.model.ChallengeTargetType
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.network.injection.NetworkModule
 
 class ChallengeDeserializationTest {
@@ -13,7 +13,8 @@ class ChallengeDeserializationTest {
         private const val ID: Long = 6
         private const val TITLE = "QA  ☾⋆"
         private const val DESCRIPTION = "The Challenge! Ho-ho-ho!🎅\nHurry up and get yor prise!"
-        private val TARGET_TYPE = ChallengeTargetType.STEP.value
+        private val TARGET_TYPE = ContentType.STEP
+        private const val TARGET_TYPE_NAME = "step"
         private const val START = "2024-05-20T04:00:00Z"
         private const val END = "2024-05-20T04:00:00Z"
         private const val NEXT_INTERVAL_TIME = "2024-05-20T04:00:00Z"
@@ -28,7 +29,7 @@ class ChallengeDeserializationTest {
     "id": $ID,
     "title": "$TITLE",
     "description": "$DESCRIPTION",
-    "target_type": "$TARGET_TYPE",
+    "target_type": "$TARGET_TYPE_NAME",
     "start": "$START",
     "end": "$END",
     "intervals_count": $INTERVALS_COUNT,
@@ -51,7 +52,7 @@ class ChallengeDeserializationTest {
             id = ID,
             title = TITLE,
             description = DESCRIPTION,
-            targetTypeValue = TARGET_TYPE,
+            targetType = TARGET_TYPE,
             start = Instant.parse(START),
             end = Instant.parse(END),
             intervalsCount = INTERVALS_COUNT,
