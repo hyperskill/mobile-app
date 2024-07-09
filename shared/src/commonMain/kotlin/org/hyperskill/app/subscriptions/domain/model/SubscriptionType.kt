@@ -50,6 +50,13 @@ enum class SubscriptionType(
 
     @SerialName("premium")
     PREMIUM(isProjectSelectionEnabled = true),
+    @SerialName("paused premium")
+    PAUSED_PREMIUM(
+        isProjectInfoAvailable = false,
+        isCertificateAvailable = false,
+        areHintsLimited = true,
+        areProblemsLimited = true
+    ),
 
     @SerialName("unknown")
     UNKNOWN
