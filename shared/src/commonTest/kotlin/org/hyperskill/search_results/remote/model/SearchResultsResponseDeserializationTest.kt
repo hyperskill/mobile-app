@@ -2,10 +2,10 @@ package org.hyperskill.search_results.remote.model
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.search_results.domain.model.SearchResult
-import org.hyperskill.app.search_results.domain.model.SearchResultTargetType
 import org.hyperskill.app.search_results.remote.model.SearchResultsResponse
 
 class SearchResultsResponseDeserializationTest {
@@ -52,15 +52,15 @@ class SearchResultsResponseDeserializationTest {
             ),
             searchResults = listOf(
                 SearchResult(
-                    targetType = SearchResultTargetType.TOPIC,
+                    targetType = ContentType.TOPIC,
                     targetId = 22
                 ),
                 SearchResult(
-                    targetType = SearchResultTargetType.TOPIC,
+                    targetType = ContentType.TOPIC,
                     targetId = 488
                 ),
                 SearchResult(
-                    targetType = SearchResultTargetType.UNKNOWN,
+                    targetType = ContentType.PROJECT,
                     targetId = 353
                 )
             )

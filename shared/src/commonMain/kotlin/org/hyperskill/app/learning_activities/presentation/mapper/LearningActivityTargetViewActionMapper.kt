@@ -1,7 +1,7 @@
 package org.hyperskill.app.learning_activities.presentation.mapper
 
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -18,7 +18,7 @@ internal object LearningActivityTargetViewActionMapper {
             when (activity.type) {
                 LearningActivityType.IMPLEMENT_STAGE -> {
                     if (projectId != null &&
-                        activity.targetId != null && activity.targetType == LearningActivityTargetType.STAGE
+                        activity.targetId != null && activity.targetType == ContentType.STAGE
                     ) {
                         if (activity.isIdeRequired) {
                             LearningActivityTargetViewAction.ShowStageImplementIDERequiredModal
@@ -35,7 +35,7 @@ internal object LearningActivityTargetViewActionMapper {
                     }
                 }
                 LearningActivityType.LEARN_TOPIC -> {
-                    if (activity.targetId != null && activity.targetType == LearningActivityTargetType.STEP) {
+                    if (activity.targetId != null && activity.targetType == ContentType.STEP) {
                         LearningActivityTargetViewAction.NavigateTo.Step(
                             StepRoute.Learn.Step(stepId = activity.targetId, topicId = activity.topicId)
                         )
