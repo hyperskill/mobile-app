@@ -1,5 +1,6 @@
 package org.hyperskill.app.likes.data.repository
 
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.likes.data.source.LikesRemoteDataSource
 import org.hyperskill.app.likes.domain.model.Like
 import org.hyperskill.app.likes.domain.model.LikeSubject
@@ -10,7 +11,7 @@ class LikesRepositoryImpl(
     private val likesRemoteDataSource: LikesRemoteDataSource
 ) : LikesRepository {
     override suspend fun createLike(
-        targetType: String,
+        targetType: ContentType,
         targetId: Long,
         subject: LikeSubject,
         value: LikeValue
@@ -19,7 +20,7 @@ class LikesRepositoryImpl(
 
     override suspend fun abuseComment(commentId: Long): Result<Like> =
         likesRemoteDataSource.createLike(
-            targetType = "comment",
+            targetType = ContentType.COMMENT,
             targetId = commentId,
             subject = LikeSubject.ABUSE,
             value = LikeValue.VALUE_1
