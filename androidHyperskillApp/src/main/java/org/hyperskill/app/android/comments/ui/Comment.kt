@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.comments.domain.model.CommentReaction
 import org.hyperskill.app.comments.screen.view.model.CommentsScreenViewState
 import org.hyperskill.app.reactions.domain.model.ReactionType
 
@@ -32,11 +31,14 @@ import org.hyperskill.app.reactions.domain.model.ReactionType
 fun Comment(
     comment: CommentsScreenViewState.CommentItem,
     isShowRepliesBtnVisible: Boolean,
-    onShowRepliesClick: () -> Unit,
-    onReactionClick: (ReactionType) -> Unit,
+    onShowRepliesClick: (Long) -> Unit,
+    onReactionClick: (Long, ReactionType) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isReactionsPopupVisible by remember { mutableStateOf(false) }
+    val currentOnReactionClick by rememberUpdatedState { reactionType: ReactionType ->
+        onReactionClick(comment.id, reactionType)
+    }
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -55,21 +57,23 @@ fun Comment(
         )
         CommentReactions(
             reactions = comment.reactions,
-            onReactionClick = onReactionClick,
+            onReactionClick = currentOnReactionClick,
             modifier = Modifier.padding(start = 4.dp),
             onShowMoreReactionsClick = {
                 isReactionsPopupVisible = true
             }
         )
         if (isShowRepliesBtnVisible) {
-            ShowRepliesButton(onClick = onShowRepliesClick)
+            ShowRepliesButton {
+                onShowRepliesClick(comment.id)
+            }
         }
     }
     if (isReactionsPopupVisible) {
         CommentReactionsPopup(
             onReactionClick = { reactionType ->
                 isReactionsPopupVisible = false
-                onReactionClick(reactionType)
+                currentOnReactionClick(reactionType)
             },
             onDismissRequest = { isReactionsPopupVisible = false }
         )
@@ -81,11 +85,10 @@ private fun ShowRepliesButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    val currentOnClick by rememberUpdatedState(newValue = onClick)
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = currentOnClick)
+            .clickable(onClick = onClick)
             .padding(4.dp)
     ) {
         Text(
@@ -101,32 +104,9 @@ private fun ShowRepliesButton(
 private fun CommentPreview() {
     HyperskillTheme {
         Comment(
-            comment = CommentsScreenViewState.CommentItem(
-                id = 0,
-                authorAvatar = "",
-                authorFullName = "mantraolympics",
-                formattedTime = "a month ago",
-                text = "Which version of python are you using? In python 3, the type function returns the <class data_type> format.",
-                reactions = listOf(
-                    ReactionType.SMILE,
-                    ReactionType.PLUS,
-                    ReactionType.MINUS,
-                    ReactionType.PLUS,
-                    ReactionType.MINUS,
-                    ReactionType.CONFUSED,
-                    ReactionType.THINKING,
-                    ReactionType.FIRE,
-                    ReactionType.CLAP
-                ).mapIndexed { index, reactionType ->
-                    CommentReaction(
-                        reactionType = reactionType,
-                        value = 1,
-                        isSet = index % 2 == 0
-                    )
-                }
-            ),
+            comment = CommentPreviewDataProvider.getSingleComment(),
             isShowRepliesBtnVisible = true,
-            onReactionClick = {},
+            onReactionClick = { _, _ -> },
             onShowRepliesClick = {}
         )
     }

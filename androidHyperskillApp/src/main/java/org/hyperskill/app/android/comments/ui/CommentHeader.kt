@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hyperskill.app.R
 
@@ -33,11 +32,11 @@ fun CommentHeader(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(CommentDefaults.CommentImagePadding)
     ) {
         Box(
             modifier = Modifier
-                .requiredSize(40.dp)
+                .requiredSize(CommentDefaults.CommentImageSize)
                 .clip(CircleShape)
                 .background(colorResource(id = R.color.color_on_surface_alpha_12))
         )

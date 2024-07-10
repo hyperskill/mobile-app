@@ -18,6 +18,7 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.ScreenDataLoadingE
 import org.hyperskill.app.comments.presentation.CommentsViewModel
 import org.hyperskill.app.comments.screen.view.model.CommentsScreenViewState
 import org.hyperskill.app.comments.screen.view.model.CommentsScreenViewState.DiscussionsViewState
+import org.hyperskill.app.reactions.domain.model.ReactionType
 
 @Composable
 fun Comments(
@@ -28,7 +29,10 @@ fun Comments(
     Comments(
         viewState,
         onCloseClick = onCloseClick,
-        onRetryClick = viewModel::onRetryClick
+        onRetryClick = viewModel::onRetryClick,
+        onShowRepliesClick = viewModel::onShowRepliesClick,
+        onReactionClick = viewModel::onReactionClick,
+        onShowMoreDiscussionsClick = viewModel::onShowMoreDiscussionsClick
     )
 }
 
@@ -37,6 +41,9 @@ fun Comments(
     viewState: CommentsScreenViewState,
     onCloseClick: () -> Unit,
     onRetryClick: () -> Unit,
+    onShowRepliesClick: (Long) -> Unit,
+    onReactionClick: (Long, ReactionType) -> Unit,
+    onShowMoreDiscussionsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxSize()) {
@@ -45,7 +52,7 @@ fun Comments(
             onNavigationIconClick = onCloseClick
         )
         Box(modifier = Modifier.weight(1f)) {
-            when (viewState.discussions) {
+            when (val discussionsState = viewState.discussions) {
                 DiscussionsViewState.Idle -> {
                     // no op
                 }
@@ -59,7 +66,12 @@ fun Comments(
                     )
                 }
                 is DiscussionsViewState.Content -> {
-                    // TODO
+                    CommentList(
+                        discussionsState = discussionsState,
+                        onShowRepliesClick = onShowRepliesClick,
+                        onReactionClick = onReactionClick,
+                        onShowMoreDiscussionsClick = onShowMoreDiscussionsClick
+                    )
                 }
             }
         }
@@ -68,14 +80,14 @@ fun Comments(
 
 private class CommentDiscussionsViewStatePreviewProvider : CollectionPreviewParameterProvider<DiscussionsViewState>(
     listOf(
-        DiscussionsViewState.Idle,
-        DiscussionsViewState.Loading,
-        DiscussionsViewState.Error,
         DiscussionsViewState.Content(
             discussions = emptyList(),
             hasNextPage = false,
             isLoadingNextPage = false
-        )
+        ),
+        DiscussionsViewState.Loading,
+        DiscussionsViewState.Error,
+        DiscussionsViewState.Idle
     )
 )
 
@@ -91,7 +103,10 @@ private fun CommentsPreview(
                 discussions = discussionsViewState
             ),
             onCloseClick = {},
-            onRetryClick = {}
+            onRetryClick = {},
+            onShowRepliesClick = {},
+            onReactionClick = { _, _ -> },
+            onShowMoreDiscussionsClick = {}
         )
     }
 }
