@@ -56,15 +56,13 @@ fun Comments(
                 DiscussionsViewState.Idle -> {
                     // no op
                 }
-                DiscussionsViewState.Loading -> {
-                    // TODO
-                }
                 DiscussionsViewState.Error -> {
                     ScreenDataLoadingError(
                         errorMessage = stringResource(id = R.string.comments_loading_error),
                         onRetryClick = onRetryClick
                     )
                 }
+                DiscussionsViewState.Loading,
                 is DiscussionsViewState.Content -> {
                     CommentList(
                         discussionsState = discussionsState,
