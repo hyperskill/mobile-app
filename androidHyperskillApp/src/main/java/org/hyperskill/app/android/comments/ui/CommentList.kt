@@ -2,8 +2,11 @@ package org.hyperskill.app.android.comments.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.Text
@@ -32,7 +35,11 @@ fun CommentList(
     onShowMoreDiscussionsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
+    val safeDrawingInsetsPadding = WindowInsets.safeDrawing.asPaddingValues()
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = safeDrawingInsetsPadding
+    ) {
         when (discussionsState) {
             is DiscussionsViewState.Content -> {
                 discussions(
