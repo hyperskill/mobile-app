@@ -49,7 +49,7 @@ fun CommentReactions(
     modifier: Modifier = Modifier
 ) {
     FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(CommentDefaults.ReactionHorizontalPadding),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.fillMaxWidth()
     ) {
@@ -134,7 +134,7 @@ private fun CommentReaction(
     val currentOnClick by rememberUpdatedState { onClick(reactionType) }
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(CommentDefaults.ReactionShape)
             .background(
                 color = colorResource(
                     id = if (isSet) {

@@ -41,7 +41,7 @@ fun Comment(
     }
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(CommentDefaults.CommentContentVerticalPadding)
     ) {
         CommentHeader(
             authorAvatar = comment.authorAvatar,
@@ -53,12 +53,12 @@ fun Comment(
             style = MaterialTheme.typography.body1,
             color = colorResource(id = R.color.text_primary),
             lineHeight = 16.sp,
-            modifier = Modifier.padding(start = 4.dp)
+            modifier = Modifier.padding(start = CommentDefaults.CommentContentStartPadding)
         )
         CommentReactions(
             reactions = comment.reactions,
             onReactionClick = currentOnReactionClick,
-            modifier = Modifier.padding(start = 4.dp),
+            modifier = Modifier.padding(start = CommentDefaults.CommentContentStartPadding),
             onShowMoreReactionsClick = {
                 isReactionsPopupVisible = true
             }
@@ -89,7 +89,7 @@ private fun ShowRepliesButton(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
-            .padding(4.dp)
+            .padding(CommentDefaults.CommentContentStartPadding)
     ) {
         Text(
             text = stringResource(id = R.string.comments_show_replies_btn),

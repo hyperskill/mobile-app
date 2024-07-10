@@ -76,7 +76,13 @@ private fun LazyListScope.replies(
             // no op
         }
         DiscussionReplies.LoadingReplies -> {
-            // TODO
+            item(
+                key = CommentListContentType.COMMENT_SKELETON
+            ) {
+                CommentSkeleton(
+                    modifier = Modifier.padding(CommentDefaults.ReplyCommentPadding)
+                )
+            }
         }
         is DiscussionReplies.Content -> {
             repliesState.replies.forEach { reply ->
