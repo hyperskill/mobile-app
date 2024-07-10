@@ -116,7 +116,7 @@ internal class StepQuizReducer(
                         Action.CreateSubmissionValidateReply(
                             step = message.step,
                             dataset = state.stepQuizState.attempt.dataset,
-                            reply = message.reply
+                            reply = prepareReplyForSubmission(message.step.block.name, message.reply)
                         ),
                         InternalAction.LogAnalyticEvent(analyticEvent)
                     )
@@ -420,8 +420,7 @@ internal class StepQuizReducer(
                     )
                 }
                 ReplyValidationResult.Success -> {
-                    val reply = prepareReplyForSubmission(state.stepQuizState.step.block.name, message.reply)
-                    val submission = createLocalSubmission(state.stepQuizState, reply)
+                    val submission = createLocalSubmission(state.stepQuizState, message.reply)
                         .copy(status = SubmissionStatus.EVALUATION)
 
                     state.copy(
