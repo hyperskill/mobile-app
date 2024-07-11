@@ -35,12 +35,14 @@ private const val MaxReactionsInPopupRow = 4
 fun CommentReactionsPopup(
     popupState: PopupState,
     onReactionClick: (ReactionType) -> Unit,
+    modifier: Modifier = Modifier,
     onDismissRequest: (() -> Unit)? = null
 ) {
     HyperskillPopup(
         popupState = popupState,
         onDismissRequest = onDismissRequest,
-        offset = DpOffset(x = 0.dp, y = 8.dp)
+        offset = DpOffset(x = 0.dp, y = 8.dp),
+        modifier = modifier
     ) {
         val shadowColor = colorResource(id = org.hyperskill.app.R.color.color_on_surface_alpha_60)
         HyperskillCard(

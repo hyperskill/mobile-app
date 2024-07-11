@@ -268,7 +268,7 @@
     <ID>TooManyFunctions:CodeEditor.kt$CodeEditor : AppCompatEditTextTextWatcher</ID>
     <ID>TooManyFunctions:CodeStepQuizFullScreenDialogFragment.kt$CodeStepQuizFullScreenDialogFragment : DialogFragment</ID>
     <ID>TooManyFunctions:DateTimeHelper.kt$DateTimeHelper</ID>
-    <ID>TooManyFunctions:DefaultStepQuizFragment.kt$DefaultStepQuizFragment : FragmentReduxViewStepCompletionViewProblemOnboardingBottomSheetCallbackStepQuizToolbarCallback</ID>
+    <ID>TooManyFunctions:DefaultStepQuizFragment.kt$DefaultStepQuizFragment : FragmentReduxViewStepCompletionViewProblemOnboardingBottomSheetCallbackLimitsWidgetCallbackStepPracticeCallback</ID>
     <ID>TooManyFunctions:FillBlanksItemMapper.kt$FillBlanksItemMapper</ID>
     <ID>TooManyFunctions:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate : StepQuizFormDelegate</ID>
     <ID>TooManyFunctions:HyperskillSentryBreadcrumbBuilder.kt$HyperskillSentryBreadcrumbBuilder</ID>
@@ -286,6 +286,7 @@
     <ID>TopLevelPropertyNaming:ViewExtensions.kt$private const val durationMillis = 300</ID>
     <ID>UnstableCollections:BadgeGrid.kt$List&lt;BadgesViewState.Badge&gt;</ID>
     <ID>UnstableCollections:ChallengeProgress.kt$List&lt;ProgressStatus&gt;</ID>
+    <ID>UnstableCollections:CommentReactions.kt$List&lt;CommentReaction&gt;</ID>
     <ID>UnstableCollections:DebugScreenUI.kt$List&lt;EndpointConfigType&gt;</ID>
     <ID>UnstableCollections:LeaderboardList.kt$List&lt;LeaderboardWidgetListItem&gt;</ID>
     <ID>UnstableCollections:ServerSwitcher.kt$List&lt;EndpointConfigType&gt;</ID>

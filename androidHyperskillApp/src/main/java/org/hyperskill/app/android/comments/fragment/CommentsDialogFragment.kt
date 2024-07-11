@@ -93,6 +93,7 @@ class CommentsDialogFragment : DialogFragment() {
         dismiss()
     }
 
+    @Suppress("UnusedParameter")
     private fun handleActions(action: CommentsScreenFeature.Action.ViewAction) {
         // no op
     }
