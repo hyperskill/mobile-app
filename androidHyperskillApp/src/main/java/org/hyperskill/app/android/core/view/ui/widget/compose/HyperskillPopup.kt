@@ -141,7 +141,6 @@ private data class HorizontalAlignmentCalculationResult(
     val fallbackHorizontalOffset: Int
 )
 
-
 /**
  * A custom implementation of PopupPositionProvider.
  * This calculates the position of the popup relative to the anchor

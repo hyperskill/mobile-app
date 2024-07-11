@@ -13,7 +13,7 @@ object CommentPreviewDataProvider {
             discussions = List(2) { i ->
                 CommentsScreenViewState.DiscussionItem(
                     comment = getSingleComment(id = i.toLong()),
-                    replies =  CommentsScreenViewState.DiscussionReplies.EmptyReplies
+                    replies = CommentsScreenViewState.DiscussionReplies.EmptyReplies
                 )
             },
             hasNextPage = false,
@@ -25,7 +25,7 @@ object CommentPreviewDataProvider {
             discussions = List(2) { i ->
                 CommentsScreenViewState.DiscussionItem(
                     comment = getSingleComment(id = i.toLong()),
-                    replies =  if (i == 0) {
+                    replies = if (i == 0) {
                         CommentsScreenViewState.DiscussionReplies.EmptyReplies
                     } else {
                         CommentsScreenViewState.DiscussionReplies.LoadingReplies
@@ -58,6 +58,7 @@ object CommentPreviewDataProvider {
             isLoadingNextPage = false
         )
 
+    /* ktlint-disable */
     @Suppress("MaxLineLength")
     fun getSingleComment(id: Long = 0): CommentsScreenViewState.CommentItem =
         CommentsScreenViewState.CommentItem(
