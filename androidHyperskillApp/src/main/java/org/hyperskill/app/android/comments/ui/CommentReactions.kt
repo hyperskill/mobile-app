@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,26 +26,17 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntRect
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupPositionProvider
-import androidx.compose.ui.zIndex
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillCard
+import org.hyperskill.app.android.core.view.ui.widget.compose.PopupState
 import org.hyperskill.app.comments.domain.model.CommentReaction
 import org.hyperskill.app.reactions.domain.model.ReactionType
-import org.hyperskill.app.reactions.domain.model.commentReactions
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CommentReactions(
     reactions: List<CommentReaction>,
     onReactionClick: (ReactionType) -> Unit,
-    onShowMoreReactionsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     FlowRow(
@@ -62,65 +53,10 @@ fun CommentReactions(
             )
         }
         ShowMoreReactions(
-            onClick = onShowMoreReactionsClick,
+            onReactionClick = onReactionClick,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
     }
-}
-
-private val CommentReactionsPopupPositionProvider = object : PopupPositionProvider {
-    override fun calculatePosition(
-        anchorBounds: IntRect,
-        windowSize: IntSize,
-        layoutDirection: LayoutDirection,
-        popupContentSize: IntSize
-    ): IntOffset {
-        TODO("Not yet implemented")
-    }
-}
-
-private val CommentReactions = ReactionType.commentReactions
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun CommentReactionsPopup(
-    onReactionClick: (ReactionType) -> Unit,
-    onDismissRequest: (() -> Unit)? = null
-) {
-    Popup(
-        alignment = Alignment.Center,
-        onDismissRequest = onDismissRequest
-    ) {
-        HyperskillCard(
-            contentPadding = PaddingValues(16.dp),
-            modifier = Modifier.zIndex(10f)
-        ) {
-            FlowRow(
-                maxItemsInEachRow = 4,
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
-                CommentReactions.forEach { reactionType ->
-                    val currentOnReactionClick by rememberUpdatedState {
-                        onReactionClick(reactionType)
-                    }
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .clickable(onClick = currentOnReactionClick)
-                            .padding(4.dp)
-                    ) {
-                        Image(
-                            painter = reactionType.commentReactionPainter,
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                }
-            }
-        }
-    }
-
 }
 
 @Composable
@@ -167,24 +103,39 @@ private fun CommentReaction(
 
 @Composable
 private fun ShowMoreReactions(
-    onClick: () -> Unit,
+    onReactionClick: (ReactionType) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick)
-            .padding(12.dp, 4.dp)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_reaction_show_more),
-            contentDescription = null,
-            modifier = Modifier.align(Alignment.Center)
+    val reactionPopupState = remember { PopupState() }
+    Box(modifier = modifier) {
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .align(Alignment.Center)
+                .clickable {
+                    reactionPopupState.isVisible =
+                        !reactionPopupState.isVisible
+                }
+                .padding(12.dp, 4.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_reaction_show_more),
+                contentDescription = null,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+        CommentReactionsPopup(
+            popupState = reactionPopupState,
+            onReactionClick = { reactionType ->
+                reactionPopupState.isVisible = false
+                onReactionClick(reactionType)
+            },
+            onDismissRequest = { reactionPopupState.isVisible = false }
         )
     }
 }
 
-private val ReactionType.commentReactionPainter: Painter
+val ReactionType.commentReactionPainter: Painter
     @Composable
     get() = painterResource(
         id = when (this) {

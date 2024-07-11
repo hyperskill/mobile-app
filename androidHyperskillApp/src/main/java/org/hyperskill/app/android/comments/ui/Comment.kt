@@ -12,10 +12,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
@@ -36,7 +33,6 @@ fun Comment(
     onReactionClick: (Long, ReactionType) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isReactionsPopupVisible by remember { mutableStateOf(false) }
     val currentOnReactionClick by rememberUpdatedState { reactionType: ReactionType ->
         onReactionClick(comment.id, reactionType)
     }
@@ -61,25 +57,13 @@ fun Comment(
         CommentReactions(
             reactions = comment.reactions,
             onReactionClick = currentOnReactionClick,
-            modifier = Modifier.padding(start = CommentDefaults.CommentContentStartPadding),
-            onShowMoreReactionsClick = {
-                isReactionsPopupVisible = true
-            }
+            modifier = Modifier.padding(start = CommentDefaults.CommentContentStartPadding)
         )
         if (isShowRepliesBtnVisible) {
             ShowRepliesButton {
                 onShowRepliesClick(comment.id)
             }
         }
-    }
-    if (isReactionsPopupVisible) {
-        CommentReactionsPopup(
-            onReactionClick = { reactionType ->
-                isReactionsPopupVisible = false
-                currentOnReactionClick(reactionType)
-            },
-            onDismissRequest = { isReactionsPopupVisible = false }
-        )
     }
 }
 
