@@ -58,7 +58,7 @@ class StepQuizHintsInteractor(
 
     private suspend fun getStepHintsIds(stepId: Long): List<Long> =
         discussionsRepository
-            .getStepHintsDiscussions(stepId)
+            .getStepHintThreadDiscussions(stepId)
             .getOrNull()
             ?.discussions?.map { it.id }
             ?: emptyList()

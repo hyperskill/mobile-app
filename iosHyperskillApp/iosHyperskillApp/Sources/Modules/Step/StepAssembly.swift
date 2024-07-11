@@ -60,8 +60,7 @@ final class StepAssembly: Assembly, UIKitAssembly {
             stepRoute: stepRoute,
             viewDataMapper: StepViewDataMapper(
                 dateFormatter: commonComponent.dateFormatter,
-                resourceProvider: commonComponent.resourceProvider,
-                commentThreadTitleMapper: stepComponent.commentThreadTitleMapper
+                resourceProvider: commonComponent.resourceProvider
             ),
             feature: stepComponent.stepFeature
         )

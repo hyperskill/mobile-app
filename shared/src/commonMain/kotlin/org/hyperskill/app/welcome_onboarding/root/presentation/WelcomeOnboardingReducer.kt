@@ -1,8 +1,8 @@
 package org.hyperskill.app.welcome_onboarding.root.presentation
 
+import org.hyperskill.app.core.domain.model.ContentType
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.OnboardingCompletionAppsFlyerAnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
@@ -202,7 +202,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         state: State,
         nextLearningActivity: LearningActivity?
     ): WelcomeOnboardingReducerResult {
-        val stepRoute = if (nextLearningActivity?.targetType == LearningActivityTargetType.STEP) {
+        val stepRoute = if (nextLearningActivity?.targetType == ContentType.STEP) {
             nextLearningActivity.targetId?.let { stepId ->
                 StepRoute.Learn.Step(stepId = stepId, topicId = nextLearningActivity.topicId)
             }

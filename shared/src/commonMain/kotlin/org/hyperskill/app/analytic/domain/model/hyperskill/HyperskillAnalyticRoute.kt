@@ -1,5 +1,7 @@
 package org.hyperskill.app.analytic.domain.model.hyperskill
 
+import org.hyperskill.app.step.domain.model.StepRoute
+
 sealed class HyperskillAnalyticRoute {
     abstract val path: String
 
@@ -148,6 +150,11 @@ sealed class HyperskillAnalyticRoute {
 
     class Search : HyperskillAnalyticRoute() {
         override val path: String = "/search"
+    }
+
+    class Comment(stepRoute: StepRoute) : HyperskillAnalyticRoute() {
+        override val path: String =
+            "${stepRoute.analyticRoute.path}#comment"
     }
 
     /**

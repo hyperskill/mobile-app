@@ -1,8 +1,8 @@
 package org.hyperskill.step.domain.model
 
 import kotlinx.datetime.Instant
+import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.step.domain.model.Block
-import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.step.domain.model.Step
 
 fun Step.Companion.stub(

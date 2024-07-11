@@ -3,6 +3,7 @@ package org.hyperskill.app.challenges.domain.model
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.core.domain.model.ContentType
 
 @Serializable
 data class Challenge(
@@ -13,7 +14,7 @@ data class Challenge(
     @SerialName("description")
     val description: String,
     @SerialName("target_type")
-    internal val targetTypeValue: String,
+    internal val targetType: ContentType = ContentType.UNKNOWN,
     @SerialName("start")
     val start: Instant,
     @SerialName("end")
@@ -31,9 +32,6 @@ data class Challenge(
     @SerialName("next_interval_time")
     val nextIntervalTime: Instant?
 ) {
-    val targetType: ChallengeTargetType?
-        get() = ChallengeTargetType.getByValue(targetTypeValue)
-
     val status: ChallengeStatus?
         get() = ChallengeStatus.getByValue(statusValue)
 }

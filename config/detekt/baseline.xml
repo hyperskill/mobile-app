@@ -15,7 +15,6 @@
     <ID>ComposableParamOrder:FindStage.kt$FindStage</ID>
     <ID>ComposableParamOrder:FindStep.kt$FindStep</ID>
     <ID>ComposableParamOrder:LinearProgressIndicator.kt$LinearProgressIndicator</ID>
-    <ID>ComposableParamOrder:NotificationsOnboardingScreen.kt$NotificationsOnboardingButtons</ID>
     <ID>ComposableParamOrder:ServerSwitcher.kt$EndpointSwitcher</ID>
     <ID>CyclomaticComplexMethod:AuthCredentialsReducer.kt$AuthCredentialsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
     <ID>CyclomaticComplexMethod:DebugReducer.kt$DebugReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
@@ -125,7 +124,6 @@
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$7</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$8</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$9</ID>
-    <ID>MagicNumber:NotificationsOnboardingScreen.kt$0.5f</ID>
     <ID>MagicNumber:NotificationsOnboardingViewStateMapper.kt$NotificationsOnboardingViewStateMapper$10</ID>
     <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter.Companion$2</ID>
     <ID>MagicNumber:PercentProgressIndicator.kt$0xFF5D72E9</ID>
@@ -170,8 +168,6 @@
     <ID>MatchingDeclarationName:FindStage.kt$FindStageInput</ID>
     <ID>MatchingDeclarationName:HyperskillButton.kt$HyperskillButtonDefaults</ID>
     <ID>MatchingDeclarationName:LeaderboardItem.kt$LeaderboardItemDefaults</ID>
-    <ID>MatchingDeclarationName:NotificationsOnboardingScreen.kt$NotificationsOnboardingDefaults</ID>
-    <ID>MatchingDeclarationName:PaywallScreen.kt$PaywallDefaults</ID>
     <ID>MaxLineLength:ChallengeCardPreviewValues.kt$ChallengeCardPreviewValues$const</ID>
     <ID>MaxLineLength:ExpandableTextView.kt$ExpandableTextView$*</ID>
     <ID>MaxLineLength:HtmlText.kt$text</ID>
@@ -192,16 +188,12 @@
     <ID>ModifierMissing:FirstProblemOnboardingUI.kt$FirstProblemOnboardingScreen</ID>
     <ID>ModifierMissing:LeaderboardTabs.kt$LeaderboardTabs</ID>
     <ID>ModifierMissing:ManageSubscriptionScreen.kt$ManageSubscriptionScreen</ID>
-    <ID>ModifierMissing:NotificationsOnboardingScreen.kt$NotificationsOnboardingScreen</ID>
     <ID>ModifierMissing:PaywallScreen.kt$PaywallScreen</ID>
     <ID>ModifierMissing:ProgressScreen.kt$ProgressScreen</ID>
     <ID>ModifierMissing:RequestReviewDialog.kt$RequestReviewDialog</ID>
     <ID>ModifierNotUsedAtRoot:LeaderboardPlaceInfo.kt$modifier = modifier .requiredSize(24.dp) .align(Alignment.CenterVertically)</ID>
-    <ID>ModifierNotUsedAtRoot:NotificationsOnboardingScreen.kt$modifier.align(Alignment.Center)</ID>
     <ID>ModifierReused:LeaderboardPlaceInfo.kt$Image( painter = painterResource( id = when (placeNumber) { 1 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_first_place 2 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_second_place 3 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_third_place else -&gt; error("Place icon should not be visible for the place number $placeNumber") } ), contentDescription = null, modifier = modifier .requiredSize(24.dp) .align(Alignment.CenterVertically) )</ID>
     <ID>ModifierReused:LeaderboardPlaceInfo.kt$Row( modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween ) { Text( text = placeNumber.toString(), style = MaterialTheme.typography.body2, color = colorResource(id = R.color.color_on_surface_alpha_60), modifier = Modifier.align(Alignment.CenterVertically) ) if (placeNumber in 1..3) { Image( painter = painterResource( id = when (placeNumber) { 1 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_first_place 2 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_second_place 3 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_third_place else -&gt; error("Place icon should not be visible for the place number $placeNumber") } ), contentDescription = null, modifier = modifier .requiredSize(24.dp) .align(Alignment.CenterVertically) ) } }</ID>
-    <ID>ModifierReused:NotificationsOnboardingScreen.kt$Box( modifier = modifier .clip(RoundedCornerShape(dimensionResource(id = org.hyperskill.app.android.R.dimen.corner_radius))) ) { Row( verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier .clickable( interactionSource = remember { MutableInteractionSource() }, indication = rememberRipple(), onClick = onTimeClick ) .padding(vertical = 4.dp, horizontal = 8.dp) ) { Text(text = stringResource(id = R.string.notifications_onboarding_daily_study_reminders_interval_prefix)) Spacer(modifier = Modifier.width(8.dp)) Text(text = formattedInterval) Spacer(modifier = Modifier.width(4.dp)) Box(modifier = Modifier.size(24.dp)) { Image( painter = painterResource( id = org.hyperskill.app.android.R.drawable.ic_notification_onboarding_arrow ), contentDescription = null, modifier.align(Alignment.Center) ) } } }</ID>
-    <ID>ModifierReused:NotificationsOnboardingScreen.kt$Image( painter = painterResource( id = org.hyperskill.app.android.R.drawable.ic_notification_onboarding_arrow ), contentDescription = null, modifier.align(Alignment.Center) )</ID>
     <ID>ModifierWithoutDefault:BadgeImage.kt$modifier</ID>
     <ID>NestedBlockDepth:AuthSocialWebViewClient.kt$AuthSocialWebViewClient$override fun shouldOverrideUrlLoading( view: WebView?, request: WebResourceRequest? ): Boolean</ID>
     <ID>NestedBlockDepth:StepQuizReducer.kt$StepQuizReducer$private fun handleFetchAttemptSuccess( state: State, message: InternalMessage.FetchAttemptSuccess ): StepQuizReducerResult</ID>
@@ -236,6 +228,8 @@
     <ID>PrintStackTrace:LatexWebView.kt$LatexWebView$e</ID>
     <ID>ReturnCount:ChallengeWidgetReducer.kt$ChallengeWidgetReducer$private fun handleStepSolvedMessage(state: State): ChallengeWidgetReducerResult?</ID>
     <ID>ReturnCount:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$private fun getLoadedWidgetContent(state: ChallengeWidgetFeature.State.Content): ChallengeWidgetViewState</ID>
+    <ID>ReturnCount:CommentsScreenReducer.kt$CommentsScreenReducer$private fun handleReactionClicked( state: State, message: Message.ReactionClicked ): CommentsScreenReducerResult?</ID>
+    <ID>ReturnCount:CommentsScreenReducer.kt$CommentsScreenReducer$private fun handleShowDiscussionRepliesClicked( state: State, message: Message.ShowDiscussionRepliesClicked ): CommentsScreenReducerResult?</ID>
     <ID>ReturnCount:ExpandableTextView.kt$ExpandableTextView$private fun resolveDisplayedText(staticLayout: StaticLayout): CharSequence?</ID>
     <ID>ReturnCount:FillBlanksItemMapper.kt$FillBlanksItemMapper$internal fun map( componentsDataset: List&lt;Component&gt;, replyBlanks: List&lt;String&gt;? ): FillBlanksData?</ID>
     <ID>ReturnCount:MainNotificationClickHandlingActionDispatcher.kt$MainNotificationClickHandlingActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
@@ -302,7 +296,6 @@
     <ID>UnusedParameter:DebugToolsHelper.kt$DebugToolsHelper$app: Application</ID>
     <ID>UnusedPrivateMember:StepQuizResolverTest.kt$StepQuizResolverTest$@Suppress("UNUSED_EXPRESSION") private fun marker( stepRoute: StepRoute, stepQuizState: StepQuizFeature.StepQuizState )</ID>
     <ID>UnusedPrivateProperty:MainActivity.kt$MainActivity$val splashScreen = installSplashScreen()</ID>
-    <ID>UnusedPrivateProperty:TrackSelectionDetailsFragment.kt$TrackSelectionDetailsFragment$private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) { HyperskillApp.graph().navigationComponent.mainScreenCicerone.router }</ID>
     <ID>UseCheckOrError:AndroidStepQuizTest.kt$AndroidStepQuizTest$throw IllegalStateException( "Unknown step route class: $concreteStepRouteClass. Please add it to the test." )</ID>
     <ID>UseCheckOrError:CollectionToJsonElement.kt$throw IllegalStateException("Can't serialize unknown type: $this")</ID>
     <ID>UseCheckOrError:ContextExtensions.kt$throw IllegalStateException("Can't find Activity in a given context")</ID>

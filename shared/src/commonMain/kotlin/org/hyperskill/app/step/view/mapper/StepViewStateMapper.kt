@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.view.mapper
 
+import org.hyperskill.app.comments.domain.model.CommentThread
 import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
@@ -13,6 +14,7 @@ internal class StepViewStateMapper(
             stepState = state.stepState,
             stepToolbarViewState = StepToolbarViewStateMapper.map(state.stepToolbarState),
             stepMenuActions = getStepToolbarActions(state.stepState, stepRoute),
+            isCommentsToolbarItemAvailable = isCommentsToolbarItemAvailable(state.stepState),
             isLoadingShowed = state.isLoadingShowed
         )
 
@@ -20,7 +22,7 @@ internal class StepViewStateMapper(
         stepState: StepFeature.StepState,
         stepRoute: StepRoute
     ): Set<StepMenuAction> =
-        StepMenuAction.values().filter { action ->
+        StepMenuAction.entries.filter { action ->
             action != StepMenuAction.SKIP || isSkipButtonAvailable(stepState, stepRoute)
         }.toSet()
 
@@ -31,4 +33,9 @@ internal class StepViewStateMapper(
         stepState is StepFeature.StepState.Data &&
             stepRoute is StepRoute.Learn.Step &&
             stepState.step.canSkip
+
+    private fun isCommentsToolbarItemAvailable(stepState: StepFeature.StepState): Boolean {
+        val step = (stepState as? StepFeature.StepState.Data)?.step ?: return false
+        return step.commentsStatistics.any { it.thread == CommentThread.COMMENT && it.totalCount > 0 }
+    }
 }

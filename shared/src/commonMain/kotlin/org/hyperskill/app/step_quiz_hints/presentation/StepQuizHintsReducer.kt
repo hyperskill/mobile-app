@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz_hints.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.reactions.domain.model.ReactionType
+import org.hyperskill.app.reactions.domain.model.hintReactions
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent
@@ -56,7 +57,10 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
                     null
                 }
             is Message.ReactionButtonClicked ->
-                if (state is State.Content && state.currentHint != null) {
+                if (state is State.Content &&
+                    state.currentHint != null &&
+                    message.reaction in ReactionType.hintReactions
+                ) {
                     state to setOf(
                         Action.ReactHint(
                             hintId = state.currentHint.id,
@@ -65,10 +69,13 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
                         ),
                         Action.LogAnalyticEvent(
                             StepQuizHintsClickedHyperskillAnalyticEvent(
-                                stepRoute.analyticRoute,
-                                when (message.reaction) {
+                                route = stepRoute.analyticRoute,
+                                target = when (message.reaction) {
                                     ReactionType.HELPFUL -> HyperskillAnalyticTarget.YES
                                     ReactionType.UNHELPFUL -> HyperskillAnalyticTarget.NO
+                                    else -> {
+                                        error("Unsupported reaction type: ${message.reaction}")
+                                    }
                                 },
                                 commentId = state.currentHint.id
                             )

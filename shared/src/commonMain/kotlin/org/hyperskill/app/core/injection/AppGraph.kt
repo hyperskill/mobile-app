@@ -9,6 +9,8 @@ import org.hyperskill.app.badges.injection.BadgesDataComponent
 import org.hyperskill.app.challenges.injection.ChallengesDataComponent
 import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
+import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
+import org.hyperskill.app.comments.screen.injection.CommentsScreenComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
@@ -209,4 +211,7 @@ interface AppGraph {
     fun buildTopicCompletedModalComponent(
         params: TopicCompletedModalFeatureParams
     ): TopicCompletedModalComponent
+    fun buildCommentsScreenComponent(
+        params: CommentsScreenFeatureParams
+    ): CommentsScreenComponent
 }

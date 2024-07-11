@@ -12,6 +12,7 @@ import kotlinx.datetime.toLocalDateTime
 val TimeZone.Companion.NYC: TimeZone
     get() = of("America/New_York")
 
+// TODO("ALTAPPS-1298: replace custom formatting code with kotlinx.datetime dsl")
 object DateTimeUtils {
     /**
      * @return The number of seconds until the start of the next day in the "America/New_York" timezone.

@@ -4,6 +4,8 @@ source "https://cdn.cocoapods.org/"
 inhibit_all_warnings!
 use_frameworks!
 
+ENV["SWIFT_VERSION"] = "5"
+
 target "iosHyperskillApp" do
   platform :ios, "14.0"
 

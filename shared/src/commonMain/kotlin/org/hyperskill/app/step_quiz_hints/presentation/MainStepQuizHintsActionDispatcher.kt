@@ -1,12 +1,13 @@
 package org.hyperskill.app.step_quiz_hints.presentation
 
-import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
+import org.hyperskill.app.comments.domain.repository.CommentsRepository
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.likes.domain.interactor.LikesInteractor
-import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
 import org.hyperskill.app.reactions.domain.model.ReactionType
+import org.hyperskill.app.reactions.domain.repository.ReactionsRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
@@ -20,8 +21,8 @@ internal class MainStepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizHintsInteractor: StepQuizHintsInteractor,
     private val likesInteractor: LikesInteractor,
-    private val commentsInteractor: CommentsInteractor,
-    private val reactionsInteractor: ReactionsInteractor,
+    private val commentsRepository: CommentsRepository,
+    private val reactionsRepository: ReactionsRepository,
     private val userStorageInteractor: UserStorageInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val sentryInteractor: SentryInteractor
@@ -87,36 +88,12 @@ internal class MainStepQuizHintsActionDispatcher(
                         }
                     )
             }
-            is Action.ReactHint -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsReactHint()
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                reactionsInteractor
-                    .createCommentReaction(action.hintId, action.reaction)
-                    .fold(
-                        onSuccess = {
-                            userStorageInteractor.updateUserStorage(
-                                UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
-                                when (action.reaction) {
-                                    ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
-                                    ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
-                                }
-                            )
-                            sentryInteractor.finishTransaction(sentryTransaction)
-
-                            onNewMessage(Message.ReactHintSuccess)
-                        },
-                        onFailure = {
-                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                            onNewMessage(Message.ReactHintFailure)
-                        }
-                    )
-            }
+            is Action.ReactHint -> handleReactHintAction(action, ::onNewMessage)
             is Action.FetchNextHint -> {
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsFetchNextHint()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                commentsInteractor
+                commentsRepository
                     .getComment(action.nextHintId)
                     .onSuccess {
                         onNewMessage(
@@ -148,5 +125,32 @@ internal class MainStepQuizHintsActionDispatcher(
             }
             else -> {}
         }
+    }
+
+    private suspend fun handleReactHintAction(
+        action: Action.ReactHint,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildStepQuizHintsReactHint(),
+            onError = { Message.ReactHintFailure }
+        ) {
+            val createdReaction = reactionsRepository
+                .createCommentReaction(action.hintId, action.reaction)
+                .getOrThrow()
+
+            userStorageInteractor.updateUserStorage(
+                key = UserStoragePathBuilder.buildSeenHint(action.stepId, action.hintId),
+                value = when (createdReaction.reactionType) {
+                    ReactionType.HELPFUL -> HintState.HELPFUL.userStorageValue
+                    ReactionType.UNHELPFUL -> HintState.UNHELPFUL.userStorageValue
+                    else -> {
+                        error("Unknown reaction type: $action.reaction")
+                    }
+                }
+            )
+
+            Message.ReactHintSuccess
+        }.let(onNewMessage)
     }
 }
