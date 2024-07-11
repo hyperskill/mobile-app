@@ -8,9 +8,7 @@ enum class ChallengeStatus(val value: String) {
     COMPLETED("completed");
 
     companion object {
-        private val VALUES: Array<ChallengeStatus> = values()
-
         fun getByValue(value: String): ChallengeStatus? =
-            VALUES.firstOrNull { it.value == value }
+            entries.firstOrNull { it.value == value }
     }
 }

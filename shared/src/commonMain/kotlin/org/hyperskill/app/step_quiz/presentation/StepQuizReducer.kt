@@ -116,7 +116,7 @@ internal class StepQuizReducer(
                         Action.CreateSubmissionValidateReply(
                             step = message.step,
                             dataset = state.stepQuizState.attempt.dataset,
-                            reply = message.reply
+                            reply = prepareReplyForSubmission(message.step.block.name, message.reply)
                         ),
                         InternalAction.LogAnalyticEvent(analyticEvent)
                     )
@@ -581,6 +581,15 @@ internal class StepQuizReducer(
             time = Clock.System.now().toString()
         )
     }
+
+    private fun prepareReplyForSubmission(stepBlockName: String, reply: Reply): Reply =
+        when (stepBlockName) {
+            BlockName.STRING -> reply.copy(text = reply.text?.trim())
+            BlockName.NUMBER -> reply.copy(number = reply.number?.trim())
+            BlockName.MATH -> reply.copy(formula = reply.formula?.trim())
+            BlockName.PROMPT -> reply.copy(prompt = reply.prompt?.trim())
+            else -> reply
+        }
 
     private fun getProblemOnboardingModalActions(
         step: Step,

@@ -10,10 +10,8 @@ enum class StudyPlanSectionType(val value: String) {
     NEXT_TRACK("next track");
 
     companion object {
-        private val VALUES: Array<StudyPlanSectionType> = values()
-
         fun getByValue(value: String): StudyPlanSectionType? =
-            VALUES.firstOrNull { it.value == value }
+            entries.firstOrNull { it.value == value }
 
         fun supportedTypes(): Set<StudyPlanSectionType> =
             setOf(STAGE, EXTRA_TOPICS, ROOT_TOPICS, NEXT_PROJECT, NEXT_TRACK)

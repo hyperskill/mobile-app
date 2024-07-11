@@ -57,9 +57,13 @@ internal class StepQuizReplyValidator(private val resourceProvider: ResourceProv
             }
             BlockName.TABLE -> {
                 val choices = reply.choices?.safeCast<List<ChoiceAnswer.Table>>()
-
-                if (choices.isNullOrEmpty() || choices.any { it -> it.tableChoice.columns.none { it.answer } }) {
-                    return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
+                when {
+                    choices.isNullOrEmpty() ->
+                        return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
+                    dataset?.isCheckbox == true ->
+                        return ReplyValidationResult.Success
+                    choices.any { it -> it.tableChoice.columns.none { it.answer } } ->
+                        return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
                 }
             }
 

@@ -364,7 +364,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             StudyPlanClickedActivityHyperskillAnalyticEvent(
                 activityId = activity.id,
                 activityType = activity.type?.value,
-                activityTargetType = activity.targetType?.value,
+                activityTargetType = activity.targetType,
                 activityTargetId = activity.targetId
             )
         )
