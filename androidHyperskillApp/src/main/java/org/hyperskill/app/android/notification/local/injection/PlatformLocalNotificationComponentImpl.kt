@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.notification.local.injection
 
 import android.content.Context
-import org.hyperskill.app.android.notification.local.DailyStudyReminderLocalNotificationDelegate
 import org.hyperskill.app.android.notification.local.HyperskillNotificationManager
 import org.hyperskill.app.android.notification.local.HyperskillNotificationManagerImpl
 import org.hyperskill.app.android.notification.local.LocalNotificationPublisher
@@ -21,13 +20,4 @@ class PlatformLocalNotificationComponentImpl(
 
     override val localNotificationPublisher: LocalNotificationPublisher
         get() = LocalNotificationPublisherImpl(getNotificationDelegates())
-
-    override val dailyStudyReminderNotificationDelegate: DailyStudyReminderLocalNotificationDelegate
-        get() = DailyStudyReminderLocalNotificationDelegate(
-            hyperskillNotificationManager = notificationManager,
-            context = context,
-            notificationInteractor = notificationInteractor,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
-            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository
-        )
 }
