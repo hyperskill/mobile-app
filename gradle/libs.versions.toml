@@ -105,7 +105,7 @@ googlePlay-installreferrer = { module = "com.android.installreferrer:installrefe
 
 revenuecat = { module = "com.revenuecat.purchases:purchases", version.ref = "revenueCat" }
 
-firebase-bom = { module = "com.google.firebase:firebase-bom", version = "31.2.2" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version = "33.1.2" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
 
 viewbinding = { module = "com.github.kirich1409:viewbindingpropertydelegate", version = "1.5.6" }
