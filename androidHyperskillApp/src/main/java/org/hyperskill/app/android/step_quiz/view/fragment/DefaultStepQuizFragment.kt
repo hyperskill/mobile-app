@@ -26,11 +26,13 @@ import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
-import org.hyperskill.app.android.step.view.model.OpenTheoryMenuAction
+import org.hyperskill.app.android.step.view.model.LimitsWidgetCallback
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepHost
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryAction
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryActionParams
+import org.hyperskill.app.android.step.view.model.StepPracticeCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_practice.model.StepPracticeHost
@@ -70,7 +72,8 @@ abstract class DefaultStepQuizFragment :
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView,
     ProblemOnboardingBottomSheetCallback,
-    StepQuizToolbarCallback {
+    LimitsWidgetCallback,
+    StepPracticeCallback {
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -386,8 +389,9 @@ abstract class DefaultStepQuizFragment :
         }
 
         parentOfType(StepToolbarHost::class.java)
-            ?.renderTheoryAction(
-                OpenTheoryMenuAction(
+            ?.renderPrimaryAction(
+                StepMenuPrimaryAction.THEORY,
+                StepMenuPrimaryActionParams(
                     isVisible = StepQuizResolver.isTheoryToolbarItemAvailable(state.stepQuizState),
                     isEnabled = !StepQuizResolver.isQuizLoading(state.stepQuizState)
                 )

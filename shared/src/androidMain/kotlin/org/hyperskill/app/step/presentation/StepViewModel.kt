@@ -1,6 +1,6 @@
 package org.hyperskill.app.step.presentation
 
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
@@ -45,14 +45,18 @@ class StepViewModel(
         )
     }
 
-    fun onActionClick(action: StepMenuAction) {
+    fun onActionClick(action: StepMenuSecondaryAction) {
         onNewMessage(
             when (action) {
-                StepMenuAction.SHARE -> Message.ShareClicked
-                StepMenuAction.REPORT -> Message.ReportClicked
-                StepMenuAction.SKIP -> Message.SkipClicked
-                StepMenuAction.OPEN_IN_WEB -> Message.OpenInWebClicked
+                StepMenuSecondaryAction.SHARE -> Message.ShareClicked
+                StepMenuSecondaryAction.REPORT -> Message.ReportClicked
+                StepMenuSecondaryAction.SKIP -> Message.SkipClicked
+                StepMenuSecondaryAction.OPEN_IN_WEB -> Message.OpenInWebClicked
             }
         )
+    }
+
+    fun onCommentsClick() {
+        onNewMessage(Message.CommentClicked)
     }
 }

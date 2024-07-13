@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step.view.model
 
-interface StepQuizToolbarCallback {
+interface LimitsWidgetCallback {
     fun onLimitsClick()
-    fun onTheoryClick()
 }

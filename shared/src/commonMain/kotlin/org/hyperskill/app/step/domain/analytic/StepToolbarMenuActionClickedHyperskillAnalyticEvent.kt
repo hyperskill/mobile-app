@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAct
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
 
 /**
@@ -26,17 +26,17 @@ import org.hyperskill.app.step.domain.model.StepRoute
  * @see HyperskillAnalyticEvent
  */
 class StepToolbarMenuActionClickedHyperskillAnalyticEvent(
-    action: StepMenuAction,
+    action: StepMenuSecondaryAction,
     stepRoute: StepRoute,
 ) : HyperskillAnalyticEvent(
     route = stepRoute.analyticRoute,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.HEAD,
     target = when (action) {
-        StepMenuAction.SHARE -> HyperskillAnalyticTarget.SHARE
-        StepMenuAction.REPORT -> HyperskillAnalyticTarget.REPORT
-        StepMenuAction.SKIP -> HyperskillAnalyticTarget.SKIP
-        StepMenuAction.OPEN_IN_WEB -> HyperskillAnalyticTarget.OPEN_IN_WEB
+        StepMenuSecondaryAction.SHARE -> HyperskillAnalyticTarget.SHARE
+        StepMenuSecondaryAction.REPORT -> HyperskillAnalyticTarget.REPORT
+        StepMenuSecondaryAction.SKIP -> HyperskillAnalyticTarget.SKIP
+        StepMenuSecondaryAction.OPEN_IN_WEB -> HyperskillAnalyticTarget.OPEN_IN_WEB
     },
     context = mapOf(StepAnalyticParams.PARAM_STEP_ID to stepRoute.stepId)
 )

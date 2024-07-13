@@ -95,7 +95,7 @@ private fun Modifier.infiniteShimmer(
                 animation = tween(
                     durationMillis = durationMillis,
                     easing = easing,
-                    delayMillis = delayMillis.toInt()
+                    delayMillis = delayMillis
                 ),
                 repeatMode = RepeatMode.Restart,
             ),
