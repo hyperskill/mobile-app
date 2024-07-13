@@ -13,6 +13,9 @@ import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialComponentImpl
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponentImpl
+import org.hyperskill.app.comments.injection.PlatformCommentsComponent
+import org.hyperskill.app.comments.injection.PlatformCommentsComponentImpl
+import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
@@ -338,5 +341,12 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     ): PlatformWelcomeOnboardingTrackDetailsComponent =
         PlatformWelcomeOnboardingTrackDetailsComponentImpl(
             welcomeOnboardingTrackDetailsComponent = buildWelcomeOnboardingTrackDetailsComponent(track)
+        )
+
+    override fun buildPlatformCommentsScreenComponent(
+        params: CommentsScreenFeatureParams
+    ): PlatformCommentsComponent =
+        PlatformCommentsComponentImpl(
+            commentsScreenComponent = buildCommentsScreenComponent(params)
         )
 }

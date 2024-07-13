@@ -19,7 +19,7 @@ extension View {
             toolbar {
                 StepToolbarContent(
                     isCommentsToolbarItemAvailable: state.isCommentsToolbarItemAvailable,
-                    menuActions: state.stepMenuActions,
+                    menuActions: state.stepMenuSecondaryActions,
                     isMenuActionsDisabled: isMenuActionsDisabled,
                     onCommentButtonTap: onCommentButtonTap,
                     onShareButtonTap: onShareButtonTap,
@@ -34,7 +34,7 @@ extension View {
                     CommentsToolbarItem(action: onCommentButtonTap)
 
                     StepMenuActionsToolbarItem(
-                        actions: state.stepMenuActions,
+                        actions: state.stepMenuSecondaryActions,
                         disabled: isMenuActionsDisabled,
                         onShareButtonTap: onShareButtonTap,
                         onReportButtonTap: onReportButtonTap,
@@ -45,7 +45,7 @@ extension View {
             } else {
                 toolbar {
                     StepMenuActionsToolbarItem(
-                        actions: state.stepMenuActions,
+                        actions: state.stepMenuSecondaryActions,
                         disabled: isMenuActionsDisabled,
                         onShareButtonTap: onShareButtonTap,
                         onReportButtonTap: onReportButtonTap,
@@ -63,7 +63,7 @@ extension View {
 private struct StepToolbarContent: ToolbarContent {
     let isCommentsToolbarItemAvailable: Bool
 
-    let menuActions: Set<StepMenuAction>
+    let menuActions: Set<StepMenuSecondaryAction>
     let isMenuActionsDisabled: Bool
 
     let onCommentButtonTap: () -> Void
@@ -102,7 +102,7 @@ private struct CommentsToolbarItem: ToolbarContent {
 }
 
 private struct StepMenuActionsToolbarItem: ToolbarContent {
-    let actions: Set<StepMenuAction>
+    let actions: Set<StepMenuSecondaryAction>
     let disabled: Bool
 
     let onShareButtonTap: () -> Void
