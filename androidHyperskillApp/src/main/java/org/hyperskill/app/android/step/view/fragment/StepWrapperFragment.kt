@@ -18,16 +18,19 @@ import org.hyperskill.app.android.databinding.FragmentStepWrapperBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
+import org.hyperskill.app.android.step.view.model.LimitsWidgetCallback
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryAction
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryActionParams
+import org.hyperskill.app.android.step.view.model.StepPracticeCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
 import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
@@ -47,7 +50,7 @@ class StepWrapperFragment :
     ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
     ShareStreakDialogFragment.Callback,
-    StepQuizToolbarCallback,
+    LimitsWidgetCallback,
     TopicCompletedDialogFragment.Callback,
     StepToolbarCallback {
 
@@ -132,7 +135,14 @@ class StepWrapperFragment :
             initStepContainer(stepState)
             parentOfType(StepToolbarHost::class.java)?.apply {
                 renderTopicProgress(state.stepToolbarViewState)
-                renderSecondaryMenuActions(state.stepMenuActions)
+                renderPrimaryAction(
+                    StepMenuPrimaryAction.COMMENTS,
+                    StepMenuPrimaryActionParams(
+                        isVisible = state.isCommentsToolbarItemAvailable,
+                        isEnabled = true
+                    )
+                )
+                renderSecondaryMenuActions(state.stepMenuSecondaryActions)
             }
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
                 ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
@@ -187,13 +197,8 @@ class StepWrapperFragment :
     }
 
     override fun onLimitsClick() {
-        (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepQuizToolbarCallback)
+        (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? LimitsWidgetCallback)
             ?.onLimitsClick()
-    }
-
-    override fun onTheoryClick() {
-        (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepQuizToolbarCallback)
-            ?.onTheoryClick()
     }
 
     override fun navigateToStudyPlan() {
@@ -204,7 +209,19 @@ class StepWrapperFragment :
         onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
     }
 
-    override fun onActionClicked(action: StepMenuAction) {
+    override fun onPrimaryActionClicked(action: StepMenuPrimaryAction) {
+        when (action) {
+            StepMenuPrimaryAction.THEORY -> {
+                (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepPracticeCallback)
+                    ?.onTheoryClick()
+            }
+            StepMenuPrimaryAction.COMMENTS -> {
+                stepViewModel.onCommentsClick()
+            }
+        }
+    }
+
+    override fun onSecondaryActionClicked(action: StepMenuSecondaryAction) {
         stepViewModel.onActionClick(action)
     }
 }

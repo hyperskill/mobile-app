@@ -19,15 +19,16 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.step.view.delegate.StepMenuDelegate
 import org.hyperskill.app.android.step.view.delegate.StepRouterDelegate
-import org.hyperskill.app.android.step.view.model.OpenTheoryMenuAction
+import org.hyperskill.app.android.step.view.model.LimitsWidgetCallback
 import org.hyperskill.app.android.step.view.model.StepHost
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryAction
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryActionParams
 import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step.view.navigation.StepNavigationContainer
 import org.hyperskill.app.android.step.view.navigation.StepWrapperScreen
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
@@ -50,8 +51,8 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
     private val currentStepRoute: StepRoute
         get() = stepRoutesStack.last()
 
-    private val stepQuizToolbarCallback: StepQuizToolbarCallback?
-        get() = childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) as? StepQuizToolbarCallback
+    private val limitsWidgetCallback: LimitsWidgetCallback?
+        get() = childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) as? LimitsWidgetCallback
 
     private val viewBinding: FragmentStepBinding by viewBinding(FragmentStepBinding::bind)
 
@@ -98,12 +99,12 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         stepMenuDelegate = StepMenuDelegate(
             viewLifecycleOwner = viewLifecycleOwner,
             menuHost = requireActivity() as MenuHost,
-            onTheoryClick = ::onTheoryClick,
+            onPrimaryActionClick = ::onPrimaryActionClick,
             onSecondaryActionClick = ::onSecondaryActionClick,
             onBackClick = ::onNavigationClick
         )
         viewBinding.stepAppBar.stepQuizLimitsTextView.setOnClickListener {
-            stepQuizToolbarCallback?.onLimitsClick()
+            limitsWidgetCallback?.onLimitsClick()
         }
     }
 
@@ -158,7 +159,13 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
                     isVisible = true
                     setTextIfChanged(viewState.title)
                 }
-                renderTheoryAction(OpenTheoryMenuAction(isVisible = false, isEnabled = false))
+                renderPrimaryAction(
+                    StepMenuPrimaryAction.THEORY,
+                    StepMenuPrimaryActionParams(
+                        isVisible = false,
+                        isEnabled = false
+                    )
+                )
                 TransitionManager.beginDelayedTransition(viewBinding.stepAppBar.stepToolbar)
             }
         }
@@ -187,21 +194,22 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         }
     }
 
-    override fun renderTheoryAction(action: OpenTheoryMenuAction) {
-        stepMenuDelegate?.renderMainMenuAction(action)
+    override fun renderPrimaryAction(action: StepMenuPrimaryAction, params: StepMenuPrimaryActionParams) {
+        stepMenuDelegate?.renderPrimaryMenuAction(action, params)
     }
 
-    override fun renderSecondaryMenuActions(actions: Set<StepMenuAction>) {
+    override fun renderSecondaryMenuActions(actions: Set<StepMenuSecondaryAction>) {
         stepMenuDelegate?.renderSecondaryMenuActions(actions)
     }
 
-    private fun onTheoryClick() {
-        stepQuizToolbarCallback?.onTheoryClick()
+    private fun onPrimaryActionClick(action: StepMenuPrimaryAction) {
+        (childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) as? StepToolbarCallback)
+            ?.onPrimaryActionClicked(action)
     }
 
-    private fun onSecondaryActionClick(action: StepMenuAction) {
+    private fun onSecondaryActionClick(action: StepMenuSecondaryAction) {
         (childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) as? StepToolbarCallback)
-            ?.onActionClicked(action)
+            ?.onSecondaryActionClicked(action)
     }
 
     @Suppress("MagicNumber")

@@ -1,7 +1,8 @@
 package org.hyperskill.app.android.step.view.model
 
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 
 interface StepToolbarCallback {
-    fun onActionClicked(action: StepMenuAction)
+    fun onPrimaryActionClicked(action: StepMenuPrimaryAction)
+    fun onSecondaryActionClicked(action: StepMenuSecondaryAction)
 }

@@ -10,8 +10,9 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.smoothScrollToBottom
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
+import org.hyperskill.app.android.step.view.model.LimitsWidgetCallback
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepPracticeCallback
 import org.hyperskill.app.android.step_practice.model.StepPracticeHost
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
@@ -20,8 +21,9 @@ import org.hyperskill.app.step.domain.model.StepRoute
 class StepPracticeFragment :
     Fragment(R.layout.fragment_step_practice),
     StepCompletionView,
-    StepQuizToolbarCallback,
-    StepPracticeHost {
+    LimitsWidgetCallback,
+    StepPracticeHost,
+    StepPracticeCallback {
 
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
@@ -74,12 +76,12 @@ class StepPracticeFragment :
     }
 
     override fun onLimitsClick() {
-        (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepQuizToolbarCallback)
+        (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? LimitsWidgetCallback)
             ?.onLimitsClick()
     }
 
     override fun onTheoryClick() {
-        (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepQuizToolbarCallback)
+        (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepPracticeCallback)
             ?.onTheoryClick()
     }
 
