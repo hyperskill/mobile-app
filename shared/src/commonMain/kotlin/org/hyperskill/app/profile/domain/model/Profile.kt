@@ -64,8 +64,10 @@ data class Profile(
     val timeZone: TimeZone? = null,
     @SerialName("notification_hour")
     val notificationHour: Int? = null,
+    @SerialName("feature_values")
+    val feautureValues: FeatureValues = FeatureValues(),
     @SerialName("features")
-    private val featuresMap: Map<String, Boolean> = emptyMap()
+    private val featuresMap: Map<String, Boolean> = emptyMap(),
 ) {
     companion object
 
