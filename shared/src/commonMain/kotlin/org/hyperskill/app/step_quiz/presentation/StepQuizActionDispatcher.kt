@@ -3,7 +3,9 @@ package org.hyperskill.app.step_quiz.presentation
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -11,6 +13,7 @@ import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.model.isMobileGptCodeGenerationWithErrorsEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -28,8 +31,9 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
-import org.hyperskill.app.subscriptions.domain.model.isDailyProblemsLimitReached
+import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.changes
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class StepQuizActionDispatcher(
@@ -47,15 +51,24 @@ internal class StepQuizActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        currentSubscriptionStateRepository
-            .changes
-            .distinctUntilChangedBy { it.isDailyProblemsLimitReached }
-            .onEach { subscription ->
-                onNewMessage(
-                    InternalMessage.ProblemsLimitChanged(subscription)
-                )
-            }
-            .launchIn(actionScope)
+        actionScope.launch {
+            val isMobileContentTrialEnabled = currentProfileStateRepository
+                .getState()
+                .map { it.features.isMobileContentTrialEnabled }
+                .getOrElse { false }
+            currentSubscriptionStateRepository
+                .changes(isMobileContentTrialEnabled)
+                .map { subscription ->
+                    subscription to subscription.isProblemsLimitReached(isMobileContentTrialEnabled)
+                }
+                .distinctUntilChangedBy { (_, isProblemsLimitReached) -> isProblemsLimitReached }
+                .onEach { (subscription, isProblemsLimitReached) ->
+                    onNewMessage(
+                        InternalMessage.ProblemsLimitChanged(subscription, isProblemsLimitReached)
+                    )
+                }
+                .launchIn(this)
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -241,7 +254,9 @@ internal class StepQuizActionDispatcher(
                 subscription = currentSubscription,
                 chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
-                isMobileGptCodeGenerationWithErrorsEnabled = isMobileGptCodeGenerationWithErrorsEnabled
+                isMobileGptCodeGenerationWithErrorsEnabled = isMobileGptCodeGenerationWithErrorsEnabled,
+                isProblemsLimitReached = currentSubscription
+                    .isProblemsLimitReached(currentProfile.features.isMobileContentTrialEnabled)
             )
         }.let(onNewMessage)
     }
@@ -275,6 +290,8 @@ internal class StepQuizActionDispatcher(
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
                 subscription = currentSubscription,
+                isProblemsLimitReached = currentSubscription
+                    .isProblemsLimitReached(currentProfile.features.isMobileContentTrialEnabled),
                 chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy
             )
         )

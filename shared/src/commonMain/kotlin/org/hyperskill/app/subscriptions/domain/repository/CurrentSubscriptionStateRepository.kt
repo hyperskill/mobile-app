@@ -1,5 +1,7 @@
 package org.hyperskill.app.subscriptions.domain.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.hyperskill.app.core.domain.repository.StateRepository
 import org.hyperskill.app.core.domain.repository.StateWithSource
 import org.hyperskill.app.subscriptions.domain.model.ProblemsLimitType
@@ -37,6 +39,14 @@ internal suspend fun CurrentSubscriptionStateRepository.getStateWithSource(
             val subscription = subscriptionWithSource.state
             val mappedSubscription = mapSubscription(subscription, isMobileContentTrialEnabled)
             subscriptionWithSource.copy(state = mappedSubscription)
+        }
+
+internal fun CurrentSubscriptionStateRepository.changes(
+    isMobileContentTrialEnabled: Boolean
+): Flow<Subscription> =
+    changes
+        .map { subscription ->
+            mapSubscription(subscription, isMobileContentTrialEnabled)
         }
 
 private fun mapSubscription(

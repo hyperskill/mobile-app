@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
@@ -13,6 +14,8 @@ import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalMessage
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Message
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.changes
+import org.hyperskill.app.subscriptions.domain.repository.getState
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class MainStepQuizToolbarActionDispatcher(
@@ -23,13 +26,19 @@ internal class MainStepQuizToolbarActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        currentSubscriptionStateRepository
-            .changes
-            .distinctUntilChanged()
-            .onEach {
-                onNewMessage(InternalMessage.SubscriptionChanged(it))
-            }
-            .launchIn(actionScope)
+        actionScope.launch {
+            val isMobileContentTrialEnabled = currentProfileStateRepository
+                .getState()
+                .map { it.features.isMobileContentTrialEnabled }
+                .getOrElse { false }
+            currentSubscriptionStateRepository
+                .changes(isMobileContentTrialEnabled)
+                .distinctUntilChanged()
+                .onEach {
+                    onNewMessage(InternalMessage.SubscriptionChanged(it))
+                }
+                .launchIn(actionScope)
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -42,16 +51,18 @@ internal class MainStepQuizToolbarActionDispatcher(
     }
 
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
-        val subscription = currentSubscriptionStateRepository.getState().getOrElse {
-            logger.e(it) { "Failed to fetch subscription" }
-            onNewMessage(InternalMessage.SubscriptionFetchError)
-            return
-        }
         val profile = currentProfileStateRepository.getState().getOrElse {
             logger.e(it) { "Failed to fetch profile" }
             onNewMessage(InternalMessage.SubscriptionFetchError)
             return
         }
+        val subscription = currentSubscriptionStateRepository
+            .getState(isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled)
+            .getOrElse {
+                logger.e(it) { "Failed to fetch subscription" }
+                onNewMessage(InternalMessage.SubscriptionFetchError)
+                return
+            }
         onNewMessage(
             InternalMessage.SubscriptionFetchSuccess(
                 subscription = subscription,
