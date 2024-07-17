@@ -34,6 +34,7 @@ import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteracto
 import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.subscriptions.domain.repository.changes
+import org.hyperskill.app.subscriptions.domain.repository.getState
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class StepQuizActionDispatcher(
@@ -41,13 +42,13 @@ internal class StepQuizActionDispatcher(
     private val stepQuizInteractor: StepQuizInteractor,
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val subscriptionsInteractor: SubscriptionsInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val urlPathProcessor: UrlPathProcessor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
-    private val logger: Logger,
-    currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
+    private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -227,13 +228,14 @@ internal class StepQuizActionDispatcher(
             ),
             onError = { InternalMessage.FetchAttemptError }
         ) {
-            val currentSubscription =
-                subscriptionsInteractor.getCurrentSubscription()
-                    .getOrThrow()
-
             val currentProfile =
                 currentProfileStateRepository
                     .getState()
+                    .getOrThrow()
+
+            val currentSubscription =
+                currentSubscriptionStateRepository
+                    .getState(isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled)
                     .getOrThrow()
 
             val attempt =
@@ -285,7 +287,10 @@ internal class StepQuizActionDispatcher(
 
         subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
 
-        val currentSubscription = subscriptionsInteractor.getCurrentSubscription().getOrElse { return }
+        val currentSubscription =
+            currentSubscriptionStateRepository
+                .getState(isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled)
+                .getOrElse { return }
 
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
