@@ -38,7 +38,11 @@ class StepQuizToolbarReducer(
     private fun handleSubscriptionFetchSuccess(
         message: InternalMessage.SubscriptionFetchSuccess
     ): StepQuizToolbarReducerResult =
-        State.Content(message.subscription, message.chargeLimitsStrategy) to emptySet()
+        State.Content(
+            subscription = message.subscription,
+            isMobileContentTrialEnabled = message.isMobileContentTrialEnabled,
+            chargeLimitsStrategy = message.chargeLimitsStrategy
+        ) to emptySet()
 
     private fun handleSubscriptionFetchError(): StepQuizToolbarReducerResult =
         State.Error to emptySet()

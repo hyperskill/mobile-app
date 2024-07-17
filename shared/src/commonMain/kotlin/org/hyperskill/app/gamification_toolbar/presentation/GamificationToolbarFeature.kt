@@ -22,6 +22,7 @@ object GamificationToolbarFeature {
             val historicalStreak: HistoricalStreak,
             val subscription: Subscription,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
+            internal val isMobileContentTrialEnabled: Boolean,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -70,7 +71,8 @@ object GamificationToolbarFeature {
         data class FetchGamificationToolbarDataSuccess(
             val gamificationToolbarData: GamificationToolbarData,
             val subscription: Subscription,
-            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
+            val isMobileContentTrialEnabled: Boolean
         ) : InternalMessage
 
         object PullToRefresh : InternalMessage

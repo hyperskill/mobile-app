@@ -16,6 +16,7 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
 import org.hyperskill.app.home.presentation.HomeFeature.InternalMessage
 import org.hyperskill.app.home.presentation.HomeFeature.Message
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -24,7 +25,7 @@ import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
+import org.hyperskill.app.subscriptions.domain.repository.isDailyProblemsEnabled
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -112,13 +113,17 @@ internal class HomeActionDispatcher(
 
                 val problemOfDayStateResult = async { getProblemOfDayState(currentProfile.dailyStep) }
                 val repetitionsStateResult = async { getRepetitionsState() }
-                val areProblemsLimited = async { currentSubscriptionStateRepository.areProblemsLimited() }
+                val isDailyProblemsEnabled = async {
+                    currentSubscriptionStateRepository.isDailyProblemsEnabled(
+                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled
+                    )
+                }
 
                 setOf(
                     Message.HomeSuccess(
                         problemOfDayState = problemOfDayStateResult.await().getOrThrow(),
                         repetitionsState = repetitionsStateResult.await().getOrThrow(),
-                        areProblemsLimited = areProblemsLimited.await()
+                        isDailyProblemsEnabled = isDailyProblemsEnabled.await()
                     ),
                     Message.ReadyToLaunchNextProblemInTimer
                 )

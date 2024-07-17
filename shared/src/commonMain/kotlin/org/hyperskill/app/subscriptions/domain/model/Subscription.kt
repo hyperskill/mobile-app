@@ -36,10 +36,22 @@ data class Subscription(
     val validTill: Instant? = null
 )
 
+internal fun Subscription.getProblemsLimitType(
+    isMobileContentTrialEnabled: Boolean
+): ProblemsLimitType =
+    when (type) {
+        SubscriptionType.MOBILE_ONLY -> if (status == SubscriptionStatus.ACTIVE) {
+            type.problemsLimitType
+        } else {
+            if (isMobileContentTrialEnabled) ProblemsLimitType.FIXED else ProblemsLimitType.DAILY
+        }
+        else -> type.problemsLimitType
+    }
+
 internal val Subscription.areProblemsLimited: Boolean
     get() = when (type) {
-        SubscriptionType.MOBILE_ONLY -> type.areProblemsLimited || status != SubscriptionStatus.ACTIVE
-        else -> type.areProblemsLimited
+        SubscriptionType.MOBILE_ONLY -> type.isDailyProblemLimitEnabled || status != SubscriptionStatus.ACTIVE
+        else -> type.isDailyProblemLimitEnabled
     }
 
 internal val Subscription.isProblemsLimitReached: Boolean

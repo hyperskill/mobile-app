@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Action
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalAction
@@ -54,6 +55,7 @@ internal class MainStepQuizToolbarActionDispatcher(
         onNewMessage(
             InternalMessage.SubscriptionFetchSuccess(
                 subscription = subscription,
+                isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
                 chargeLimitsStrategy = profile.freemiumChargeLimitsStrategy
             )
         )

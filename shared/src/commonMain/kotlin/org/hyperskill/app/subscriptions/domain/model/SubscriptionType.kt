@@ -9,7 +9,8 @@ enum class SubscriptionType(
     val isProjectInfoAvailable: Boolean = true,
     val isCertificateAvailable: Boolean = true,
     val areHintsLimited: Boolean = false,
-    val areProblemsLimited: Boolean = false
+    val isDailyProblemLimitEnabled: Boolean = false,
+    val problemsLimitType: ProblemsLimitType = ProblemsLimitType.NONE
 ) {
     @SerialName("personal")
     PERSONAL(isProjectSelectionEnabled = true),
@@ -39,8 +40,15 @@ enum class SubscriptionType(
         isCertificateAvailable = false,
         isProjectInfoAvailable = false,
         areHintsLimited = true,
-        areProblemsLimited = true
+        problemsLimitType = ProblemsLimitType.DAILY
     ),
+    MOBILE_CONTENT_TRIAL(
+        isCertificateAvailable = false,
+        isProjectInfoAvailable = false,
+        areHintsLimited = true,
+        problemsLimitType = ProblemsLimitType.FIXED
+    ),
+
     @SerialName("mobile only")
     MOBILE_ONLY(
         isCertificateAvailable = false,
@@ -55,7 +63,7 @@ enum class SubscriptionType(
         isProjectInfoAvailable = false,
         isCertificateAvailable = false,
         areHintsLimited = true,
-        areProblemsLimited = true
+        problemsLimitType = ProblemsLimitType.DAILY
     ),
 
     @SerialName("unknown")

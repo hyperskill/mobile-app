@@ -15,6 +15,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
@@ -22,7 +23,7 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.subscriptions.domain.model.isActive
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
+import org.hyperskill.app.subscriptions.domain.repository.isDailyProblemsEnabled
 
 class SubscriptionsInteractor(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
@@ -45,7 +46,11 @@ class SubscriptionsInteractor(
         currentSubscriptionStateRepository.getState(forceUpdate = false)
 
     suspend fun chargeProblemsLimits(chargeStrategy: FreemiumChargeLimitsStrategy) {
-        if (currentSubscriptionStateRepository.areProblemsLimited()) {
+        val isMobileContentTrialEnabled = currentProfileStateRepository
+            .getState()
+            .map { it.features.isMobileContentTrialEnabled }
+            .getOrElse { false }
+        if (currentSubscriptionStateRepository.isDailyProblemsEnabled(isMobileContentTrialEnabled)) {
             when (chargeStrategy) {
                 FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION -> chargeLimitsAfterWrongSubmission()
                 FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION -> chargeLimitsAfterCorrectSubmission()

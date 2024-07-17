@@ -33,7 +33,8 @@ class GamificationToolbarReducer(
                 createContentState(
                     message.gamificationToolbarData,
                     message.subscription,
-                    message.chargeLimitsStrategy
+                    message.chargeLimitsStrategy,
+                    message.isMobileContentTrialEnabled
                 ) to emptySet()
             is InternalMessage.PullToRefresh ->
                 handlePullToRefreshMessage(state)
@@ -224,13 +225,15 @@ class GamificationToolbarReducer(
     private fun createContentState(
         gamificationToolbarData: GamificationToolbarData,
         subscription: Subscription,
-        chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+        chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
+        isMobileContentTrialEnabled: Boolean
     ): State.Content =
         State.Content(
             trackProgress = gamificationToolbarData.trackProgress,
             currentStreak = gamificationToolbarData.currentStreak,
             historicalStreak = HistoricalStreak(gamificationToolbarData.streakState),
             subscription = subscription,
-            chargeLimitsStrategy = chargeLimitsStrategy
+            chargeLimitsStrategy = chargeLimitsStrategy,
+            isMobileContentTrialEnabled = isMobileContentTrialEnabled
         )
 }

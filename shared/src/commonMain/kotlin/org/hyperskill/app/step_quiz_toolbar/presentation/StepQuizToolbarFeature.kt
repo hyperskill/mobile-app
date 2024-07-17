@@ -14,6 +14,7 @@ object StepQuizToolbarFeature {
         object Error : State
         data class Content(
             val subscription: Subscription,
+            val isMobileContentTrialEnabled: Boolean,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : State
     }
@@ -45,6 +46,7 @@ object StepQuizToolbarFeature {
         object SubscriptionFetchError : InternalMessage
         data class SubscriptionFetchSuccess(
             val subscription: Subscription,
+            val isMobileContentTrialEnabled: Boolean,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
 
