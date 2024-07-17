@@ -15,23 +15,24 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.step.view.model.OpenTheoryMenuAction
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryAction
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryActionParams
+import org.hyperskill.app.core.utils.mutate
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 
 @OptIn(FlowPreview::class)
 class StepMenuDelegate(
     menuHost: MenuHost,
     private val viewLifecycleOwner: LifecycleOwner,
-    private val onTheoryClick: () -> Unit,
-    private val onSecondaryActionClick: (StepMenuAction) -> Unit,
+    private val onPrimaryActionClick: (StepMenuPrimaryAction) -> Unit,
+    private val onSecondaryActionClick: (StepMenuSecondaryAction) -> Unit,
     private val onBackClick: () -> Unit
 ) : MenuProvider {
 
     private val menuActionsStateFlow: MutableStateFlow<MenuActionsState> = MutableStateFlow(
         MenuActionsState(
-            openTheoryMenuAction = null,
+            primaryActions = emptyMap(),
             secondaryActions = emptySet()
         )
     )
@@ -50,19 +51,22 @@ class StepMenuDelegate(
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    fun renderMainMenuAction(action: OpenTheoryMenuAction) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            menuActionsStateFlow.update {
-                it.copy(openTheoryMenuAction = action)
-            }
+    fun renderPrimaryMenuAction(
+        action: StepMenuPrimaryAction,
+        params: StepMenuPrimaryActionParams
+    ) {
+        menuActionsStateFlow.update {
+            it.copy(
+                primaryActions = it.primaryActions.mutate {
+                    set(action, params)
+                }
+            )
         }
     }
 
-    fun renderSecondaryMenuActions(actions: Set<StepMenuAction>) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            menuActionsStateFlow.update {
-                it.copy(secondaryActions = actions)
-            }
+    fun renderSecondaryMenuActions(actions: Set<StepMenuSecondaryAction>) {
+        menuActionsStateFlow.update {
+            it.copy(secondaryActions = actions)
         }
     }
 
@@ -72,47 +76,67 @@ class StepMenuDelegate(
 
     override fun onPrepareMenu(menu: Menu) {
         val state = menuActionsStateFlow.value
-        renderMainAction(menu, state.openTheoryMenuAction)
+        renderMainAction(menu, state.primaryActions)
         renderSecondaryActions(menu, state.secondaryActions)
     }
 
-    private fun renderMainAction(menu: Menu, openTheoryAction: OpenTheoryMenuAction?) {
-        val theoryItem: MenuItem? = menu.findItem(R.id.theory)
-        val isTheoryItemVisible = openTheoryAction?.isVisible == true
-        theoryItem?.isVisible = isTheoryItemVisible
-        if (isTheoryItemVisible) {
-            val isTheoryItemEnabled = openTheoryAction?.isEnabled == true
-            theoryItem?.isEnabled = isTheoryItemEnabled
+    private fun renderMainAction(
+        menu: Menu,
+        primaryActions: Map<StepMenuPrimaryAction, StepMenuPrimaryActionParams>
+    ) {
+        StepMenuPrimaryAction.entries.forEach { action ->
+            val params: StepMenuPrimaryActionParams? = primaryActions[action]
+            val menuItem: MenuItem? = menu.findItem(
+                when (action) {
+                    StepMenuPrimaryAction.THEORY -> R.id.theory
+                    StepMenuPrimaryAction.COMMENTS -> R.id.comments
+                }
+            )
+            val isVisible = params?.isVisible == true
+            menuItem?.isVisible = isVisible
+            if (isVisible) {
+                val isEnabled = params?.isEnabled == true
+                menuItem?.isEnabled = isEnabled
+            }
         }
     }
 
-    private fun renderSecondaryActions(menu: Menu, actions: Set<StepMenuAction>) {
-        menu.findItem(R.id.share)?.isVisible = actions.contains(StepMenuAction.SHARE)
-        menu.findItem(R.id.practiceFeedback)?.isVisible = actions.contains(StepMenuAction.REPORT)
-        menu.findItem(R.id.skip)?.isVisible = actions.contains(StepMenuAction.SKIP)
-        menu.findItem(R.id.open_in_web)?.isVisible = actions.contains(StepMenuAction.OPEN_IN_WEB)
+    private fun renderSecondaryActions(menu: Menu, actions: Set<StepMenuSecondaryAction>) {
+        StepMenuSecondaryAction.entries.forEach { action ->
+            val menuItemId = when (action) {
+                StepMenuSecondaryAction.SHARE -> R.id.share
+                StepMenuSecondaryAction.REPORT -> R.id.practiceFeedback
+                StepMenuSecondaryAction.SKIP -> R.id.skip
+                StepMenuSecondaryAction.OPEN_IN_WEB -> R.id.open_in_web
+            }
+            menu.findItem(menuItemId)?.isVisible = actions.contains(action)
+        }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
+            R.id.comments -> {
+                onPrimaryActionClick.invoke(StepMenuPrimaryAction.COMMENTS)
+                true
+            }
             R.id.theory -> {
-                onTheoryClick.invoke()
+                onPrimaryActionClick.invoke(StepMenuPrimaryAction.THEORY)
                 true
             }
             R.id.practiceFeedback -> {
-                onSecondaryActionClick.invoke(StepMenuAction.REPORT)
+                onSecondaryActionClick.invoke(StepMenuSecondaryAction.REPORT)
                 true
             }
             R.id.share -> {
-                onSecondaryActionClick.invoke(StepMenuAction.SHARE)
+                onSecondaryActionClick.invoke(StepMenuSecondaryAction.SHARE)
                 true
             }
             R.id.skip -> {
-                onSecondaryActionClick.invoke(StepMenuAction.SKIP)
+                onSecondaryActionClick.invoke(StepMenuSecondaryAction.SKIP)
                 true
             }
             R.id.open_in_web -> {
-                onSecondaryActionClick.invoke(StepMenuAction.OPEN_IN_WEB)
+                onSecondaryActionClick.invoke(StepMenuSecondaryAction.OPEN_IN_WEB)
                 true
             }
             android.R.id.home -> {
@@ -123,7 +147,7 @@ class StepMenuDelegate(
         }
 
     private data class MenuActionsState(
-        val openTheoryMenuAction: OpenTheoryMenuAction?,
-        val secondaryActions: Set<StepMenuAction>
+        val primaryActions: Map<StepMenuPrimaryAction, StepMenuPrimaryActionParams>,
+        val secondaryActions: Set<StepMenuSecondaryAction>
     )
 }

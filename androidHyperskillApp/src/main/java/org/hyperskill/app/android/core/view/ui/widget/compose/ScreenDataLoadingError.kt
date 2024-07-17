@@ -31,7 +31,7 @@ fun ScreenDataLoadingError(
     errorMessage: String = stringResource(id = R.string.internet_problem),
     onRetryClick: () -> Unit
 ) {
-    val currentOnClick by rememberUpdatedState(newValue = onRetryClick)
+    val currentOnRetryClick by rememberUpdatedState(newValue = onRetryClick)
     Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -53,7 +53,7 @@ fun ScreenDataLoadingError(
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_placeholders)))
             HyperskillButton(
-                onClick = currentOnClick,
+                onClick = currentOnRetryClick,
                 modifier = Modifier
                     .widthIn(max = dimensionResource(id = R.dimen.auth_button_max_width))
                     .fillMaxWidth()

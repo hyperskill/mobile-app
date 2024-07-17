@@ -75,9 +75,11 @@
     <color name="color_violet_400">#8C5AFF</color>
     <color name="color_violet_400_alpha_12">#8C5AFF1F</color>
     <color name="color_violet_400_alpha_7">#8C5AFF12</color>
+    <color name="color_violet_400_alpha_38">#8C5AFF61</color>
     <color name="color_violet_200">#BFA3FF</color>
     <color name="color_violet_200_alpha_12">#BFA3FF1F</color>
     <color name="color_violet_200_alpha_7">#BFA3FF12</color>
+    <color name="color_violet_200_alpha_38">#BFA3FF61</color>
 
     <!-- AppTheme -->
 
@@ -245,6 +247,10 @@
     <color name="color_overlay_violet_alpha_7">
         <light>@color/color_violet_400_alpha_7</light>
         <dark>@color/color_violet_200_alpha_7</dark>
+    </color>
+    <color name="color_overlay_violet_alpha_38">
+        <light>@color/color_violet_400_alpha_38</light>
+        <dark>@color/color_violet_200_alpha_38</dark>
     </color>
 
     <color name="color_overlay_red">

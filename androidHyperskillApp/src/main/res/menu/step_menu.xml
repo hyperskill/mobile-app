@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/comments"
+        android:title="@string/step_menu_comments_item"
+        android:icon="@drawable/ic_step_menu_comments"
+        app:showAsAction="ifRoom"
+        android:visible="false" />
+
+    <item
         android:id="@+id/theory"
         android:title="@string/step_menu_theory_item"
         android:icon="@drawable/ic_theory"

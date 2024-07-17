@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.core.view.ui.widget.compose
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -48,7 +49,7 @@ fun HyperskillTopAppBar(
     backgroundColor: Color = MaterialTheme.colors.background,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
-    TopAppBar(
+    HyperskillTopAppBar(
         navigationIcon = if (onNavigationIconClick != null) {
             {
                 IconButton(onClick = onNavigationIconClick) {
@@ -68,6 +69,60 @@ fun HyperskillTopAppBar(
                 modifier = TopAppBarTitleModifier
             )
         },
+        backgroundColor = backgroundColor,
+        actions = actions,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun CenteredHyperskillTopAppBar(
+    title: String,
+    modifier: Modifier = Modifier,
+    onNavigationIconClick: (() -> Unit)? = null,
+    backgroundColor: Color = MaterialTheme.colors.background,
+    actions: @Composable RowScope.() -> Unit = {}
+) {
+    HyperskillTopAppBar(
+        navigationIcon = if (onNavigationIconClick != null) {
+            {
+                IconButton(onClick = onNavigationIconClick) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_navigation_close),
+                        contentDescription = stringResource(id = org.hyperskill.app.R.string.back)
+                    )
+                }
+            }
+        } else {
+            null
+        },
+        title = {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = title,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .offset(x = -(NavigationIconWidth / 2))
+                )
+            }
+        },
+        backgroundColor = backgroundColor,
+        actions = actions,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun HyperskillTopAppBar(
+    title: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    navigationIcon: @Composable (() -> Unit)? = null,
+    backgroundColor: Color = MaterialTheme.colors.background,
+    actions: @Composable RowScope.() -> Unit = {}
+) {
+    TopAppBar(
+        navigationIcon = navigationIcon,
+        title = title,
         backgroundColor = backgroundColor,
         actions = actions,
         modifier = modifier
@@ -162,13 +217,15 @@ private val AppBarHeight = 56.dp
 
 private val AppBarHorizontalPadding = 4.dp
 
+private val NavigationIconWidth = 72.dp
+
 // Start inset for the title when there is no navigation icon provided
 private val TitleInsetWithoutIcon = Modifier.width(16.dp - AppBarHorizontalPadding)
 
 // Start inset for the title when there is a navigation icon provided
 private val TitleIconModifier = Modifier
     .fillMaxHeight()
-    .width(72.dp - AppBarHorizontalPadding)
+    .width(NavigationIconWidth - AppBarHorizontalPadding)
 
 // -16 dp is used to fix spacing between navigation icon and title
 private val TopAppBarTitleModifier = Modifier.offset(x = (-16).dp)

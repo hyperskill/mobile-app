@@ -6,7 +6,7 @@ import kotlin.test.assertTrue
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.comments.domain.model.CommentThread
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.view.mapper.StepViewStateMapper
@@ -67,7 +67,7 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertTrue(viewState.stepMenuActions.contains(StepMenuAction.SKIP))
+        assertTrue(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.SKIP))
     }
 
     @Test
@@ -82,7 +82,7 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertFalse(viewState.stepMenuActions.contains(StepMenuAction.SKIP))
+        assertFalse(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.SKIP))
     }
 
     @Test
@@ -97,7 +97,7 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertFalse(viewState.stepMenuActions.contains(StepMenuAction.SKIP))
+        assertFalse(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.SKIP))
     }
 
     private fun stubStepDataState(

@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
 import org.hyperskill.app.android.R
@@ -22,6 +23,7 @@ import org.hyperskill.app.android.R
 fun HyperskillCard(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = dimensionResource(id = R.dimen.corner_radius),
+    background: Color = MaterialTheme.colors.surface,
     contentPadding: PaddingValues? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onClick: (() -> Unit)? = null,
@@ -30,7 +32,7 @@ fun HyperskillCard(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(cornerRadius))
-            .background(MaterialTheme.colors.surface)
+            .background(background)
             .let {
                 if (onClick != null) {
                     it.clickable(

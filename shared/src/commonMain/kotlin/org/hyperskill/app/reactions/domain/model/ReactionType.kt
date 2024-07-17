@@ -30,9 +30,9 @@ enum class ReactionType {
 
 val ReactionType.Companion.commentReactions: Set<ReactionType>
     get() = setOf(
-        ReactionType.SMILE,
         ReactionType.PLUS,
         ReactionType.MINUS,
+        ReactionType.SMILE,
         ReactionType.CONFUSED,
         ReactionType.THINKING,
         ReactionType.FIRE,
