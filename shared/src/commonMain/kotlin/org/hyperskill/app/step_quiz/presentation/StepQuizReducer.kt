@@ -37,7 +37,7 @@ import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
+import org.hyperskill.app.subscriptions.domain.model.isDailyProblemsLimitReached
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
@@ -515,10 +515,10 @@ internal class StepQuizReducer(
         }
 
     private fun isProblemsLimitReached(stepRoute: StepRoute, subscription: Subscription): Boolean =
-        StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && subscription.isProblemsLimitReached
+        StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && subscription.isDailyProblemsLimitReached
 
     private fun shouldShowProblemsLimitModal(subscription: Subscription): Boolean =
-        subscription.isProblemsLimitReached && subscription.stepsLimitTotal != null
+        subscription.isDailyProblemsLimitReached && subscription.stepsLimitTotal != null
 
     private fun handleTheoryToolbarItemClicked(state: State): StepQuizReducerResult =
         if (state.stepQuizState is StepQuizState.AttemptLoaded &&

@@ -28,7 +28,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
-import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
+import org.hyperskill.app.subscriptions.domain.model.isDailyProblemsLimitReached
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -49,7 +49,7 @@ internal class StepQuizActionDispatcher(
     init {
         currentSubscriptionStateRepository
             .changes
-            .distinctUntilChangedBy { it.isProblemsLimitReached }
+            .distinctUntilChangedBy { it.isDailyProblemsLimitReached }
             .onEach { subscription ->
                 onNewMessage(
                     InternalMessage.ProblemsLimitChanged(subscription)

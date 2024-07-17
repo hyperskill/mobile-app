@@ -48,14 +48,11 @@ internal fun Subscription.getProblemsLimitType(
         else -> type.problemsLimitType
     }
 
-internal val Subscription.areProblemsLimited: Boolean
+internal val Subscription.isDailyProblemsLimitReached: Boolean
     get() = when (type) {
         SubscriptionType.MOBILE_ONLY -> type.isDailyProblemLimitEnabled || status != SubscriptionStatus.ACTIVE
         else -> type.isDailyProblemLimitEnabled
-    }
-
-internal val Subscription.isProblemsLimitReached: Boolean
-    get() = areProblemsLimited && stepsLimitLeft == 0
+    } && stepsLimitLeft == 0
 
 internal val Subscription.isFreemium: Boolean
     get() = type == SubscriptionType.FREEMIUM ||
