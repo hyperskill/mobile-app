@@ -135,7 +135,7 @@ internal class AppActionDispatcher(
 
                 this@AppActionDispatcher.isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled
 
-                val subscription = subscriptionDeferred.await()?.orContentTrial(isMobileContentTrialEnabled)
+                val subscription = subscriptionDeferred.await()
 
                 val canMakePayments = if (isAuthorized) {
                     // Identify user in the Purchase SDK if user is already authorized.
@@ -237,12 +237,10 @@ internal class AppActionDispatcher(
         action: InternalAction.FetchSubscription,
         onNewMessage: (Message) -> Unit
     ) {
-        fetchSubscription(forceUpdate = action.forceUpdate)
-            ?.orContentTrial(isMobileContentTrialEnabled)
-            ?.let {
-                onNewMessage(
-                    InternalMessage.SubscriptionChanged(it)
-                )
-            }
+        fetchSubscription(forceUpdate = action.forceUpdate)?.let {
+            onNewMessage(
+                InternalMessage.SubscriptionChanged(it)
+            )
+        }
     }
 }

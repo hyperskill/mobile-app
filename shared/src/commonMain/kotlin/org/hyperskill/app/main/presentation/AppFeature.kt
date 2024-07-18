@@ -31,7 +31,6 @@ object AppFeature {
             internal val isMobileOnlySubscriptionEnabled: Boolean,
             internal val canMakePayments: Boolean,
             internal val subscription: Subscription? = null,
-            internal val isMobileContentTrialEnabled: Boolean = false,
             internal val appShowsCount: Int = 1,
             internal val isPaywallShown: Boolean = false
         ) : State {
