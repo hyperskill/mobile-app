@@ -1,13 +1,14 @@
 package org.hyperskill.app.subscriptions.domain.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.hyperskill.app.core.domain.repository.StateRepository
 import org.hyperskill.app.core.domain.repository.StateWithSource
 import org.hyperskill.app.subscriptions.domain.model.ProblemsLimitType
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.subscriptions.domain.model.getProblemsLimitType
+import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 
 interface CurrentSubscriptionStateRepository : StateRepository<Subscription>
 
@@ -27,7 +28,7 @@ internal suspend fun CurrentSubscriptionStateRepository.getState(
 ): Result<Subscription> =
     getState(forceUpdate = forceUpdate)
         .map { subscription ->
-            mapSubscription(subscription, isMobileContentTrialEnabled)
+            subscription.orContentTrial(isMobileContentTrialEnabled)
         }
 
 internal suspend fun CurrentSubscriptionStateRepository.getStateWithSource(
@@ -37,7 +38,7 @@ internal suspend fun CurrentSubscriptionStateRepository.getStateWithSource(
     getStateWithSource(forceUpdate = forceUpdate)
         .map { subscriptionWithSource ->
             val subscription = subscriptionWithSource.state
-            val mappedSubscription = mapSubscription(subscription, isMobileContentTrialEnabled)
+            val mappedSubscription = subscription.orContentTrial(isMobileContentTrialEnabled)
             subscriptionWithSource.copy(state = mappedSubscription)
         }
 
@@ -45,16 +46,7 @@ internal fun CurrentSubscriptionStateRepository.changes(
     isMobileContentTrialEnabled: Boolean
 ): Flow<Subscription> =
     changes
+        .distinctUntilChanged()
         .map { subscription ->
-            mapSubscription(subscription, isMobileContentTrialEnabled)
+            subscription.orContentTrial(isMobileContentTrialEnabled)
         }
-
-private fun mapSubscription(
-    subscription: Subscription,
-    isMobileContentTrialEnabled: Boolean
-): Subscription =
-    if (subscription.type == SubscriptionType.FREEMIUM && isMobileContentTrialEnabled) {
-        Subscription(type = SubscriptionType.MOBILE_CONTENT_TRIAL)
-    } else {
-        subscription
-    }

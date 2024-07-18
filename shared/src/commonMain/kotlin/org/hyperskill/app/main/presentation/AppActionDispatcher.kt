@@ -5,6 +5,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -18,6 +19,7 @@ import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
@@ -28,6 +30,7 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.subscriptions.domain.model.isExpired
 import org.hyperskill.app.subscriptions.domain.model.isValidTillPassed
+import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -44,6 +47,8 @@ internal class AppActionDispatcher(
     private val subscriptionsInteractor: SubscriptionsInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    private var isMobileContentTrialEnabled: Boolean = false
 
     init {
         authInteractor
@@ -68,6 +73,7 @@ internal class AppActionDispatcher(
 
         currentSubscriptionStateRepository
             .changes
+            .map { it.orContentTrial(isMobileContentTrialEnabled) }
             .distinctUntilChanged()
             .onEach { subscription ->
                 onNewMessage(InternalMessage.SubscriptionChanged(subscription))
@@ -126,7 +132,10 @@ internal class AppActionDispatcher(
                 val subscriptionDeferred = async { fetchSubscription(isAuthorized = isAuthorized) }
 
                 val profile = profileDeferred.await().getOrThrow()
-                val subscription = subscriptionDeferred.await()
+
+                this@AppActionDispatcher.isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled
+
+                val subscription = subscriptionDeferred.await()?.orContentTrial(isMobileContentTrialEnabled)
 
                 val canMakePayments = if (isAuthorized) {
                     // Identify user in the Purchase SDK if user is already authorized.
@@ -228,10 +237,12 @@ internal class AppActionDispatcher(
         action: InternalAction.FetchSubscription,
         onNewMessage: (Message) -> Unit
     ) {
-        fetchSubscription(forceUpdate = action.forceUpdate)?.let {
-            onNewMessage(
-                InternalMessage.SubscriptionChanged(it)
-            )
-        }
+        fetchSubscription(forceUpdate = action.forceUpdate)
+            ?.orContentTrial(isMobileContentTrialEnabled)
+            ?.let {
+                onNewMessage(
+                    InternalMessage.SubscriptionChanged(it)
+                )
+            }
     }
 }

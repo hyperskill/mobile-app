@@ -11,6 +11,7 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
@@ -123,6 +124,7 @@ internal class AppReducer(
                 appShowsCount = 0, // This is a hack to show paywall on the first app start
                 subscription = message.subscription,
                 isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled,
+                isMobileContentTrialEnabled = message.profile.features.isMobileContentTrialEnabled,
                 canMakePayments = message.canMakePayments
             )
 
@@ -189,6 +191,7 @@ internal class AppReducer(
                 isAuthorized = true,
                 isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
                 isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled,
+                isMobileContentTrialEnabled = message.profile.features.isMobileContentTrialEnabled,
                 canMakePayments = false
             )
             authState to getAuthorizedUserActions(message.profile, message.isNotificationPermissionGranted)

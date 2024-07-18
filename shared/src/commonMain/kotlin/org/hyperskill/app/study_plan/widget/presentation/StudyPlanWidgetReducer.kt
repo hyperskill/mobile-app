@@ -19,7 +19,6 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
-import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import ru.nobird.app.core.model.slice
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -152,7 +151,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val supportedSections = visibleSections
             .filter { studyPlanSection ->
                 // ALTAPPS-1186: We should hide next project section for freemium users
-                if (message.subscription.isFreemium) {
+                if (message.subscription.type.isProjectSelectionEnabled) {
                     studyPlanSection.type != StudyPlanSectionType.NEXT_PROJECT
                 } else {
                     true

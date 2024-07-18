@@ -59,6 +59,15 @@ internal val Subscription.isFreemium: Boolean
     get() = type == SubscriptionType.FREEMIUM ||
         type == SubscriptionType.MOBILE_ONLY && status != SubscriptionStatus.ACTIVE
 
+fun Subscription.orContentTrial(
+    isMobileContentTrialEnabled: Boolean
+): Subscription =
+    if (type == SubscriptionType.FREEMIUM && isMobileContentTrialEnabled) {
+        Subscription(type = SubscriptionType.MOBILE_CONTENT_TRIAL)
+    } else {
+        this
+    }
+
 internal val Subscription.isActive: Boolean
     get() = status == SubscriptionStatus.ACTIVE
 
