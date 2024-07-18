@@ -25,12 +25,10 @@ internal class MainStepQuizToolbarActionDispatcher(
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
+    private var isMobileContentTrialEnabled = false
+
     init {
         actionScope.launch {
-            val isMobileContentTrialEnabled = currentProfileStateRepository
-                .getState()
-                .map { it.features.isMobileContentTrialEnabled }
-                .getOrElse { false }
             currentSubscriptionStateRepository
                 .changes(isMobileContentTrialEnabled)
                 .distinctUntilChanged()
@@ -56,8 +54,9 @@ internal class MainStepQuizToolbarActionDispatcher(
             onNewMessage(InternalMessage.SubscriptionFetchError)
             return
         }
+        this.isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled
         val subscription = currentSubscriptionStateRepository
-            .getState(isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled)
+            .getState(isMobileContentTrialEnabled = isMobileContentTrialEnabled)
             .getOrElse {
                 logger.e(it) { "Failed to fetch subscription" }
                 onNewMessage(InternalMessage.SubscriptionFetchError)
