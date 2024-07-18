@@ -10,6 +10,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
@@ -21,7 +22,8 @@ object StepQuizFeature {
     data class State(
         val stepQuizState: StepQuizState,
         val stepQuizHintsState: StepQuizHintsFeature.State,
-        val stepQuizToolbarState: StepQuizToolbarFeature.State
+        val stepQuizToolbarState: StepQuizToolbarFeature.State,
+        val stepQuizCodeBlanksState: StepQuizCodeBlanksFeature.State
     )
 
     sealed interface StepQuizState {
@@ -130,6 +132,9 @@ object StepQuizFeature {
          */
         data class StepQuizHintsMessage(val message: StepQuizHintsFeature.Message) : Message, ChildFeatureMessage
         data class StepQuizToolbarMessage(val message: StepQuizToolbarFeature.Message) : Message, ChildFeatureMessage
+        data class StepQuizCodeBlanksMessage(
+            val message: StepQuizCodeBlanksFeature.Message
+        ) : Message, ChildFeatureMessage
     }
 
     internal sealed interface InternalMessage : Message {
@@ -190,6 +195,7 @@ object StepQuizFeature {
          */
         data class StepQuizHintsAction(val action: StepQuizHintsFeature.Action) : Action
         data class StepQuizToolbarAction(val action: StepQuizToolbarFeature.Action) : Action
+        data class StepQuizCodeBlanksAction(val action: StepQuizCodeBlanksFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
@@ -214,6 +220,10 @@ object StepQuizFeature {
 
             data class StepQuizToolbarViewAction(
                 val viewAction: StepQuizToolbarFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class StepQuizCodeBlanksViewAction(
+                val viewAction: StepQuizCodeBlanksFeature.Action.ViewAction
             ) : ViewAction
 
             sealed interface CreateMagicLinkState : ViewAction {

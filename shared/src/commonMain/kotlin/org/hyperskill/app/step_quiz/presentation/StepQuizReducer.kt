@@ -30,6 +30,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
@@ -318,15 +319,42 @@ internal class StepQuizReducer(
                 if (isMobileGptCodeGenerationWithErrorsAvailable && !isProblemsLimitReached) {
                     state to setOf(InternalAction.GenerateGptCodeWithErrors(stepQuizState))
                 } else {
-                    state.copy(stepQuizState = stepQuizState) to
-                        if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
-                            showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy)
+                    val codeBlanksStep = message.step.copy(
+                        block = message.step.block.copy(
+                            options = message.step.block.options.copy(
+                                codeBlanksStrings = listOf(
+                                    "There is a cat on the keyboard, it is true",
+                                    "Typing messages out of the blue"
+                                )
+                            )
+                        )
+                    )
+                    val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
+                        if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(codeBlanksStep)) {
+                            stepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage(
+                                state.stepQuizCodeBlanksState,
+                                StepQuizCodeBlanksFeature.InternalMessage.Initialize(codeBlanksStep, message.attempt)
+                            )
                         } else {
-                            getProblemOnboardingModalActions(
-                                step = message.step,
-                                problemsOnboardingFlags = message.problemsOnboardingFlags
+                            StepQuizCodeBlanksFeature.State.Idle to emptySet()
+                        }
+
+                    state.copy(
+                        stepQuizState = stepQuizState,
+                        stepQuizCodeBlanksState = stepQuizCodeBlanksState
+                    ) to buildSet {
+                        if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
+                            addAll(showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy))
+                        } else {
+                            addAll(
+                                getProblemOnboardingModalActions(
+                                    step = message.step,
+                                    problemsOnboardingFlags = message.problemsOnboardingFlags
+                                )
                             )
                         }
+                        addAll(stepQuizCodeBlanksActions)
+                    }
                 }
             }
         } else {

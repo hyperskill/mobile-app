@@ -125,6 +125,8 @@ import org.hyperskill.app.step_feedback.injection.StepFeedbackComponent
 import org.hyperskill.app.step_feedback.injection.StepFeedbackComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.step_quiz_code_blanks.injection.StepQuizCodeBlanksComponent
+import org.hyperskill.app.step_quiz_code_blanks.injection.StepQuizCodeBlanksComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
@@ -290,6 +292,9 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildStepQuizToolbarComponent(stepRoute: StepRoute): StepQuizToolbarComponent =
         StepQuizToolbarComponentImpl(this, stepRoute)
+
+    override fun buildStepQuizCodeBlanksComponent(stepRoute: StepRoute): StepQuizCodeBlanksComponent =
+        StepQuizCodeBlanksComponentImpl(stepRoute)
 
     /**
      * Step completion component

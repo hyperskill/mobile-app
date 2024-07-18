@@ -194,6 +194,34 @@ extension StepQuizViewModel: StepQuizInputProtocol {
     }
 }
 
+// MARK: - StepQuizViewModel: StepQuizCodeBlanksOutputProtocol -
+
+extension StepQuizViewModel: StepQuizCodeBlanksOutputProtocol {
+    func handleStepQuizCodeBlanksDidTapOnSuggestion(_ suggestion: Suggestion) {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizCodeBlanksMessage(
+                message: StepQuizCodeBlanksFeatureMessageSuggestionClicked(suggestion: suggestion)
+            )
+        )
+    }
+
+    func handleStepQuizCodeBlanksDidTapOnCodeBlock(_ codeBlock: StepQuizCodeBlanksViewStateCodeBlockItem) {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizCodeBlanksMessage(
+                message: StepQuizCodeBlanksFeatureMessageCodeBlockClicked(codeBlockItem: codeBlock)
+            )
+        )
+    }
+
+    func handleStepQuizCodeBlanksDidTapDelete() {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizCodeBlanksMessage(
+                message: StepQuizCodeBlanksFeatureMessageDeleteButtonClicked()
+            )
+        )
+    }
+}
+
 // MARK: - StepQuizViewModel: StepQuizProblemOnboardingModalViewControllerDelegate -
 
 extension StepQuizViewModel: StepQuizProblemOnboardingModalViewControllerDelegate {
