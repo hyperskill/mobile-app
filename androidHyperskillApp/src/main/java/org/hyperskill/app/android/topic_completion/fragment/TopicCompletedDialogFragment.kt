@@ -138,12 +138,8 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
             TopicCompletedModalFeature.Action.ViewAction.Dismiss -> {
                 dialog?.dismiss()
             }
-            TopicCompletedModalFeature.Action.ViewAction.NavigateTo.NextTopic -> {
-                (parentFragment as? Callback)?.navigateToNextTopic()
-                dismiss()
-            }
-            TopicCompletedModalFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
-                (parentFragment as? Callback)?.navigateToStudyPlan()
+            is TopicCompletedModalFeature.Action.ViewAction.NavigateTo -> {
+                (parentFragment as? Callback)?.navigateTo(action)
                 dismiss()
             }
         }
@@ -153,7 +149,6 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
         requireNotNull(mediaPlayerDelegate)
 
     interface Callback {
-        fun navigateToNextTopic()
-        fun navigateToStudyPlan()
+        fun navigateTo(destination: TopicCompletedModalFeature.Action.ViewAction.NavigateTo)
     }
 }

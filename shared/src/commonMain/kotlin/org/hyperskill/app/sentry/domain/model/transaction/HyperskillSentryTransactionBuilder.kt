@@ -100,6 +100,12 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildCheckTopicCompletionStatusLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "step-completion-feature-check-topic-completion-status",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     /**
      * StepQuizFeature
      */
