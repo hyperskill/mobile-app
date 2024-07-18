@@ -23,7 +23,7 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.subscriptions.domain.model.isActive
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.subscriptions.domain.repository.isDailyProblemsEnabled
+import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
 
 class SubscriptionsInteractor(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
@@ -50,7 +50,7 @@ class SubscriptionsInteractor(
             .getState()
             .map { it.features.isMobileContentTrialEnabled }
             .getOrElse { false }
-        if (currentSubscriptionStateRepository.isDailyProblemsEnabled(isMobileContentTrialEnabled)) {
+        if (currentSubscriptionStateRepository.areProblemsLimited(isMobileContentTrialEnabled)) {
             when (chargeStrategy) {
                 FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION -> chargeLimitsAfterWrongSubmission()
                 FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION -> chargeLimitsAfterCorrectSubmission()

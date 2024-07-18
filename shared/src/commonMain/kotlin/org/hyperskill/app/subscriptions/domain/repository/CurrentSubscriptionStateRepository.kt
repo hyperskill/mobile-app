@@ -5,20 +5,21 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.hyperskill.app.core.domain.repository.StateRepository
 import org.hyperskill.app.core.domain.repository.StateWithSource
-import org.hyperskill.app.subscriptions.domain.model.ProblemsLimitType
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.getProblemsLimitType
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 
 interface CurrentSubscriptionStateRepository : StateRepository<Subscription>
 
-internal suspend fun CurrentSubscriptionStateRepository.isDailyProblemsEnabled(
+internal suspend fun CurrentSubscriptionStateRepository.areProblemsLimited(
     isMobileContentTrialEnabled: Boolean
 ): Boolean =
     getState(forceUpdate = false)
         .map {
-            val problemsLimitType = it.getProblemsLimitType(isMobileContentTrialEnabled = isMobileContentTrialEnabled)
-            problemsLimitType == ProblemsLimitType.DAILY
+            val subscriptionLimitType =
+                it.getSubscriptionLimitType(isMobileContentTrialEnabled = isMobileContentTrialEnabled)
+            subscriptionLimitType == SubscriptionLimitType.PROBLEMS
         }
         .getOrDefault(defaultValue = false)
 

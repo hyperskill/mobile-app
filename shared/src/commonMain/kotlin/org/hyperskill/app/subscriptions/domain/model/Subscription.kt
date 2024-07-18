@@ -36,23 +36,23 @@ data class Subscription(
     val validTill: Instant? = null
 )
 
-internal fun Subscription.getProblemsLimitType(
+internal fun Subscription.getSubscriptionLimitType(
     isMobileContentTrialEnabled: Boolean
-): ProblemsLimitType =
+): SubscriptionLimitType =
     when (type) {
         SubscriptionType.MOBILE_ONLY -> if (isActive) {
-            type.problemsLimitType
+            type.subscriptionLimitType
         } else {
-            if (isMobileContentTrialEnabled) ProblemsLimitType.FIXED else ProblemsLimitType.DAILY
+            if (isMobileContentTrialEnabled) SubscriptionLimitType.TOPICS else SubscriptionLimitType.PROBLEMS
         }
-        else -> type.problemsLimitType
+        else -> type.subscriptionLimitType
     }
 
 internal fun Subscription.isProblemsLimitReached(
     isMobileContentTrialEnabled: Boolean
 ): Boolean {
-    val problemsLimitType = getProblemsLimitType(isMobileContentTrialEnabled)
-    return problemsLimitType == ProblemsLimitType.DAILY && stepsLimitLeft == 0
+    val subscriptionLimitType = getSubscriptionLimitType(isMobileContentTrialEnabled)
+    return subscriptionLimitType == SubscriptionLimitType.PROBLEMS && stepsLimitLeft == 0
 }
 
 internal val Subscription.isFreemium: Boolean

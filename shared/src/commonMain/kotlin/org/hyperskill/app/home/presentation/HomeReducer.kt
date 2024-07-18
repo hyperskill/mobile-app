@@ -34,7 +34,7 @@ internal class HomeReducer(
                     homeState = HomeState.Content(
                         problemOfDayState = message.problemOfDayState,
                         repetitionsState = message.repetitionsState,
-                        isDailyProblemsEnabled = message.isDailyProblemsEnabled
+                        areProblemsLimited = message.areProblemsLimited
                     )
                 ) to emptySet()
             }

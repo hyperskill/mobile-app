@@ -25,7 +25,7 @@ import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.subscriptions.domain.repository.isDailyProblemsEnabled
+import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -113,8 +113,8 @@ internal class HomeActionDispatcher(
 
                 val problemOfDayStateResult = async { getProblemOfDayState(currentProfile.dailyStep) }
                 val repetitionsStateResult = async { getRepetitionsState() }
-                val isDailyProblemsEnabled = async {
-                    currentSubscriptionStateRepository.isDailyProblemsEnabled(
+                val areProblemsLimited = async {
+                    currentSubscriptionStateRepository.areProblemsLimited(
                         isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled
                     )
                 }
@@ -123,7 +123,7 @@ internal class HomeActionDispatcher(
                     Message.HomeSuccess(
                         problemOfDayState = problemOfDayStateResult.await().getOrThrow(),
                         repetitionsState = repetitionsStateResult.await().getOrThrow(),
-                        isDailyProblemsEnabled = isDailyProblemsEnabled.await()
+                        areProblemsLimited = areProblemsLimited.await()
                     ),
                     Message.ReadyToLaunchNextProblemInTimer
                 )

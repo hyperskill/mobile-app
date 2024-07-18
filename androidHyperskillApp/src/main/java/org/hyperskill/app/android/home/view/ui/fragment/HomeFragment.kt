@@ -207,8 +207,8 @@ class HomeFragment :
 
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
-            renderProblemOfDay(viewBinding, homeState.problemOfDayState, homeState.isDailyProblemsEnabled)
-            renderTopicsRepetition(homeState.repetitionsState, homeState.isDailyProblemsEnabled)
+            renderProblemOfDay(viewBinding, homeState.problemOfDayState, homeState.areProblemsLimited)
+            renderTopicsRepetition(homeState.repetitionsState, homeState.areProblemsLimited)
         }
 
         renderChallengeCard(state.challengeWidgetViewState)

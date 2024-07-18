@@ -45,7 +45,7 @@ object HomeFeature {
          *
          * @property problemOfDayState Problem of the day state.
          * @property repetitionsState Topics repetitions state.
-         * @property isDailyProblemsEnabled A boolean flag that indicates that problem limits are enabled.
+         * @property areProblemsLimited A boolean flag that indicates that problem limits are enabled.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          *
          * @see Streak
@@ -54,7 +54,7 @@ object HomeFeature {
         data class Content(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
-            val isDailyProblemsEnabled: Boolean,
+            val areProblemsLimited: Boolean,
             internal val isRefreshing: Boolean = false
         ) : HomeState
 
@@ -105,7 +105,7 @@ object HomeFeature {
         data class HomeSuccess(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
-            val isDailyProblemsEnabled: Boolean
+            val areProblemsLimited: Boolean
         ) : Message
 
         object HomeFailure : Message
