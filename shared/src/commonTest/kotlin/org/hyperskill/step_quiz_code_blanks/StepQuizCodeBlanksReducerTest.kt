@@ -6,6 +6,9 @@ import kotlin.test.assertTrue
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
@@ -44,7 +47,7 @@ class StepQuizCodeBlanksReducerTest {
         val (state, actions) = reducer.reduce(initialState, message)
 
         assertEquals(initialState, state)
-        assertTrue(actions.isEmpty())
+        assertContainsSuggestionClickedAnalyticEvent(actions)
     }
 
     @Test
@@ -55,7 +58,7 @@ class StepQuizCodeBlanksReducerTest {
         val (state, actions) = reducer.reduce(initialState, message)
 
         assertEquals(initialState, state)
-        assertTrue(actions.isEmpty())
+        assertContainsSuggestionClickedAnalyticEvent(actions)
     }
 
     @Test
@@ -86,7 +89,7 @@ class StepQuizCodeBlanksReducerTest {
         )
 
         assertEquals(expectedState, state)
-        assertTrue(actions.isEmpty())
+        assertContainsSuggestionClickedAnalyticEvent(actions)
     }
 
     @Test
@@ -107,7 +110,7 @@ class StepQuizCodeBlanksReducerTest {
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
         assertEquals(suggestion, (state.codeBlocks[0] as CodeBlock.Print).selectedSuggestion)
-        assertTrue(actions.isEmpty())
+        assertContainsSuggestionClickedAnalyticEvent(actions)
     }
 
     @Test
@@ -138,7 +141,7 @@ class StepQuizCodeBlanksReducerTest {
         )
 
         assertEquals(expectedState, state)
-        assertTrue(actions.isEmpty())
+        assertContainsSuggestionClickedAnalyticEvent(actions)
     }
 
     @Test
@@ -175,7 +178,12 @@ class StepQuizCodeBlanksReducerTest {
         )
 
         assertEquals(expectedState, state)
-        assertTrue(actions.isEmpty())
+        assertTrue {
+            actions.any {
+                it is StepQuizCodeBlanksFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
+            }
+        }
     }
 
     @Test
@@ -194,7 +202,7 @@ class StepQuizCodeBlanksReducerTest {
         val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
 
         assertEquals(initialState, state)
-        assertTrue(actions.isEmpty())
+        assertContainsDeleteButtonClickedAnalyticEvent(actions)
     }
 
     @Test
@@ -223,7 +231,7 @@ class StepQuizCodeBlanksReducerTest {
         )
 
         assertEquals(expectedState, state)
-        assertTrue(actions.isEmpty())
+        assertContainsDeleteButtonClickedAnalyticEvent(actions)
     }
 
     @Test
@@ -246,7 +254,7 @@ class StepQuizCodeBlanksReducerTest {
         )
 
         assertEquals(expectedState, state)
-        assertTrue(actions.isEmpty())
+        assertContainsDeleteButtonClickedAnalyticEvent(actions)
     }
 
     @Test
@@ -269,7 +277,43 @@ class StepQuizCodeBlanksReducerTest {
         )
 
         assertEquals(expectedState, state)
-        assertTrue(actions.isEmpty())
+        assertContainsDeleteButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `DeleteButtonClicked should not update state if no active code block`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    isActive = false,
+                    suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                    selectedSuggestion = null
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
+
+        assertEquals(initialState, state)
+        assertContainsDeleteButtonClickedAnalyticEvent(actions)
+    }
+
+    private fun assertContainsSuggestionClickedAnalyticEvent(actions: Set<StepQuizCodeBlanksFeature.Action>) {
+        assertTrue {
+            actions.any {
+                it is StepQuizCodeBlanksFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent
+            }
+        }
+    }
+
+    private fun assertContainsDeleteButtonClickedAnalyticEvent(actions: Set<StepQuizCodeBlanksFeature.Action>) {
+        assertTrue {
+            actions.any {
+                it is StepQuizCodeBlanksFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
+            }
+        }
     }
 
     private fun stubContentState(

@@ -319,21 +319,11 @@ internal class StepQuizReducer(
                 if (isMobileGptCodeGenerationWithErrorsAvailable && !isProblemsLimitReached) {
                     state to setOf(InternalAction.GenerateGptCodeWithErrors(stepQuizState))
                 } else {
-                    val codeBlanksStep = message.step.copy(
-                        block = message.step.block.copy(
-                            options = message.step.block.options.copy(
-                                codeBlanksStrings = listOf(
-                                    "There is a cat on the keyboard, it is true",
-                                    "Typing messages out of the blue"
-                                )
-                            )
-                        )
-                    )
                     val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
-                        if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(codeBlanksStep)) {
+                        if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(message.step)) {
                             stepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage(
                                 state.stepQuizCodeBlanksState,
-                                StepQuizCodeBlanksFeature.InternalMessage.Initialize(codeBlanksStep, message.attempt)
+                                StepQuizCodeBlanksFeature.InternalMessage.Initialize(message.step, message.attempt)
                             )
                         } else {
                             StepQuizCodeBlanksFeature.State.Idle to emptySet()

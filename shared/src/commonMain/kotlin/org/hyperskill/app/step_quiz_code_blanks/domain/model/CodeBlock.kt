@@ -5,6 +5,8 @@ sealed class CodeBlock {
 
     abstract val suggestions: List<Suggestion>
 
+    internal abstract val analyticRepresentation: String
+
     data class Blank(
         override val isActive: Boolean
     ) : CodeBlock() {
@@ -12,6 +14,9 @@ sealed class CodeBlock {
             get() = listOf(Suggestion.Print)
 
         override fun toString(): String = ""
+
+        override val analyticRepresentation: String
+            get() = "Blank(isActive=$isActive, suggestions=$suggestions)"
     }
 
     data class Print(
@@ -29,5 +34,8 @@ sealed class CodeBlock {
 
                 append(")")
             }
+
+        override val analyticRepresentation: String
+            get() = "Print(isActive=$isActive, suggestions=$suggestions, selectedSuggestion=$selectedSuggestion)"
     }
 }

@@ -1,9 +1,13 @@
 package org.hyperskill.app.step_quiz_code_blanks.presentation
 
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Action
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalMessage
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Message
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.State
@@ -40,11 +44,25 @@ class StepQuizCodeBlanksReducer(
             return null
         }
 
-        val activeCodeBlockIndex = state.activeCodeBlockIndex ?: return null
+        val activeCodeBlockIndex = state.activeCodeBlockIndex
+
+        val actions = setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent(
+                    route = stepRoute.analyticRoute,
+                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] },
+                    suggestion = message.suggestion
+                )
+            )
+        )
+
+        if (activeCodeBlockIndex == null) {
+            return state to actions
+        }
         val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
 
         if (!activeCodeBlock.suggestions.contains(message.suggestion)) {
-            return null
+            return state to actions
         }
 
         val newCodeBlock =
@@ -71,7 +89,7 @@ class StepQuizCodeBlanksReducer(
                 state.codeBlocks.mutate { set(activeCodeBlockIndex, newCodeBlock) }
             }
 
-        return state.copy(codeBlocks = newCodeBlocks) to emptySet()
+        return state.copy(codeBlocks = newCodeBlocks) to actions
     }
 
     private fun handleCodeBlockClicked(
@@ -82,8 +100,18 @@ class StepQuizCodeBlanksReducer(
             return null
         }
 
-        if (state.codeBlocks.getOrNull(index = message.codeBlockItem.id)?.isActive == true) {
-            return null
+        val targetCodeBlock = state.codeBlocks.getOrNull(index = message.codeBlockItem.id)
+        val actions = setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent(
+                    route = stepRoute.analyticRoute,
+                    codeBlock = targetCodeBlock
+                )
+            )
+        )
+
+        if (targetCodeBlock?.isActive == true) {
+            return state to actions
         }
 
         val newCodeBlocks = state.codeBlocks.mapIndexed { index, codeBlock ->
@@ -94,7 +122,7 @@ class StepQuizCodeBlanksReducer(
             }
         }
 
-        return state.copy(codeBlocks = newCodeBlocks) to emptySet()
+        return state.copy(codeBlocks = newCodeBlocks) to actions
     }
 
     private fun handleDeleteButtonClicked(
@@ -104,9 +132,23 @@ class StepQuizCodeBlanksReducer(
             return null
         }
 
-        val activeCodeBlockIndex = state.activeCodeBlockIndex ?: return null
+        val activeCodeBlockIndex = state.activeCodeBlockIndex
+
+        val actions = setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent(
+                    route = stepRoute.analyticRoute,
+                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+                )
+            )
+        )
+
+        if (activeCodeBlockIndex == null) {
+            return state to actions
+        }
+
         when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
-            is CodeBlock.Blank -> return null
+            is CodeBlock.Blank -> return state to actions
             is CodeBlock.Print -> {
                 val newCodeBlocks = state.codeBlocks.mutate {
                     if (activeCodeBlock.selectedSuggestion != null) {
@@ -130,7 +172,7 @@ class StepQuizCodeBlanksReducer(
                         removeAt(activeCodeBlockIndex)
                     }
                 }
-                return state.copy(codeBlocks = newCodeBlocks) to emptySet()
+                return state.copy(codeBlocks = newCodeBlocks) to actions
             }
         }
     }

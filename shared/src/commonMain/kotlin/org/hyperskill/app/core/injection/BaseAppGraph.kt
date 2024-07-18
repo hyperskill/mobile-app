@@ -294,7 +294,7 @@ abstract class BaseAppGraph : AppGraph {
         StepQuizToolbarComponentImpl(this, stepRoute)
 
     override fun buildStepQuizCodeBlanksComponent(stepRoute: StepRoute): StepQuizCodeBlanksComponent =
-        StepQuizCodeBlanksComponentImpl(stepRoute)
+        StepQuizCodeBlanksComponentImpl(this, stepRoute)
 
     /**
      * Step completion component

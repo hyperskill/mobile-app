@@ -22,10 +22,7 @@ enum class HyperskillAnalyticPart(val partName: String) {
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
-    PROBLEMS_LIMIT_WIDGET("problems_limit_widget"),
     PARSONS_PROBLEM_ONBOARDING_MODAL("parsons_problem_onboarding_modal"),
-    FILL_BLANKS_INPUT_MODE_ONBOARDING_MODAL("fill_blanks_input_mode_onboarding_modal"),
-    FILL_BLANKS_SELECT_MODE_ONBOARDING_MODAL("fill_blanks_select_mode_onboarding_modal"),
     GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL("gpt_code_generation_with_errors_onboarding_modal"),
     MODAL("modal"),
     STREAK_WIDGET("streak_widget"),
@@ -47,5 +44,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL("daily_study_reminders_hour_interval_picker_modal"),
     REQUEST_REVIEW_MODAL("request_review_modal"),
     USERS_INTERVIEW_WIDGET("users_interview_widget"),
-    UNSUPPORTED_QUIZ_PLACEHOLDER("unsupported_quiz_placeholder")
+    UNSUPPORTED_QUIZ_PLACEHOLDER("unsupported_quiz_placeholder"),
+    CODE_BLANKS("code_blanks")
 }

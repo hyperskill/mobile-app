@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz_code_blanks.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
@@ -41,5 +42,7 @@ object StepQuizCodeBlanksFeature {
         sealed interface ViewAction : Action
     }
 
-    internal sealed interface InternalAction : Action
+    internal sealed interface InternalAction : Action {
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+    }
 }
