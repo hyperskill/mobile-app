@@ -27,11 +27,9 @@ sealed class CodeBlock {
         override fun toString(): String =
             buildString {
                 append("print(")
-
                 if (selectedSuggestion != null) {
-                    append("\"${selectedSuggestion.text}\"")
+                    append(selectedSuggestion.text)
                 }
-
                 append(")")
             }
 
