@@ -5,6 +5,7 @@ import kotlin.math.min
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
@@ -76,7 +77,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is Message.SectionClicked ->
                 changeSectionExpanse(state, message.sectionId, shouldLogAnalyticEvent = true)
             is Message.ActivityClicked ->
-                handleActivityClicked(state, message.activityId)
+                handleActivityClicked(state, message)
             is Message.StageImplementUnsupportedModalGoToHomeClicked ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
@@ -173,18 +174,19 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val loadedSectionsState = state.copy(
             studyPlanSections = studyPlanSections,
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
-            isRefreshing = false
+            isRefreshing = false,
+            subscription = message.subscription,
+            learnedTopicsCount = message.learnedTopicsCount
         )
 
         return if (loadedSectionsState.studyPlanSections.isNotEmpty()) {
-            val (resultState, actions) = handleLearningActivitiesFetchSuccess(
+            handleLearningActivitiesFetchSuccess(
                 state = loadedSectionsState,
                 message = StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
                     sectionId = currentSectionId,
                     activities = message.learningActivities
                 )
             )
-            resultState.copy(subscription = message.subscription) to actions
         } else {
             loadedSectionsState to emptySet()
         }
@@ -357,30 +359,43 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             section.studyPlanSection.activities
         }
 
-    private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
-        val activity = state.activities[activityId] ?: return state to emptySet()
+    private fun handleActivityClicked(state: State, message: Message.ActivityClicked): StudyPlanWidgetReducerResult {
+        val activity = state.activities[message.activityId] ?: return state to emptySet()
+
+        val isActivityLocked = isActivityLocked(state, message.activityId, message.sectionId)
 
         val logAnalyticEventAction = InternalAction.LogAnalyticEvent(
             StudyPlanClickedActivityHyperskillAnalyticEvent(
                 activityId = activity.id,
                 activityType = activity.type?.value,
                 activityTargetType = activity.targetType,
-                activityTargetId = activity.targetId
+                activityTargetId = activity.targetId,
+                isLocked = isActivityLocked
             )
         )
 
-        val activityTargetAction = LearningActivityTargetViewActionMapper
-            .mapLearningActivityToTargetViewAction(
-                activity = activity,
-                trackId = state.profile?.trackId,
-                projectId = state.profile?.projectId
-            )
-            .fold(
-                onSuccess = { Action.ViewAction.NavigateTo.LearningActivityTarget(it) },
-                onFailure = { InternalAction.CaptureSentryException(it) }
-            )
+        val activityTargetAction =
+            if (isActivityLocked) {
+                Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.STUDY_PLAN)
+            } else {
+                LearningActivityTargetViewActionMapper
+                    .mapLearningActivityToTargetViewAction(
+                        activity = activity,
+                        trackId = state.profile?.trackId,
+                        projectId = state.profile?.projectId
+                    )
+                    .fold(
+                        onSuccess = { Action.ViewAction.NavigateTo.LearningActivityTarget(it) },
+                        onFailure = { InternalAction.CaptureSentryException(it) }
+                    )
+            }
 
         return state to setOf(activityTargetAction, logAnalyticEventAction)
+    }
+
+    private fun isActivityLocked(state: State, activityId: Long, sectionId: Long): Boolean {
+        val unlockedActivitiesIds = state.getUnlockedActivitiesIds(sectionId)
+        return unlockedActivitiesIds != null && activityId !in unlockedActivitiesIds
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =

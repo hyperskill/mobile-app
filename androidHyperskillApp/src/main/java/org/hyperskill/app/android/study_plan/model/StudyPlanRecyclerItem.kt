@@ -33,6 +33,7 @@ interface StudyPlanRecyclerItem {
 
     data class Activity(
         override val id: Long,
+        val sectionId: Long,
         val title: String,
         val subtitle: String?,
         @ColorInt val titleTextColor: Int,

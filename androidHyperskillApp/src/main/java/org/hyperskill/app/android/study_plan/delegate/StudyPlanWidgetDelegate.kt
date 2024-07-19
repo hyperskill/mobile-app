@@ -34,8 +34,13 @@ class StudyPlanWidgetDelegate(
     private val studyPlanAdapter = DefaultDelegateAdapter<StudyPlanRecyclerItem>().apply {
         addDelegate(StudyPlanSectionAdapterDelegate(onNewMessage))
         addDelegate(
-            StudyPlanActivityAdapterDelegate { activityId ->
-                onNewMessage(StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+            StudyPlanActivityAdapterDelegate { activityId, sectionId ->
+                onNewMessage(
+                    StudyPlanWidgetFeature.Message.ActivityClicked(
+                        activityId = activityId,
+                        sectionId = sectionId
+                    )
+                )
             }
         )
         addDelegate(sectionsLoadingAdapterDelegate())
@@ -174,7 +179,7 @@ class StudyPlanWidgetDelegate(
                         )
                     }
                     is StudyPlanWidgetViewState.SectionContent.Content -> {
-                        addAll(mapSectionContentToActivityItems(sectionContent))
+                        addAll(mapSectionContentToActivityItems(section.id, sectionContent))
                     }
                     StudyPlanWidgetViewState.SectionContent.Error -> {
                         add(StudyPlanRecyclerItem.ActivitiesError(section.id))
@@ -203,11 +208,13 @@ class StudyPlanWidgetDelegate(
         )
 
     private fun mapSectionContentToActivityItems(
+        sectionId: Long,
         content: StudyPlanWidgetViewState.SectionContent.Content
     ): List<StudyPlanRecyclerItem.Activity> =
         content.sectionItems.map { item ->
             StudyPlanRecyclerItem.Activity(
                 id = item.id,
+                sectionId = sectionId,
                 title = item.title,
                 subtitle = item.subtitle,
                 titleTextColor = if (item.state == StudyPlanWidgetViewState.SectionItemState.NEXT) {

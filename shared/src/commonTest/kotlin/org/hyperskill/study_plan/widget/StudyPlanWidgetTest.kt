@@ -56,7 +56,8 @@ class StudyPlanWidgetTest {
             StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = emptyList(),
                 studyPlanSections = emptyList(),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                learnedTopicsCount = 0
             )
         )
         assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADED, state.sectionsStatus)
@@ -82,7 +83,8 @@ class StudyPlanWidgetTest {
                     hiddenSection,
                     visibleSection
                 ),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                learnedTopicsCount = 0
             )
         )
 
@@ -111,7 +113,8 @@ class StudyPlanWidgetTest {
             StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = listOf(stubLearningActivity(id = 1L)),
                 studyPlanSections = listOf(visibleSection, currentSection),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                learnedTopicsCount = 0
             )
         )
 
@@ -147,7 +150,8 @@ class StudyPlanWidgetTest {
                             type = StudyPlanSectionType.NEXT_PROJECT
                         )
                     ),
-                    subscription = subscription
+                    subscription = subscription,
+                    learnedTopicsCount = 0
                 )
             )
             assertTrue {
@@ -172,7 +176,8 @@ class StudyPlanWidgetTest {
                     studyPlanSectionStub(id = 0),
                     studyPlanSectionStub(id = 1, activities = listOf(1))
                 ),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                learnedTopicsCount = 0
             )
         )
 
@@ -220,7 +225,8 @@ class StudyPlanWidgetTest {
                         activities = if (index == 0) listOf(1L) else emptyList()
                     )
                 },
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                learnedTopicsCount = 0
             )
         )
 
@@ -243,7 +249,8 @@ class StudyPlanWidgetTest {
                     stubLearningActivity(id = 2)
                 ),
                 studyPlanSections = listOf(firstSection, secondSection),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                learnedTopicsCount = 0
             )
         )
 
@@ -842,7 +849,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertContains(
@@ -858,9 +868,10 @@ class StudyPlanWidgetTest {
     @Test
     fun `Click on stage implement learning activity with non stage target should do nothing`() {
         val activityId = 0L
+        val sectionId = 0L
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
-                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(activityId)),
                     isExpanded = true,
                     contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
@@ -876,7 +887,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
@@ -907,7 +921,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
 
@@ -933,6 +950,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Click on learn topic learning activity with non step target should do nothing`() {
         val activityId = 0L
+        val sectionId = 0L
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
@@ -951,7 +969,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
@@ -983,7 +1004,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertContains(
@@ -1015,7 +1039,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertContains(
@@ -1044,7 +1071,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertContains(

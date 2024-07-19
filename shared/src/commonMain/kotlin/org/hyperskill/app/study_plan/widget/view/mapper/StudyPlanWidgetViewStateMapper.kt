@@ -8,8 +8,8 @@ import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsM
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
-import org.hyperskill.app.study_plan.widget.presentation.getFreeTopicsCount
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
+import org.hyperskill.app.study_plan.widget.presentation.getUnlockedActivitiesIds
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.SectionContent
 
@@ -79,7 +79,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         getContent(
                             activities = activities,
                             currentActivityId = currentActivityId,
-                            unlockedActivitiesCount = state.getFreeTopicsCount()
+                            unlockedActivitiesIds = state.getUnlockedActivitiesIds(sectionInfo.studyPlanSection.id)
                         )
                     }
                 }
@@ -90,7 +90,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         getContent(
                             activities = activities,
                             currentActivityId = currentActivityId,
-                            unlockedActivitiesCount = state.getFreeTopicsCount()
+                            unlockedActivitiesIds = state.getUnlockedActivitiesIds(sectionInfo.studyPlanSection.id)
                         )
                     } else {
                         SectionContent.Error
@@ -104,11 +104,11 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
     private fun getContent(
         activities: List<LearningActivity>,
         currentActivityId: Long?,
-        unlockedActivitiesCount: Int?
+        unlockedActivitiesIds: List<Long>?
     ): SectionContent.Content =
         SectionContent.Content(
-            sectionItems = activities.mapIndexed { index, activity ->
-                val isLocked = unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount
+            sectionItems = activities.map { activity ->
+                val isLocked = unlockedActivitiesIds != null && activity.id !in unlockedActivitiesIds
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
                     title = LearningActivityTextsMapper.mapLearningActivityToTitle(activity),

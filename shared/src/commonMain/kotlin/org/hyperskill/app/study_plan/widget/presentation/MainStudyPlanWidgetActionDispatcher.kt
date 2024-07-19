@@ -1,11 +1,14 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -16,6 +19,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
+import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -84,20 +88,47 @@ internal class MainStudyPlanWidgetActionDispatcher(
             HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivitiesWithSections(),
             onError = { StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Failed }
         ) {
-            learningActivitiesRepository
-                .getLearningActivitiesWithSections(
-                    studyPlanSectionTypes = action.studyPlanSectionTypes,
-                    learningActivityTypes = action.learningActivityTypes,
-                    learningActivityStates = action.learningActivityStates
-                )
-                .getOrThrow()
-                .let { response ->
-                    StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
-                        learningActivities = response.learningActivities,
-                        studyPlanSections = response.studyPlanSections,
-                        subscription = currentSubscriptionStateRepository.getState().getOrThrow()
-                    )
+            coroutineScope {
+                val learningActivitiesDeferred = async {
+                    learningActivitiesRepository
+                        .getLearningActivitiesWithSections(
+                            studyPlanSectionTypes = action.studyPlanSectionTypes,
+                            learningActivityTypes = action.learningActivityTypes,
+                            learningActivityStates = action.learningActivityStates
+                        )
                 }
+                val subscriptionDeferred = async {
+                    currentSubscriptionStateRepository.getState()
+                }
+
+                val profile = currentProfileStateRepository.getState().getOrNull()
+
+                val trackProgressDeferred = async {
+                    if (profile?.trackId != null) {
+                        progressesRepository.getTrackProgress(
+                            trackId = profile.trackId,
+                            forceLoadFromRemote = true
+                        )
+                    } else {
+                        Result.success(null)
+                    }
+                }
+
+                val learningActivitiesResponse = learningActivitiesDeferred.await().getOrThrow()
+                val subscription =
+                    subscriptionDeferred
+                        .await()
+                        .getOrThrow()
+                        .orContentTrial(profile?.features?.isMobileContentTrialEnabled == true)
+                val trackProgress = trackProgressDeferred.await().getOrThrow()
+
+                StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
+                    learningActivities = learningActivitiesResponse.learningActivities,
+                    studyPlanSections = learningActivitiesResponse.studyPlanSections,
+                    subscription = subscription,
+                    learnedTopicsCount = trackProgress?.learnedTopicsCount ?: 0
+                )
+            }
         }.let(onNewMessage)
     }
 

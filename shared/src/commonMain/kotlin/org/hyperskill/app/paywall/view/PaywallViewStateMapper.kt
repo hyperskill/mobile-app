@@ -27,7 +27,8 @@ internal class PaywallViewStateMapper(
                 MANAGE_SUBSCRIPTION,
                 PROFILE_SETTINGS,
                 PROBLEMS_LIMIT_MODAL,
-                TOPIC_COMPLETED_MODAL -> true
+                TOPIC_COMPLETED_MODAL,
+                PaywallTransitionSource.STUDY_PLAN -> true
             },
             contentState = when (state) {
                 State.Idle -> ViewStateContent.Idle
@@ -50,7 +51,8 @@ internal class PaywallViewStateMapper(
                                 PROFILE_SETTINGS, MANAGE_SUBSCRIPTION -> false
                                 APP_BECOMES_ACTIVE,
                                 PROBLEMS_LIMIT_MODAL,
-                                TOPIC_COMPLETED_MODAL -> true
+                                TOPIC_COMPLETED_MODAL,
+                                PaywallTransitionSource.STUDY_PLAN -> true
                             },
                             priceText = if (platformType == PlatformType.ANDROID) {
                                 resourceProvider.getString(

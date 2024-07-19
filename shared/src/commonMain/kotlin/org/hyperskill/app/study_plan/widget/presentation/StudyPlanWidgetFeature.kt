@@ -5,6 +5,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
@@ -36,9 +37,14 @@ object StudyPlanWidgetFeature {
         val isRefreshing: Boolean = false,
 
         /**
-         * Subscription related data
+         * Current user subscription
          */
-        val subscription: Subscription? = null
+        val subscription: Subscription? = null,
+
+        /**
+         * Actual learnedTopicsCount in the current track
+         */
+        val learnedTopicsCount: Int = 0
     ) {
         /**
          * Divided track topics feature enabled flag
@@ -46,6 +52,9 @@ object StudyPlanWidgetFeature {
         val isLearningPathDividedTrackTopicsEnabled: Boolean
             get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
 
+        /**
+         * MobileContentTrial feature flag
+         */
         val isMobileContentTrialEnabled: Boolean
             get() = profile?.features?.isMobileContentTrialEnabled ?: false
     }
@@ -70,7 +79,7 @@ object StudyPlanWidgetFeature {
     sealed interface Message {
         data class SectionClicked(val sectionId: Long) : Message
 
-        data class ActivityClicked(val activityId: Long) : Message
+        data class ActivityClicked(val activityId: Long, val sectionId: Long) : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
 
@@ -96,7 +105,8 @@ object StudyPlanWidgetFeature {
         data class Success(
             val learningActivities: List<LearningActivity>,
             val studyPlanSections: List<StudyPlanSection>,
-            val subscription: Subscription
+            val subscription: Subscription,
+            val learnedTopicsCount: Int
         ) : LearningActivitiesWithSectionsFetchResult
 
         object Failed : LearningActivitiesWithSectionsFetchResult
@@ -122,6 +132,7 @@ object StudyPlanWidgetFeature {
             sealed interface NavigateTo : ViewAction {
                 object Home : NavigateTo
                 data class LearningActivityTarget(val viewAction: LearningActivityTargetViewAction) : NavigateTo
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }

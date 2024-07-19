@@ -46,14 +46,17 @@ internal fun StudyPlanWidgetFeature.State.getSectionActivities(sectionId: Long):
         ?.mapNotNull { id -> activities[id] } ?: emptyList()
 
 /**
- * Returns free topics count in case of MobileContentTrial subscription.
- * Otherwise returns null (all the topics are free).
+ * Returns unlocked activities ids list in case of MobileContentTrial subscription.
+ * Otherwise returns null (all the activities are unlocked).
  */
-internal fun StudyPlanWidgetFeature.State.getFreeTopicsCount(): Int? {
+internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesIds(sectionId: Long): List<Long>? {
+    val section = studyPlanSections[sectionId]?.studyPlanSection ?: return null
+    val isRootTopicsSection = section.type == StudyPlanSectionType.ROOT_TOPICS
     val isTopicsLimitEnabled =
         subscription?.getSubscriptionLimitType(isMobileContentTrialEnabled) == SubscriptionLimitType.TOPICS
-    return if (isTopicsLimitEnabled) {
-        profile?.feautureValues?.mobileContentTrialFreeTopics
+    val unlockedActivitiesCount = profile?.feautureValues?.mobileContentTrialFreeTopics?.minus(learnedTopicsCount)
+    return if (isRootTopicsSection && isTopicsLimitEnabled && unlockedActivitiesCount != null) {
+        section.activities.take(unlockedActivitiesCount)
     } else {
         null
     }
