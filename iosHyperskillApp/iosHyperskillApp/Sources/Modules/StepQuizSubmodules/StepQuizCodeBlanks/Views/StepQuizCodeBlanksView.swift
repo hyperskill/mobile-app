@@ -28,8 +28,9 @@ struct StepQuizCodeBlanksView: View {
                 )
                 Divider()
 
-                suggestionsView(
-                    suggestions: contentState.suggestions
+                StepQuizCodeBlanksSuggestionsView(
+                    suggestions: contentState.suggestions,
+                    onSuggestionTap: viewModel.doSuggestionMainAction(_:)
                 )
                 Divider()
             }
@@ -99,25 +100,6 @@ struct StepQuizCodeBlanksView: View {
         .padding(.vertical, LayoutInsets.defaultInset)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(BackgroundView())
-    }
-
-    @MainActor
-    private func suggestionsView(suggestions: [Suggestion]) -> some View {
-        VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-            ForEach(suggestions, id: \.self) { suggestion in
-                Button(
-                    action: {
-                        viewModel.doSuggestionMainAction(suggestion)
-                    },
-                    label: {
-                        StepQuizCodeBlanksOptionView(text: suggestion.text, isActive: true)
-                    }
-                )
-                .buttonStyle(BounceButtonStyle())
-            }
-        }
-        .padding(LayoutInsets.defaultInset)
-        .frame(minHeight: 72)
     }
 }
 
