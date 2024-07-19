@@ -27,15 +27,17 @@ object StudyPlanScreenFeature {
     )
 
     sealed interface Message {
-        object Initialize : Message
+        data object Initialize : Message
 
-        object RetryContentLoading : Message
+        data object RetryContentLoading : Message
 
-        object PullToRefresh : Message
+        data object PullToRefresh : Message
 
-        object ScreenBecomesActive : Message
+        data object ScreenBecomesActive : Message
 
-        object ViewedEventMessage : Message
+        data object ChangeTrackButtonClicked : Message
+
+        data object ViewedEventMessage : Message
 
         data class GamificationToolbarMessage(
             val message: GamificationToolbarFeature.Message
@@ -52,6 +54,10 @@ object StudyPlanScreenFeature {
 
     sealed interface Action {
         sealed interface ViewAction : Action {
+            sealed interface NavigateTo : ViewAction {
+                data object TrackSelectionScreen : NavigateTo
+            }
+
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
             ) : ViewAction
