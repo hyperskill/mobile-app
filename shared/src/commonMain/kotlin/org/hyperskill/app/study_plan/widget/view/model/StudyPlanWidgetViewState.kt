@@ -51,6 +51,7 @@ sealed interface StudyPlanWidgetViewState {
         IDLE,
         NEXT,
         SKIPPED,
-        COMPLETED
+        COMPLETED,
+        LOCKED
     }
 }

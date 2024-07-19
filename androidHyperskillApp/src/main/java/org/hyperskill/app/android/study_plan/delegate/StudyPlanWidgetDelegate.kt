@@ -54,10 +54,10 @@ class StudyPlanWidgetDelegate(
         ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface)
 
     @ColorInt private val activeActivityTextColor: Int =
-        ContextCompat.getColor(context, StudyPlanRecyclerItem.Activity.activeTextColorRes)
+        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_87)
 
     @ColorInt private val inactiveActivityTextColor: Int =
-        ContextCompat.getColor(context, StudyPlanRecyclerItem.Activity.inactiveTextColorRes)
+        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_60)
 
     private val sectionTopMargin =
         context.resources.getDimensionPixelOffset(R.dimen.study_plan_section_top_margin)
@@ -65,11 +65,13 @@ class StudyPlanWidgetDelegate(
         context.resources.getDimensionPixelOffset(R.dimen.study_plan_activity_top_margin)
 
     private val activeIcon =
-        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.nextActivityIconRes)
+        ContextCompat.getDrawable(context, R.drawable.ic_home_screen_arrow_button)
     private val skippedIcon =
-        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.skippedActivityIconRes)
+        ContextCompat.getDrawable(context, R.drawable.ic_topic_skipped)
     private val completedIcon =
-        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.completedActivityIconRes)
+        ContextCompat.getDrawable(context, R.drawable.ic_topic_completed)
+    private val lockedIcon =
+        ContextCompat.getDrawable(context, R.drawable.ic_activity_locked)
 
     private var studyPlanViewStateDelegate: ViewStateDelegate<StudyPlanWidgetViewState>? = null
 
@@ -220,6 +222,7 @@ class StudyPlanWidgetDelegate(
                     StudyPlanWidgetViewState.SectionItemState.NEXT -> activeIcon
                     StudyPlanWidgetViewState.SectionItemState.SKIPPED -> skippedIcon
                     StudyPlanWidgetViewState.SectionItemState.COMPLETED -> completedIcon
+                    StudyPlanWidgetViewState.SectionItemState.LOCKED -> lockedIcon
                 },
                 isIdeRequired = item.isIdeRequired
             )

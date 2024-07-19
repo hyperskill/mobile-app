@@ -151,7 +151,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val supportedSections = visibleSections
             .filter { studyPlanSection ->
                 // ALTAPPS-1186: We should hide next project section for freemium users
-                if (message.subscription.type.isProjectSelectionEnabled) {
+                if (!message.subscription.type.isProjectSelectionEnabled) {
                     studyPlanSection.type != StudyPlanSectionType.NEXT_PROJECT
                 } else {
                     true
@@ -177,13 +177,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         )
 
         return if (loadedSectionsState.studyPlanSections.isNotEmpty()) {
-            handleLearningActivitiesFetchSuccess(
+            val (resultState, actions) = handleLearningActivitiesFetchSuccess(
                 state = loadedSectionsState,
                 message = StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
                     sectionId = currentSectionId,
                     activities = message.learningActivities
                 )
             )
+            resultState.copy(subscription = message.subscription) to actions
         } else {
             loadedSectionsState to emptySet()
         }

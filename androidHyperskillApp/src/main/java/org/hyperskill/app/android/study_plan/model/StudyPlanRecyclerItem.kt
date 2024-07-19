@@ -2,7 +2,6 @@ package org.hyperskill.app.android.study_plan.model
 
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
-import org.hyperskill.app.android.R
 import ru.nobird.app.core.model.Identifiable
 
 interface StudyPlanRecyclerItem {
@@ -40,15 +39,6 @@ interface StudyPlanRecyclerItem {
         val progress: Int,
         val formattedProgress: String?,
         val endIcon: Drawable?,
-        val isIdeRequired: Boolean
-    ) : StudyPlanRecyclerItem, Identifiable<Long> {
-        companion object {
-            val activeTextColorRes: Int = org.hyperskill.app.R.color.color_on_surface_alpha_87
-            val inactiveTextColorRes: Int = org.hyperskill.app.R.color.color_on_surface_alpha_60
-
-            const val nextActivityIconRes: Int = R.drawable.ic_home_screen_arrow_button
-            const val skippedActivityIconRes: Int = R.drawable.ic_topic_skipped
-            const val completedActivityIconRes: Int = R.drawable.ic_topic_completed
-        }
-    }
+        val isIdeRequired: Boolean,
+    ) : StudyPlanRecyclerItem, Identifiable<Long>
 }

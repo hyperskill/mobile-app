@@ -8,6 +8,7 @@ import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsM
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
+import org.hyperskill.app.study_plan.widget.presentation.getFreeTopicsCount
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.SectionContent
@@ -75,14 +76,22 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                     if (activities.isEmpty()) {
                         SectionContent.Loading
                     } else {
-                        getContent(activities, currentActivityId)
+                        getContent(
+                            activities = activities,
+                            currentActivityId = currentActivityId,
+                            unlockedActivitiesCount = state.getFreeTopicsCount()
+                        )
                     }
                 }
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> SectionContent.Error
                 StudyPlanWidgetFeature.ContentStatus.LOADED -> {
                     val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id)
                     if (activities.isNotEmpty()) {
-                        getContent(activities, currentActivityId)
+                        getContent(
+                            activities = activities,
+                            currentActivityId = currentActivityId,
+                            unlockedActivitiesCount = state.getFreeTopicsCount()
+                        )
                     } else {
                         SectionContent.Error
                     }
@@ -92,22 +101,31 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
             SectionContent.Collapsed
         }
 
-    private fun getContent(activities: List<LearningActivity>, currentActivityId: Long?): SectionContent.Content =
+    private fun getContent(
+        activities: List<LearningActivity>,
+        currentActivityId: Long?,
+        unlockedActivitiesCount: Int?
+    ): SectionContent.Content =
         SectionContent.Content(
-            sectionItems = activities.map { activity ->
+            sectionItems = activities.mapIndexed { index, activity ->
+                val isLocked = unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
                     title = LearningActivityTextsMapper.mapLearningActivityToTitle(activity),
                     subtitle = LearningActivityTextsMapper.mapLearningActivityToSubtitle(activity),
-                    state = when (activity.state) {
-                        LearningActivityState.TODO -> if (activity.id == currentActivityId) {
-                            StudyPlanWidgetViewState.SectionItemState.NEXT
-                        } else {
-                            StudyPlanWidgetViewState.SectionItemState.IDLE
+                    state = if (isLocked) {
+                        StudyPlanWidgetViewState.SectionItemState.LOCKED
+                    } else {
+                        when (activity.state) {
+                            LearningActivityState.TODO -> if (activity.id == currentActivityId) {
+                                StudyPlanWidgetViewState.SectionItemState.NEXT
+                            } else {
+                                StudyPlanWidgetViewState.SectionItemState.IDLE
+                            }
+                            LearningActivityState.SKIPPED -> StudyPlanWidgetViewState.SectionItemState.SKIPPED
+                            LearningActivityState.COMPLETED -> StudyPlanWidgetViewState.SectionItemState.COMPLETED
+                            null -> StudyPlanWidgetViewState.SectionItemState.IDLE
                         }
-                        LearningActivityState.SKIPPED -> StudyPlanWidgetViewState.SectionItemState.SKIPPED
-                        LearningActivityState.COMPLETED -> StudyPlanWidgetViewState.SectionItemState.COMPLETED
-                        null -> StudyPlanWidgetViewState.SectionItemState.IDLE
                     },
                     isIdeRequired = activity.isIdeRequired,
                     progress = activity.progressPercentage,

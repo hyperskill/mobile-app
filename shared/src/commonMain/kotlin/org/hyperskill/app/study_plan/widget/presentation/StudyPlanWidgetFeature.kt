@@ -7,6 +7,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
@@ -32,13 +33,21 @@ object StudyPlanWidgetFeature {
         /**
          * Pull to refresh flag
          */
-        val isRefreshing: Boolean = false
+        val isRefreshing: Boolean = false,
+
+        /**
+         * Subscription related data
+         */
+        val subscription: Subscription? = null
     ) {
         /**
          * Divided track topics feature enabled flag
          */
         val isLearningPathDividedTrackTopicsEnabled: Boolean
             get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
+
+        val isMobileContentTrialEnabled: Boolean
+            get() = profile?.features?.isMobileContentTrialEnabled ?: false
     }
 
     enum class ContentStatus {

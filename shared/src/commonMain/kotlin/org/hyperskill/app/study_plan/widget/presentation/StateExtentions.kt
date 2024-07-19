@@ -4,6 +4,8 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 
 /**
  * @return current [StudyPlanSection].
@@ -42,3 +44,17 @@ internal fun StudyPlanWidgetFeature.State.getSectionActivities(sectionId: Long):
         ?.studyPlanSection
         ?.activities
         ?.mapNotNull { id -> activities[id] } ?: emptyList()
+
+/**
+ * Returns free topics count in case of MobileContentTrial subscription.
+ * Otherwise returns null (all the topics are free).
+ */
+internal fun StudyPlanWidgetFeature.State.getFreeTopicsCount(): Int? {
+    val isTopicsLimitEnabled =
+        subscription?.getSubscriptionLimitType(isMobileContentTrialEnabled) == SubscriptionLimitType.TOPICS
+    return if (isTopicsLimitEnabled) {
+        profile?.feautureValues?.mobileContentTrialFreeTopics
+    } else {
+        null
+    }
+}
