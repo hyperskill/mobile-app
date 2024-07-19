@@ -83,8 +83,15 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doMainQuizAction() {
-        guard let reply = childQuizModuleInput?.createReply() else {
-            return
+        let reply =
+            if let codeBlanksContentState = state.stepQuizCodeBlanksState as? StepQuizCodeBlanksFeatureStateContent {
+                codeBlanksContentState.createReply()
+            } else {
+                childQuizModuleInput?.createReply()
+            }
+
+        guard let reply else {
+            return assertionFailure("StepQuizViewModel: reply is nil")
         }
 
         onNewMessage(StepQuizFeatureMessageCreateSubmissionClicked(step: step, reply: reply))

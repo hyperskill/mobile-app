@@ -2,7 +2,6 @@ package org.hyperskill.app.step_quiz_code_blanks.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
@@ -18,7 +17,6 @@ object StepQuizCodeBlanksFeature {
 
         data class Content(
             val step: Step,
-            val attempt: Attempt,
             val codeBlocks: List<CodeBlock>
         ) : State {
             internal val codeBlanksStringsSuggestions: List<Suggestion.ConstantString> =
@@ -45,7 +43,7 @@ object StepQuizCodeBlanksFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        data class Initialize(val step: Step, val attempt: Attempt) : InternalMessage
+        data class Initialize(val step: Step) : InternalMessage
     }
 
     sealed interface Action {

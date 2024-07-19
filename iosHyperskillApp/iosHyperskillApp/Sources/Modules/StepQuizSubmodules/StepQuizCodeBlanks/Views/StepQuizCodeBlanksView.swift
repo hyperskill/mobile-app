@@ -13,6 +13,8 @@ struct StepQuizCodeBlanksView: View {
 
     let viewModel: StepQuizCodeBlanksViewModel
 
+    @Environment(\.isEnabled) private var isEnabled
+
     var body: some View {
         if case .content(let contentState) = viewStateKs {
             VStack(alignment: .leading, spacing: 0) {
@@ -32,6 +34,7 @@ struct StepQuizCodeBlanksView: View {
                 Divider()
             }
             .padding(.horizontal, -LayoutInsets.defaultInset)
+            .conditionalOpacity(isEnabled: isEnabled)
         }
     }
 
@@ -45,6 +48,7 @@ struct StepQuizCodeBlanksView: View {
             .background(BackgroundView())
     }
 
+    @MainActor
     private func codeBlocksView(
         codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItem],
         isDeleteButtonVisible: Bool
@@ -97,6 +101,7 @@ struct StepQuizCodeBlanksView: View {
         .background(BackgroundView())
     }
 
+    @MainActor
     private func suggestionsView(suggestions: [Suggestion]) -> some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             ForEach(suggestions, id: \.self) { suggestion in

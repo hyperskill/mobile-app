@@ -32,7 +32,6 @@ class StepQuizCodeBlanksReducer(
     ): StepQuizCodeBlanksReducerResult =
         State.Content(
             step = message.step,
-            attempt = message.attempt,
             codeBlocks = listOf(CodeBlock.Blank(isActive = true))
         ) to emptySet()
 

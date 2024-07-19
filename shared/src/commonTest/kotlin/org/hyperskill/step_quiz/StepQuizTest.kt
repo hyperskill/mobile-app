@@ -676,7 +676,6 @@ class StepQuizTest {
             stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
             stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.State.Content(
                 step = step,
-                attempt = attempt,
                 codeBlocks = emptyList()
             )
         )

@@ -83,20 +83,7 @@ internal class StepQuizReducer(
                 } else {
                     null
                 }
-            is Message.CreateAttemptSuccess ->
-                if (state.stepQuizState is StepQuizState.AttemptLoading) {
-                    state.copy(
-                        stepQuizState = StepQuizState.AttemptLoaded(
-                            step = message.step,
-                            attempt = message.attempt,
-                            submissionState = message.submissionState,
-                            isProblemsLimitReached = message.isProblemsLimitReached,
-                            isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
-                        )
-                    ) to emptySet()
-                } else {
-                    null
-                }
+            is Message.CreateAttemptSuccess -> handleCreateAttemptSuccess(state, message)
             is Message.CreateAttemptError ->
                 if (state.stepQuizState is StepQuizState.AttemptLoading) {
                     state.copy(
@@ -323,7 +310,7 @@ internal class StepQuizReducer(
                         if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(message.step)) {
                             stepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage(
                                 state.stepQuizCodeBlanksState,
-                                StepQuizCodeBlanksFeature.InternalMessage.Initialize(message.step, message.attempt)
+                                StepQuizCodeBlanksFeature.InternalMessage.Initialize(message.step)
                             )
                         } else {
                             StepQuizCodeBlanksFeature.State.Idle to emptySet()
@@ -383,6 +370,35 @@ internal class StepQuizReducer(
             )
         )
     }
+
+    private fun handleCreateAttemptSuccess(
+        state: State,
+        message: Message.CreateAttemptSuccess
+    ): StepQuizReducerResult? =
+        if (state.stepQuizState is StepQuizState.AttemptLoading) {
+            val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
+                if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(message.step)) {
+                    stepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage(
+                        state.stepQuizCodeBlanksState,
+                        StepQuizCodeBlanksFeature.InternalMessage.Initialize(message.step)
+                    )
+                } else {
+                    StepQuizCodeBlanksFeature.State.Idle to emptySet()
+                }
+
+            state.copy(
+                stepQuizState = StepQuizState.AttemptLoaded(
+                    step = message.step,
+                    attempt = message.attempt,
+                    submissionState = message.submissionState,
+                    isProblemsLimitReached = message.isProblemsLimitReached,
+                    isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
+                ),
+                stepQuizCodeBlanksState = stepQuizCodeBlanksState
+            ) to stepQuizCodeBlanksActions
+        } else {
+            null
+        }
 
     private fun initialize(state: State, message: Message.InitWithStep): StepQuizReducerResult {
         val needReloadStepQuiz =

@@ -3,14 +3,12 @@ package org.hyperskill.step_quiz_code_blanks
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
 import org.hyperskill.app.step_quiz_code_blanks.view.mapper.StepQuizCodeBlanksViewStateMapper
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
 import org.hyperskill.step.domain.model.stub
-import org.hyperskill.step_quiz.domain.model.stub
 
 class StepQuizCodeBlanksViewStateMapperTest {
     @Test
@@ -139,7 +137,6 @@ class StepQuizCodeBlanksViewStateMapperTest {
     private fun stubState(codeBlocks: List<CodeBlock>): StepQuizCodeBlanksFeature.State.Content =
         StepQuizCodeBlanksFeature.State.Content(
             step = Step.stub(id = 0),
-            attempt = Attempt.stub(),
             codeBlocks = codeBlocks
         )
 }

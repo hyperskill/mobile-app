@@ -5,7 +5,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent
@@ -15,7 +14,6 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
 import org.hyperskill.step.domain.model.stub
-import org.hyperskill.step_quiz.domain.model.stub
 
 class StepQuizCodeBlanksReducerTest {
     private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
@@ -23,14 +21,12 @@ class StepQuizCodeBlanksReducerTest {
     @Test
     fun `Initialize should return Content state with active Blank code block`() {
         val step = Step.stub(id = 1)
-        val attempt = Attempt.stub()
 
-        val message = StepQuizCodeBlanksFeature.InternalMessage.Initialize(step, attempt)
+        val message = StepQuizCodeBlanksFeature.InternalMessage.Initialize(step)
         val (state, actions) = reducer.reduce(StepQuizCodeBlanksFeature.State.Idle, message)
 
         val expectedState = StepQuizCodeBlanksFeature.State.Content(
             step = step,
-            attempt = attempt,
             codeBlocks = listOf(CodeBlock.Blank(isActive = true))
         )
 
@@ -322,7 +318,6 @@ class StepQuizCodeBlanksReducerTest {
     ): StepQuizCodeBlanksFeature.State.Content =
         StepQuizCodeBlanksFeature.State.Content(
             step = step,
-            attempt = Attempt.stub(),
             codeBlocks = codeBlocks
         )
 }
