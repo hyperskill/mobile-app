@@ -20,17 +20,7 @@ object StepQuizCodeBlanksFeature {
             val codeBlocks: List<CodeBlock>
         ) : State {
             internal val codeBlanksStringsSuggestions: List<Suggestion.ConstantString> =
-                step.block.options.codeBlanksStrings?.map { codeBlanksString ->
-                    buildString {
-                        if (!codeBlanksString.startsWith("\"")) {
-                            append("\"")
-                        }
-                        append(codeBlanksString)
-                        if (!codeBlanksString.endsWith("\"")) {
-                            append("\"")
-                        }
-                    }
-                }.orEmpty().map(Suggestion::ConstantString)
+                step.block.options.codeBlanksStrings.orEmpty().map(Suggestion::ConstantString)
         }
     }
 
