@@ -26,14 +26,13 @@ internal class TrackSelectionListActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is InternalAction.FetchTracks ->
-                handleFetchTracksAction(action, ::onNewMessage)
+            InternalAction.FetchTracks ->
+                handleFetchTracksAction(::onNewMessage)
             else -> {}
         }
     }
 
     private suspend fun handleFetchTracksAction(
-        action: InternalAction.FetchTracks,
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(
