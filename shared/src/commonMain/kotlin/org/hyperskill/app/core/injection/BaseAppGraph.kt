@@ -160,6 +160,8 @@ import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponentImpl
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsDataComponent
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsDataComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
@@ -401,6 +403,9 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
         TrackSelectionDetailsComponentImpl(this)
+
+    override fun buildTrackSelectionDetailsDataComponent(): TrackSelectionDetailsDataComponent =
+        TrackSelectionDetailsDataComponentImpl(this)
 
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)
