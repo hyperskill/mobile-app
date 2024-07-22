@@ -25,7 +25,7 @@ class PaywallViewModel(
     }
 
     fun onContinueWithLimitsClick() {
-        onNewMessage(Message.ContinueWithLimitsClicked)
+        onNewMessage(Message.CloseClicked)
     }
 
     fun onRetryLoadingClicked() {

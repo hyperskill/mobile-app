@@ -3,7 +3,7 @@ package org.hyperskill.app.paywall.presentation
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedBuySubscriptionHyperskillAnalyticEvent
-import org.hyperskill.app.paywall.domain.analytic.PaywallClickedContinueWithLimitsHyperskillAnalyticEvent
+import org.hyperskill.app.paywall.domain.analytic.PaywallClickedCloseButtonHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedTermsOfServiceAndPrivacyPolicyHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallSubscriptionPurchasedAmplitudeAnalyticEvent
@@ -40,8 +40,8 @@ internal class PaywallReducer(
                 handleFetchMobileOnlyPriceSuccess(message)
             InternalMessage.FetchMobileOnlyPriceError ->
                 handleFetchMobileOnlyPriceError()
-            Message.ContinueWithLimitsClicked ->
-                handleContinueWithLimitsClicked(state)
+            Message.CloseClicked ->
+                handleCloseClicked(state)
             is Message.BuySubscriptionClicked ->
                 handleBuySubscriptionClicked(state, message)
             is InternalMessage.MobileOnlySubscriptionPurchaseSuccess ->
@@ -73,12 +73,12 @@ internal class PaywallReducer(
     private fun handleFetchMobileOnlyPriceError(): ReducerResult =
         State.Error to setOf()
 
-    private fun handleContinueWithLimitsClicked(
+    private fun handleCloseClicked(
         state: State
     ): ReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                PaywallClickedContinueWithLimitsHyperskillAnalyticEvent(
+                PaywallClickedCloseButtonHyperskillAnalyticEvent(
                     paywallTransitionSource
                 )
             ),

@@ -1,12 +1,10 @@
 package org.hyperskill.app.android.paywall.ui
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,27 +27,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hyperskill.app.R
-import org.hyperskill.app.android.core.extensions.compose.plus
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
-import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButtonDefaults
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 
 @Composable
 fun PaywallContent(
     buyButtonText: String,
     priceText: String?,
-    isContinueWithLimitsButtonVisible: Boolean,
     onTermsOfServiceClick: () -> Unit,
     onBuySubscriptionClick: () -> Unit,
-    onContinueWithLimitsClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    padding: PaddingValues = PaddingValues()
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(PaywallDefaults.BackgroundColor)
-            .padding(PaywallDefaults.ContentPadding + padding)
+            .padding(PaywallDefaults.ContentPadding)
             .windowInsetsPadding(WindowInsets.safeDrawing)
     ) {
         Column(
@@ -58,8 +51,7 @@ fun PaywallContent(
             Image(
                 painter = painterResource(id = org.hyperskill.app.android.R.drawable.img_paywall),
                 contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(24.dp))
             Text(
@@ -80,10 +72,6 @@ fun PaywallContent(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = buyButtonText)
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            if (isContinueWithLimitsButtonVisible) {
-                ContinueButton(onClick = onContinueWithLimitsClick)
             }
             Spacer(modifier = Modifier.height(20.dp))
             TermsOfService(
@@ -117,24 +105,6 @@ private fun SubscriptionPrice(
 }
 
 @Composable
-private fun ContinueButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    HyperskillButton(
-        onClick = onClick,
-        colors = HyperskillButtonDefaults.buttonColors(colorResource(id = R.color.layer_1)),
-        border = BorderStroke(1.dp, colorResource(id = R.color.button_tertiary)),
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(id = R.string.paywall_mobile_only_continue_btn),
-            color = colorResource(id = R.color.button_tertiary)
-        )
-    }
-}
-
-@Composable
 private fun TermsOfService(
     modifier: Modifier = Modifier
 ) {
@@ -153,11 +123,9 @@ fun PaywallContentPreview() {
     HyperskillTheme {
         PaywallContent(
             buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
-            isContinueWithLimitsButtonVisible = true,
             priceText = PaywallPreviewDefaults.PRICE_TEXT,
             onTermsOfServiceClick = {},
-            onBuySubscriptionClick = {},
-            onContinueWithLimitsClick = {}
+            onBuySubscriptionClick = {}
         )
     }
 }
