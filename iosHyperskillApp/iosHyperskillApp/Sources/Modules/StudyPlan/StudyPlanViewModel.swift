@@ -50,10 +50,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
+    #warning("Add section id in ALTAPPS-1309")
     func doActivityPresentation(activityId: Int64) {
         onNewMessage(
             StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
-                message: StudyPlanWidgetFeatureMessageActivityClicked(activityId: activityId)
+                message: StudyPlanWidgetFeatureMessageActivityClicked(
+                    activityId: activityId,
+                    sectionId: 0
+                )
             )
         )
     }

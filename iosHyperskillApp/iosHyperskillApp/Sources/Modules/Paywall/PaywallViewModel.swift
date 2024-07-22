@@ -38,7 +38,7 @@ final class PaywallViewModel: FeatureViewModel<
     }
 
     func doContinueWithLimits() {
-        onNewMessage(PaywallFeatureMessageContinueWithLimitsClicked())
+        onNewMessage(PaywallFeatureMessageCloseClicked())
     }
 
     func doTermsOfServicePresentation() {
