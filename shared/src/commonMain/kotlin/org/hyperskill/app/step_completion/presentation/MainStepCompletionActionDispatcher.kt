@@ -9,13 +9,12 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
-import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
-import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.request_review.domain.interactor.RequestReviewInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -39,8 +38,8 @@ import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.subscriptions.domain.repository.getState
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -62,6 +61,7 @@ internal class MainStepCompletionActionDispatcher(
     private val dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
+    private val purchaseInteractor: PurchaseInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -195,41 +195,23 @@ internal class MainStepCompletionActionDispatcher(
             .let(onNewMessage)
     }
 
-    private suspend fun getNextLearningActivityForCompletedTopic(
-        profile: Profile
-    ): Result<LearningActivity?> =
-        runCatching {
-            val trackId = requireNotNull(profile.trackId) {
-                "Can't get next learning activity for user without selected track"
-            }
-
-            val isTopicsLimitReached = isTopicsLimitReached(
-                trackId = trackId,
-                isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
-                mobileContentTrialFreeTopics = profile.feautureValues.mobileContentTrialFreeTopics
-            )
-
-            if (!isTopicsLimitReached) {
-                nextLearningActivityStateRepository
-                    .getState(forceUpdate = true)
-                    .getOrNull()
-            } else {
-                null
-            }
-        }
-
     private suspend fun isTopicsLimitReached(
         trackId: Long,
         isMobileContentTrialEnabled: Boolean,
         mobileContentTrialFreeTopics: Int
     ): Boolean =
         coroutineScope {
+            val canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
+
             val subscriptionDeferred = async {
                 currentSubscriptionStateRepository
-                    .getState(
-                        isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                        forceUpdate = true
-                    )
+                    .getState(forceUpdate = true)
+                    .map { subscription ->
+                        subscription.orContentTrial(
+                            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+                            canMakePayments = canMakePayments
+                        )
+                    }
             }
             val trackProgressDeferred = async {
                 progressesInteractor
@@ -242,7 +224,10 @@ internal class MainStepCompletionActionDispatcher(
             val subscription = subscriptionDeferred.await().getOrThrow()
             val trackProgress = requireNotNull(trackProgressDeferred.await().getOrThrow())
 
-            val subscriptionLimitType = subscription.getSubscriptionLimitType(isMobileContentTrialEnabled)
+            val subscriptionLimitType = subscription.getSubscriptionLimitType(
+                isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+                canMakePayments = canMakePayments
+            )
 
             subscriptionLimitType == SubscriptionLimitType.TOPICS &&
                 trackProgress.learnedTopicsCount >= mobileContentTrialFreeTopics

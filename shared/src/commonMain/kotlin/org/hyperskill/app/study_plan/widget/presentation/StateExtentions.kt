@@ -53,7 +53,10 @@ internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesIds(sectionId: Lo
     val section = studyPlanSections[sectionId]?.studyPlanSection ?: return null
     val isRootTopicsSection = section.type == StudyPlanSectionType.ROOT_TOPICS
     val isTopicsLimitEnabled =
-        subscription?.getSubscriptionLimitType(isMobileContentTrialEnabled) == SubscriptionLimitType.TOPICS
+        subscription?.getSubscriptionLimitType(
+            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+            canMakePayments = canMakePayments
+        ) == SubscriptionLimitType.TOPICS
     val unlockedActivitiesCount = profile?.feautureValues?.mobileContentTrialFreeTopics?.minus(learnedTopicsCount)
     return if (isRootTopicsSection && isTopicsLimitEnabled && unlockedActivitiesCount != null) {
         section.activities.take(unlockedActivitiesCount)

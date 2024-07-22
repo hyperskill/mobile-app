@@ -11,6 +11,7 @@ import org.hyperskill.app.learning_activities.domain.repository.NextLearningActi
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -31,6 +32,7 @@ internal class MainStudyPlanWidgetActionDispatcher(
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val progressesRepository: ProgressesRepository,
+    private val purchaseInteractor: PurchaseInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -74,6 +76,14 @@ internal class MainStudyPlanWidgetActionDispatcher(
             is InternalAction.CaptureSentryException -> {
                 sentryInteractor.captureException(action.throwable)
             }
+            is InternalAction.FetchPaymentAbility -> {
+                purchaseInteractor
+                    .canMakePayments()
+                    .getOrElse { false }
+                    .let {
+                        onNewMessage(InternalMessage.FetchPaymentAbilityResult(it))
+                    }
+            }
             else -> {
                 // no op
             }
@@ -114,19 +124,25 @@ internal class MainStudyPlanWidgetActionDispatcher(
                     }
                 }
 
+                val canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
+
                 val learningActivitiesResponse = learningActivitiesDeferred.await().getOrThrow()
                 val subscription =
                     subscriptionDeferred
                         .await()
                         .getOrThrow()
-                        .orContentTrial(profile?.features?.isMobileContentTrialEnabled == true)
+                        .orContentTrial(
+                            isMobileContentTrialEnabled = profile?.features?.isMobileContentTrialEnabled == true,
+                            canMakePayments = canMakePayments
+                        )
                 val trackProgress = trackProgressDeferred.await().getOrThrow()
 
                 StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                     learningActivities = learningActivitiesResponse.learningActivities,
                     studyPlanSections = learningActivitiesResponse.studyPlanSections,
                     subscription = subscription,
-                    learnedTopicsCount = trackProgress?.learnedTopicsCount ?: 0
+                    learnedTopicsCount = trackProgress?.learnedTopicsCount ?: 0,
+                    canMakePayments = canMakePayments
                 )
             }
         }.let(onNewMessage)

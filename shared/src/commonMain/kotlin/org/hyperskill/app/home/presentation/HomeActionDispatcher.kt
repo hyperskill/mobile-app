@@ -18,6 +18,7 @@ import org.hyperskill.app.home.presentation.HomeFeature.InternalMessage
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -37,6 +38,7 @@ internal class HomeActionDispatcher(
     private val stepInteractor: StepInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val sentryInteractor: SentryInteractor,
+    private val purchaseInteractor: PurchaseInteractor,
     private val dateFormatter: SharedDateFormatter,
     topicRepeatedFlow: TopicRepeatedFlow,
     topicCompletedFlow: TopicCompletedFlow,
@@ -115,7 +117,8 @@ internal class HomeActionDispatcher(
                 val repetitionsStateResult = async { getRepetitionsState() }
                 val areProblemsLimited = async {
                     currentSubscriptionStateRepository.areProblemsLimited(
-                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled
+                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
+                        canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
                     )
                 }
 

@@ -105,6 +105,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
+            is InternalMessage.FetchPaymentAbilityResult ->
+                handleFetchPaymentAbilityResult(state, message)
         } ?: (state to emptySet())
 
     private fun coldContentFetch(state: State, message: InternalMessage.Initialize): StudyPlanWidgetReducerResult =
@@ -118,10 +120,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         }
 
     private fun getContentFetchActions(forceUpdate: Boolean): Set<Action> =
-        setOf(
+        setOfNotNull(
             InternalAction.FetchLearningActivitiesWithSections(),
             InternalAction.FetchProfile,
-            InternalAction.UpdateCurrentStudyPlanState(forceUpdate)
+            InternalAction.UpdateCurrentStudyPlanState(forceUpdate),
+            if (forceUpdate) InternalAction.FetchPaymentAbility else null
         )
 
     private fun handleLearningActivitiesWithSectionsFetchSuccess(
@@ -178,7 +181,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
             isRefreshing = false,
             subscription = message.subscription,
-            learnedTopicsCount = message.learnedTopicsCount
+            learnedTopicsCount = message.learnedTopicsCount,
+            canMakePayments = message.canMakePayments
         )
 
         return if (loadedSectionsState.studyPlanSections.isNotEmpty()) {
@@ -409,6 +413,12 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         } else {
             state to emptySet()
         }
+
+    private fun handleFetchPaymentAbilityResult(
+        state: State,
+        message: InternalMessage.FetchPaymentAbilityResult
+    ): StudyPlanWidgetReducerResult =
+        state.copy(canMakePayments = message.canMakePayments) to emptySet()
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =
         this.toMutableMap().apply {

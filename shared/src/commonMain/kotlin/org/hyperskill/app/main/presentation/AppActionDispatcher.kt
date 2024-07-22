@@ -73,7 +73,12 @@ internal class AppActionDispatcher(
 
         currentSubscriptionStateRepository
             .changes
-            .map { it.orContentTrial(isMobileContentTrialEnabled) }
+            .map {
+                it.orContentTrial(
+                    isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+                    canMakePayments = canMakePayments()
+                )
+            }
             .distinctUntilChanged()
             .onEach { subscription ->
                 onNewMessage(InternalMessage.SubscriptionChanged(subscription))
@@ -142,11 +147,7 @@ internal class AppActionDispatcher(
                     // Otherwise user will be identified later after authorization.
                     identifyUserInPurchaseSDK(profile.id)
                         .fold(
-                            onSuccess = {
-                                purchaseInteractor
-                                    .canMakePayments()
-                                    .getOrDefault(false)
-                            },
+                            onSuccess = { canMakePayments() },
                             onFailure = { false }
                         )
                 } else {
@@ -216,11 +217,7 @@ internal class AppActionDispatcher(
 
     private suspend fun handleFetchPaymentAbility(onNewMessage: (Message) -> Unit) {
         onNewMessage(
-            InternalMessage.PaymentAbilityResult(
-                canMakePayments = purchaseInteractor
-                    .canMakePayments()
-                    .getOrDefault(false)
-            )
+            InternalMessage.PaymentAbilityResult(canMakePayments = canMakePayments())
         )
     }
 
@@ -243,4 +240,9 @@ internal class AppActionDispatcher(
             )
         }
     }
+
+    private suspend fun canMakePayments(): Boolean =
+        purchaseInteractor
+            .canMakePayments()
+            .getOrDefault(false)
 }

@@ -44,7 +44,9 @@ object StudyPlanWidgetFeature {
         /**
          * Actual learnedTopicsCount in the current track
          */
-        val learnedTopicsCount: Int = 0
+        val learnedTopicsCount: Int = 0,
+
+        val canMakePayments: Boolean = false
     ) {
         /**
          * Divided track topics feature enabled flag
@@ -101,6 +103,8 @@ object StudyPlanWidgetFeature {
         object ReloadContentInBackground : InternalMessage
 
         data class ProfileChanged(val profile: Profile) : InternalMessage
+
+        data class FetchPaymentAbilityResult(val canMakePayments: Boolean) : InternalMessage
     }
 
     internal sealed interface LearningActivitiesWithSectionsFetchResult : Message {
@@ -108,7 +112,8 @@ object StudyPlanWidgetFeature {
             val learningActivities: List<LearningActivity>,
             val studyPlanSections: List<StudyPlanSection>,
             val subscription: Subscription,
-            val learnedTopicsCount: Int
+            val learnedTopicsCount: Int,
+            val canMakePayments: Boolean
         ) : LearningActivitiesWithSectionsFetchResult
 
         object Failed : LearningActivitiesWithSectionsFetchResult
@@ -160,6 +165,8 @@ object StudyPlanWidgetFeature {
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
 
         data class PutTopicsProgressesToCache(val topicsProgresses: List<TopicProgress>) : InternalAction
+
+        object FetchPaymentAbility : InternalAction
 
         data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction

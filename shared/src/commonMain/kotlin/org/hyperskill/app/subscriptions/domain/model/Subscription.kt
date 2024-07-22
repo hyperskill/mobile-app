@@ -37,21 +37,30 @@ data class Subscription(
 )
 
 internal fun Subscription.getSubscriptionLimitType(
-    isMobileContentTrialEnabled: Boolean
+    isMobileContentTrialEnabled: Boolean,
+    canMakePayments: Boolean
 ): SubscriptionLimitType =
     when (type) {
         SubscriptionType.MOBILE_ONLY -> if (isActive) {
             type.subscriptionLimitType
         } else {
-            if (isMobileContentTrialEnabled) SubscriptionLimitType.TOPICS else SubscriptionLimitType.PROBLEMS
+            if (isMobileContentTrialEnabled && canMakePayments) {
+                SubscriptionLimitType.TOPICS
+            } else {
+                SubscriptionLimitType.PROBLEMS
+            }
         }
         else -> type.subscriptionLimitType
     }
 
 internal fun Subscription.isProblemsLimitReached(
-    isMobileContentTrialEnabled: Boolean
+    isMobileContentTrialEnabled: Boolean,
+    canMakePayments: Boolean
 ): Boolean {
-    val subscriptionLimitType = getSubscriptionLimitType(isMobileContentTrialEnabled)
+    val subscriptionLimitType = getSubscriptionLimitType(
+        isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+        canMakePayments = canMakePayments
+    )
     return subscriptionLimitType == SubscriptionLimitType.PROBLEMS && stepsLimitLeft == 0
 }
 
@@ -60,9 +69,10 @@ internal val Subscription.isFreemium: Boolean
         type == SubscriptionType.MOBILE_ONLY && status != SubscriptionStatus.ACTIVE
 
 fun Subscription.orContentTrial(
-    isMobileContentTrialEnabled: Boolean
+    isMobileContentTrialEnabled: Boolean,
+    canMakePayments: Boolean
 ): Subscription =
-    if (type == SubscriptionType.FREEMIUM && isMobileContentTrialEnabled) {
+    if (type == SubscriptionType.FREEMIUM && isMobileContentTrialEnabled && canMakePayments) {
         Subscription(type = SubscriptionType.MOBILE_CONTENT_TRIAL)
     } else {
         this

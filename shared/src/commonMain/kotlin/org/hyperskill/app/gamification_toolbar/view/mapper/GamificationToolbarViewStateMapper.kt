@@ -26,7 +26,11 @@ internal object GamificationToolbarViewStateMapper {
                 isCompleted = state.historicalStreak.isCompleted,
                 isRecovered = state.historicalStreak.state == StreakState.RECOVERED
             ),
-            problemsLimit = getProblemsLimitState(state.subscription, state.isMobileContentTrialEnabled)
+            problemsLimit = getProblemsLimitState(
+                subscription = state.subscription,
+                isMobileContentTrialEnabled = state.isMobileContentTrialEnabled,
+                canMakePayments = state.canMakePayments
+            )
         )
 
     private fun getProgress(
@@ -44,10 +48,14 @@ internal object GamificationToolbarViewStateMapper {
 
     private fun getProblemsLimitState(
         subscription: Subscription,
-        isMobileContentTrialEnabled: Boolean
+        isMobileContentTrialEnabled: Boolean,
+        canMakePayments: Boolean
     ): GamificationToolbarFeature.ViewState.Content.ProblemsLimit? {
         val stepsLimitLeft = subscription.stepsLimitLeft
-        val subscriptionLimitType = subscription.getSubscriptionLimitType(isMobileContentTrialEnabled)
+        val subscriptionLimitType = subscription.getSubscriptionLimitType(
+            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+            canMakePayments = canMakePayments
+        )
         return if (subscriptionLimitType == SubscriptionLimitType.PROBLEMS && stepsLimitLeft != null) {
             GamificationToolbarFeature.ViewState.Content.ProblemsLimit(limitLabel = stepsLimitLeft.toString())
         } else {

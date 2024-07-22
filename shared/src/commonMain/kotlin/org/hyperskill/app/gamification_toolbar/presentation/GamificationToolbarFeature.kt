@@ -23,6 +23,7 @@ object GamificationToolbarFeature {
             val subscription: Subscription,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
             internal val isMobileContentTrialEnabled: Boolean,
+            internal val canMakePayments: Boolean = false,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -72,7 +73,8 @@ object GamificationToolbarFeature {
             val gamificationToolbarData: GamificationToolbarData,
             val subscription: Subscription,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-            val isMobileContentTrialEnabled: Boolean
+            val isMobileContentTrialEnabled: Boolean,
+            val canMakePayments: Boolean
         ) : InternalMessage
 
         object PullToRefresh : InternalMessage

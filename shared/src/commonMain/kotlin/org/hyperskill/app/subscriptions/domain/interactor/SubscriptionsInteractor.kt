@@ -18,6 +18,7 @@ import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstS
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
@@ -28,6 +29,7 @@ import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
 class SubscriptionsInteractor(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val purchaseInteractor: PurchaseInteractor,
     private val authInteractor: AuthInteractor,
     logger: Logger
 ) {
@@ -50,7 +52,11 @@ class SubscriptionsInteractor(
             .getState()
             .map { it.features.isMobileContentTrialEnabled }
             .getOrElse { false }
-        if (currentSubscriptionStateRepository.areProblemsLimited(isMobileContentTrialEnabled)) {
+        val areProblemsLimitEnabled = currentSubscriptionStateRepository.areProblemsLimited(
+            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+            canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
+        )
+        if (areProblemsLimitEnabled) {
             when (chargeStrategy) {
                 FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION -> chargeLimitsAfterWrongSubmission()
                 FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION -> chargeLimitsAfterCorrectSubmission()

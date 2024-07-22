@@ -16,7 +16,10 @@ object StepQuizToolbarViewStateMapper {
             is State.Content -> {
                 val stepsLimitLeft = state.subscription.stepsLimitLeft
                 val subscriptionLimitType =
-                    state.subscription.getSubscriptionLimitType(state.isMobileContentTrialEnabled)
+                    state.subscription.getSubscriptionLimitType(
+                        isMobileContentTrialEnabled = state.isMobileContentTrialEnabled,
+                        canMakePayments = state.canMakePayment
+                    )
                 if (subscriptionLimitType == SubscriptionLimitType.PROBLEMS && stepsLimitLeft != null) {
                     ViewState.Content.Visible(stepsLimitLabel = stepsLimitLeft.toString())
                 } else {

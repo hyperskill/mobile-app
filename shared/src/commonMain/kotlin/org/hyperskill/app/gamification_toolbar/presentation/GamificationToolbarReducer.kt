@@ -31,10 +31,11 @@ class GamificationToolbarReducer(
                 State.Error to emptySet()
             is InternalMessage.FetchGamificationToolbarDataSuccess ->
                 createContentState(
-                    message.gamificationToolbarData,
-                    message.subscription,
-                    message.chargeLimitsStrategy,
-                    message.isMobileContentTrialEnabled
+                    gamificationToolbarData = message.gamificationToolbarData,
+                    subscription = message.subscription,
+                    chargeLimitsStrategy = message.chargeLimitsStrategy,
+                    isMobileContentTrialEnabled = message.isMobileContentTrialEnabled,
+                    canMakePayments = message.canMakePayments
                 ) to emptySet()
             is InternalMessage.PullToRefresh ->
                 handlePullToRefreshMessage(state)
@@ -226,7 +227,8 @@ class GamificationToolbarReducer(
         gamificationToolbarData: GamificationToolbarData,
         subscription: Subscription,
         chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-        isMobileContentTrialEnabled: Boolean
+        isMobileContentTrialEnabled: Boolean,
+        canMakePayments: Boolean
     ): State.Content =
         State.Content(
             trackProgress = gamificationToolbarData.trackProgress,
@@ -234,6 +236,7 @@ class GamificationToolbarReducer(
             historicalStreak = HistoricalStreak(gamificationToolbarData.streakState),
             subscription = subscription,
             chargeLimitsStrategy = chargeLimitsStrategy,
-            isMobileContentTrialEnabled = isMobileContentTrialEnabled
+            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+            canMakePayments = canMakePayments
         )
 }

@@ -41,6 +41,7 @@ class StepQuizToolbarReducer(
         State.Content(
             subscription = message.subscription,
             isMobileContentTrialEnabled = message.isMobileContentTrialEnabled,
+            canMakePayment = message.canMakePayment,
             chargeLimitsStrategy = message.chargeLimitsStrategy
         ) to emptySet()
 
