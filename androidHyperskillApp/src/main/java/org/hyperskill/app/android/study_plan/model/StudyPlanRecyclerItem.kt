@@ -16,14 +16,24 @@ interface StudyPlanRecyclerItem {
         val isCurrentBadgeShown: Boolean
     ) : StudyPlanRecyclerItem, Identifiable<Long>
 
-    object SectionLoading : StudyPlanRecyclerItem
+    data class SectionLoading(
+        val index: Int
+    ) : StudyPlanRecyclerItem, Identifiable<String> {
+        override val id: String
+            get() = "sections-list-loading-item-$index"
+    }
+
+    object PaywallBanner : StudyPlanRecyclerItem, Identifiable<String> {
+        override val id: String
+            get() = "study-plan-paywall-banner"
+    }
 
     data class ActivityLoading(
         val sectionId: Long,
         val index: Int
     ) : StudyPlanRecyclerItem, Identifiable<String> {
         override val id: String
-            get() = "$sectionId-$index"
+            get() = "activity-loading-item-$sectionId-$index"
     }
 
     data class ActivitiesError(val sectionId: Long) : StudyPlanRecyclerItem, Identifiable<String> {

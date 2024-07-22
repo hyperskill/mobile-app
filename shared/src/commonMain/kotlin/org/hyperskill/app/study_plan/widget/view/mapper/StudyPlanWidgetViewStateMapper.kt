@@ -5,11 +5,13 @@ import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsMapper
+import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.presentation.getUnlockedActivitiesIds
+import org.hyperskill.app.study_plan.widget.presentation.isPaywallShown
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.SectionContent
 
@@ -59,7 +61,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         null
                     }
                 )
-            }
+            },
+            isPaywallBannerShown = state.isPaywallShown()
         )
     }
 
@@ -141,4 +144,24 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         } else {
             null
         }
+
+    private fun isPaywallBannerShown(
+        state: StudyPlanWidgetFeature.State
+    ): Boolean {
+        val rootTopicsSections =
+            state
+                .studyPlanSections
+                .values
+                .filter { sectionInfo ->
+                    sectionInfo.studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS
+                }
+        val hasOnlyOneRootTopicSection = rootTopicsSections.count() == 1
+        return if (hasOnlyOneRootTopicSection) {
+            val rootTopicsSectionId = rootTopicsSections.first().studyPlanSection.id
+            val unlockedActivitiesIds = state.getUnlockedActivitiesIds(rootTopicsSectionId)
+            unlockedActivitiesIds?.isEmpty() == true
+        } else {
+            false
+        }
+    }
 }

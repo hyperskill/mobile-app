@@ -9,6 +9,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.DataLoadingErrorAdapterDelegate
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
+import org.hyperskill.app.android.databinding.ItemStudyPlanPaywallBinding
 import org.hyperskill.app.android.study_plan.adapter.ActivityLoadingAdapterDelegate
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanActivityAdapterDelegate
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanItemAnimator
@@ -44,6 +45,7 @@ class StudyPlanWidgetDelegate(
             }
         )
         addDelegate(sectionsLoadingAdapterDelegate())
+        addDelegate(paywallAdapterDelegate())
         addDelegate(ActivityLoadingAdapterDelegate())
         addDelegate(
             DataLoadingErrorAdapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ActivitiesError> { item ->
@@ -81,8 +83,8 @@ class StudyPlanWidgetDelegate(
     private var studyPlanViewStateDelegate: ViewStateDelegate<StudyPlanWidgetViewState>? = null
 
     private val sectionsLoadingItems: List<StudyPlanRecyclerItem.SectionLoading> =
-        List(SECTIONS_LOADING_ITEMS_COUNT) {
-            StudyPlanRecyclerItem.SectionLoading
+        List(SECTIONS_LOADING_ITEMS_COUNT) { index ->
+            StudyPlanRecyclerItem.SectionLoading(index)
         }
 
     fun setup(recyclerView: RecyclerView, errorViewBinding: ErrorNoConnectionWithButtonBinding) {
@@ -129,7 +131,7 @@ class StudyPlanWidgetDelegate(
 
     private fun getTopMarginFor(item: StudyPlanRecyclerItem): Int =
         when (item) {
-            StudyPlanRecyclerItem.SectionLoading,
+            is StudyPlanRecyclerItem.SectionLoading,
             is StudyPlanRecyclerItem.Section -> sectionTopMargin
             is StudyPlanRecyclerItem.ActivityLoading,
             is StudyPlanRecyclerItem.Activity,
@@ -161,12 +163,23 @@ class StudyPlanWidgetDelegate(
             R.layout.item_study_plan_section_loading
         )
 
+    private fun paywallAdapterDelegate() =
+        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.PaywallBanner>(R.layout.item_study_plan_paywall) {
+            val binding = ItemStudyPlanPaywallBinding.bind(itemView)
+            binding.studyPlanPaywallSubscribeButton.setOnClickListener {
+                onNewMessage(StudyPlanWidgetFeature.Message.SubscribeClicked)
+            }
+        }
+
     private fun mapContentToRecyclerItems(
         studyPlanContent: StudyPlanWidgetViewState.Content
     ): List<StudyPlanRecyclerItem> =
-        studyPlanContent.sections.flatMapIndexed { index, section ->
-            buildList {
-                add(mapSectionToRecyclerItem(index, section))
+        buildList {
+            if (studyPlanContent.isPaywallBannerShown) {
+                add(StudyPlanRecyclerItem.PaywallBanner)
+            }
+            studyPlanContent.sections.forEachIndexed { sectionIndex, section ->
+                add(mapSectionToRecyclerItem(sectionIndex, section))
                 when (val sectionContent = section.content) {
                     StudyPlanWidgetViewState.SectionContent.Collapsed -> {
                         // no op

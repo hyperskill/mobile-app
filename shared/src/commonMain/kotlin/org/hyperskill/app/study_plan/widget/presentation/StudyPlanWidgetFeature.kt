@@ -83,7 +83,9 @@ object StudyPlanWidgetFeature {
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
 
-        object PullToRefresh : Message
+        data object PullToRefresh : Message
+
+        data object SubscribeClicked : Message
 
         /**
          * Stage implementation unsupported modal

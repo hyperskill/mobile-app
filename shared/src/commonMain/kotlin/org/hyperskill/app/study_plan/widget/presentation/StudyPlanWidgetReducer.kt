@@ -10,6 +10,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSubscribeButtonHSAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
@@ -61,6 +62,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.SubscribeClicked -> handleSubscribeClicked(state)
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success ->
                 handleLearningActivitiesFetchSuccess(state, message)
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed ->
@@ -397,6 +399,16 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val unlockedActivitiesIds = state.getUnlockedActivitiesIds(sectionId)
         return unlockedActivitiesIds != null && activityId !in unlockedActivitiesIds
     }
+
+    private fun handleSubscribeClicked(state: State): StudyPlanWidgetReducerResult =
+        if (state.isPaywallShown()) {
+            state to setOf(
+                InternalAction.LogAnalyticEvent(StudyPlanClickedSubscribeButtonHSAnalyticEvent),
+                Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.STUDY_PLAN)
+            )
+        } else {
+            state to emptySet()
+        }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =
         this.toMutableMap().apply {

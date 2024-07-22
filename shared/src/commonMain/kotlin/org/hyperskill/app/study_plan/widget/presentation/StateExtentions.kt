@@ -61,3 +61,20 @@ internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesIds(sectionId: Lo
         null
     }
 }
+
+internal fun StudyPlanWidgetFeature.State.isPaywallShown(): Boolean {
+    val rootTopicsSections =
+        studyPlanSections
+            .values
+            .filter { sectionInfo ->
+                sectionInfo.studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS
+            }
+    val hasOnlyOneRootTopicSection = rootTopicsSections.count() == 1
+    return if (hasOnlyOneRootTopicSection) {
+        val rootTopicsSectionId = rootTopicsSections.first().studyPlanSection.id
+        val unlockedActivitiesIds = getUnlockedActivitiesIds(rootTopicsSectionId)
+        unlockedActivitiesIds?.isEmpty() == true
+    } else {
+        false
+    }
+}
