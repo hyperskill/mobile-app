@@ -215,7 +215,7 @@ class StageStepWrapperFragment :
                 onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
             TopicCompletedModalFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
-             is TopicCompletedModalFeature.Action.ViewAction.NavigateTo.Paywall ->
+            is TopicCompletedModalFeature.Action.ViewAction.NavigateTo.Paywall ->
                 requireRouter().navigateTo(PaywallScreen(destination.paywallTransitionSource))
         }
     }
