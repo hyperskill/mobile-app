@@ -9,7 +9,6 @@ enum class SubscriptionType(
     val isProjectInfoAvailable: Boolean = true,
     val isCertificateAvailable: Boolean = true,
     val areHintsLimited: Boolean = false,
-    val isDailyProblemLimitEnabled: Boolean = false,
     val subscriptionLimitType: SubscriptionLimitType = SubscriptionLimitType.NONE
 ) {
     @SerialName("personal")
