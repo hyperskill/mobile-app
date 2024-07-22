@@ -57,7 +57,7 @@ internal class StepQuizActionDispatcher(
             val isMobileContentTrialEnabled = currentProfileStateRepository
                 .getState()
                 .map { it.features.isMobileContentTrialEnabled }
-                .getOrElse { false }
+                .getOrDefault(false)
             currentSubscriptionStateRepository
                 .changes
                 .map { subscription ->
@@ -362,5 +362,5 @@ internal class StepQuizActionDispatcher(
     }
 
     private suspend fun canMakePayments(): Boolean =
-        purchaseInteractor.canMakePayments().getOrElse { false }
+        purchaseInteractor.canMakePayments().getOrDefault(false)
 }

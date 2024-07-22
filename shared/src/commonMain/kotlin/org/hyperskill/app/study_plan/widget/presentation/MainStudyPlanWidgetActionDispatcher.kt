@@ -79,7 +79,7 @@ internal class MainStudyPlanWidgetActionDispatcher(
             is InternalAction.FetchPaymentAbility -> {
                 purchaseInteractor
                     .canMakePayments()
-                    .getOrElse { false }
+                    .getOrDefault(false)
                     .let {
                         onNewMessage(InternalMessage.FetchPaymentAbilityResult(it))
                     }
@@ -124,7 +124,7 @@ internal class MainStudyPlanWidgetActionDispatcher(
                     }
                 }
 
-                val canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
+                val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
 
                 val learningActivitiesResponse = learningActivitiesDeferred.await().getOrThrow()
                 val subscription =

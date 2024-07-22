@@ -108,7 +108,7 @@ internal class MainGamificationToolbarActionDispatcher(
                 val gamificationToolbarDataWithSource = toolbarDataDeferred.await().getOrThrow()
                 val profile = profileDeferred.await().getOrThrow()
 
-                val canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
+                val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
 
                 val subscription = getSubscription(
                     isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,

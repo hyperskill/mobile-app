@@ -201,7 +201,7 @@ internal class MainStepCompletionActionDispatcher(
         mobileContentTrialFreeTopics: Int
     ): Boolean =
         coroutineScope {
-            val canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
+            val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
 
             val subscriptionDeferred = async {
                 currentSubscriptionStateRepository

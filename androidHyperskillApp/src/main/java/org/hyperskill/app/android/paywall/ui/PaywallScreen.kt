@@ -108,7 +108,8 @@ fun PaywallScreen(
                     buyButtonText = contentState.buyButtonText,
                     priceText = contentState.priceText,
                     onBuySubscriptionClick = onBuySubscriptionClick,
-                    onTermsOfServiceClick = onTermsOfServiceClick
+                    onTermsOfServiceClick = onTermsOfServiceClick,
+                    padding = padding
                 )
             ViewStateContent.SubscriptionSyncLoading ->
                 SubscriptionSyncLoading(

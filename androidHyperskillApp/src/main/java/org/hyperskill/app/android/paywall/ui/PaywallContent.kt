@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hyperskill.app.R
+import org.hyperskill.app.android.core.extensions.compose.plus
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 
@@ -36,13 +38,14 @@ fun PaywallContent(
     priceText: String?,
     onTermsOfServiceClick: () -> Unit,
     onBuySubscriptionClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    padding: PaddingValues = PaddingValues()
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(PaywallDefaults.BackgroundColor)
-            .padding(PaywallDefaults.ContentPadding)
+            .padding(PaywallDefaults.ContentPadding + padding)
             .windowInsetsPadding(WindowInsets.safeDrawing)
     ) {
         Column(

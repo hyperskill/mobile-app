@@ -118,7 +118,7 @@ internal class HomeActionDispatcher(
                 val areProblemsLimited = async {
                     currentSubscriptionStateRepository.areProblemsLimited(
                         isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
-                        canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
+                        canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
                     )
                 }
 

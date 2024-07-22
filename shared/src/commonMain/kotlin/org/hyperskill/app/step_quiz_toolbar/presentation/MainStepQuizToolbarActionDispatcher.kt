@@ -91,5 +91,5 @@ internal class MainStepQuizToolbarActionDispatcher(
     }
 
     private suspend fun canMakePayments(): Boolean =
-        purchaseInteractor.canMakePayments().getOrElse { false }
+        purchaseInteractor.canMakePayments().getOrDefault(false)
 }

@@ -51,10 +51,10 @@ class SubscriptionsInteractor(
         val isMobileContentTrialEnabled = currentProfileStateRepository
             .getState()
             .map { it.features.isMobileContentTrialEnabled }
-            .getOrElse { false }
+            .getOrDefault(false)
         val areProblemsLimitEnabled = currentSubscriptionStateRepository.areProblemsLimited(
             isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-            canMakePayments = purchaseInteractor.canMakePayments().getOrElse { false }
+            canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
         )
         if (areProblemsLimitEnabled) {
             when (chargeStrategy) {
