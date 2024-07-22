@@ -57,6 +57,7 @@ class StudyPlanWidgetTest {
                 learningActivities = emptyList(),
                 studyPlanSections = emptyList(),
                 subscription = Subscription.stub(),
+                canMakePayments = false,
                 learnedTopicsCount = 0
             )
         )
@@ -84,6 +85,7 @@ class StudyPlanWidgetTest {
                     visibleSection
                 ),
                 subscription = Subscription.stub(),
+                canMakePayments = false,
                 learnedTopicsCount = 0
             )
         )
@@ -114,6 +116,7 @@ class StudyPlanWidgetTest {
                 learningActivities = listOf(stubLearningActivity(id = 1L)),
                 studyPlanSections = listOf(visibleSection, currentSection),
                 subscription = Subscription.stub(),
+                canMakePayments = false,
                 learnedTopicsCount = 0
             )
         )
@@ -151,6 +154,7 @@ class StudyPlanWidgetTest {
                         )
                     ),
                     subscription = subscription,
+                    canMakePayments = false,
                     learnedTopicsCount = 0
                 )
             )
@@ -177,6 +181,7 @@ class StudyPlanWidgetTest {
                     studyPlanSectionStub(id = 1, activities = listOf(1))
                 ),
                 subscription = Subscription.stub(),
+                canMakePayments = false,
                 learnedTopicsCount = 0
             )
         )
@@ -188,6 +193,7 @@ class StudyPlanWidgetTest {
     fun `Sections in ViewState should be sorted by backend order`() {
         val expectedSectionsIds = listOf<Long>(3, 5, 2, 1, 4)
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             expectedSectionsIds.mapIndexed { index, sectionId ->
                 sectionViewState(
                     section = studyPlanSectionStub(
@@ -226,6 +232,7 @@ class StudyPlanWidgetTest {
                     )
                 },
                 subscription = Subscription.stub(),
+                canMakePayments = false,
                 learnedTopicsCount = 0
             )
         )
@@ -250,6 +257,7 @@ class StudyPlanWidgetTest {
                 ),
                 studyPlanSections = listOf(firstSection, secondSection),
                 subscription = Subscription.stub(),
+                canMakePayments = false,
                 learnedTopicsCount = 0
             )
         )
@@ -492,6 +500,7 @@ class StudyPlanWidgetTest {
             val viewState = studyPlanWidgetViewStateMapper.map(state)
 
             val expectedViewStateSections = StudyPlanWidgetViewState.Content(
+                isPaywallBannerShown = false,
                 sections = listOf(
                     sectionViewState(
                         section = section,
@@ -523,6 +532,7 @@ class StudyPlanWidgetTest {
         val viewState = studyPlanWidgetViewStateMapper.map(state)
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             sections = listOf(
                 sectionViewState(
                     section = section.studyPlanSection,
@@ -561,6 +571,7 @@ class StudyPlanWidgetTest {
         val viewState = studyPlanWidgetViewStateMapper.map(state)
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             sections = listOf(
                 sectionViewState(
                     section = section.studyPlanSection,
@@ -613,6 +624,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Section content item title in ViewState should be equal to learning activity title`() {
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -651,6 +663,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Section content item title in ViewState should be equal to learning activity id if title is blank`() {
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -687,6 +700,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Section content item title in ViewState should be equal to learning activity description`() {
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -746,6 +760,7 @@ class StudyPlanWidgetTest {
             )
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0),
@@ -764,6 +779,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Section content statistics in ViewState should be visible for non first expanded visible section`() {
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0),
