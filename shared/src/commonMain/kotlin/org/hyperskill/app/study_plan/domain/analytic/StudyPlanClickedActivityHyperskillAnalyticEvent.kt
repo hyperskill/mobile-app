@@ -39,7 +39,8 @@ class StudyPlanClickedActivityHyperskillAnalyticEvent(
     val activityId: Long,
     val activityType: Int?,
     val activityTargetType: ContentType?,
-    val activityTargetId: Long?
+    val activityTargetId: Long?,
+    val isLocked: Boolean
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.StudyPlan(),
     action = HyperskillAnalyticAction.CLICK,
@@ -49,7 +50,8 @@ class StudyPlanClickedActivityHyperskillAnalyticEvent(
         ID to activityId,
         TYPE to activityType,
         TARGET_TYPE to activityTargetType,
-        TARGET_ID to activityTargetId
+        TARGET_ID to activityTargetId,
+        IS_LOCKED to isLocked
     )
 ) {
     companion object {
@@ -57,5 +59,6 @@ class StudyPlanClickedActivityHyperskillAnalyticEvent(
         private const val TYPE = "type"
         private const val TARGET_TYPE = "target_type"
         private const val TARGET_ID = "target_id"
+        private const val IS_LOCKED = "is_locked"
     }
 }

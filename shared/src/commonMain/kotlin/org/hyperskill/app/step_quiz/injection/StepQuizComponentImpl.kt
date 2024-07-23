@@ -65,6 +65,7 @@ internal class StepQuizComponentImpl(
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             stepQuizHintsActionDispatcher = stepQuizHintsComponent.stepQuizHintsActionDispatcher,

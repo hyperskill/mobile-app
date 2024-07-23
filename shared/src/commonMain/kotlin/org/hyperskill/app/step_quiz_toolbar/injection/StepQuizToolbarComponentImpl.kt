@@ -24,6 +24,7 @@ internal class StepQuizToolbarComponentImpl(
             config = ActionDispatcherOptions(),
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             logger = appGraph.loggerComponent.logger.withTag(LOG_TAG)
         )
 

@@ -5,8 +5,10 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
@@ -32,13 +34,31 @@ object StudyPlanWidgetFeature {
         /**
          * Pull to refresh flag
          */
-        val isRefreshing: Boolean = false
+        val isRefreshing: Boolean = false,
+
+        /**
+         * Current user subscription
+         */
+        val subscription: Subscription? = null,
+
+        /**
+         * Actual learnedTopicsCount in the current track
+         */
+        val learnedTopicsCount: Int = 0,
+
+        val canMakePayments: Boolean = false
     ) {
         /**
          * Divided track topics feature enabled flag
          */
         val isLearningPathDividedTrackTopicsEnabled: Boolean
             get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
+
+        /**
+         * MobileContentTrial feature flag
+         */
+        val isMobileContentTrialEnabled: Boolean
+            get() = profile?.features?.isMobileContentTrialEnabled ?: false
     }
 
     enum class ContentStatus {
@@ -61,11 +81,13 @@ object StudyPlanWidgetFeature {
     sealed interface Message {
         data class SectionClicked(val sectionId: Long) : Message
 
-        data class ActivityClicked(val activityId: Long) : Message
+        data class ActivityClicked(val activityId: Long, val sectionId: Long) : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
 
-        object PullToRefresh : Message
+        data object PullToRefresh : Message
+
+        data object SubscribeClicked : Message
 
         /**
          * Stage implementation unsupported modal
@@ -81,13 +103,17 @@ object StudyPlanWidgetFeature {
         object ReloadContentInBackground : InternalMessage
 
         data class ProfileChanged(val profile: Profile) : InternalMessage
+
+        data class FetchPaymentAbilityResult(val canMakePayments: Boolean) : InternalMessage
     }
 
     internal sealed interface LearningActivitiesWithSectionsFetchResult : Message {
         data class Success(
             val learningActivities: List<LearningActivity>,
             val studyPlanSections: List<StudyPlanSection>,
-            val subscription: Subscription
+            val subscription: Subscription,
+            val learnedTopicsCount: Int,
+            val canMakePayments: Boolean
         ) : LearningActivitiesWithSectionsFetchResult
 
         object Failed : LearningActivitiesWithSectionsFetchResult
@@ -113,6 +139,7 @@ object StudyPlanWidgetFeature {
             sealed interface NavigateTo : ViewAction {
                 object Home : NavigateTo
                 data class LearningActivityTarget(val viewAction: LearningActivityTargetViewAction) : NavigateTo
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }
@@ -138,6 +165,8 @@ object StudyPlanWidgetFeature {
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
 
         data class PutTopicsProgressesToCache(val topicsProgresses: List<TopicProgress>) : InternalAction
+
+        object FetchPaymentAbility : InternalAction
 
         data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction

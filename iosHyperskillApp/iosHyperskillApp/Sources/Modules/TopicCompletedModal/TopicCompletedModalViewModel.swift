@@ -47,6 +47,10 @@ final class TopicCompletedModalViewModel: FeatureViewModel<
     func doStudyPlanPresentation() {
         moduleOutput?.topicCompletedModalDidRequestGoToStudyPlan()
     }
+
+    func doPaywallPresentation(paywallTransitionSource: PaywallTransitionSource) {
+        moduleOutput?.topicCompletedModalDidRequestPaywall(paywallTransitionSource: paywallTransitionSource)
+    }
 }
 
 private extension TopicCompletedModalViewModel {

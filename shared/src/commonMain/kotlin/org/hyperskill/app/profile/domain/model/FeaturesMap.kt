@@ -31,3 +31,6 @@ val FeaturesMap.isMobileUsersInterviewWidgetEnabled: Boolean
 
 val FeaturesMap.isMobileGptCodeGenerationWithErrorsEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_GPT_CODE_GENERATION_WITH_ERRORS_FORCED_ONBOARDING) ?: false
+
+val FeaturesMap.isMobileContentTrialEnabled: Boolean
+    get() = get(FeatureKeys.MOBILE_CONTENT_TRIAL) ?: false

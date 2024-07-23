@@ -100,6 +100,12 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildCheckTopicCompletionStatusLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "step-completion-feature-check-topic-completion-status",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     /**
      * StepQuizFeature
      */
@@ -283,6 +289,12 @@ object HyperskillSentryTransactionBuilder {
     fun buildTrackSelectionDetailsScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "track-selection-details-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildTrackSelectionDetailsScreenSelectTrack(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "track-selection-details-feature-select-track",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 

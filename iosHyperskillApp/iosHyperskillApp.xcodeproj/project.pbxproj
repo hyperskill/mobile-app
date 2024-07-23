@@ -555,6 +555,7 @@
 		2CE8EE6D2B065F00004EB545 /* ChallengeWidgetContentStateDeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE8EE6C2B065F00004EB545 /* ChallengeWidgetContentStateDeadlineView.swift */; };
 		2CE8EE6F2B066C2F004EB545 /* ChallengeWidgetContentStateCollectRewardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE8EE6E2B066C2F004EB545 /* ChallengeWidgetContentStateCollectRewardButton.swift */; };
 		2CE8EE712B066D05004EB545 /* ChallengeWidgetViewStateContentCollectRewardButtonStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE8EE702B066D05004EB545 /* ChallengeWidgetViewStateContentCollectRewardButtonStateKsExtensions.swift */; };
+		2CE972F72C4F9416006B750A /* StudyPlanPaywallBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE972F62C4F9416006B750A /* StudyPlanPaywallBanner.swift */; };
 		2CEA454F2BD6B75C0011838D /* StepQuizToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEA454E2BD6B75C0011838D /* StepQuizToolbarContent.swift */; };
 		2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */; };
 		2CEB50C6288A92820044F9AB /* StepExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C5288A92820044F9AB /* StepExtensions.swift */; };
@@ -1345,6 +1346,7 @@
 		2CE8EE6C2B065F00004EB545 /* ChallengeWidgetContentStateDeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeWidgetContentStateDeadlineView.swift; sourceTree = "<group>"; };
 		2CE8EE6E2B066C2F004EB545 /* ChallengeWidgetContentStateCollectRewardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeWidgetContentStateCollectRewardButton.swift; sourceTree = "<group>"; };
 		2CE8EE702B066D05004EB545 /* ChallengeWidgetViewStateContentCollectRewardButtonStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeWidgetViewStateContentCollectRewardButtonStateKsExtensions.swift; sourceTree = "<group>"; };
+		2CE972F62C4F9416006B750A /* StudyPlanPaywallBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanPaywallBanner.swift; sourceTree = "<group>"; };
 		2CEA454E2BD6B75C0011838D /* StepQuizToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizToolbarContent.swift; sourceTree = "<group>"; };
 		2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLSkeletonView.swift; sourceTree = "<group>"; };
 		2CEB50C5288A92820044F9AB /* StepExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepExtensions.swift; sourceTree = "<group>"; };
@@ -4551,6 +4553,7 @@
 		E9F0A2A829D416C400C4A61E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CE972F62C4F9416006B750A /* StudyPlanPaywallBanner.swift */,
 				E9F0A2AF29D4428C00C4A61E /* StudyPlanView.swift */,
 				2C99B1022A1429110018627B /* Section */,
 				2C99B1012A1428BC0018627B /* Skeleton */,
@@ -5278,6 +5281,7 @@
 				2CA542252ACAE18500EF24B5 /* IntrospectScrollView.swift in Sources */,
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
 				2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */,
+				2CE972F72C4F9416006B750A /* StudyPlanPaywallBanner.swift in Sources */,
 				2CA854D82B1DDC790045CA1B /* LeaderboardSkeletonView.swift in Sources */,
 				2C8DDB2A2BC94C720017D280 /* View+ConditionalOpacity.swift in Sources */,
 				E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */,

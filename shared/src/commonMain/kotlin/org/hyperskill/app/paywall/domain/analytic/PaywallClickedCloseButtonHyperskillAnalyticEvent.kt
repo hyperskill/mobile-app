@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 
 /**
- * Represents a click analytic event of the continue-with-limits button.
+ * Represents a click analytic event of the close button on the Paywall screen.
  *
  * JSON payload:
  * ```
@@ -16,7 +16,7 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
  *     "route": "/paywall",
  *     "action": "click",
  *     "part": "main",
- *     "target": "continue_with_limits",
+ *     "target": "close",
  *     "context":
  *     {
  *       "source": "login"
@@ -26,13 +26,13 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
  *
  * @see HyperskillAnalyticEvent
  */
-class PaywallClickedContinueWithLimitsHyperskillAnalyticEvent(
+class PaywallClickedCloseButtonHyperskillAnalyticEvent(
     paywallTransitionSource: PaywallTransitionSource
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Paywall,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
-    target = HyperskillAnalyticTarget.CONTINUE_WITH_LIMITS,
+    target = HyperskillAnalyticTarget.CLOSE,
     context = mapOf(
         PaywallAnalyticParams.PARAM_TRANSITION_SOURCE to paywallTransitionSource.analyticName
     )

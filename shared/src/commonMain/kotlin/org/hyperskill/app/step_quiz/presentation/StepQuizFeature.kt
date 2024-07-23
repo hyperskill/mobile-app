@@ -144,6 +144,7 @@ object StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val subscription: Subscription,
+            val isProblemsLimitReached: Boolean,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
             val problemsOnboardingFlags: ProblemsOnboardingFlags,
             val isMobileGptCodeGenerationWithErrorsEnabled: Boolean
@@ -156,10 +157,14 @@ object StepQuizFeature {
 
         data class UpdateProblemsLimitResult(
             val subscription: Subscription,
+            val isProblemsLimitReached: Boolean,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
 
-        data class ProblemsLimitChanged(val subscription: Subscription) : InternalMessage
+        data class ProblemsLimitChanged(
+            val subscription: Subscription,
+            val isProblemsLimitReached: Boolean
+        ) : InternalMessage
 
         object CreateMagicLinkForUnsupportedQuizError : InternalMessage
         data class CreateMagicLinkForUnsupportedQuizSuccess(val url: String) : InternalMessage
