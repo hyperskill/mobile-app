@@ -9,7 +9,8 @@ fun TrackProgress.Companion.stub(
     usefulness: Float? = null,
     learnedTopicsCount: Int = 0,
     skippedTopicsCount: Int = 0,
-    appliedCapstoneTopicsCount: Int = 0
+    appliedCapstoneTopicsCount: Int = 0,
+    rank: Int = 0
 ): TrackProgress =
     TrackProgress(
         id = "",
@@ -20,5 +21,6 @@ fun TrackProgress.Companion.stub(
         usefulness = usefulness,
         learnedTopicsCount = learnedTopicsCount,
         skippedTopicsCount = skippedTopicsCount,
-        appliedCapstoneTopicsCount = appliedCapstoneTopicsCount
+        appliedCapstoneTopicsCount = appliedCapstoneTopicsCount,
+        rank = rank
     )

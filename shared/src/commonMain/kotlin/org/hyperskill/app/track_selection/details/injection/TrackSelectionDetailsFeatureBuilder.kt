@@ -14,6 +14,7 @@ import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.track_selection.details.domain.repository.TrackSelectionDetailsRepository
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsActionDispatcher
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
@@ -26,7 +27,7 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object TrackSelectionDetailsFeatureBuilder {
+internal object TrackSelectionDetailsFeatureBuilder {
     private const val LOG_TAG = "TrackSelectionDetailsFeature"
 
     fun build(
@@ -34,6 +35,7 @@ object TrackSelectionDetailsFeatureBuilder {
         resourceProvider: ResourceProvider,
         dateFormatter: SharedDateFormatter,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+        trackSelectionDetailsRepository: TrackSelectionDetailsRepository,
         providersRepository: ProvidersRepository,
         sentryInteractor: SentryInteractor,
         profileRepository: ProfileRepository,
@@ -45,6 +47,7 @@ object TrackSelectionDetailsFeatureBuilder {
         val reducer = TrackSelectionDetailsReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
         val actionDispatcher = TrackSelectionDetailsActionDispatcher(
             config = ActionDispatcherOptions(),
+            trackSelectionDetailsRepository = trackSelectionDetailsRepository,
             providersRepository = providersRepository,
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             sentryInteractor = sentryInteractor,

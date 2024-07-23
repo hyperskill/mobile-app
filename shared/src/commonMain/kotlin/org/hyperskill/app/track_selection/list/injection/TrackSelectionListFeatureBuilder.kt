@@ -11,6 +11,7 @@ import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
+import org.hyperskill.app.track_selection.details.domain.repository.TrackSelectionDetailsRepository
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListActionDispatcher
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action
@@ -31,6 +32,7 @@ internal object TrackSelectionListFeatureBuilder {
         sentryInteractor: SentryInteractor,
         trackInteractor: TrackInteractor,
         progressesInteractor: ProgressesInteractor,
+        trackSelectionDetailsRepository: TrackSelectionDetailsRepository,
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         trackListViewStateMapper: TrackSelectionListViewStateMapper,
         logger: Logger,
@@ -38,11 +40,12 @@ internal object TrackSelectionListFeatureBuilder {
     ): Feature<TrackSelectionListFeature.ViewState, Message, Action> {
         val trackSelectionListReducer = TrackSelectionListReducer(params).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val trackSelectionListActionDispatcher = TrackSelectionListActionDispatcher(
-            ActionDispatcherOptions(),
-            sentryInteractor,
-            trackInteractor,
-            progressesInteractor,
-            currentStudyPlanStateRepository
+            config = ActionDispatcherOptions(),
+            sentryInteractor = sentryInteractor,
+            trackInteractor = trackInteractor,
+            progressesInteractor = progressesInteractor,
+            trackSelectionDetailsRepository = trackSelectionDetailsRepository,
+            currentStudyPlanStateRepository = currentStudyPlanStateRepository
         )
 
         return ReduxFeature(TrackSelectionListFeature.State.Idle, trackSelectionListReducer)
