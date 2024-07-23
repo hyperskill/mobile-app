@@ -182,23 +182,33 @@ class GamificationToolbarDelegate(
             ?.top
             ?: 0
     ) {
+        val subtitlePaddingVertical =
+            if (subtitle != null) {
+                context.resources.getDimensionPixelOffset(R.dimen.gamification_toolbar_subtitle_padding_vertical) * 2
+            } else {
+                0
+            }
+
         collapsingToolbarLayout.expandedTitleMarginBottom =
-            context.resources.getDimensionPixelOffset(
-                if (subtitle != null) {
+            if (subtitle != null) {
+                context.resources.getDimensionPixelOffset(
                     R.dimen.gamification_toolbar_with_subtitle_expanded_title_margin_bottom
-                } else {
+                ) + subtitlePaddingVertical
+            } else {
+                context.resources.getDimensionPixelOffset(
                     R.dimen.gamification_toolbar_default_expanded_title_margin_bottom
-                }
-            )
+                )
+            }
+
         collapsingToolbarLayout.updateLayoutParams<AppBarLayout.LayoutParams> {
-            height = context.resources.getDimensionPixelOffset(
+            height =
                 if (subtitle != null) {
-                    R.dimen.gamification_toolbar_with_subtitle_height
+                    context.resources.getDimensionPixelOffset(R.dimen.gamification_toolbar_with_subtitle_height) +
+                        subtitlePaddingVertical
                 } else {
                     R.dimen.gamification_toolbar_default_height
-                }
-            ) + insetTop
+                } + insetTop
         }
-        collapsingToolbarLayout.expandedTitleMarginTop = insetTop
+        collapsingToolbarLayout.expandedTitleMarginTop = insetTop + subtitlePaddingVertical * 3
     }
 }
