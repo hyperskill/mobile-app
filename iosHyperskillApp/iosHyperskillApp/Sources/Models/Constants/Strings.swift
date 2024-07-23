@@ -647,7 +647,7 @@ enum Strings {
 
         #warning("Remove in ALTAPPS-1309")
         static let continueWithLimitsButton = ""
-        
+
         static let termsOfServiceButton = sharedStrings.paywall_tos_and_privacy_bth.localized()
 
         static let subscriptionFeature1 = sharedStrings.mobile_only_subscription_feature_1.localized()

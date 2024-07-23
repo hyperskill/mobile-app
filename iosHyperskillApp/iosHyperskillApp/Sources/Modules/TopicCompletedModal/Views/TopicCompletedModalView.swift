@@ -57,7 +57,7 @@ private extension TopicCompletedModalView {
             viewModel.doNextTopicPresentation()
         case .studyPlan:
             viewModel.doStudyPlanPresentation()
-        case .paywall(_):
+        case .paywall:
             #warning("TODO ALTAPPS-1309")
         }
 

@@ -156,7 +156,7 @@ private extension StudyPlanView {
             handleNavigateToLearningActivityTargetViewAction(
                 navigateToLearningActivityTargetViewAction.viewAction
             )
-        case .paywall(_):
+        case .paywall:
             #warning("TODO ALTAPPS-1309")
         }
     }
