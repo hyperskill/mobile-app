@@ -18,6 +18,9 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizActionDispatcher
 import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksActionDispatcher
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
@@ -51,6 +54,8 @@ internal object StepQuizFeatureBuilder {
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
         stepQuizToolbarReducer: StepQuizToolbarReducer,
         stepQuizToolbarActionDispatcher: StepQuizToolbarActionDispatcher,
+        stepQuizCodeBlanksReducer: StepQuizCodeBlanksReducer,
+        stepQuizCodeBlanksActionDispatcher: StepQuizCodeBlanksActionDispatcher,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
@@ -58,7 +63,8 @@ internal object StepQuizFeatureBuilder {
             stepRoute = stepRoute,
             stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
                 stepQuizHintsReducer = stepQuizHintsReducer,
-                stepQuizToolbarReducer = stepQuizToolbarReducer
+                stepQuizToolbarReducer = stepQuizToolbarReducer,
+                stepQuizCodeBlanksReducer = stepQuizCodeBlanksReducer
             ),
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
@@ -81,7 +87,8 @@ internal object StepQuizFeatureBuilder {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Idle,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
             ),
             stepQuizReducer
         )
@@ -96,6 +103,12 @@ internal object StepQuizFeatureBuilder {
                 stepQuizToolbarActionDispatcher.transform(
                     transformAction = { it.safeCast<StepQuizFeature.Action.StepQuizToolbarAction>()?.action },
                     transformMessage = StepQuizFeature.Message::StepQuizToolbarMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                stepQuizCodeBlanksActionDispatcher.transform(
+                    transformAction = { it.safeCast<StepQuizFeature.Action.StepQuizCodeBlanksAction>()?.action },
+                    transformMessage = StepQuizFeature.Message::StepQuizCodeBlanksMessage
                 )
             )
             .wrapWithAnalyticLogger(analyticInteractor) {

@@ -1,5 +1,7 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
@@ -7,7 +9,8 @@ import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
 
 internal class StepQuizChildFeatureReducer(
     private val stepQuizToolbarReducer: StepQuizToolbarReducer,
-    private val stepQuizHintsReducer: StepQuizHintsReducer
+    private val stepQuizHintsReducer: StepQuizHintsReducer,
+    private val stepQuizCodeBlanksReducer: StepQuizCodeBlanksReducer
 ) {
 
     companion object
@@ -26,6 +29,11 @@ internal class StepQuizChildFeatureReducer(
                 val (stepQuizToolbarState, stepQuizToolbarActions) =
                     reduceStepQuizToolbarMessage(state.stepQuizToolbarState, message.message)
                 state.copy(stepQuizToolbarState = stepQuizToolbarState) to stepQuizToolbarActions
+            }
+            is StepQuizFeature.Message.StepQuizCodeBlanksMessage -> {
+                val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
+                    reduceStepQuizCodeBlanksMessage(state.stepQuizCodeBlanksState, message.message)
+                state.copy(stepQuizCodeBlanksState = stepQuizCodeBlanksState) to stepQuizCodeBlanksActions
             }
         }
 
@@ -65,5 +73,24 @@ internal class StepQuizChildFeatureReducer(
             .toSet()
 
         return stepQuizToolbarState to actions
+    }
+
+    fun reduceStepQuizCodeBlanksMessage(
+        state: StepQuizCodeBlanksFeature.State,
+        message: StepQuizCodeBlanksFeature.Message
+    ): Pair<StepQuizCodeBlanksFeature.State, Set<StepQuizFeature.Action>> {
+        val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) = stepQuizCodeBlanksReducer.reduce(state, message)
+
+        val actions = stepQuizCodeBlanksActions
+            .map {
+                if (it is StepQuizCodeBlanksFeature.Action.ViewAction) {
+                    StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction(it)
+                } else {
+                    StepQuizFeature.Action.StepQuizCodeBlanksAction(it)
+                }
+            }
+            .toSet()
+
+        return stepQuizCodeBlanksState to actions
     }
 }
