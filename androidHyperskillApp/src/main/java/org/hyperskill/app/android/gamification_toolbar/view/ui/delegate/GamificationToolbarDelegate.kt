@@ -202,14 +202,12 @@ class GamificationToolbarDelegate(
             }
 
         collapsingToolbarLayout.updateLayoutParams<AppBarLayout.LayoutParams> {
-            height =
-                if (subtitle != null) {
-                    context.resources.getDimensionPixelOffset(
-                        R.dimen.gamification_toolbar_with_subtitle_height
-                    ) + subtitlePaddingVertical
-                } else {
-                    R.dimen.gamification_toolbar_default_height
-                } + insetTop
+            height = if (subtitle != null) {
+                context.resources.getDimensionPixelOffset(R.dimen.gamification_toolbar_with_subtitle_height) +
+                    subtitlePaddingVertical
+            } else {
+                R.dimen.gamification_toolbar_default_height
+            } + insetTop
         }
         collapsingToolbarLayout.expandedTitleMarginTop = insetTop + subtitlePaddingVertical
     }
