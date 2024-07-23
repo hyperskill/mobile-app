@@ -150,6 +150,16 @@ extension StepViewModel: TopicCompletedModalOutputProtocol {
             )
         )
     }
+
+    func topicCompletedModalDidRequestPaywall(paywallTransitionSource: PaywallTransitionSource) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageTopicCompletedModalPaywallClicked(
+                    paywallTransitionSource: paywallTransitionSource
+                )
+            )
+        )
+    }
 }
 
 // MARK: - StepViewModel: ProblemOfDaySolvedModalViewControllerDelegate -

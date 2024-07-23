@@ -25,6 +25,7 @@ struct PaywallView: View {
 
             buildBody()
                 .animation(.default, value: viewModel.state)
+            closeButton
         }
         .onAppear {
             viewModel.startListening()
@@ -51,12 +52,9 @@ struct PaywallView: View {
                 )
             )
         case .content(let content):
-            #warning("Remove isContinueWithLimitsButtonVisible in ALTAPPS-1309")
             PaywallContentView(
                 buyButtonText: content.buyButtonText,
-                isContinueWithLimitsButtonVisible: false,
                 onBuyButtonTap: viewModel.doBuySubscription,
-                onContinueWithLimitsButtonTap: viewModel.doContinueWithLimits,
                 onTermsOfServiceButtonTap: viewModel.doTermsOfServicePresentation
             )
         case .subscriptionSyncLoading:
@@ -66,6 +64,27 @@ struct PaywallView: View {
                     titleText: Strings.Paywall.subscriptionSyncDescription,
                     backgroundColor: .clear
                 )
+            )
+        }
+    }
+
+    @ViewBuilder private var closeButton: some View {
+        if !viewModel.state.isToolbarVisible {
+            ZStack {
+                Button(
+                    action: viewModel.doClosePresentation,
+                    label: {
+                        Image(systemName: "xmark")
+                            .imageScale(.large)
+                            .padding(.horizontal)
+                    }
+                )
+                .foregroundColor(.newSecondaryText)
+            }
+            .frame(
+                maxWidth: .infinity,
+                maxHeight: .infinity,
+                alignment: .topTrailing
             )
         }
     }

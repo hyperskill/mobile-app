@@ -294,6 +294,8 @@ enum Strings {
     enum StudyPlan {
         static let title = sharedStrings.study_plan_title.localized()
         static let activitiesError = sharedStrings.study_plan_activities_error_text.localized()
+
+        static let paywallSubscribeButton = sharedStrings.study_plan_paywall_subscribe_button.localized()
     }
 
     // MARK: - Leaderboard -
@@ -644,9 +646,6 @@ enum Strings {
 
         static let title = sharedStrings.paywall_mobile_only_title.localized()
         static let navigationTitle = sharedStrings.paywall_screen_title.localized()
-
-        #warning("Remove in ALTAPPS-1309")
-        static let continueWithLimitsButton = ""
 
         static let termsOfServiceButton = sharedStrings.paywall_tos_and_privacy_bth.localized()
 
