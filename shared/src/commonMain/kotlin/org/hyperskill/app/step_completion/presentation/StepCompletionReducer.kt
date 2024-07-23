@@ -55,6 +55,8 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 } else {
                     null
                 }
+            is Message.TopicCompletedModalPaywallClicked ->
+                state to setOf(Action.ViewAction.NavigateTo.Paywall(message.paywallTransitionSource))
             is Message.ProblemOfDaySolved ->
                 state to setOf(
                     Action.ViewAction.ShowProblemOfDaySolvedModal(

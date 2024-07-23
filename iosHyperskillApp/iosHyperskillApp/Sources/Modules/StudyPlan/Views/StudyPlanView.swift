@@ -15,6 +15,7 @@ struct StudyPlanView: View {
     @StateObject var viewModel: StudyPlanViewModel
 
     let stackRouter: StackRouterProtocol
+    let modalRouter: ModalRouterProtocol
     let panModalPresenter: PanModalPresenter
 
     var body: some View {
@@ -182,8 +183,10 @@ private extension StudyPlanView {
                 navigateToLearningActivityTargetViewAction.viewAction
             )
         case .paywall(let navigateToPaywallViewAction):
-            let assembly = PaywallAssembly(source: navigateToPaywallViewAction.paywallTransitionSource)
-            stackRouter.pushViewController(assembly.makeModule())
+            let assembly = PaywallAssembly(
+                source: navigateToPaywallViewAction.paywallTransitionSource
+            )
+            modalRouter.present(module: assembly.makeModule())
         }
     }
 

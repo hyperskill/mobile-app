@@ -17,7 +17,6 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.stage_implementation.delegate.StageStepMenuDelegate
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
@@ -216,7 +215,11 @@ class StageStepWrapperFragment :
             TopicCompletedModalFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
             is TopicCompletedModalFeature.Action.ViewAction.NavigateTo.Paywall ->
-                requireRouter().navigateTo(PaywallScreen(destination.paywallTransitionSource))
+                onNewMessage(
+                    StepCompletionFeature.Message.TopicCompletedModalPaywallClicked(
+                        destination.paywallTransitionSource
+                    )
+                )
         }
     }
 

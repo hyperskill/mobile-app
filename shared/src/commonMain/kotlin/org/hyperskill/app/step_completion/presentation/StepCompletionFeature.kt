@@ -3,6 +3,7 @@ package org.hyperskill.app.step_completion.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
@@ -84,8 +85,9 @@ object StepCompletionFeature {
             data class Error(val errorMessage: String) : CheckTopicCompletionStatus
         }
 
-        object TopicCompletedModalGoToStudyPlanClicked : Message
-        object TopicCompletedModalContinueNextTopicClicked : Message
+        data object TopicCompletedModalGoToStudyPlanClicked : Message
+        data object TopicCompletedModalContinueNextTopicClicked : Message
+        data class TopicCompletedModalPaywallClicked(val paywallTransitionSource: PaywallTransitionSource) : Message
 
         /**
          * Show problem of day solve modal
@@ -147,8 +149,9 @@ object StepCompletionFeature {
             data class ReloadStep(val stepRoute: StepRoute) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                object Back : NavigateTo
-                object StudyPlan : NavigateTo
+                data object Back : NavigateTo
+                data object StudyPlan : NavigateTo
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
 
             sealed interface HapticFeedback : ViewAction {
