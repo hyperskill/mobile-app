@@ -10,7 +10,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSubscribeButtonHSAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSubscribeHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
@@ -407,7 +407,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleSubscribeClicked(state: State): StudyPlanWidgetReducerResult =
         if (state.isPaywallShown()) {
             state to setOf(
-                InternalAction.LogAnalyticEvent(StudyPlanClickedSubscribeButtonHSAnalyticEvent),
+                InternalAction.LogAnalyticEvent(StudyPlanClickedSubscribeHyperskillAnalyticEvent),
                 Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.STUDY_PLAN)
             )
         } else {

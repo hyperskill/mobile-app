@@ -41,15 +41,16 @@ internal fun Subscription.getSubscriptionLimitType(
     canMakePayments: Boolean
 ): SubscriptionLimitType =
     when (type) {
-        SubscriptionType.MOBILE_ONLY -> if (isActive) {
-            type.subscriptionLimitType
-        } else {
-            if (isMobileContentTrialEnabled && canMakePayments) {
-                SubscriptionLimitType.TOPICS
+        SubscriptionType.MOBILE_ONLY ->
+            if (isActive) {
+                type.subscriptionLimitType
             } else {
-                SubscriptionLimitType.PROBLEMS
+                if (isMobileContentTrialEnabled && canMakePayments) {
+                    SubscriptionLimitType.TOPICS
+                } else {
+                    SubscriptionLimitType.PROBLEMS
+                }
             }
-        }
         else -> type.subscriptionLimitType
     }
 

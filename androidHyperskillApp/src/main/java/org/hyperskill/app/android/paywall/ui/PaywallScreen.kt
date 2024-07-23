@@ -63,7 +63,7 @@ fun PaywallScreen(
                 viewModel.onBuySubscriptionClick(activity)
             }
         },
-        onCloseClick = viewModel::onContinueWithLimitsClick,
+        onCloseClick = viewModel::onCloseClick,
         onRetryLoadingClick = viewModel::onRetryLoadingClicked,
         onTermsOfServiceClick = viewModel::onTermsOfServiceClick
     )

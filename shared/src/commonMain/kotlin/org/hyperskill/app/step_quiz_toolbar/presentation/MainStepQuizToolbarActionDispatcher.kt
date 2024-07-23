@@ -43,7 +43,7 @@ internal class MainStepQuizToolbarActionDispatcher(
                 .onEach {
                     onNewMessage(InternalMessage.SubscriptionChanged(it))
                 }
-                .launchIn(actionScope)
+                .launchIn(this)
         }
     }
 

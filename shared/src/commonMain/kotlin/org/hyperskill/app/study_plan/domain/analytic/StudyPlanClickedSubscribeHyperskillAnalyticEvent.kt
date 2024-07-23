@@ -15,13 +15,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/study-plan"",
  *     "action": "click",
  *     "part": "study_plan_paywall_banner",
- *     "target": "activity"
+ *     "target": "buy_subscription"
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-object StudyPlanClickedSubscribeButtonHSAnalyticEvent : HyperskillAnalyticEvent(
+object StudyPlanClickedSubscribeHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.StudyPlan(),
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.STUDY_PLAN_PAYWALL_BANNER,
