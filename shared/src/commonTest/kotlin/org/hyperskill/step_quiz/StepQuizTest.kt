@@ -3,10 +3,12 @@ package org.hyperskill.step_quiz
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
+import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
@@ -15,6 +17,7 @@ import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
@@ -56,7 +59,8 @@ class StepQuizTest {
                     isTheoryAvailable = false
                 ),
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
             )
 
             val reducer = StepQuizReducer(
@@ -67,7 +71,8 @@ class StepQuizTest {
                 StepQuizFeature.State(
                     stepQuizState = StepQuizFeature.StepQuizState.Loading,
                     stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                    stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
                 ),
                 StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                     step,
@@ -102,7 +107,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -113,7 +119,8 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
@@ -146,7 +153,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -170,7 +178,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         assertEquals(expectedState, actualState)
@@ -193,7 +202,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -217,7 +227,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         assertEquals(expectedState, actualState)
@@ -245,7 +256,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -271,7 +283,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         assertEquals(expectedState, actualState)
@@ -301,7 +314,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -327,7 +341,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         assertEquals(expectedState, actualState)
@@ -355,7 +370,8 @@ class StepQuizTest {
                 isTheoryAvailable = true
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -367,7 +383,8 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
@@ -418,7 +435,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -430,7 +448,8 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
@@ -469,7 +488,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -500,7 +520,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -535,7 +556,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -571,7 +593,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -608,7 +631,8 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -629,6 +653,121 @@ class StepQuizTest {
             )
 
             assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
+        }
+    }
+
+    @Test
+    fun `StepQuizCodeBlanksFeature should be initialized when isCodeBlanksFeatureAvailable returns true`() {
+        val step = Step.stub(
+            id = 1,
+            block = Block.stub(
+                options = Block.Options(
+                    codeBlanksStrings = listOf("a", "b")
+                )
+            )
+        )
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Empty()
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val expectedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.State.Content(
+                step = step,
+                codeBlocks = emptyList()
+            )
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+        val (state, _) = reducer.reduce(
+            StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.Loading,
+                stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+            ),
+            StepQuizFeature.InternalMessage.FetchAttemptSuccess(
+                step,
+                attempt,
+                submissionState,
+                subscription = Subscription.stub(),
+                isProblemsLimitReached = false,
+                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
+                isMobileGptCodeGenerationWithErrorsEnabled = false
+            )
+        )
+
+        assertEquals(expectedState.stepQuizState, state.stepQuizState)
+        assertEquals(expectedState.stepQuizHintsState, state.stepQuizHintsState)
+        assertEquals(expectedState.stepQuizToolbarState, state.stepQuizToolbarState)
+        assertTrue(state.stepQuizCodeBlanksState is StepQuizCodeBlanksFeature.State.Content)
+    }
+
+    @Test
+    fun `StepQuizCodeBlanksFeature should not be initialized when isCodeBlanksFeatureAvailable returns false`() {
+        val step = Step.stub(id = 1)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Empty()
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val expectedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.State.Idle
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+        val (state, actions) = reducer.reduce(
+            StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.Loading,
+                stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+            ),
+            StepQuizFeature.InternalMessage.FetchAttemptSuccess(
+                step,
+                attempt,
+                submissionState,
+                subscription = Subscription.stub(),
+                isProblemsLimitReached = false,
+                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
+                isMobileGptCodeGenerationWithErrorsEnabled = false
+            )
+        )
+
+        assertEquals(expectedState.stepQuizState, state.stepQuizState)
+        assertEquals(expectedState.stepQuizHintsState, state.stepQuizHintsState)
+        assertEquals(expectedState.stepQuizToolbarState, state.stepQuizToolbarState)
+        assertTrue(state.stepQuizCodeBlanksState is StepQuizCodeBlanksFeature.State.Idle)
+
+        assertFalse {
+            actions.any {
+                it is StepQuizFeature.Action.StepQuizCodeBlanksAction ||
+                    it is StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction
+            }
         }
     }
 }
