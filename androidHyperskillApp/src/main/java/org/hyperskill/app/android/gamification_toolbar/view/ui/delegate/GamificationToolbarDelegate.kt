@@ -172,6 +172,7 @@ class GamificationToolbarDelegate(
         )
     }
 
+    @Suppress("MagicNumber")
     private fun applyInsetsToCollapsingToolbarLayout(
         context: Context,
         collapsingToolbarLayout: CollapsingToolbarLayout,
@@ -203,12 +204,13 @@ class GamificationToolbarDelegate(
         collapsingToolbarLayout.updateLayoutParams<AppBarLayout.LayoutParams> {
             height =
                 if (subtitle != null) {
-                    context.resources.getDimensionPixelOffset(R.dimen.gamification_toolbar_with_subtitle_height) +
-                        subtitlePaddingVertical
+                    context.resources.getDimensionPixelOffset(
+                        R.dimen.gamification_toolbar_with_subtitle_height
+                    ) + subtitlePaddingVertical
                 } else {
                     R.dimen.gamification_toolbar_default_height
                 } + insetTop
         }
-        collapsingToolbarLayout.expandedTitleMarginTop = insetTop + subtitlePaddingVertical * 3
+        collapsingToolbarLayout.expandedTitleMarginTop = insetTop + subtitlePaddingVertical
     }
 }
