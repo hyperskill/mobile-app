@@ -176,6 +176,11 @@ private extension StepView {
             case .studyPlan:
                 dismissPanModalAndNavigateBack()
                 TabBarRouter(tab: .studyPlan).route()
+            case .paywall(let navigateToPaywallViewAction):
+                let assembly = PaywallAssembly(
+                    source: navigateToPaywallViewAction.paywallTransitionSource
+                )
+                modalRouter.present(module: assembly.makeModule())
             }
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(

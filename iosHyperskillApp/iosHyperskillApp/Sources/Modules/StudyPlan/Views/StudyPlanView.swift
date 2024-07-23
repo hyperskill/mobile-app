@@ -15,6 +15,7 @@ struct StudyPlanView: View {
     @StateObject var viewModel: StudyPlanViewModel
 
     let stackRouter: StackRouterProtocol
+    let modalRouter: ModalRouterProtocol
     let panModalPresenter: PanModalPresenter
 
     var body: some View {
@@ -97,11 +98,17 @@ struct StudyPlanView: View {
                         .makeModule()
                     }
 
+                    if data.isPaywallBannerShown {
+                        StudyPlanPaywallBanner(
+                            action: viewModel.doPaywallBannerAction
+                        )
+                    }
+
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(
                             section: section,
                             onSectionTap: viewModel.doSectionToggle(sectionId:),
-                            onActivityTap: viewModel.doActivityPresentation(activityId:),
+                            onActivityTap: viewModel.doActivityPresentation(activityID:sectionID:),
                             onRetryActivitiesLoadingTap: viewModel.doRetryActivitiesLoading(sectionId:)
                         )
                     }
@@ -175,8 +182,11 @@ private extension StudyPlanView {
             handleNavigateToLearningActivityTargetViewAction(
                 navigateToLearningActivityTargetViewAction.viewAction
             )
-        case .paywall:
-            #warning("TODO ALTAPPS-1309")
+        case .paywall(let navigateToPaywallViewAction):
+            let assembly = PaywallAssembly(
+                source: navigateToPaywallViewAction.paywallTransitionSource
+            )
+            modalRouter.present(module: assembly.makeModule())
         }
     }
 

@@ -14,10 +14,8 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
-import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepWrapperBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.LimitsWidgetCallback
@@ -211,7 +209,11 @@ class StepWrapperFragment :
             TopicCompletedModalFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
             is TopicCompletedModalFeature.Action.ViewAction.NavigateTo.Paywall ->
-                requireRouter().navigateTo(PaywallScreen(destination.paywallTransitionSource))
+                onNewMessage(
+                    StepCompletionFeature.Message.TopicCompletedModalPaywallClicked(
+                        destination.paywallTransitionSource
+                    )
+                )
         }
     }
 

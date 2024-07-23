@@ -17,55 +17,57 @@ struct StudyPlanSectionItemIconView: View {
     private var stateImage: Image {
         switch itemState {
         case .completed:
-            return Image(systemName: "checkmark")
+            Image(systemName: "checkmark")
+        case .locked:
+            Image(systemName: "lock")
         case .next:
-            return Image(Images.Home.ProblemOfDay.arrowUncompleted)
+            Image(Images.Home.ProblemOfDay.arrowUncompleted)
         case .skipped:
-            return Image(Images.Common.skip)
+            Image(Images.Common.skip)
         case .idle:
-            return Image(nil)
+            Image(nil)
         }
     }
 
     private var renderingMode: Image.TemplateRenderingMode? {
         switch itemState {
-        case .completed, .skipped:
-            return .template
+        case .completed, .locked, .skipped:
+            .template
         case .next:
-            return .original
+            .original
         case .idle:
-            return nil
+            nil
         }
     }
 
     private var contentMode: ContentMode {
         switch itemState {
-        case .completed, .skipped:
-            return .fit
+        case .completed, .locked, .skipped:
+            .fit
         case .idle, .next:
-            return .fill
+            .fill
         }
     }
 
     private var foregroundColor: Color? {
         switch itemState {
         case .completed:
-            return Color(ColorPalette.secondary)
-        case .skipped:
-            return Color(ColorPalette.onSurfaceAlpha38)
+            Color(ColorPalette.secondary)
+        case .locked, .skipped:
+            Color(ColorPalette.onSurfaceAlpha38)
         case .idle, .next:
-            return nil
+            nil
         }
     }
 
     private var widthHeight: CGFloat {
         switch itemState {
-        case .completed, .skipped:
-            return appearance.defaultWidthHeight
+        case .completed, .locked, .skipped:
+            appearance.defaultWidthHeight
         case .next:
-            return appearance.arrowWidthHeight
+            appearance.arrowWidthHeight
         case .idle:
-            return 0
+            0
         }
     }
 
@@ -83,15 +85,15 @@ struct StudyPlanSectionItemIconView: View {
     }
 }
 
-struct StudyPlanSectionItemIconView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: LayoutInsets.defaultInset) {
-            StudyPlanSectionItemIconView(itemState: .idle)
-            StudyPlanSectionItemIconView(itemState: .next)
-            StudyPlanSectionItemIconView(itemState: .skipped)
-            StudyPlanSectionItemIconView(itemState: .completed)
-        }
-        .padding()
-        .previewLayout(.sizeThatFits)
+#if DEBUG
+#Preview {
+    VStack(spacing: LayoutInsets.defaultInset) {
+        StudyPlanSectionItemIconView(itemState: .idle)
+        StudyPlanSectionItemIconView(itemState: .next)
+        StudyPlanSectionItemIconView(itemState: .locked)
+        StudyPlanSectionItemIconView(itemState: .skipped)
+        StudyPlanSectionItemIconView(itemState: .completed)
     }
+    .padding()
 }
+#endif

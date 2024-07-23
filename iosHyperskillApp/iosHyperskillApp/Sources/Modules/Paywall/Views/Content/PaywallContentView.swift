@@ -15,10 +15,8 @@ struct PaywallContentView: View {
     private(set) var appearance = Appearance()
 
     let buyButtonText: String
-    let isContinueWithLimitsButtonVisible: Bool
 
     let onBuyButtonTap: () -> Void
-    let onContinueWithLimitsButtonTap: () -> Void
     let onTermsOfServiceButtonTap: () -> Void
 
     @State private var scrollOffset = CGPoint()
@@ -58,9 +56,7 @@ struct PaywallContentView: View {
             PaywallFooterView(
                 appearance: .init(spacing: appearance.interitemSpacing),
                 buyButtonText: buyButtonText,
-                isContinueWithLimitsButtonVisible: isContinueWithLimitsButtonVisible,
                 onBuyButtonTap: onBuyButtonTap,
-                onContinueWithLimitsButtonTap: onContinueWithLimitsButtonTap,
                 onTermsOfServiceButtonTap: onTermsOfServiceButtonTap
             )
         )
@@ -71,9 +67,7 @@ struct PaywallContentView: View {
 #Preview {
     PaywallContentView(
         buyButtonText: "Subscribe for $11.99/month",
-        isContinueWithLimitsButtonVisible: true,
         onBuyButtonTap: {},
-        onContinueWithLimitsButtonTap: {},
         onTermsOfServiceButtonTap: {}
     )
 }

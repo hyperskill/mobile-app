@@ -54,13 +54,12 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
-    #warning("Add section id in ALTAPPS-1309")
-    func doActivityPresentation(activityId: Int64) {
+    func doActivityPresentation(activityID: Int64, sectionID: Int64) {
         onNewMessage(
             StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
                 message: StudyPlanWidgetFeatureMessageActivityClicked(
-                    activityId: activityId,
-                    sectionId: 0
+                    activityId: activityID,
+                    sectionId: sectionID
                 )
             )
         )
@@ -70,6 +69,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         onNewMessage(
             StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
                 message: StudyPlanWidgetFeatureMessageRetryActivitiesLoading(sectionId: sectionId)
+            )
+        )
+    }
+
+    func doPaywallBannerAction() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageSubscribeClicked()
             )
         )
     }
