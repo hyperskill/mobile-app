@@ -122,18 +122,24 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subtitleTextView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@color/color_on_surface_alpha_60"
             android:maxLines="1"
             android:ellipsize="end"
+            android:gravity="center_vertical"
+            app:drawableEndCompat="@drawable/ic_change_track"
+            android:drawablePadding="10dp"
+            android:background="@drawable/selectable_item_rounded_background"
             app:layout_collapseMode="parallax"
             android:layout_gravity="bottom"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
             android:visibility="gone"
             tools:visibility="visible"
             tools:text="Lorem Ipsum Iran Lorem Ipsum Iran Lorem Ipsu"/>

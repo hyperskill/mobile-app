@@ -33,7 +33,8 @@ class GamificationToolbarDelegate(
     lifecycleOwner: LifecycleOwner,
     private val context: Context,
     private val viewBinding: LayoutGamificationToolbarBinding,
-    onNewMessage: (Message) -> Unit
+    onChangeTrackClicked: () -> Unit = {},
+    onNewMessage: (Message) -> Unit,
 ) {
 
     private var subtitle: String? = null
@@ -54,6 +55,9 @@ class GamificationToolbarDelegate(
             }
             gamificationProblemsLimitTextView.setOnClickListener {
                 onNewMessage(Message.ProblemsLimitClicked)
+            }
+            subtitleTextView.setOnClickListener {
+                onChangeTrackClicked()
             }
         }
     }
