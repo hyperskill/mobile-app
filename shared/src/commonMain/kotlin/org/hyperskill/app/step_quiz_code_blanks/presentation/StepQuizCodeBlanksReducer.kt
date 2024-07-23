@@ -79,7 +79,7 @@ class StepQuizCodeBlanksReducer(
             }
 
         val newCodeBlocks =
-            if (activeCodeBlockIndex == state.codeBlocks.size - 1 && newCodeBlock.selectedSuggestion != null) {
+            if (activeCodeBlockIndex == state.codeBlocks.lastIndex && newCodeBlock.selectedSuggestion != null) {
                 state.codeBlocks.mutate {
                     set(activeCodeBlockIndex, newCodeBlock.copy(isActive = false))
                     add(CodeBlock.Blank(isActive = true))
@@ -146,8 +146,8 @@ class StepQuizCodeBlanksReducer(
             return state to actions
         }
 
-        when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
-            is CodeBlock.Blank -> return state to actions
+        return when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
+            is CodeBlock.Blank -> state to actions
             is CodeBlock.Print -> {
                 val newCodeBlocks = state.codeBlocks.mutate {
                     if (activeCodeBlock.selectedSuggestion != null) {
@@ -171,7 +171,7 @@ class StepQuizCodeBlanksReducer(
                         removeAt(activeCodeBlockIndex)
                     }
                 }
-                return state.copy(codeBlocks = newCodeBlocks) to actions
+                state.copy(codeBlocks = newCodeBlocks) to actions
             }
         }
     }

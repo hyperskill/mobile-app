@@ -55,7 +55,7 @@ struct StepQuizCodeBlanksView: View {
         isDeleteButtonVisible: Bool
     ) -> some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-            ForEach(codeBlocks, id: \.self) { codeBlock in
+            ForEach(codeBlocks, id: \.id_) { codeBlock in
                 switch StepQuizCodeBlanksViewStateCodeBlockItemKs(codeBlock) {
                 case .blank(let blankItem):
                     StepQuizCodeBlanksBlankView(
@@ -115,7 +115,7 @@ extension StepQuizCodeBlanksView: Equatable {
         StepQuizCodeBlanksView(
             viewStateKs: .content(
                 StepQuizCodeBlanksViewStateContent(
-                    codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItem.Blank(id: 0, isActive: true)],
+                    codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItemBlank(id: 0, isActive: true)],
                     suggestions: [Suggestion.Print()],
                     isDeleteButtonVisible: true
                 )
@@ -133,7 +133,7 @@ extension StepQuizCodeBlanksView: Equatable {
         StepQuizCodeBlanksView(
             viewStateKs: .content(
                 StepQuizCodeBlanksViewStateContent(
-                    codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItem.Print(id: 0, isActive: true, output: nil)],
+                    codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItemPrint(id: 0, isActive: true, output: nil)],
                     suggestions: [
                         Suggestion.ConstantString(text: "There is a cat on the keyboard, it is true"),
                         Suggestion.ConstantString(text: "Typing messages out of the blue")
@@ -155,12 +155,12 @@ extension StepQuizCodeBlanksView: Equatable {
             viewStateKs: .content(
                 StepQuizCodeBlanksViewStateContent(
                     codeBlocks: [
-                        StepQuizCodeBlanksViewStateCodeBlockItem.Print(
+                        StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                             id: 0,
                             isActive: false,
                             output: "There is a cat on the keyboard, it is true"
                         ),
-                        StepQuizCodeBlanksViewStateCodeBlockItem.Print(
+                        StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                             id: 1,
                             isActive: true,
                             output: nil

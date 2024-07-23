@@ -6,11 +6,10 @@ sealed class Suggestion {
     internal abstract val analyticRepresentation: String
 
     data object Print : Suggestion() {
-        override val text: String
-            get() = "print"
+        override val text: String = "print"
 
-        override val analyticRepresentation: String
-            get() = "Print(text='$text')"
+        override val analyticRepresentation: String =
+            "Print(text='$text')"
     }
 
     data class ConstantString(
