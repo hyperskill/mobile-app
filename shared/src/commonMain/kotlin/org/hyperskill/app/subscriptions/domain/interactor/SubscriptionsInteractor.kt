@@ -15,8 +15,10 @@ import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
@@ -27,6 +29,7 @@ import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
 class SubscriptionsInteractor(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val purchaseInteractor: PurchaseInteractor,
     private val authInteractor: AuthInteractor,
     logger: Logger
 ) {
@@ -45,7 +48,15 @@ class SubscriptionsInteractor(
         currentSubscriptionStateRepository.getState(forceUpdate = false)
 
     suspend fun chargeProblemsLimits(chargeStrategy: FreemiumChargeLimitsStrategy) {
-        if (currentSubscriptionStateRepository.areProblemsLimited()) {
+        val isMobileContentTrialEnabled = currentProfileStateRepository
+            .getState()
+            .map { it.features.isMobileContentTrialEnabled }
+            .getOrDefault(false)
+        val areProblemsLimitEnabled = currentSubscriptionStateRepository.areProblemsLimited(
+            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+            canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
+        )
+        if (areProblemsLimitEnabled) {
             when (chargeStrategy) {
                 FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION -> chargeLimitsAfterWrongSubmission()
                 FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION -> chargeLimitsAfterCorrectSubmission()

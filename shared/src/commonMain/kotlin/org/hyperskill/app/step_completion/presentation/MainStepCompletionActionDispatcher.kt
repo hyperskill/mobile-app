@@ -10,9 +10,11 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.request_review.domain.interactor.RequestReviewInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -34,6 +36,10 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Int
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.orContentTrial
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -54,7 +60,9 @@ internal class MainStepCompletionActionDispatcher(
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
     private val dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val topicCompletedFlow: TopicCompletedFlow,
-    private val topicProgressFlow: TopicProgressFlow
+    private val topicProgressFlow: TopicProgressFlow,
+    private val purchaseInteractor: PurchaseInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -127,60 +135,103 @@ internal class MainStepCompletionActionDispatcher(
         action: InternalAction.CheckTopicCompletionStatus,
         onNewMessage: (Message) -> Unit
     ) {
-        val topicProgress = progressesInteractor
-            .getTopicProgress(action.topicId, forceLoadFromRemote = true)
-            .getOrElse {
-                return onNewMessage(
+        sentryInteractor
+            .withTransaction(
+                transaction = HyperskillSentryTransactionBuilder.buildCheckTopicCompletionStatusLoading(),
+                onError = {
                     Message.CheckTopicCompletionStatus.Error(
                         resourceProvider.getString(
                             SharedResources.strings.step_theory_failed_to_continue_practicing
                         )
                     )
-                )
-            }
-
-        if (topicProgress.isCompleted) {
-            topicCompletedFlow.notifyDataChanged(action.topicId)
-
-            coroutineScope {
-                val topicDeferred = async {
-                    topicsRepository.getTopic(action.topicId)
                 }
-                val nextLearningActivityDeferred = async {
-                    nextLearningActivityStateRepository.getState(forceUpdate = true)
-                }
+            ) {
+                val topicProgress = progressesInteractor
+                    .getTopicProgress(action.topicId, forceLoadFromRemote = true)
+                    .getOrThrow()
 
-                val passedTopicsCount = currentProfileStateRepository
-                    .getState(forceUpdate = false)
-                    .map { it.gamification.passedTopicsCount }
-                    .getOrElse { 0 }
+                if (topicProgress.isCompleted) {
+                    topicCompletedFlow.notifyDataChanged(action.topicId)
 
-                val topic = topicDeferred.await()
-                    .getOrElse {
-                        return@coroutineScope onNewMessage(
-                            Message.CheckTopicCompletionStatus.Error(
-                                resourceProvider.getString(
-                                    SharedResources.strings.step_theory_failed_to_continue_practicing
-                                )
-                            )
+                    coroutineScope {
+                        val topicDeferred = async {
+                            topicsRepository.getTopic(action.topicId)
+                        }
+
+                        val profile = currentProfileStateRepository
+                            .getState(forceUpdate = false)
+                            .getOrThrow()
+
+                        val trackId = requireNotNull(profile.trackId) {
+                            "Can't get next learning activity for user without selected track"
+                        }
+
+                        val isTopicsLimitReached = isTopicsLimitReached(
+                            trackId = trackId,
+                            isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
+                            mobileContentTrialFreeTopics = profile.feautureValues.mobileContentTrialFreeTopics
+                        )
+
+                        val nextLearningActivity = if (!isTopicsLimitReached) {
+                            nextLearningActivityStateRepository
+                                .getState(forceUpdate = true)
+                                .getOrNull()
+                        } else {
+                            null
+                        }
+
+                        Message.CheckTopicCompletionStatus.Completed(
+                            topic = topicDeferred.await().getOrThrow(),
+                            passedTopicsCount = profile.gamification.passedTopicsCount,
+                            nextLearningActivity = nextLearningActivity,
+                            isTopicsLimitReached = isTopicsLimitReached
                         )
                     }
-                val nextLearningActivity = nextLearningActivityDeferred.await()
-                    .getOrNull()
-
-                onNewMessage(
-                    Message.CheckTopicCompletionStatus.Completed(
-                        topic = topic,
-                        passedTopicsCount = passedTopicsCount,
-                        nextLearningActivity = nextLearningActivity
-                    )
-                )
+                } else {
+                    topicProgressFlow.notifyDataChanged(topicProgress)
+                    Message.CheckTopicCompletionStatus.Uncompleted
+                }
             }
-        } else {
-            topicProgressFlow.notifyDataChanged(topicProgress)
-            onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
-        }
+            .let(onNewMessage)
     }
+
+    private suspend fun isTopicsLimitReached(
+        trackId: Long,
+        isMobileContentTrialEnabled: Boolean,
+        mobileContentTrialFreeTopics: Int
+    ): Boolean =
+        coroutineScope {
+            val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
+
+            val subscriptionDeferred = async {
+                currentSubscriptionStateRepository
+                    .getState(forceUpdate = true)
+                    .map { subscription ->
+                        subscription.orContentTrial(
+                            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+                            canMakePayments = canMakePayments
+                        )
+                    }
+            }
+            val trackProgressDeferred = async {
+                progressesInteractor
+                    .getTrackProgress(
+                        trackId = trackId,
+                        forceLoadFromRemote = true
+                    )
+            }
+
+            val subscription = subscriptionDeferred.await().getOrThrow()
+            val trackProgress = requireNotNull(trackProgressDeferred.await().getOrThrow())
+
+            val subscriptionLimitType = subscription.getSubscriptionLimitType(
+                isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+                canMakePayments = canMakePayments
+            )
+
+            subscriptionLimitType == SubscriptionLimitType.TOPICS &&
+                trackProgress.learnedTopicsCount >= mobileContentTrialFreeTopics
+        }
 
     private suspend fun handleStepSolved(stepId: Long) {
         // update problems limit

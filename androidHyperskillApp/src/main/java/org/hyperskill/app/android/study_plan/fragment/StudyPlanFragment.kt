@@ -17,6 +17,7 @@ import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.Gamifica
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
+import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.stage_implementation.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
@@ -172,6 +173,11 @@ class StudyPlanFragment :
                         LearningActivityTargetViewActionHandler.handle(
                             fragment = this,
                             viewAction = studyPlanWidgetViewAction.viewAction
+                        )
+                    }
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Paywall -> {
+                        requireRouter().navigateTo(
+                            PaywallScreen(studyPlanWidgetViewAction.paywallTransitionSource)
                         )
                     }
                 }

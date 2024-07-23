@@ -26,6 +26,7 @@ internal class GamificationToolbarComponentImpl(
                 .currentGamificationToolbarDataStateRepository,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor
         )
 

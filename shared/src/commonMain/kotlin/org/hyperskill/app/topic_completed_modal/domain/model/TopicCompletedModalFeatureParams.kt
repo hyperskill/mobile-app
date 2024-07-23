@@ -8,6 +8,12 @@ import org.hyperskill.app.topics.domain.model.Topic
 data class TopicCompletedModalFeatureParams(
     val topic: Topic,
     val passedTopicsCount: Int,
-    val canContinueWithNextTopic: Boolean,
-    val stepRoute: StepRoute
-)
+    val stepRoute: StepRoute,
+    val continueBehaviour: ContinueBehaviour
+) {
+    enum class ContinueBehaviour {
+        CONTINUE_WITH_NEXT_TOPIC,
+        SHOW_PAYWALL,
+        GO_TO_STUDY_PLAN
+    }
+}

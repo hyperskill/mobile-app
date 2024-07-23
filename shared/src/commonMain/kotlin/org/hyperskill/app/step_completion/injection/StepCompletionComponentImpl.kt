@@ -34,7 +34,9 @@ internal class StepCompletionComponentImpl(
                 .currentGamificationToolbarDataStateRepository,
             dailyStepCompletedFlow = appGraph.stepCompletionFlowDataComponent.dailyStepCompletedFlow,
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-            topicProgressFlow = appGraph.progressesFlowDataComponent.topicProgressFlow
+            topicProgressFlow = appGraph.progressesFlowDataComponent.topicProgressFlow,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
         )
 
     override val stepCompletionActionDispatcher: StepCompletionActionDispatcher

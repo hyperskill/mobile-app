@@ -51,9 +51,10 @@ struct PaywallView: View {
                 )
             )
         case .content(let content):
+            #warning("Remove isContinueWithLimitsButtonVisible in ALTAPPS-1309")
             PaywallContentView(
                 buyButtonText: content.buyButtonText,
-                isContinueWithLimitsButtonVisible: content.isContinueWithLimitsButtonVisible,
+                isContinueWithLimitsButtonVisible: false,
                 onBuyButtonTap: viewModel.doBuySubscription,
                 onContinueWithLimitsButtonTap: viewModel.doContinueWithLimits,
                 onTermsOfServiceButtonTap: viewModel.doTermsOfServicePresentation

@@ -8,6 +8,7 @@ sealed interface StudyPlanWidgetViewState {
     object Error : StudyPlanWidgetViewState
 
     data class Content(
+        val isPaywallBannerShown: Boolean,
         val sections: List<Section>
     ) : StudyPlanWidgetViewState
 
@@ -51,6 +52,7 @@ sealed interface StudyPlanWidgetViewState {
         IDLE,
         NEXT,
         SKIPPED,
-        COMPLETED
+        COMPLETED,
+        LOCKED
     }
 }

@@ -30,6 +30,7 @@ fun SubscriptionDetails(
         SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_1))
         SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_2))
         SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_3))
+        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_4))
     }
 }
 

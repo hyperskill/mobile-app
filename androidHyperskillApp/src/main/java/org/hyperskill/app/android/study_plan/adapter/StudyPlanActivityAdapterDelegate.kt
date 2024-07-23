@@ -12,7 +12,7 @@ import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 
 class StudyPlanActivityAdapterDelegate(
-    private val onActivityClicked: (Long) -> Unit
+    private val onActivityClicked: (Long, Long) -> Unit
 ) : AdapterDelegate<StudyPlanRecyclerItem, DelegateViewHolder<StudyPlanRecyclerItem>>() {
 
     override fun isForViewType(position: Int, data: StudyPlanRecyclerItem): Boolean =
@@ -27,9 +27,9 @@ class StudyPlanActivityAdapterDelegate(
 
         init {
             itemView.setOnClickListener {
-                val activityId = (itemData as? StudyPlanRecyclerItem.Activity)?.id
-                if (activityId != null) {
-                    onActivityClicked(activityId)
+                val activity = itemData as? StudyPlanRecyclerItem.Activity
+                if (activity != null) {
+                    onActivityClicked(activity.id, activity.sectionId)
                 }
             }
         }

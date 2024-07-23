@@ -97,7 +97,8 @@ class StepCompletionTest {
             Message.CheckTopicCompletionStatus.Completed(
                 topic = Topic(id = 1, progressId = "", title = ""),
                 passedTopicsCount = 5,
-                nextLearningActivity = null
+                nextLearningActivity = null,
+                isTopicsLimitReached = false
             )
         )
 
