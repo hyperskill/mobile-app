@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
@@ -30,21 +29,19 @@ internal class MainStepQuizToolbarActionDispatcher(
     private var isMobileContentTrialEnabled = false
 
     init {
-        actionScope.launch {
-            currentSubscriptionStateRepository
-                .changes
-                .map { subscription ->
-                    subscription.orContentTrial(
-                        isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                        canMakePayments = canMakePayments()
-                    )
-                }
-                .distinctUntilChanged()
-                .onEach {
-                    onNewMessage(InternalMessage.SubscriptionChanged(it))
-                }
-                .launchIn(this)
-        }
+        currentSubscriptionStateRepository
+            .changes
+            .map { subscription ->
+                subscription.orContentTrial(
+                    isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+                    canMakePayments = canMakePayments()
+                )
+            }
+            .distinctUntilChanged()
+            .onEach {
+                onNewMessage(InternalMessage.SubscriptionChanged(it))
+            }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
