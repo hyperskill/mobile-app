@@ -37,7 +37,6 @@ import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
@@ -297,7 +296,10 @@ internal class StepQuizReducer(
             if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
                 state.copy(stepQuizState = StepQuizState.Unsupported) to emptySet()
             } else {
-                val isProblemsLimitReached = isProblemsLimitReached(stepRoute, message.subscription)
+                val isProblemsLimitReached = isProblemsLimitReached(
+                    stepRoute = stepRoute,
+                    isProblemsLimitReached = message.isProblemsLimitReached
+                )
                 val isMobileGptCodeGenerationWithErrorsAvailable =
                     StepQuizResolver.isMobileGptCodeGenerationWithErrorsAvailable(
                         step = message.step,
@@ -318,8 +320,12 @@ internal class StepQuizReducer(
                 if (isMobileGptCodeGenerationWithErrorsAvailable && !isProblemsLimitReached) {
                     state to setOf(InternalAction.GenerateGptCodeWithErrors(stepQuizState))
                 } else {
+                    val shouldShowProblemsLimitModal = shouldShowProblemsLimitModal(
+                        subscription = message.subscription,
+                        isProblemsLimitReached = message.isProblemsLimitReached
+                    )
                     state.copy(stepQuizState = stepQuizState) to
-                        if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
+                        if (isProblemsLimitReached && shouldShowProblemsLimitModal) {
                             showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy)
                         } else {
                             getProblemOnboardingModalActions(
@@ -481,10 +487,17 @@ internal class StepQuizReducer(
         message: InternalMessage.UpdateProblemsLimitResult
     ): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded) {
-            val isProblemsLimitReached = isProblemsLimitReached(stepRoute, message.subscription)
+            val isProblemsLimitReached = isProblemsLimitReached(
+                stepRoute = stepRoute,
+                isProblemsLimitReached = message.isProblemsLimitReached
+            )
+            val shouldShowProblemsLimitModal = shouldShowProblemsLimitModal(
+                subscription = message.subscription,
+                isProblemsLimitReached = message.isProblemsLimitReached
+            )
             state.copy(
                 stepQuizState = state.stepQuizState.copy(isProblemsLimitReached = isProblemsLimitReached)
-            ) to if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
+            ) to if (isProblemsLimitReached && shouldShowProblemsLimitModal) {
                 showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy)
             } else {
                 emptySet()
@@ -498,7 +511,10 @@ internal class StepQuizReducer(
         message: InternalMessage.ProblemsLimitChanged
     ): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded) {
-            val isProblemsLimitReached = isProblemsLimitReached(stepRoute, message.subscription)
+            val isProblemsLimitReached = isProblemsLimitReached(
+                stepRoute = stepRoute,
+                isProblemsLimitReached = message.isProblemsLimitReached
+            )
             val shouldHideProblemsLimitModal =
                 state.stepQuizState.isProblemsLimitReached && !isProblemsLimitReached
             state.copy(
@@ -514,11 +530,17 @@ internal class StepQuizReducer(
             null
         }
 
-    private fun isProblemsLimitReached(stepRoute: StepRoute, subscription: Subscription): Boolean =
-        StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && subscription.isProblemsLimitReached
+    private fun isProblemsLimitReached(
+        stepRoute: StepRoute,
+        isProblemsLimitReached: Boolean
+    ): Boolean =
+        StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && isProblemsLimitReached
 
-    private fun shouldShowProblemsLimitModal(subscription: Subscription): Boolean =
-        subscription.isProblemsLimitReached && subscription.stepsLimitTotal != null
+    private fun shouldShowProblemsLimitModal(
+        subscription: Subscription,
+        isProblemsLimitReached: Boolean
+    ): Boolean =
+        isProblemsLimitReached && subscription.stepsLimitTotal != null
 
     private fun handleTheoryToolbarItemClicked(state: State): StepQuizReducerResult =
         if (state.stepQuizState is StepQuizState.AttemptLoaded &&

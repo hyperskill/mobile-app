@@ -21,6 +21,7 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Sta
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams.ContinueBehaviour
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias StepCompletionReducerResult = Pair<State, Set<Action>>
@@ -213,8 +214,12 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 TopicCompletedModalFeatureParams(
                     topic = message.topic,
                     passedTopicsCount = message.passedTopicsCount,
-                    canContinueWithNextTopic = nextStepRoute != null,
-                    stepRoute = stepRoute
+                    stepRoute = stepRoute,
+                    continueBehaviour = when {
+                        nextStepRoute != null -> ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC
+                        message.isTopicsLimitReached -> ContinueBehaviour.SHOW_PAYWALL
+                        else -> ContinueBehaviour.GO_TO_STUDY_PLAN
+                    }
                 )
             ),
             Action.ViewAction.HapticFeedback.TopicCompleted
