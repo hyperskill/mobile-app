@@ -21,8 +21,11 @@ internal class TrackSelectionListViewStateMapper(
     private fun getContentViewState(
         state: TrackSelectionListFeature.State.Content
     ): TrackSelectionListFeature.ViewState {
-        val sortedTracks = listOfNotNull(state.tracks.firstOrNull { it.track.id == state.selectedTrackId }) +
-            state.tracks.filter { it.track.id != state.selectedTrackId }.sortedBy { it.trackProgress.rank }
+        val sortedTracks = state.tracks.sortedWith(
+            compareByDescending<TrackWithProgress> { it.track.id == state.selectedTrackId }
+                .thenByDescending { state.tracksSelectionCountMap[it.track.id] ?: 0 }
+                .thenBy { it.trackProgress.rank }
+        )
 
         return TrackSelectionListFeature.ViewState.Content(
             tracks = sortedTracks.map {

@@ -57,7 +57,8 @@ class TrackSelectionListTest {
             State.Loading,
             TrackSelectionListFeature.TracksFetchResult.Success(
                 tracks = tracks,
-                selectedTrackId = selectedTrackId
+                selectedTrackId = selectedTrackId,
+                tracksSelectionCountMap = emptyMap()
             )
         )
 
@@ -65,7 +66,8 @@ class TrackSelectionListTest {
 
         val expectedContent = State.Content(
             tracks = tracks,
-            selectedTrackId = selectedTrackId
+            selectedTrackId = selectedTrackId,
+            tracksSelectionCountMap = emptyMap()
         )
         assertEquals(
             expectedContent,
@@ -81,7 +83,8 @@ class TrackSelectionListTest {
 
         val state = State.Content(
             tracks = tracks,
-            selectedTrackId = selectedTrackId
+            selectedTrackId = selectedTrackId,
+            tracksSelectionCountMap = emptyMap()
         )
 
         val viewState = viewStateMapper.map(state)
@@ -92,6 +95,74 @@ class TrackSelectionListTest {
             val firstTrack = viewState.tracks.first()
             firstTrack.isSelected && firstTrack.id == selectedTrackId
         }
+    }
+
+    @Test
+    fun `Tracks should be sorted by selection change count`() {
+        val selectedTrackId = 3L
+        val tracks = listOf(1L, 2L, selectedTrackId, 4L, 5L)
+            .map(TrackWithProgress.Companion::stub)
+        val tracksSelectionCountMap = mapOf(
+            1L to 3,
+            2L to 2,
+            4L to 5,
+            5L to 1
+        )
+        val state = State.Content(
+            tracks = tracks,
+            selectedTrackId = selectedTrackId,
+            tracksSelectionCountMap = tracksSelectionCountMap
+        )
+
+        val viewState = viewStateMapper.map(state) as TrackSelectionListFeature.ViewState.Content
+
+        assertEquals(listOf(3L, 4L, 1L, 2L, 5L), viewState.tracks.map { it.id })
+    }
+
+    @Test
+    fun `Tracks should be sorted by rank if selection change count is same`() {
+        val tracks = listOf(
+            TrackWithProgress.Companion.stub(trackId = 1L, rank = 2),
+            TrackWithProgress.Companion.stub(trackId = 2L, rank = 1),
+            TrackWithProgress.Companion.stub(trackId = 3L, rank = 3)
+        )
+        val state = State.Content(
+            tracks = tracks,
+            selectedTrackId = null,
+            tracksSelectionCountMap = emptyMap()
+        )
+
+        val viewState = viewStateMapper.map(state) as TrackSelectionListFeature.ViewState.Content
+
+        assertEquals(listOf(2L, 1L, 3L), viewState.tracks.map { it.id })
+    }
+
+    @Test
+    fun `Selected track should be first then sort by selection change count and then by rank`() {
+        val selectedTrackId = 3L
+        val tracks = listOf(
+            TrackWithProgress.Companion.stub(trackId = 1L, rank = 2),
+            TrackWithProgress.Companion.stub(trackId = 2L, rank = 1),
+            TrackWithProgress.Companion.stub(trackId = selectedTrackId, rank = 3),
+            TrackWithProgress.Companion.stub(trackId = 4L, rank = 4),
+            TrackWithProgress.Companion.stub(trackId = 5L, rank = 5)
+        )
+        val tracksSelectionCountMap = mapOf(
+            1L to 2,
+            2L to 3,
+            4L to 1,
+            5L to 4
+        )
+        val state = State.Content(
+            tracks = tracks,
+            selectedTrackId = selectedTrackId,
+            tracksSelectionCountMap = tracksSelectionCountMap
+        )
+
+        val viewState = viewStateMapper.map(state) as TrackSelectionListFeature.ViewState.Content
+
+        val expectedOrder = listOf(selectedTrackId, 5L, 2L, 1L, 4L)
+        assertEquals(expectedOrder, viewState.tracks.map { it.id })
     }
 
     @Test
@@ -120,7 +191,8 @@ class TrackSelectionListTest {
         val (_, actions) = trackSelectionListReducer.reduce(
             State.Content(
                 tracks = tracks,
-                selectedTrackId = selectedTrackId
+                selectedTrackId = selectedTrackId,
+                tracksSelectionCountMap = emptyMap()
             ),
             Message.TrackClicked(trackId)
         )

@@ -48,7 +48,10 @@ jobs:
           set -e
 
           echo "Getting latest tag without v* prefix..."
-          current_version_number=$(git tag --sort=committerdate | tail -1 | cut -c 2-)
+          current_version_number=$(git tag --sort=committerdate | tail -1)
+          if [[ $current_version_number == v* ]]; then
+              current_version_number=${current_version_number:1}
+          fi
           echo "Current version number is $current_version_number"
 
           major=$(echo $current_version_number | cut -d. -f1)

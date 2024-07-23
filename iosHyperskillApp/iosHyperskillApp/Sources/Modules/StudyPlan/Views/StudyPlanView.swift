@@ -75,10 +75,17 @@ struct StudyPlanView: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                     if let trackTitle = viewModel.state.trackTitle {
-                        Text(trackTitle)
-                            .font(.subheadline)
-                            .foregroundColor(.secondaryText)
-                            .padding(.bottom, appearance.trackTitleBottomPadding)
+                        Button(action: viewModel.doTrackSelectionPresentation) {
+                            HStack {
+                                Text(trackTitle)
+
+                                Image(systemName: "arrow.left.arrow.right.square")
+                                    .imageScale(.large)
+                            }
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.secondaryText)
+                        .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
 
                     let usersInterviewWidgetFeatureStateKs = viewModel.usersInterviewWidgetFeatureStateKs
@@ -120,6 +127,8 @@ private extension StudyPlanView {
         _ viewAction: StudyPlanScreenFeatureActionViewAction
     ) {
         switch StudyPlanScreenFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(navigateToViewAction)
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             GamificationToolbarViewActionHandler.handle(
                 viewAction: gamificationToolbarViewAction.viewAction,
@@ -134,6 +143,16 @@ private extension StudyPlanView {
             handleUsersInterviewWidgetViewAction(
                 usersInterviewWidgetViewAction.viewAction
             )
+        }
+    }
+
+    func handleNavigateToViewAction(
+        _ viewAction: StudyPlanScreenFeatureActionViewActionNavigateTo
+    ) {
+        switch StudyPlanScreenFeatureActionViewActionNavigateToKs(viewAction) {
+        case .trackSelectionScreen:
+            let assembly = TrackSelectionListAssembly(isNewUserMode: false)
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 

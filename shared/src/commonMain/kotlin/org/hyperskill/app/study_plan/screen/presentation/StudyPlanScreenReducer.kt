@@ -2,6 +2,7 @@ package org.hyperskill.app.study_plan.screen.presentation
 
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedChangeTrackHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanViewedHyperskillAnalyticEvent
@@ -58,6 +59,8 @@ internal class StudyPlanScreenReducer(
                     )
                 )
             }
+            StudyPlanScreenFeature.Message.ChangeTrackButtonClicked ->
+                handleChangeTrackButtonClicked(state)
         }
 
     private fun initializeFeatures(
@@ -123,6 +126,14 @@ internal class StudyPlanScreenReducer(
             )
         )
     }
+
+    private fun handleChangeTrackButtonClicked(
+        state: StudyPlanScreenFeature.State
+    ): StudyPlanScreenReducerResult =
+        state to setOf(
+            StudyPlanScreenFeature.InternalAction.LogAnalyticEvent(StudyPlanClickedChangeTrackHyperskillAnalyticEvent),
+            StudyPlanScreenFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen
+        )
 
     private fun reduceToolbarMessage(
         state: GamificationToolbarFeature.State,
