@@ -4,6 +4,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -40,6 +41,8 @@ internal class MainGamificationToolbarActionDispatcher(
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
+    private var isMobileContentTrialEnabled: Boolean = false
+
     init {
         stepCompletedFlow.observe()
             .onEach { onNewMessage(InternalMessage.StepSolved) }
@@ -72,6 +75,12 @@ internal class MainGamificationToolbarActionDispatcher(
             .launchIn(actionScope)
 
         currentSubscriptionStateRepository.changes
+            .map {
+                it.orContentTrial(
+                    isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+                    canMakePayments = canMakePayments()
+                )
+            }
             .distinctUntilChanged()
             .onEach { onNewMessage(InternalMessage.SubscriptionChanged(it)) }
             .launchIn(actionScope)
@@ -108,7 +117,10 @@ internal class MainGamificationToolbarActionDispatcher(
                 val gamificationToolbarDataWithSource = toolbarDataDeferred.await().getOrThrow()
                 val profile = profileDeferred.await().getOrThrow()
 
-                val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
+                this@MainGamificationToolbarActionDispatcher.isMobileContentTrialEnabled =
+                    profile.features.isMobileContentTrialEnabled
+
+                val canMakePayments = canMakePayments()
 
                 val subscription = getSubscription(
                     isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
@@ -169,4 +181,7 @@ internal class MainGamificationToolbarActionDispatcher(
             subscriptionWithSource.state
         }
     }
+
+    private suspend fun canMakePayments(): Boolean =
+        purchaseInteractor.canMakePayments().getOrDefault(false)
 }

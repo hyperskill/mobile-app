@@ -368,7 +368,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleActivityClicked(state: State, message: Message.ActivityClicked): StudyPlanWidgetReducerResult {
         val activity = state.activities[message.activityId] ?: return state to emptySet()
 
-        val isActivityLocked = isActivityLocked(state, message.activityId, message.sectionId)
+        val isActivityLocked = state.isActivityLocked(message.sectionId, message.activityId)
 
         val logAnalyticEventAction = InternalAction.LogAnalyticEvent(
             StudyPlanClickedActivityHyperskillAnalyticEvent(
@@ -397,11 +397,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
 
         return state to setOf(activityTargetAction, logAnalyticEventAction)
-    }
-
-    private fun isActivityLocked(state: State, activityId: Long, sectionId: Long): Boolean {
-        val unlockedActivitiesIds = state.getUnlockedActivitiesIds(sectionId)
-        return unlockedActivitiesIds != null && activityId !in unlockedActivitiesIds
     }
 
     private fun handleSubscribeClicked(state: State): StudyPlanWidgetReducerResult =

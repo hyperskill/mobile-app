@@ -10,11 +10,13 @@ import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 /**
  * @return current [StudyPlanSection].
  *
- * `studyPlanSections` map preserves the entry iteration order, so we can use the first element as the current section.
- *
  * @see StudyPlanWidgetReducer.handleLearningActivitiesWithSectionsFetchSuccess
  */
 internal fun StudyPlanWidgetFeature.State.getCurrentSection(): StudyPlanSection? =
+    /**
+     * [StudyPlanWidgetFeature.State.studyPlanSections] map preserves the entry iteration order,
+     * so we can use the first element as the current section.
+     */
     studyPlanSections.values.firstOrNull()?.studyPlanSection
 
 /**
@@ -37,19 +39,45 @@ internal fun StudyPlanWidgetFeature.State.getCurrentActivity(): LearningActivity
 
 /**
  * @param sectionId target section id.
- * @return list of [LearningActivity] for the given section with [sectionId].
+ * @return a sequence of [LearningActivity] for the given section with [sectionId]
+ * filtered by availability in [StudyPlanWidgetFeature.State.activities]
  */
-internal fun StudyPlanWidgetFeature.State.getSectionActivities(sectionId: Long): List<LearningActivity> =
+internal fun StudyPlanWidgetFeature.State.getSectionActivities(sectionId: Long): Sequence<LearningActivity> =
     studyPlanSections[sectionId]
         ?.studyPlanSection
         ?.activities
-        ?.mapNotNull { id -> activities[id] } ?: emptyList()
+        ?.asSequence()
+        ?.mapNotNull { id -> activities[id] }
+        ?: emptySequence()
 
 /**
- * Returns unlocked activities ids list in case of MobileContentTrial subscription.
+ * @param sectionId target section id.
+ * @param activityId target activity id in the section with id = [sectionId]
+ *
+ * @return true in case of MobileContentTrial subscription and
+ * this activity number is bigger then the free topics count.
+ * Otherwise returns false (activity with [activityId] is unlocked).
+ */
+internal fun StudyPlanWidgetFeature.State.isActivityLocked(
+    sectionId: Long,
+    activityId: Long,
+): Boolean {
+    val unlockedActivitiesCount = getUnlockedActivitiesCount(sectionId)
+    return unlockedActivitiesCount != null &&
+        getSectionActivities(sectionId)
+            .take(unlockedActivitiesCount)
+            .map { it.id }
+            .contains(activityId)
+            .not()
+}
+
+/**
+ * @param sectionId target sectionId.
+ *
+ * @return unlocked activities count for [sectionId] in case of MobileContentTrial subscription.
  * Otherwise returns null (all the activities are unlocked).
  */
-internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesIds(sectionId: Long): List<Long>? {
+internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesCount(sectionId: Long): Int? {
     val section = studyPlanSections[sectionId]?.studyPlanSection ?: return null
     val isRootTopicsSection = section.type == StudyPlanSectionType.ROOT_TOPICS
     val isTopicsLimitEnabled =
@@ -59,12 +87,18 @@ internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesIds(sectionId: Lo
         ) == SubscriptionLimitType.TOPICS
     val unlockedActivitiesCount = profile?.feautureValues?.mobileContentTrialFreeTopics?.minus(learnedTopicsCount)
     return if (isRootTopicsSection && isTopicsLimitEnabled && unlockedActivitiesCount != null) {
-        section.activities.take(unlockedActivitiesCount)
+        unlockedActivitiesCount
     } else {
         null
     }
 }
 
+/**
+ * @return true in case of MobileContentTrial subscription,
+ * only on root topics section and
+ * all the free topics are solved.
+ * Otherwise returns false.
+ */
 internal fun StudyPlanWidgetFeature.State.isPaywallShown(): Boolean {
     val rootTopicsSections =
         studyPlanSections
@@ -75,8 +109,8 @@ internal fun StudyPlanWidgetFeature.State.isPaywallShown(): Boolean {
     val hasOnlyOneRootTopicSection = rootTopicsSections.count() == 1
     return if (hasOnlyOneRootTopicSection) {
         val rootTopicsSectionId = rootTopicsSections.first().studyPlanSection.id
-        val unlockedActivitiesIds = getUnlockedActivitiesIds(rootTopicsSectionId)
-        unlockedActivitiesIds?.isEmpty() == true
+        val unlockedActivitiesCount = getUnlockedActivitiesCount(rootTopicsSectionId)
+        unlockedActivitiesCount == 0
     } else {
         false
     }
