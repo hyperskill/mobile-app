@@ -1,11 +1,13 @@
 package org.hyperskill.app.android.gamification_toolbar.view.ui.delegate
 
 import android.content.Context
+import android.util.TypedValue
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePaddingRelative
+import androidx.core.view.updatePadding
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.github.terrakok.cicerone.Router
@@ -38,22 +40,7 @@ class GamificationToolbarDelegate(
 
     init {
         with(viewBinding) {
-            root.doOnApplyWindowInsets { _, insets, _ ->
-                val insetTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-
-                val toolbar = viewBinding.gamificationToolbar
-                toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
-                    height += insetTop
-                }
-                toolbar.updatePaddingRelative(top = insetTop)
-
-                applyInsetsToCollapsingToolbarLayout(
-                    context = context,
-                    collapsingToolbarLayout = viewBinding.gamificationCollapsingToolbarLayout,
-                    insetTop = insetTop,
-                    subtitle = subtitle
-                )
-            }
+            applyWindowInsets()
             gamificationAppBar.setElevationOnCollapsed(lifecycleOwner.lifecycle)
             gamificationAppBar.setExpanded(true)
             gamificationStreakDurationTextView.setOnClickListener {
@@ -68,6 +55,38 @@ class GamificationToolbarDelegate(
             gamificationProblemsLimitTextView.setOnClickListener {
                 onNewMessage(Message.ProblemsLimitClicked)
             }
+        }
+    }
+
+    private fun applyWindowInsets() {
+        var initialTopPadding = 0
+        viewBinding.gamificationToolbar.doOnNextLayout {
+            initialTopPadding = it.paddingTop
+        }
+
+        viewBinding.root.doOnApplyWindowInsets { _, insets, _ ->
+            val insetTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+
+            val toolbar = viewBinding.gamificationToolbar
+            toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
+                val typedValue = TypedValue()
+                if (context.theme.resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
+                    val toolbarHeight = TypedValue.complexToDimensionPixelSize(
+                        /* data = */ typedValue.data,
+                        /* metrics = */ context.resources.displayMetrics
+                    )
+                    height = toolbarHeight + insetTop
+                }
+            }
+
+            toolbar.updatePadding(top = insetTop + initialTopPadding)
+
+            applyInsetsToCollapsingToolbarLayout(
+                context = context,
+                collapsingToolbarLayout = viewBinding.gamificationCollapsingToolbarLayout,
+                insetTop = insetTop,
+                subtitle = subtitle
+            )
         }
     }
 
