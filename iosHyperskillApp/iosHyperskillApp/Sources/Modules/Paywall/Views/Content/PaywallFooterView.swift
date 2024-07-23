@@ -10,10 +10,8 @@ struct PaywallFooterView: View {
     private(set) var appearance = Appearance()
 
     let buyButtonText: String
-    let isContinueWithLimitsButtonVisible: Bool
 
     let onBuyButtonTap: () -> Void
-    let onContinueWithLimitsButtonTap: () -> Void
     let onTermsOfServiceButtonTap: () -> Void
 
     private let feedbackGenerator = FeedbackGenerator(feedbackType: .selection)
@@ -40,17 +38,6 @@ struct PaywallFooterView: View {
             .buttonStyle(.primary)
             .shineEffect()
 
-            if isContinueWithLimitsButtonVisible {
-                Button(
-                    Strings.Paywall.continueWithLimitsButton,
-                    action: {
-                        feedbackGenerator.triggerFeedback()
-                        onContinueWithLimitsButtonTap()
-                    }
-                )
-                .buttonStyle(OutlineButtonStyle(style: .newGray))
-            }
-
             Button(
                 Strings.Paywall.termsOfServiceButton,
                 action: {
@@ -69,17 +56,13 @@ struct PaywallFooterView: View {
     VStack {
         PaywallFooterView(
             buyButtonText: "Subscribe for $11.99/month",
-            isContinueWithLimitsButtonVisible: true,
             onBuyButtonTap: {},
-            onContinueWithLimitsButtonTap: {},
             onTermsOfServiceButtonTap: {}
         )
 
         PaywallFooterView(
             buyButtonText: "Subscribe for $11.99/month",
-            isContinueWithLimitsButtonVisible: false,
             onBuyButtonTap: {},
-            onContinueWithLimitsButtonTap: {},
             onTermsOfServiceButtonTap: {}
         )
     }
