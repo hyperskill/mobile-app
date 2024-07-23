@@ -9,7 +9,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
-import org.hyperskill.app.study_plan.widget.presentation.getUnlockedActivitiesIds
+import org.hyperskill.app.study_plan.widget.presentation.getUnlockedActivitiesCount
 import org.hyperskill.app.study_plan.widget.presentation.isPaywallShown
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.SectionContent
@@ -73,30 +73,22 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         if (sectionInfo.isExpanded) {
             when (sectionInfo.contentStatus) {
                 StudyPlanWidgetFeature.ContentStatus.IDLE -> SectionContent.Collapsed
-                StudyPlanWidgetFeature.ContentStatus.LOADING -> {
-                    val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id)
-                    if (activities.isEmpty()) {
-                        SectionContent.Loading
-                    } else {
-                        getContent(
-                            activities = activities,
-                            currentActivityId = currentActivityId,
-                            unlockedActivitiesIds = state.getUnlockedActivitiesIds(sectionInfo.studyPlanSection.id)
-                        )
-                    }
-                }
                 StudyPlanWidgetFeature.ContentStatus.ERROR -> SectionContent.Error
+                StudyPlanWidgetFeature.ContentStatus.LOADING -> {
+                    getContent(
+                        state = state,
+                        sectionInfo = sectionInfo,
+                        currentActivityId = currentActivityId,
+                        emptyActivitiesState = SectionContent.Loading
+                    )
+                }
                 StudyPlanWidgetFeature.ContentStatus.LOADED -> {
-                    val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id)
-                    if (activities.isNotEmpty()) {
-                        getContent(
-                            activities = activities,
-                            currentActivityId = currentActivityId,
-                            unlockedActivitiesIds = state.getUnlockedActivitiesIds(sectionInfo.studyPlanSection.id)
-                        )
-                    } else {
-                        SectionContent.Error
-                    }
+                    getContent(
+                        state = state,
+                        sectionInfo = sectionInfo,
+                        currentActivityId = currentActivityId,
+                        emptyActivitiesState = SectionContent.Error
+                    )
                 }
             }
         } else {
@@ -104,13 +96,31 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         }
 
     private fun getContent(
+        state: StudyPlanWidgetFeature.State,
+        sectionInfo: StudyPlanWidgetFeature.StudyPlanSectionInfo,
+        currentActivityId: Long?,
+        emptyActivitiesState: SectionContent
+    ): SectionContent {
+        val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id).toList()
+        return if (activities.isEmpty()) {
+            emptyActivitiesState
+        } else {
+            getContent(
+                activities = activities,
+                currentActivityId = currentActivityId,
+                unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionInfo.studyPlanSection.id)
+            )
+        }
+    }
+
+    private fun getContent(
         activities: List<LearningActivity>,
         currentActivityId: Long?,
-        unlockedActivitiesIds: List<Long>?
+        unlockedActivitiesCount: Int?
     ): SectionContent.Content =
         SectionContent.Content(
-            sectionItems = activities.map { activity ->
-                val isLocked = unlockedActivitiesIds != null && activity.id !in unlockedActivitiesIds
+            sectionItems = activities.mapIndexed { index, activity ->
+                val isLocked = unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
                     title = LearningActivityTextsMapper.mapLearningActivityToTitle(activity),
