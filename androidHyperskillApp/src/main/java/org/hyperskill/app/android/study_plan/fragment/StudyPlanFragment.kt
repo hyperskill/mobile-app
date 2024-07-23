@@ -189,6 +189,9 @@ class StudyPlanFragment :
                     logger = logger
                 )
             }
+            StudyPlanScreenFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen -> {
+                // TODO: ALTAPPS-1291 Implement navigation to track selection screen
+            }
         }
     }
 

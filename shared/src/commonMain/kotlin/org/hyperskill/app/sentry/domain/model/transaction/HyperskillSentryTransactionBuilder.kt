@@ -292,6 +292,12 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildTrackSelectionDetailsScreenSelectTrack(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "track-selection-details-feature-select-track",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     /**
      * ProgressScreenFeature
      */

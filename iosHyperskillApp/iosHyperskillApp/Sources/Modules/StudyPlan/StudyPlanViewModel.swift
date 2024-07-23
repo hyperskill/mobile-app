@@ -42,6 +42,10 @@ final class StudyPlanViewModel: FeatureViewModel<
         onNewMessage(StudyPlanScreenFeatureMessagePullToRefresh())
     }
 
+    func doTrackSelectionPresentation() {
+        onNewMessage(StudyPlanScreenFeatureMessageChangeTrackButtonClicked())
+    }
+
     func doSectionToggle(sectionId: Int64) {
         onNewMessage(
             StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(

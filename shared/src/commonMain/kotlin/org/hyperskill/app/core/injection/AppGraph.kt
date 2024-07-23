@@ -87,6 +87,7 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComp
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsDataComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
@@ -149,6 +150,7 @@ interface AppGraph {
     fun buildTrackDataComponent(): TrackDataComponent
     fun buildTrackSelectionListComponent(): TrackSelectionListComponent
     fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent
+    fun buildTrackSelectionDetailsDataComponent(): TrackSelectionDetailsDataComponent
     fun buildProfileComponent(): ProfileComponent
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent

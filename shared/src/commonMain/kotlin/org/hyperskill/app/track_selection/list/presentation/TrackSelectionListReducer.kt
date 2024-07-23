@@ -35,7 +35,11 @@ internal class TrackSelectionListReducer(
                 }
             is TrackSelectionListFeature.TracksFetchResult.Success ->
                 if (state is State.Loading) {
-                    State.Content(message.tracks, message.selectedTrackId) to emptySet()
+                    State.Content(
+                        tracks = message.tracks,
+                        selectedTrackId = message.selectedTrackId,
+                        tracksSelectionCountMap = message.tracksSelectionCountMap
+                    ) to emptySet()
                 } else {
                     null
                 }

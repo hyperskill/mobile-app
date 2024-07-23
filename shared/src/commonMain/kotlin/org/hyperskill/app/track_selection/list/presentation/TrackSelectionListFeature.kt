@@ -5,19 +5,20 @@ import org.hyperskill.app.track.domain.model.TrackWithProgress
 
 object TrackSelectionListFeature {
     internal sealed interface State {
-        object Idle : State
-        object Loading : State
+        data object Idle : State
+        data object Loading : State
         data class Content(
             val tracks: List<TrackWithProgress>,
-            val selectedTrackId: Long?
+            val selectedTrackId: Long?,
+            val tracksSelectionCountMap: Map<Long, Int>
         ) : State
-        object NetworkError : State
+        data object NetworkError : State
     }
 
     sealed interface ViewState {
-        object Idle : ViewState
-        object Loading : ViewState
-        object Error : ViewState
+        data object Idle : ViewState
+        data object Loading : ViewState
+        data object Error : ViewState
         data class Content(val tracks: List<Track>) : ViewState
 
         data class Track(
@@ -34,16 +35,16 @@ object TrackSelectionListFeature {
     }
 
     sealed interface Message {
-        object Initialize : Message
+        data object Initialize : Message
 
-        object RetryContentLoading : Message
+        data object RetryContentLoading : Message
 
         data class TrackClicked(val trackId: Long) : Message
 
         /**
          * Analytic
          */
-        object ViewedEventMessage : Message
+        data object ViewedEventMessage : Message
     }
 
     /**
@@ -52,9 +53,10 @@ object TrackSelectionListFeature {
     internal sealed interface TracksFetchResult : Message {
         data class Success(
             val tracks: List<TrackWithProgress>,
-            val selectedTrackId: Long?
+            val selectedTrackId: Long?,
+            val tracksSelectionCountMap: Map<Long, Int>
         ) : TracksFetchResult
-        object Error : TracksFetchResult
+        data object Error : TracksFetchResult
     }
 
     sealed interface Action {
@@ -67,12 +69,12 @@ object TrackSelectionListFeature {
                 ) : NavigateTo
             }
 
-            object ShowTrackSelectionError : ViewAction
+            data object ShowTrackSelectionError : ViewAction
         }
     }
 
     internal sealed interface InternalAction : Action {
-        object FetchTracks : InternalAction
+        data object FetchTracks : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
