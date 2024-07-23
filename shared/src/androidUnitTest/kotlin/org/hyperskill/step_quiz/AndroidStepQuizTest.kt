@@ -8,6 +8,8 @@ import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
@@ -67,14 +69,16 @@ class AndroidStepQuizTest {
                         }
                     ),
                     stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                    stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
                 )
 
                 val reducer = StepQuizReducer(
                     stepRoute = stepRoute,
                     stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
                         stepQuizHintsReducer = StepQuizHintsReducer(stepRoute),
-                        stepQuizToolbarReducer = StepQuizToolbarReducer(stepRoute)
+                        stepQuizToolbarReducer = StepQuizToolbarReducer(stepRoute),
+                        stepQuizCodeBlanksReducer = StepQuizCodeBlanksReducer(stepRoute)
                     ),
                 )
 
@@ -82,7 +86,8 @@ class AndroidStepQuizTest {
                     StepQuizFeature.State(
                         stepQuizState = StepQuizFeature.StepQuizState.Loading,
                         stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                        stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                        stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                        stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
                     ),
                     StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                         step,
