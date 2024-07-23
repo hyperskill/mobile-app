@@ -13,7 +13,7 @@ struct StudyPlanSectionView: View {
     let section: StudyPlanWidgetViewStateSection
 
     let onSectionTap: (Int64) -> Void
-    let onActivityTap: (Int64) -> Void
+    let onActivityTap: (Int64, Int64) -> Void
     let onRetryActivitiesLoadingTap: (Int64) -> Void
 
     var body: some View {
@@ -36,7 +36,9 @@ struct StudyPlanSectionView: View {
             case .content(let content):
                 StudyPlanSectionActivitiesList(
                     sectionItems: content.sectionItems,
-                    onTap: onActivityTap
+                    onTap: { activityID in
+                        onActivityTap(activityID, section.id)
+                    }
                 )
             }
         }
@@ -49,7 +51,7 @@ struct StudyPlanSectionView_Previews: PreviewProvider {
         StudyPlanSectionView(
             section: StudyPlanWidgetViewStateSection.makePlaceholder(),
             onSectionTap: { _ in },
-            onActivityTap: { _ in },
+            onActivityTap: { _, _  in },
             onRetryActivitiesLoadingTap: { _ in }
         )
         .padding()
