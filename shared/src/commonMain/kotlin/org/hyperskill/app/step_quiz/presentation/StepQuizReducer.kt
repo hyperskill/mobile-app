@@ -30,6 +30,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
@@ -81,20 +82,7 @@ internal class StepQuizReducer(
                 } else {
                     null
                 }
-            is Message.CreateAttemptSuccess ->
-                if (state.stepQuizState is StepQuizState.AttemptLoading) {
-                    state.copy(
-                        stepQuizState = StepQuizState.AttemptLoaded(
-                            step = message.step,
-                            attempt = message.attempt,
-                            submissionState = message.submissionState,
-                            isProblemsLimitReached = message.isProblemsLimitReached,
-                            isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
-                        )
-                    ) to emptySet()
-                } else {
-                    null
-                }
+            is Message.CreateAttemptSuccess -> handleCreateAttemptSuccess(state, message)
             is Message.CreateAttemptError ->
                 if (state.stepQuizState is StepQuizState.AttemptLoading) {
                     state.copy(
@@ -320,19 +308,37 @@ internal class StepQuizReducer(
                 if (isMobileGptCodeGenerationWithErrorsAvailable && !isProblemsLimitReached) {
                     state to setOf(InternalAction.GenerateGptCodeWithErrors(stepQuizState))
                 } else {
+                    val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
+                        if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(message.step)) {
+                            stepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage(
+                                state.stepQuizCodeBlanksState,
+                                StepQuizCodeBlanksFeature.InternalMessage.Initialize(message.step)
+                            )
+                        } else {
+                            StepQuizCodeBlanksFeature.State.Idle to emptySet()
+                        }
+
                     val shouldShowProblemsLimitModal = shouldShowProblemsLimitModal(
                         subscription = message.subscription,
                         isProblemsLimitReached = message.isProblemsLimitReached
                     )
-                    state.copy(stepQuizState = stepQuizState) to
+
+                    state.copy(
+                        stepQuizState = stepQuizState,
+                        stepQuizCodeBlanksState = stepQuizCodeBlanksState
+                    ) to buildSet {
                         if (isProblemsLimitReached && shouldShowProblemsLimitModal) {
-                            showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy)
+                            addAll(showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy))
                         } else {
-                            getProblemOnboardingModalActions(
-                                step = message.step,
-                                problemsOnboardingFlags = message.problemsOnboardingFlags
+                            addAll(
+                                getProblemOnboardingModalActions(
+                                    step = message.step,
+                                    problemsOnboardingFlags = message.problemsOnboardingFlags
+                                )
                             )
                         }
+                        addAll(stepQuizCodeBlanksActions)
+                    }
                 }
             }
         } else {
@@ -371,6 +377,35 @@ internal class StepQuizReducer(
             )
         )
     }
+
+    private fun handleCreateAttemptSuccess(
+        state: State,
+        message: Message.CreateAttemptSuccess
+    ): StepQuizReducerResult? =
+        if (state.stepQuizState is StepQuizState.AttemptLoading) {
+            val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
+                if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(message.step)) {
+                    stepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage(
+                        state.stepQuizCodeBlanksState,
+                        StepQuizCodeBlanksFeature.InternalMessage.Initialize(message.step)
+                    )
+                } else {
+                    StepQuizCodeBlanksFeature.State.Idle to emptySet()
+                }
+
+            state.copy(
+                stepQuizState = StepQuizState.AttemptLoaded(
+                    step = message.step,
+                    attempt = message.attempt,
+                    submissionState = message.submissionState,
+                    isProblemsLimitReached = message.isProblemsLimitReached,
+                    isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
+                ),
+                stepQuizCodeBlanksState = stepQuizCodeBlanksState
+            ) to stepQuizCodeBlanksActions
+        } else {
+            null
+        }
 
     private fun initialize(state: State, message: Message.InitWithStep): StepQuizReducerResult {
         val needReloadStepQuiz =

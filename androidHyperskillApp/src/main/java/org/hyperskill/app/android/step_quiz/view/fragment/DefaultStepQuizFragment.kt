@@ -320,6 +320,9 @@ abstract class DefaultStepQuizFragment :
             StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton -> {
                 handleScrollToCallToActionButton()
             }
+            is StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction -> {
+                // no op
+            }
         }
     }
 

@@ -156,7 +156,16 @@ struct StepQuizView: View {
         step: Step,
         attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
     ) -> some View {
-        if let dataset = attemptLoadedState.attempt.dataset {
+        let stepQuizCodeBlanksState = viewModel.state.stepQuizCodeBlanksState
+        if stepQuizCodeBlanksState is StepQuizCodeBlanksFeatureStateContent {
+            StepQuizCodeBlanksAssembly(
+                state: stepQuizCodeBlanksState,
+                moduleOutput: viewModel
+            )
+            .makeModule()
+            .equatable()
+            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+        } else if let dataset = attemptLoadedState.attempt.dataset {
             let reply = StepQuizStateExtensionsKt.reply(attemptLoadedState.submissionState)
 
             StepQuizChildQuizViewFactory.make(
@@ -299,6 +308,10 @@ private extension StepQuizView {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.33) {
                 self.scrollToCallToActionButtonTrigger.toggle()
             }
+        case .stepQuizCodeBlanksViewAction(let stepQuizCodeBlanksViewAction):
+            assertionFailure(
+                "StepQuizView :: did receive unexpected StepQuizCodeBlanksViewAction: \(stepQuizCodeBlanksViewAction)"
+            )
         }
     }
 
