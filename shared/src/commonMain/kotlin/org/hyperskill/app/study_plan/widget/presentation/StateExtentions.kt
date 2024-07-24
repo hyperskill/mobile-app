@@ -62,14 +62,13 @@ internal fun StudyPlanWidgetFeature.State.getActivitiesToBeLoaded(sectionId: Lon
     }
 }
 
-internal fun StudyPlanSection.getActivitiesToBeLoaded(allLoadedActivities: Collection<LearningActivity>): Set<Long> {
-    return if (type == StudyPlanSectionType.ROOT_TOPICS) {
+internal fun StudyPlanSection.getActivitiesToBeLoaded(allLoadedActivities: Collection<LearningActivity>): Set<Long> =
+    if (type == StudyPlanSectionType.ROOT_TOPICS) {
         val sectionActivities = activities.intersect(allLoadedActivities.map { it.id }.toSet())
         activitiesToBeLoaded.subtract(sectionActivities)
     } else {
         emptySet()
     }
-}
 
 /**
  * @param sectionId target section id.

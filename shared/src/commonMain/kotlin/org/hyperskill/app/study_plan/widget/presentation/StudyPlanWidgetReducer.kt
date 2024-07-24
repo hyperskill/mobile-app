@@ -208,8 +208,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleLearningActivitiesFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success,
-    ): StudyPlanWidgetReducerResult {
-        return handleNewActivities(
+    ): StudyPlanWidgetReducerResult =
+        handleNewActivities(
             state = state.copy(
                 activities = state.activities.mutate {
                     putAll(message.activities.associateBy { it.id })
@@ -233,7 +233,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             sectionId = message.sectionId,
             activities = message.activities
         )
-    }
 
     private fun handleNewActivities(
         state: State,

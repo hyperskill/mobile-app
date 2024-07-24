@@ -39,6 +39,4 @@ internal val StudyPlanSection.firstRootTopicsActivityIndexToBeLoaded: Int
     }
 
 internal val StudyPlanSection.activitiesToBeLoaded: List<Long>
-    get() = activities.slice(
-        firstRootTopicsActivityIndexToBeLoaded..activities.lastIndex
-    )
+    get() = activities.slice(firstRootTopicsActivityIndexToBeLoaded..activities.lastIndex)
