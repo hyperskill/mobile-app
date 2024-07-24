@@ -9,6 +9,7 @@ import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -17,6 +18,9 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizActionDispatcher
 import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksActionDispatcher
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
@@ -45,10 +49,13 @@ internal object StepQuizFeatureBuilder {
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+        purchaseInteractor: PurchaseInteractor,
         stepQuizHintsReducer: StepQuizHintsReducer,
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
         stepQuizToolbarReducer: StepQuizToolbarReducer,
         stepQuizToolbarActionDispatcher: StepQuizToolbarActionDispatcher,
+        stepQuizCodeBlanksReducer: StepQuizCodeBlanksReducer,
+        stepQuizCodeBlanksActionDispatcher: StepQuizCodeBlanksActionDispatcher,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
@@ -56,7 +63,8 @@ internal object StepQuizFeatureBuilder {
             stepRoute = stepRoute,
             stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
                 stepQuizHintsReducer = stepQuizHintsReducer,
-                stepQuizToolbarReducer = stepQuizToolbarReducer
+                stepQuizToolbarReducer = stepQuizToolbarReducer,
+                stepQuizCodeBlanksReducer = stepQuizCodeBlanksReducer
             ),
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
@@ -71,6 +79,7 @@ internal object StepQuizFeatureBuilder {
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
+            purchaseInteractor = purchaseInteractor,
             logger = logger.withTag(LOG_TAG)
         )
 
@@ -78,7 +87,8 @@ internal object StepQuizFeatureBuilder {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Idle,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
             ),
             stepQuizReducer
         )
@@ -93,6 +103,12 @@ internal object StepQuizFeatureBuilder {
                 stepQuizToolbarActionDispatcher.transform(
                     transformAction = { it.safeCast<StepQuizFeature.Action.StepQuizToolbarAction>()?.action },
                     transformMessage = StepQuizFeature.Message::StepQuizToolbarMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                stepQuizCodeBlanksActionDispatcher.transform(
+                    transformAction = { it.safeCast<StepQuizFeature.Action.StepQuizCodeBlanksAction>()?.action },
+                    transformMessage = StepQuizFeature.Message::StepQuizCodeBlanksMessage
                 )
             )
             .wrapWithAnalyticLogger(analyticInteractor) {

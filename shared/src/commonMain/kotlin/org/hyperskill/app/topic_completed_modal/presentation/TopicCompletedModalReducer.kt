@@ -1,12 +1,14 @@
 package org.hyperskill.app.topic_completed_modal.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalClickedCloseHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalUserDidTakeScreenshotHyperskillAnalyticEvent
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams.ContinueBehaviour
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.Action
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.InternalAction
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.Message
@@ -35,15 +37,20 @@ internal class TopicCompletedModalReducer(
         )
 
     private fun handleCallToActionButtonClicked(state: State): TopicCompletedModalReducerResult =
-        if (state.canContinueWithNextTopic) {
-            state to setOf(
+        state to when (state.continueBehaviour) {
+            ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC -> setOf(
                 InternalAction.LogAnalyticEvent(
                     TopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(analyticRoute)
                 ),
                 Action.ViewAction.NavigateTo.NextTopic
             )
-        } else {
-            state to setOf(
+            ContinueBehaviour.SHOW_PAYWALL -> setOf(
+                InternalAction.LogAnalyticEvent(
+                    TopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(analyticRoute)
+                ),
+                Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.TOPIC_COMPLETED_MODAL)
+            )
+            ContinueBehaviour.GO_TO_STUDY_PLAN -> setOf(
                 InternalAction.LogAnalyticEvent(
                     TopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(analyticRoute)
                 ),

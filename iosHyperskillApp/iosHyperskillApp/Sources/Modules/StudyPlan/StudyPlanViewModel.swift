@@ -54,10 +54,13 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
-    func doActivityPresentation(activityId: Int64) {
+    func doActivityPresentation(activityID: Int64, sectionID: Int64) {
         onNewMessage(
             StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
-                message: StudyPlanWidgetFeatureMessageActivityClicked(activityId: activityId)
+                message: StudyPlanWidgetFeatureMessageActivityClicked(
+                    activityId: activityID,
+                    sectionId: sectionID
+                )
             )
         )
     }
@@ -66,6 +69,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         onNewMessage(
             StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
                 message: StudyPlanWidgetFeatureMessageRetryActivitiesLoading(sectionId: sectionId)
+            )
+        )
+    }
+
+    func doPaywallBannerAction() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageSubscribeClicked()
             )
         )
     }

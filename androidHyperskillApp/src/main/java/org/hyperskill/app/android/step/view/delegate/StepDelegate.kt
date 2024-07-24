@@ -22,6 +22,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
+import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.request_review.dialog.RequestReviewDialogFragment
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.model.StepHost
@@ -120,6 +121,9 @@ object StepDelegate {
                 fragment.requireRouter().backTo(MainScreen(Tabs.STUDY_PLAN))
                 mainScreenRouter.switch(Tabs.STUDY_PLAN)
             }
+
+            is StepCompletionFeature.Action.ViewAction.NavigateTo.Paywall ->
+                fragment.requireRouter().navigateTo(PaywallScreen(stepCompletionAction.paywallTransitionSource))
 
             is StepCompletionFeature.Action.ViewAction.ReloadStep ->
                 reloadStep(fragment, stepCompletionAction.stepRoute)

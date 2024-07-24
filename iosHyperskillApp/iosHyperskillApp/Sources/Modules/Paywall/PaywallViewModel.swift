@@ -37,8 +37,8 @@ final class PaywallViewModel: FeatureViewModel<
         onNewMessage(PaywallFeatureMessageBuySubscriptionClicked(purchaseParams: PlatformPurchaseParams()))
     }
 
-    func doContinueWithLimits() {
-        onNewMessage(PaywallFeatureMessageContinueWithLimitsClicked())
+    func doClosePresentation() {
+        onNewMessage(PaywallFeatureMessageCloseClicked())
     }
 
     func doTermsOfServicePresentation() {

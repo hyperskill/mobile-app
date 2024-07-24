@@ -28,7 +28,9 @@ data class Block(
         @SerialName("samples")
         val samples: List<List<String>>? = null,
         @SerialName("files")
-        val files: List<File>? = null
+        val files: List<File>? = null,
+        @SerialName("code_blanks_strings")
+        val codeBlanksStrings: List<String>? = null
     ) {
         @Serializable
         data class File(

@@ -3,6 +3,7 @@ package org.hyperskill.topic_completed_modal
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import org.hyperskill.ResourceProviderStub
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams.ContinueBehaviour
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature
 import org.hyperskill.app.topic_completed_modal.view.TopicCompletedModalViewStateMapper
 import org.hyperskill.app.topics.domain.model.Topic
@@ -68,6 +69,6 @@ class TopicCompletedModalViewStateMapperTest {
         TopicCompletedModalFeature.State(
             topic = Topic(id = 1, title = "Sample Topic", progressId = ""),
             passedTopicsCount = passedTopicsCount,
-            canContinueWithNextTopic = true
+            continueBehaviour = ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC
         )
 }

@@ -26,7 +26,7 @@ class PurchaseInteractor(
         if (result.isSuccess) {
             analyticInteractor.setUserProperty(
                 AnalyticKeys.CAN_MAKE_PAYMENTS,
-                canMakePayments().getOrElse { false }
+                canMakePayments().getOrDefault(false)
             )
         }
         return result

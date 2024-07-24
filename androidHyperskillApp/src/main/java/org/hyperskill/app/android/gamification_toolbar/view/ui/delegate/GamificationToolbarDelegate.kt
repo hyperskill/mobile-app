@@ -1,11 +1,13 @@
 package org.hyperskill.app.android.gamification_toolbar.view.ui.delegate
 
 import android.content.Context
+import android.util.TypedValue
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePaddingRelative
+import androidx.core.view.updatePadding
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.github.terrakok.cicerone.Router
@@ -31,29 +33,15 @@ class GamificationToolbarDelegate(
     lifecycleOwner: LifecycleOwner,
     private val context: Context,
     private val viewBinding: LayoutGamificationToolbarBinding,
-    onNewMessage: (Message) -> Unit
+    onChangeTrackClicked: () -> Unit = {},
+    onNewMessage: (Message) -> Unit,
 ) {
 
     private var subtitle: String? = null
 
     init {
         with(viewBinding) {
-            root.doOnApplyWindowInsets { _, insets, _ ->
-                val insetTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-
-                val toolbar = viewBinding.gamificationToolbar
-                toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
-                    height += insetTop
-                }
-                toolbar.updatePaddingRelative(top = insetTop)
-
-                applyInsetsToCollapsingToolbarLayout(
-                    context = context,
-                    collapsingToolbarLayout = viewBinding.gamificationCollapsingToolbarLayout,
-                    insetTop = insetTop,
-                    subtitle = subtitle
-                )
-            }
+            applyWindowInsets()
             gamificationAppBar.setElevationOnCollapsed(lifecycleOwner.lifecycle)
             gamificationAppBar.setExpanded(true)
             gamificationStreakDurationTextView.setOnClickListener {
@@ -68,6 +56,41 @@ class GamificationToolbarDelegate(
             gamificationProblemsLimitTextView.setOnClickListener {
                 onNewMessage(Message.ProblemsLimitClicked)
             }
+            subtitleTextView.setOnClickListener {
+                onChangeTrackClicked()
+            }
+        }
+    }
+
+    private fun applyWindowInsets() {
+        var initialTopPadding = 0
+        viewBinding.gamificationToolbar.doOnNextLayout {
+            initialTopPadding = it.paddingTop
+        }
+
+        viewBinding.root.doOnApplyWindowInsets { _, insets, _ ->
+            val insetTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+
+            val toolbar = viewBinding.gamificationToolbar
+            toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
+                val typedValue = TypedValue()
+                if (context.theme.resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
+                    val toolbarHeight = TypedValue.complexToDimensionPixelSize(
+                        /* data = */ typedValue.data,
+                        /* metrics = */ context.resources.displayMetrics
+                    )
+                    height = toolbarHeight + insetTop
+                }
+            }
+
+            toolbar.updatePadding(top = insetTop + initialTopPadding)
+
+            applyInsetsToCollapsingToolbarLayout(
+                context = context,
+                collapsingToolbarLayout = viewBinding.gamificationCollapsingToolbarLayout,
+                insetTop = insetTop,
+                subtitle = subtitle
+            )
         }
     }
 
@@ -149,6 +172,7 @@ class GamificationToolbarDelegate(
         )
     }
 
+    @Suppress("MagicNumber")
     private fun applyInsetsToCollapsingToolbarLayout(
         context: Context,
         collapsingToolbarLayout: CollapsingToolbarLayout,
@@ -159,23 +183,32 @@ class GamificationToolbarDelegate(
             ?.top
             ?: 0
     ) {
+        val subtitlePaddingVertical =
+            if (subtitle != null) {
+                context.resources.getDimensionPixelOffset(R.dimen.gamification_toolbar_subtitle_padding_vertical) * 2
+            } else {
+                0
+            }
+
         collapsingToolbarLayout.expandedTitleMarginBottom =
-            context.resources.getDimensionPixelOffset(
-                if (subtitle != null) {
+            if (subtitle != null) {
+                context.resources.getDimensionPixelOffset(
                     R.dimen.gamification_toolbar_with_subtitle_expanded_title_margin_bottom
-                } else {
+                ) + subtitlePaddingVertical
+            } else {
+                context.resources.getDimensionPixelOffset(
                     R.dimen.gamification_toolbar_default_expanded_title_margin_bottom
-                }
-            )
+                )
+            }
+
         collapsingToolbarLayout.updateLayoutParams<AppBarLayout.LayoutParams> {
-            height = context.resources.getDimensionPixelOffset(
-                if (subtitle != null) {
-                    R.dimen.gamification_toolbar_with_subtitle_height
-                } else {
-                    R.dimen.gamification_toolbar_default_height
-                }
-            ) + insetTop
+            height = if (subtitle != null) {
+                context.resources.getDimensionPixelOffset(R.dimen.gamification_toolbar_with_subtitle_height) +
+                    subtitlePaddingVertical
+            } else {
+                R.dimen.gamification_toolbar_default_height
+            } + insetTop
         }
-        collapsingToolbarLayout.expandedTitleMarginTop = insetTop
+        collapsingToolbarLayout.expandedTitleMarginTop = insetTop + subtitlePaddingVertical
     }
 }

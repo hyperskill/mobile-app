@@ -85,7 +85,6 @@
             app:layout_constraintEnd_toEndOf="@+id/endGuideline"
             app:layout_constraintTop_toTopOf="@+id/topGuideline"
             app:layout_constraintBottom_toBottomOf="@+id/bottomGuideline"
-            app:layout_constraintVertical_bias="0"
             tools:ignore="ContentDescription" />
 
         <LinearLayout

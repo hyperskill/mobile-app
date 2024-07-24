@@ -16,22 +16,23 @@ internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent
 
     override val homeFeature: Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.buildTopicsRepetitionsDataComponent().topicsRepetitionsInteractor,
-            appGraph.buildStepDataComponent().stepInteractor,
-            appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.commonComponent.dateFormatter,
-            appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,
-            appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-            appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
-            gamificationToolbarComponent.gamificationToolbarReducer,
-            gamificationToolbarComponent.gamificationToolbarActionDispatcher,
-            challengeWidgetComponent.challengeWidgetReducer,
-            challengeWidgetComponent.challengeWidgetActionDispatcher,
-            challengeWidgetComponent.challengeWidgetViewStateMapper,
-            appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            topicsRepetitionsInteractor = appGraph.buildTopicsRepetitionsDataComponent().topicsRepetitionsInteractor,
+            stepInteractor = appGraph.buildStepDataComponent().stepInteractor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            dateFormatter = appGraph.commonComponent.dateFormatter,
+            topicRepeatedFlow = appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,
+            topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
+            gamificationToolbarReducer = gamificationToolbarComponent.gamificationToolbarReducer,
+            gamificationToolbarActionDispatcher = gamificationToolbarComponent.gamificationToolbarActionDispatcher,
+            challengeWidgetReducer = challengeWidgetComponent.challengeWidgetReducer,
+            challengeWidgetActionDispatcher = challengeWidgetComponent.challengeWidgetActionDispatcher,
+            challengeWidgetViewStateMapper = challengeWidgetComponent.challengeWidgetViewStateMapper,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

@@ -1,21 +1,23 @@
 package org.hyperskill.app.topic_completed_modal.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams.ContinueBehaviour
 import org.hyperskill.app.topics.domain.model.Topic
 
 object TopicCompletedModalFeature {
     internal data class State(
         val topic: Topic,
         val passedTopicsCount: Int,
-        val canContinueWithNextTopic: Boolean
+        val continueBehaviour: ContinueBehaviour
     )
 
     internal fun initialState(params: TopicCompletedModalFeatureParams) =
         State(
             topic = params.topic,
             passedTopicsCount = params.passedTopicsCount,
-            canContinueWithNextTopic = params.canContinueWithNextTopic
+            continueBehaviour = params.continueBehaviour
         )
 
     data class ViewState(
@@ -49,6 +51,7 @@ object TopicCompletedModalFeature {
             sealed interface NavigateTo : ViewAction {
                 object NextTopic : NavigateTo
                 object StudyPlan : NavigateTo
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }

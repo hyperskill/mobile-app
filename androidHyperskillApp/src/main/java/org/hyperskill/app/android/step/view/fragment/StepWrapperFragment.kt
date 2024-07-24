@@ -35,6 +35,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
+import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -201,12 +202,19 @@ class StepWrapperFragment :
             ?.onLimitsClick()
     }
 
-    override fun navigateToStudyPlan() {
-        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
-    }
-
-    override fun navigateToNextTopic() {
-        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
+    override fun navigateTo(destination: TopicCompletedModalFeature.Action.ViewAction.NavigateTo) {
+        when (destination) {
+            TopicCompletedModalFeature.Action.ViewAction.NavigateTo.NextTopic ->
+                onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
+            TopicCompletedModalFeature.Action.ViewAction.NavigateTo.StudyPlan ->
+                onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
+            is TopicCompletedModalFeature.Action.ViewAction.NavigateTo.Paywall ->
+                onNewMessage(
+                    StepCompletionFeature.Message.TopicCompletedModalPaywallClicked(
+                        destination.paywallTransitionSource
+                    )
+                )
+        }
     }
 
     override fun onPrimaryActionClicked(action: StepMenuPrimaryAction) {

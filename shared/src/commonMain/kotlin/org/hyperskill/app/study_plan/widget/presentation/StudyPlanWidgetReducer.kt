@@ -5,10 +5,12 @@ import kotlin.math.min
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSubscribeHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
@@ -19,7 +21,6 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
-import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import ru.nobird.app.core.model.slice
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -61,6 +62,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.SubscribeClicked -> handleSubscribeClicked(state)
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success ->
                 handleLearningActivitiesFetchSuccess(state, message)
             is StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed ->
@@ -77,7 +79,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is Message.SectionClicked ->
                 changeSectionExpanse(state, message.sectionId, shouldLogAnalyticEvent = true)
             is Message.ActivityClicked ->
-                handleActivityClicked(state, message.activityId)
+                handleActivityClicked(state, message)
             is Message.StageImplementUnsupportedModalGoToHomeClicked ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
@@ -103,6 +105,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
+            is InternalMessage.FetchPaymentAbilityResult ->
+                handleFetchPaymentAbilityResult(state, message)
         } ?: (state to emptySet())
 
     private fun coldContentFetch(state: State, message: InternalMessage.Initialize): StudyPlanWidgetReducerResult =
@@ -116,10 +120,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         }
 
     private fun getContentFetchActions(forceUpdate: Boolean): Set<Action> =
-        setOf(
+        setOfNotNull(
             InternalAction.FetchLearningActivitiesWithSections(),
             InternalAction.FetchProfile,
-            InternalAction.UpdateCurrentStudyPlanState(forceUpdate)
+            InternalAction.UpdateCurrentStudyPlanState(forceUpdate),
+            if (forceUpdate) InternalAction.FetchPaymentAbility else null
         )
 
     private fun handleLearningActivitiesWithSectionsFetchSuccess(
@@ -152,7 +157,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val supportedSections = visibleSections
             .filter { studyPlanSection ->
                 // ALTAPPS-1186: We should hide next project section for freemium users
-                if (message.subscription.isFreemium) {
+                if (!message.subscription.type.isProjectSelectionEnabled) {
                     studyPlanSection.type != StudyPlanSectionType.NEXT_PROJECT
                 } else {
                     true
@@ -174,7 +179,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val loadedSectionsState = state.copy(
             studyPlanSections = studyPlanSections,
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
-            isRefreshing = false
+            isRefreshing = false,
+            subscription = message.subscription,
+            learnedTopicsCount = message.learnedTopicsCount,
+            canMakePayments = message.canMakePayments
         )
 
         return if (loadedSectionsState.studyPlanSections.isNotEmpty()) {
@@ -357,31 +365,55 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             section.studyPlanSection.activities
         }
 
-    private fun handleActivityClicked(state: State, activityId: Long): StudyPlanWidgetReducerResult {
-        val activity = state.activities[activityId] ?: return state to emptySet()
+    private fun handleActivityClicked(state: State, message: Message.ActivityClicked): StudyPlanWidgetReducerResult {
+        val activity = state.activities[message.activityId] ?: return state to emptySet()
+
+        val isActivityLocked = state.isActivityLocked(message.sectionId, message.activityId)
 
         val logAnalyticEventAction = InternalAction.LogAnalyticEvent(
             StudyPlanClickedActivityHyperskillAnalyticEvent(
                 activityId = activity.id,
                 activityType = activity.type?.value,
                 activityTargetType = activity.targetType,
-                activityTargetId = activity.targetId
+                activityTargetId = activity.targetId,
+                isLocked = isActivityLocked
             )
         )
 
-        val activityTargetAction = LearningActivityTargetViewActionMapper
-            .mapLearningActivityToTargetViewAction(
-                activity = activity,
-                trackId = state.profile?.trackId,
-                projectId = state.profile?.projectId
-            )
-            .fold(
-                onSuccess = { Action.ViewAction.NavigateTo.LearningActivityTarget(it) },
-                onFailure = { InternalAction.CaptureSentryException(it) }
-            )
+        val activityTargetAction =
+            if (isActivityLocked) {
+                Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.STUDY_PLAN)
+            } else {
+                LearningActivityTargetViewActionMapper
+                    .mapLearningActivityToTargetViewAction(
+                        activity = activity,
+                        trackId = state.profile?.trackId,
+                        projectId = state.profile?.projectId
+                    )
+                    .fold(
+                        onSuccess = { Action.ViewAction.NavigateTo.LearningActivityTarget(it) },
+                        onFailure = { InternalAction.CaptureSentryException(it) }
+                    )
+            }
 
         return state to setOf(activityTargetAction, logAnalyticEventAction)
     }
+
+    private fun handleSubscribeClicked(state: State): StudyPlanWidgetReducerResult =
+        if (state.isPaywallShown()) {
+            state to setOf(
+                InternalAction.LogAnalyticEvent(StudyPlanClickedSubscribeHyperskillAnalyticEvent),
+                Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.STUDY_PLAN)
+            )
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleFetchPaymentAbilityResult(
+        state: State,
+        message: InternalMessage.FetchPaymentAbilityResult
+    ): StudyPlanWidgetReducerResult =
+        state.copy(canMakePayments = message.canMakePayments) to emptySet()
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =
         this.toMutableMap().apply {

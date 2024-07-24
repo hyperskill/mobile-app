@@ -12,4 +12,5 @@ internal object FeatureKeys {
     const val MOBILE_USERS_INTERVIEW_WIDGET = "mobile.users_interview_widget"
     const val MOBILE_GPT_CODE_GENERATION_WITH_ERRORS_FORCED_ONBOARDING =
         "mobile.gpt_code_generation_with_errors_forced_onboarding_v2"
+    const val MOBILE_CONTENT_TRIAL = "mobile.content_trial"
 }
