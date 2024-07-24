@@ -12,6 +12,7 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyp
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSubscribeHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
@@ -348,6 +349,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 sectionInfo.copy(sectionContentStatus = SectionContentStatus.NEXT_PAGE_LOADING)
             }
         ) to setOf(
+            InternalAction.LogAnalyticEvent(StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent(message.sectionId)),
             InternalAction.FetchLearningActivities(
                 sectionId = message.sectionId,
                 activitiesIds = state.getActivitiesToBeLoaded(message.sectionId).toList(),

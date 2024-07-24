@@ -137,5 +137,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SHOW_MORE("show_more"),
     SHOW_REPLIES("show_replies"),
     CODE_BLOCK("code_block"),
-    CODE_BLOCK_SUGGESTION("code_block_suggestion")
+    CODE_BLOCK_SUGGESTION("code_block_suggestion"),
+    LOAD_MORE("load_more")
 }
