@@ -37,3 +37,8 @@ internal val StudyPlanSection.firstRootTopicsActivityIndexToBeLoaded: Int
     } else {
         0
     }
+
+internal val StudyPlanSection.activitiesToBeLoaded: List<Long>
+    get() = activities.slice(
+        firstRootTopicsActivityIndexToBeLoaded..activities.lastIndex
+    )

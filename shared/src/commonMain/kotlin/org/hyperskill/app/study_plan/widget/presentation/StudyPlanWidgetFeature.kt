@@ -24,7 +24,7 @@ object StudyPlanWidgetFeature {
         /**
          * Describes status of sections loading
          */
-        val sectionsStatus: ContentStatus = ContentStatus.IDLE,
+        val sectionsStatus: SectionStatus = SectionStatus.IDLE,
 
         /**
          * Map of activity ids to activities
@@ -61,11 +61,21 @@ object StudyPlanWidgetFeature {
             get() = profile?.features?.isMobileContentTrialEnabled ?: false
     }
 
-    enum class ContentStatus {
+    enum class SectionStatus {
         IDLE,
         LOADING,
         ERROR,
         LOADED
+    }
+
+    enum class SectionContentStatus {
+        IDLE,
+        ERROR,
+
+        FIRST_PAGE_LOADING,
+        NEXT_PAGE_LOADING,
+        PAGE_LOADED,
+        ALL_PAGES_LOADED
     }
 
     data class StudyPlanSectionInfo(
@@ -75,13 +85,15 @@ object StudyPlanWidgetFeature {
         /**
          * Describes status of section's activities loading
          * */
-        val contentStatus: ContentStatus
+        val sectionContentStatus: SectionContentStatus
     )
 
     sealed interface Message {
         data class SectionClicked(val sectionId: Long) : Message
 
         data class ActivityClicked(val activityId: Long, val sectionId: Long) : Message
+
+        data class LoadMoreActivitiesClicked(val sectionId: Long) : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
 

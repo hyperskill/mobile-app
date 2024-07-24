@@ -34,6 +34,7 @@ sealed interface StudyPlanWidgetViewState {
 
         data class Content(
             val sectionItems: List<SectionItem>,
+            val isNextPageLoadingShowed: Boolean,
             val isLoadAllTopicsButtonShown: Boolean
         ) : SectionContent
     }

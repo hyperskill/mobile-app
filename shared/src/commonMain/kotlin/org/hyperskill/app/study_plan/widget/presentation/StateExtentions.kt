@@ -4,7 +4,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
-import org.hyperskill.app.study_plan.domain.model.firstRootTopicsActivityIndexToBeLoaded
+import org.hyperskill.app.study_plan.domain.model.activitiesToBeLoaded
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 
@@ -54,16 +54,18 @@ internal fun StudyPlanWidgetFeature.State.getLoadedSectionActivities(sectionId: 
 internal fun StudyPlanWidgetFeature.State.getActivitiesToBeLoaded(sectionId: Long): Set<Long> {
     val sectionInfo = studyPlanSections[sectionId] ?: return emptySet()
     val studyPlanSection = sectionInfo.studyPlanSection
-    val isExpandedRootTopicsSection =
-        studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS &&
-            sectionInfo.isExpanded &&
-            sectionInfo.contentStatus == StudyPlanWidgetFeature.ContentStatus.LOADED
-    return if (isExpandedRootTopicsSection) {
-        val sectionActivitiesForLoading = studyPlanSection.activities.slice(
-            studyPlanSection.firstRootTopicsActivityIndexToBeLoaded..studyPlanSection.activities.lastIndex
-        )
-        val loadedActivity = getLoadedSectionActivities(sectionId).map { it.id }.toSet()
-        sectionActivitiesForLoading.subtract(loadedActivity)
+    return if (studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS) {
+        val sectionLoadedActivity = getLoadedSectionActivities(sectionId).map { it.id }.toSet()
+        studyPlanSection.activitiesToBeLoaded.subtract(sectionLoadedActivity)
+    } else {
+        emptySet()
+    }
+}
+
+internal fun StudyPlanSection.getActivitiesToBeLoaded(allLoadedActivities: Collection<LearningActivity>): Set<Long> {
+    return if (type == StudyPlanSectionType.ROOT_TOPICS) {
+        val sectionActivities = activities.intersect(allLoadedActivities.map { it.id }.toSet())
+        activitiesToBeLoaded.subtract(sectionActivities)
     } else {
         emptySet()
     }

@@ -6,7 +6,8 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.presentation.getActivitiesToBeLoaded
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionStatus
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getLoadedSectionActivities
@@ -18,10 +19,10 @@ import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.
 class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
         when (state.sectionsStatus) {
-            StudyPlanWidgetFeature.ContentStatus.IDLE -> StudyPlanWidgetViewState.Idle
-            StudyPlanWidgetFeature.ContentStatus.LOADING -> StudyPlanWidgetViewState.Loading
-            StudyPlanWidgetFeature.ContentStatus.ERROR -> StudyPlanWidgetViewState.Error
-            StudyPlanWidgetFeature.ContentStatus.LOADED -> getLoadedWidgetContent(state)
+            SectionStatus.IDLE -> StudyPlanWidgetViewState.Idle
+            SectionStatus.LOADING -> StudyPlanWidgetViewState.Loading
+            SectionStatus.ERROR -> StudyPlanWidgetViewState.Error
+            SectionStatus.LOADED -> getLoadedWidgetContent(state)
         }
 
     private fun getLoadedWidgetContent(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState.Content {
@@ -72,10 +73,11 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         currentActivityId: Long?
     ): SectionContent =
         if (sectionInfo.isExpanded) {
-            when (sectionInfo.contentStatus) {
-                StudyPlanWidgetFeature.ContentStatus.IDLE -> SectionContent.Collapsed
-                StudyPlanWidgetFeature.ContentStatus.ERROR -> SectionContent.Error
-                StudyPlanWidgetFeature.ContentStatus.LOADING -> {
+            when (sectionInfo.sectionContentStatus) {
+                SectionContentStatus.IDLE -> SectionContent.Collapsed
+                SectionContentStatus.ERROR -> SectionContent.Error
+                SectionContentStatus.FIRST_PAGE_LOADING,
+                SectionContentStatus.NEXT_PAGE_LOADING -> {
                     getContent(
                         state = state,
                         sectionInfo = sectionInfo,
@@ -83,7 +85,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         emptyActivitiesState = SectionContent.Loading
                     )
                 }
-                StudyPlanWidgetFeature.ContentStatus.LOADED -> {
+                SectionContentStatus.PAGE_LOADED,
+                SectionContentStatus.ALL_PAGES_LOADED -> {
                     getContent(
                         state = state,
                         sectionInfo = sectionInfo,
@@ -111,7 +114,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                 activities = loadedActivities,
                 currentActivityId = currentActivityId,
                 unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionId),
-                isLoadAllTopicsButtonVisible = state.getActivitiesToBeLoaded(sectionId).isNotEmpty()
+                isLoadAllTopicsButtonVisible = sectionInfo.sectionContentStatus == SectionContentStatus.PAGE_LOADED,
+                isNextPageLoadingShowed = sectionInfo.sectionContentStatus == SectionContentStatus.NEXT_PAGE_LOADING
             )
         }
     }
@@ -120,7 +124,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         activities: List<LearningActivity>,
         currentActivityId: Long?,
         unlockedActivitiesCount: Int?,
-        isLoadAllTopicsButtonVisible: Boolean
+        isLoadAllTopicsButtonVisible: Boolean,
+        isNextPageLoadingShowed: Boolean
     ): SectionContent.Content =
         SectionContent.Content(
             sectionItems = activities.mapIndexed { index, activity ->
@@ -149,7 +154,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                     hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
                 )
             },
-            isLoadAllTopicsButtonShown = isLoadAllTopicsButtonVisible
+            isLoadAllTopicsButtonShown = isLoadAllTopicsButtonVisible,
+            isNextPageLoadingShowed = isNextPageLoadingShowed
         )
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =

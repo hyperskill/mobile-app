@@ -45,7 +45,7 @@ class StudyPlanWidgetDelegate(
             }
         )
         addDelegate(sectionsLoadingAdapterDelegate())
-        addDelegate(loadAllTopicsButtonDelegate {})
+        addDelegate(loadAllTopicsButtonDelegate())
         addDelegate(paywallAdapterDelegate())
         addDelegate(ActivityLoadingAdapterDelegate())
         addDelegate(
@@ -174,14 +174,17 @@ class StudyPlanWidgetDelegate(
             }
         }
 
-    private fun loadAllTopicsButtonDelegate(
-        onClick: () -> Unit
-    ) =
+    private fun loadAllTopicsButtonDelegate() =
         adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.LoadAllTopicsButton>(
             R.layout.item_study_plan_load_more_button
         ) {
             itemView.setOnClickListener {
-                onClick()
+                val sectionId = item?.sectionId
+                if (sectionId != null) {
+                    onNewMessage(
+                        StudyPlanWidgetFeature.Message.LoadMoreActivitiesClicked(sectionId)
+                    )
+                }
             }
         }
 
@@ -199,16 +202,15 @@ class StudyPlanWidgetDelegate(
                         // no op
                     }
                     StudyPlanWidgetViewState.SectionContent.Loading -> {
-                        addAll(
-                            List(ACTIVITIES_LOADING_ITEMS_COUNT) { index ->
-                                StudyPlanRecyclerItem.ActivityLoading(section.id, index)
-                            }
-                        )
+                        addAll(getActivitiesLoadingItems(section.id))
                     }
                     is StudyPlanWidgetViewState.SectionContent.Content -> {
                         addAll(mapSectionItemsToActivityItems(section.id, sectionContent.sectionItems))
                         if (sectionContent.isLoadAllTopicsButtonShown) {
                             add(StudyPlanRecyclerItem.LoadAllTopicsButton(section.id))
+                        }
+                        if (sectionContent.isNextPageLoadingShowed) {
+                            addAll(getActivitiesLoadingItems(section.id))
                         }
                     }
                     StudyPlanWidgetViewState.SectionContent.Error -> {
@@ -263,5 +265,10 @@ class StudyPlanWidgetDelegate(
                 },
                 isIdeRequired = item.isIdeRequired
             )
+        }
+
+    private fun getActivitiesLoadingItems(sectionId: Long) =
+        List(ACTIVITIES_LOADING_ITEMS_COUNT) { index ->
+            StudyPlanRecyclerItem.ActivityLoading(sectionId, index)
         }
 }
