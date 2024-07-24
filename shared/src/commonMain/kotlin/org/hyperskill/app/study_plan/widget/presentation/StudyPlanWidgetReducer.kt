@@ -170,16 +170,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             subscription = message.subscription,
             learnedTopicsCount = message.learnedTopicsCount,
             canMakePayments = message.canMakePayments,
-            activities = emptyMap()
+            activities = message.learningActivities.associateBy { it.id }
         )
 
         return if (loadedSectionsState.studyPlanSections.isNotEmpty()) {
-            handleLearningActivitiesFetchSuccess(
-                state = loadedSectionsState,
-                message = StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
-                    sectionId = currentSectionId,
-                    activities = message.learningActivities
-                )
+            handleNewActivities(
+                loadedSectionsState,
+                sectionId = currentSectionId,
+                activities = message.learningActivities
             )
         } else {
             loadedSectionsState to emptySet()
@@ -211,28 +209,49 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success,
     ): StudyPlanWidgetReducerResult {
-        val newActivities = state.activities.mutate {
-            putAll(message.activities.associateBy { it.id })
-            /*// ALTAPPS-743: We should remove activities that are not in the new list
-            // (e.g. when user has completed or skipped some activities)
-            val activitiesIds =
-                state.studyPlanSections[message.sectionId]?.studyPlanSection?.activities?.toSet() ?: emptySet()
-            val activitiesIdsToRemove = activitiesIds - message.activities.map { it.id }.toSet()
-            activitiesIdsToRemove.forEach { remove(it) }*/
-        }
+        return handleNewActivities(
+            state = state.copy(
+                activities = state.activities.mutate {
+                    putAll(message.activities.associateBy { it.id })
+
+                    val isRootTopicsSection =
+                        state
+                            .studyPlanSections[message.sectionId]
+                            ?.studyPlanSection
+                            ?.type == StudyPlanSectionType.ROOT_TOPICS
+                    if (!isRootTopicsSection) {
+                        // ALTAPPS-743: We should remove activities that are not in the new list
+                        // (e.g. when user has completed or skipped some activities)
+                        val activitiesIds =
+                            state.studyPlanSections[message.sectionId]?.studyPlanSection?.activities?.toSet()
+                                ?: emptySet()
+                        val activitiesIdsToRemove = activitiesIds - message.activities.map { it.id }.toSet()
+                        activitiesIdsToRemove.forEach { remove(it) }
+                    }
+                }
+            ),
+            sectionId = message.sectionId,
+            activities = message.activities
+        )
+    }
+
+    private fun handleNewActivities(
+        state: State,
+        sectionId: Long,
+        activities: List<LearningActivity>
+    ): StudyPlanWidgetReducerResult {
         val nextState = state.copy(
-            activities = newActivities,
             // ALTAPPS-786: We should hide sections without available activities to avoid blocking study plan
-            studyPlanSections = if (message.activities.isEmpty()) {
+            studyPlanSections = if (activities.isEmpty()) {
                 state.studyPlanSections.mutate {
-                    remove(message.sectionId)
+                    remove(sectionId)
                 }
             } else {
-                state.studyPlanSections.update(message.sectionId) { sectionInfo ->
+                state.studyPlanSections.update(sectionId) { sectionInfo ->
                     val canLoadMoreActivities =
                         sectionInfo
                             .studyPlanSection
-                            .getActivitiesToBeLoaded(newActivities.values)
+                            .getActivitiesToBeLoaded(state.activities.values)
                             .isNotEmpty()
                     sectionInfo.copy(
                         sectionContentStatus = if (canLoadMoreActivities) {
@@ -245,11 +264,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
         )
 
-        val isFetchedActivitiesForCurrentSection = message.sectionId == state.getCurrentSection()?.id
+        val isFetchedActivitiesForCurrentSection = sectionId == state.getCurrentSection()?.id
 
         // ALTAPPS-786: We should expand next section if current section doesn't have available activities
         val (resultState, resultActions) =
-            if (isFetchedActivitiesForCurrentSection && message.activities.isEmpty()) {
+            if (isFetchedActivitiesForCurrentSection && activities.isEmpty()) {
                 nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
                     changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
                 } ?: (nextState to emptySet())
@@ -266,7 +285,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         return resultState to (
             resultActions +
                 setOfNotNull(updateNextLearningActivityStateAction) +
-                setOf(putFetchedLearningActivitiesProgressesToCacheAction(message.activities))
+                setOf(putFetchedLearningActivitiesProgressesToCacheAction(activities))
             )
     }
 
