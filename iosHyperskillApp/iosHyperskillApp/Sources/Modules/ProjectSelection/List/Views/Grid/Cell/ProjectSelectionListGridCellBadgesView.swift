@@ -12,10 +12,13 @@ struct ProjectSelectionListGridCellBadgesView: View {
     }
 
     var body: some View {
-        if isEmpty {
-            EmptyView()
-        } else {
-            HStack(spacing: LayoutInsets.smallInset) {
+        if !isEmpty {
+            FlowLayoutCompatibility(
+                configuration: .init(
+                    spacing: LayoutInsets.smallInset,
+                    fallbackLayout: .horizontal()
+                )
+            ) {
                 if isSelected {
                     BadgeView.selected()
                 }
@@ -40,24 +43,25 @@ struct ProjectSelectionListGridCellBadgesView: View {
     }
 }
 
-struct ProjectSelectionListGridCellBadgesView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProjectSelectionListGridCellBadgesView(
-            isSelected: true,
-            isIdeRequired: true,
-            isBeta: true,
-            isBestRated: true,
-            isFastestToComplete: true
-        )
-        .padding()
-
-        ProjectSelectionListGridCellBadgesView(
-            isSelected: true,
-            isIdeRequired: true,
-            isBeta: true,
-            isBestRated: true,
-            isFastestToComplete: true
-        )
-        .preferredColorScheme(.dark)
-    }
+#if DEBUG
+#Preview {
+    ProjectSelectionListGridCellBadgesView(
+        isSelected: true,
+        isIdeRequired: true,
+        isBeta: true,
+        isBestRated: true,
+        isFastestToComplete: true
+    )
 }
+
+#Preview {
+    ProjectSelectionListGridCellBadgesView(
+        isSelected: true,
+        isIdeRequired: true,
+        isBeta: true,
+        isBestRated: true,
+        isFastestToComplete: true
+    )
+    .preferredColorScheme(.dark)
+}
+#endif

@@ -10,10 +10,13 @@ struct StudyPlanSectionItemBadgesView: View {
     }
 
     var body: some View {
-        if isEmpty {
-            EmptyView()
-        } else {
-            HStack(spacing: LayoutInsets.smallInset) {
+        if !isEmpty {
+            FlowLayoutCompatibility(
+                configuration: .init(
+                    spacing: LayoutInsets.smallInset,
+                    fallbackLayout: .horizontal()
+                )
+            ) {
                 if let formattedProgress {
                     BadgeView(text: formattedProgress, style: .green)
                 }
@@ -26,11 +29,11 @@ struct StudyPlanSectionItemBadgesView: View {
     }
 }
 
-struct StudyPlanSectionItemBadgesView_Previews: PreviewProvider {
-    static var previews: some View {
-        StudyPlanSectionItemBadgesView(
-            formattedProgress: "50%",
-            isIdeRequired: true
-        )
-    }
+#if DEBUG
+#Preview {
+    StudyPlanSectionItemBadgesView(
+        formattedProgress: "50%",
+        isIdeRequired: true
+    )
 }
+#endif

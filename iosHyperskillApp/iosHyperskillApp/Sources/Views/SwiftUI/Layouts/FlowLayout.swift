@@ -1,5 +1,44 @@
 import SwiftUI
 
+@available(iOS, deprecated: 16.0)
+struct FlowLayoutCompatibility<Content>: View where Content: View {
+    let configuration: Configuration
+
+    let content: Content
+
+    init(
+        configuration: Configuration,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.configuration = configuration
+        self.content = content()
+    }
+
+    var body: some View {
+        if #available(iOS 16.0, *) {
+            FlowLayout(spacing: configuration.spacing) { content }
+        } else {
+            switch configuration.fallbackLayout {
+            case .vertical(let alignment):
+                VStack(alignment: alignment, spacing: configuration.spacing) { content }
+            case .horizontal(let alignment):
+                HStack(alignment: alignment, spacing: configuration.spacing) { content }
+            }
+        }
+    }
+
+    struct Configuration {
+        var spacing: CGFloat = LayoutInsets.smallInset
+
+        let fallbackLayout: FallbackLayout
+
+        enum FallbackLayout {
+            case vertical(alignment: HorizontalAlignment = .leading)
+            case horizontal(alignment: VerticalAlignment = .center)
+        }
+    }
+}
+
 @available(iOS 16.0, *)
 struct FlowLayout: Layout {
     var spacing: CGFloat = LayoutInsets.smallInset
