@@ -92,15 +92,15 @@ object StudyPlanWidgetFeature {
         /**
          * Stage implementation unsupported modal
          */
-        object StageImplementUnsupportedModalGoToHomeClicked : Message
-        object StageImplementUnsupportedModalShownEventMessage : Message
-        object StageImplementUnsupportedModalHiddenEventMessage : Message
+        data object StageImplementUnsupportedModalGoToHomeClicked : Message
+        data object StageImplementUnsupportedModalShownEventMessage : Message
+        data object StageImplementUnsupportedModalHiddenEventMessage : Message
     }
 
     internal sealed interface InternalMessage : Message {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
 
-        object ReloadContentInBackground : InternalMessage
+        data object ReloadContentInBackground : InternalMessage
 
         data class ProfileChanged(val profile: Profile) : InternalMessage
 
@@ -116,7 +116,7 @@ object StudyPlanWidgetFeature {
             val canMakePayments: Boolean
         ) : LearningActivitiesWithSectionsFetchResult
 
-        object Failed : LearningActivitiesWithSectionsFetchResult
+        data object Failed : LearningActivitiesWithSectionsFetchResult
     }
 
     internal sealed interface LearningActivitiesFetchResult : Message {
@@ -131,13 +131,13 @@ object StudyPlanWidgetFeature {
     internal sealed interface ProfileFetchResult : Message {
         data class Success(val profile: Profile) : ProfileFetchResult
 
-        object Failed : ProfileFetchResult
+        data object Failed : ProfileFetchResult
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
-                object Home : NavigateTo
+                data object Home : NavigateTo
                 data class LearningActivityTarget(val viewAction: LearningActivityTargetViewAction) : NavigateTo
                 data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
@@ -159,14 +159,14 @@ object StudyPlanWidgetFeature {
             val sentryTransaction: HyperskillSentryTransaction
         ) : InternalAction
 
-        object FetchProfile : InternalAction
+        data object FetchProfile : InternalAction
 
         data class UpdateCurrentStudyPlanState(val forceUpdate: Boolean) : InternalAction
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
 
         data class PutTopicsProgressesToCache(val topicsProgresses: List<TopicProgress>) : InternalAction
 
-        object FetchPaymentAbility : InternalAction
+        data object FetchPaymentAbility : InternalAction
 
         data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction

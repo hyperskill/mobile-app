@@ -4,6 +4,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
+import org.hyperskill.app.study_plan.domain.model.firstRootTopicsActivityIndexToBeLoaded
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 
@@ -27,7 +28,7 @@ internal fun StudyPlanWidgetFeature.State.getCurrentSection(): StudyPlanSection?
  */
 internal fun StudyPlanWidgetFeature.State.getCurrentActivity(): LearningActivity? =
     getCurrentSection()?.let { section ->
-        getSectionActivities(section.id)
+        getLoadedSectionActivities(section.id)
             .firstOrNull {
                 if (section.type == StudyPlanSectionType.ROOT_TOPICS) {
                     it.id == section.nextActivityId
@@ -42,13 +43,31 @@ internal fun StudyPlanWidgetFeature.State.getCurrentActivity(): LearningActivity
  * @return a sequence of [LearningActivity] for the given section with [sectionId]
  * filtered by availability in [StudyPlanWidgetFeature.State.activities]
  */
-internal fun StudyPlanWidgetFeature.State.getSectionActivities(sectionId: Long): Sequence<LearningActivity> =
+internal fun StudyPlanWidgetFeature.State.getLoadedSectionActivities(sectionId: Long): Sequence<LearningActivity> =
     studyPlanSections[sectionId]
         ?.studyPlanSection
         ?.activities
         ?.asSequence()
         ?.mapNotNull { id -> activities[id] }
         ?: emptySequence()
+
+internal fun StudyPlanWidgetFeature.State.getActivitiesToBeLoaded(sectionId: Long): Set<Long> {
+    val sectionInfo = studyPlanSections[sectionId] ?: return emptySet()
+    val studyPlanSection = sectionInfo.studyPlanSection
+    val isExpandedRootTopicsSection =
+        studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS &&
+            sectionInfo.isExpanded &&
+            sectionInfo.contentStatus == StudyPlanWidgetFeature.ContentStatus.LOADED
+    return if (isExpandedRootTopicsSection) {
+        val sectionActivitiesForLoading = studyPlanSection.activities.slice(
+            studyPlanSection.firstRootTopicsActivityIndexToBeLoaded..studyPlanSection.activities.lastIndex
+        )
+        val loadedActivity = getLoadedSectionActivities(sectionId).map { it.id }.toSet()
+        sectionActivitiesForLoading.subtract(loadedActivity)
+    } else {
+        emptySet()
+    }
+}
 
 /**
  * @param sectionId target section id.
@@ -64,7 +83,7 @@ internal fun StudyPlanWidgetFeature.State.isActivityLocked(
 ): Boolean {
     val unlockedActivitiesCount = getUnlockedActivitiesCount(sectionId)
     return unlockedActivitiesCount != null &&
-        getSectionActivities(sectionId)
+        getLoadedSectionActivities(sectionId)
             .take(unlockedActivitiesCount)
             .map { it.id }
             .contains(activityId)

@@ -1,6 +1,5 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
-import kotlin.math.max
 import kotlin.math.min
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
@@ -15,6 +14,7 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsu
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
+import org.hyperskill.app.study_plan.domain.model.firstRootTopicsActivityIndexToBeLoaded
 import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityToTopicProgressMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
@@ -356,10 +356,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             section.studyPlanSection.nextActivityId != null &&
             !isLearningPathDividedTrackTopicsEnabled
         ) {
-            val startIndex =
-                max(0, section.studyPlanSection.activities.indexOf(section.studyPlanSection.nextActivityId))
+            val startIndex = section.studyPlanSection.firstRootTopicsActivityIndexToBeLoaded
             val endIndex =
-                min(startIndex + (SECTION_ROOT_TOPICS_PAGE_SIZE - 1), section.studyPlanSection.activities.size - 1)
+                min(startIndex + (SECTION_ROOT_TOPICS_PAGE_SIZE - 1), section.studyPlanSection.activities.lastIndex)
             section.studyPlanSection.activities.slice(startIndex..endIndex)
         } else {
             section.studyPlanSection.activities

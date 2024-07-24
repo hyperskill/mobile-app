@@ -1,5 +1,6 @@
 package org.hyperskill.app.study_plan.domain.model
 
+import kotlin.math.max
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -29,3 +30,10 @@ data class StudyPlanSection(
     val type: StudyPlanSectionType?
         get() = StudyPlanSectionType.getByValue(typeValue)
 }
+
+internal val StudyPlanSection.firstRootTopicsActivityIndexToBeLoaded: Int
+    get() = if (nextActivityId != null) {
+        max(0, activities.indexOf(nextActivityId))
+    } else {
+        0
+    }

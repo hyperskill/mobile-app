@@ -6,9 +6,10 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.presentation.getActivitiesToBeLoaded
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
-import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
+import org.hyperskill.app.study_plan.widget.presentation.getLoadedSectionActivities
 import org.hyperskill.app.study_plan.widget.presentation.getUnlockedActivitiesCount
 import org.hyperskill.app.study_plan.widget.presentation.isPaywallShown
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
@@ -101,14 +102,16 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         currentActivityId: Long?,
         emptyActivitiesState: SectionContent
     ): SectionContent {
-        val activities = state.getSectionActivities(sectionInfo.studyPlanSection.id).toList()
-        return if (activities.isEmpty()) {
+        val sectionId = sectionInfo.studyPlanSection.id
+        val loadedActivities = state.getLoadedSectionActivities(sectionId).toList()
+        return if (loadedActivities.isEmpty()) {
             emptyActivitiesState
         } else {
             getContent(
-                activities = activities,
+                activities = loadedActivities,
                 currentActivityId = currentActivityId,
-                unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionInfo.studyPlanSection.id)
+                unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionId),
+                isLoadAllTopicsButtonVisible = state.getActivitiesToBeLoaded(sectionId).isNotEmpty()
             )
         }
     }
@@ -116,7 +119,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
     private fun getContent(
         activities: List<LearningActivity>,
         currentActivityId: Long?,
-        unlockedActivitiesCount: Int?
+        unlockedActivitiesCount: Int?,
+        isLoadAllTopicsButtonVisible: Boolean
     ): SectionContent.Content =
         SectionContent.Content(
             sectionItems = activities.mapIndexed { index, activity ->
@@ -144,7 +148,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                     formattedProgress = LearningActivityTextsMapper.mapLearningActivityToProgressString(activity),
                     hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
                 )
-            }
+            },
+            isLoadAllTopicsButtonShown = isLoadAllTopicsButtonVisible
         )
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =
