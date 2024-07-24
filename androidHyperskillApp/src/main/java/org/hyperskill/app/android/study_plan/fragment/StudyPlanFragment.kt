@@ -21,12 +21,14 @@ import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.stage_implementation.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
+import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.android.users_interview_widget.delegate.UsersInterviewCardDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -100,10 +102,14 @@ class StudyPlanFragment :
         gamificationToolbarDelegate = GamificationToolbarDelegate(
             viewLifecycleOwner,
             requireContext(),
-            viewBinding.studyPlanAppBar
-        ) { message ->
-            studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.GamificationToolbarMessage(message))
-        }
+            viewBinding.studyPlanAppBar,
+            onChangeTrackClicked = {
+                studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.ChangeTrackButtonClicked)
+            },
+            onNewMessage = { message ->
+                studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.GamificationToolbarMessage(message))
+            }
+        )
     }
 
     private fun initUserQuestionnaireCardDelegate() {
@@ -190,7 +196,11 @@ class StudyPlanFragment :
                 )
             }
             StudyPlanScreenFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen -> {
-                // TODO: ALTAPPS-1291 Implement navigation to track selection screen
+                requireRouter().navigateTo(
+                    TrackSelectionListScreen(
+                        TrackSelectionListParams()
+                    )
+                )
             }
         }
     }
