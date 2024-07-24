@@ -140,7 +140,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     ): StudyPlanWidgetReducerResult {
         val learningActivitiesIds = message.learningActivities.map { it.id }.toSet()
         val visibleSections = getVisibleSections(message.studyPlanSections, learningActivitiesIds)
-        val currentSectionId = visibleSections.first().id
+        val currentSectionId = visibleSections.firstOrNull()?.id ?: return state.copy(
+            studyPlanSections = emptyMap(),
+            sectionsStatus = StudyPlanWidgetFeature.SectionStatus.LOADED,
+            isRefreshing = false
+        ) to emptySet()
 
         val supportedSections = visibleSections
             .filter { studyPlanSection ->
