@@ -73,6 +73,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
+    func doLoadMoreActivities(sectionID: Int64) {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
+                message: StudyPlanWidgetFeatureMessageLoadMoreActivitiesClicked(sectionId: sectionID)
+            )
+        )
+    }
+
     func doPaywallBannerAction() {
         onNewMessage(
             StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(

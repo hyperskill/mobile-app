@@ -296,6 +296,7 @@ enum Strings {
         static let activitiesError = sharedStrings.study_plan_activities_error_text.localized()
 
         static let paywallSubscribeButton = sharedStrings.study_plan_paywall_subscribe_button.localized()
+        static let loadMoreButton = sharedStrings.study_plan_load_more_button_text.localized()
     }
 
     // MARK: - Leaderboard -

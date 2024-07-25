@@ -31,5 +31,5 @@ class StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent(
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.STUDY_PLAN_SECTION_ACTIVITIES,
     target = HyperskillAnalyticTarget.RETRY,
-    context = mapOf(StudyPlanAnalyticKeys.SECTION_ID to sectionId)
+    context = mapOf(StudyPlanAnalyticParams.PARAM_SECTION_ID to sectionId)
 )
