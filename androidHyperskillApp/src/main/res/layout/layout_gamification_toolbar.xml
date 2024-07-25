@@ -131,7 +131,6 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            app:drawableEndCompat="@drawable/ic_change_track"
             android:drawablePadding="10dp"
             android:background="@drawable/selectable_item_rounded_background"
             app:layout_collapseMode="parallax"
@@ -141,6 +140,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:visibility="gone"
+            tools:drawableEndCompat="@drawable/ic_change_track"
             tools:visibility="visible"
             tools:text="Lorem Ipsum Iran Lorem Ipsum Iran Lorem Ipsu"/>
 
