@@ -38,12 +38,7 @@ class StudyPlanClickedSectionHyperskillAnalyticEvent(
     part = HyperskillAnalyticPart.STUDY_PLAN_SECTION,
     target = HyperskillAnalyticTarget.SECTION,
     context = mapOf(
-        SECTION_ID to sectionId,
-        IS_EXPANDED to isExpanded
+        StudyPlanAnalyticParams.PARAM_SECTION_ID to sectionId,
+        StudyPlanAnalyticParams.PARAM_IS_EXPANDED to isExpanded
     )
-) {
-    companion object {
-        private const val SECTION_ID = "section_id"
-        private const val IS_EXPANDED = "is_expanded"
-    }
-}
+)
