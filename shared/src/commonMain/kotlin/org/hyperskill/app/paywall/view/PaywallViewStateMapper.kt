@@ -8,6 +8,8 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.APP_BECOM
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.MANAGE_SUBSCRIPTION
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.PROBLEMS_LIMIT_MODAL
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.PROFILE_SETTINGS
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.STUDY_PLAN
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.TOPIC_COMPLETED_MODAL
 import org.hyperskill.app.paywall.presentation.PaywallFeature.State
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewStateContent
@@ -22,10 +24,11 @@ internal class PaywallViewStateMapper(
     ): ViewState =
         ViewState(
             isToolbarVisible = when (paywallTransitionSource) {
-                APP_BECOMES_ACTIVE -> false
-                MANAGE_SUBSCRIPTION,
-                PROFILE_SETTINGS,
-                PROBLEMS_LIMIT_MODAL -> true
+                PROFILE_SETTINGS, MANAGE_SUBSCRIPTION -> true
+                APP_BECOMES_ACTIVE,
+                PROBLEMS_LIMIT_MODAL,
+                TOPIC_COMPLETED_MODAL,
+                STUDY_PLAN -> false
             },
             contentState = when (state) {
                 State.Idle -> ViewStateContent.Idle
@@ -44,11 +47,6 @@ internal class PaywallViewStateMapper(
                                 },
                                 state.formattedPrice
                             ),
-                            isContinueWithLimitsButtonVisible = when (paywallTransitionSource) {
-                                PROFILE_SETTINGS, MANAGE_SUBSCRIPTION -> false
-                                APP_BECOMES_ACTIVE,
-                                PROBLEMS_LIMIT_MODAL -> true
-                            },
                             priceText = if (platformType == PlatformType.ANDROID) {
                                 resourceProvider.getString(
                                     SharedResources.strings.paywall_android_explicit_subscription_price,

@@ -18,17 +18,22 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityToTopicProgressMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionStatus
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.learning_activities.domain.model.stub
 import org.hyperskill.profile.stub
+import org.hyperskill.study_plan.domain.model.stub
 import org.hyperskill.subscriptions.stub
 
 class StudyPlanWidgetTest {
@@ -46,7 +51,7 @@ class StudyPlanWidgetTest {
         val initialState = StudyPlanWidgetFeature.State()
         val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.InternalMessage.Initialize())
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchLearningActivitiesWithSections())
-        assertEquals(state.sectionsStatus, StudyPlanWidgetFeature.ContentStatus.LOADING)
+        assertEquals(state.sectionsStatus, SectionStatus.LOADING)
     }
 
     @Test
@@ -56,10 +61,12 @@ class StudyPlanWidgetTest {
             StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = emptyList(),
                 studyPlanSections = emptyList(),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                canMakePayments = false,
+                learnedTopicsCount = 0
             )
         )
-        assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADED, state.sectionsStatus)
+        assertEquals(SectionStatus.LOADED, state.sectionsStatus)
     }
 
     @Test
@@ -82,7 +89,9 @@ class StudyPlanWidgetTest {
                     hiddenSection,
                     visibleSection
                 ),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                canMakePayments = false,
+                learnedTopicsCount = 0
             )
         )
 
@@ -111,7 +120,9 @@ class StudyPlanWidgetTest {
             StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = listOf(stubLearningActivity(id = 1L)),
                 studyPlanSections = listOf(visibleSection, currentSection),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                canMakePayments = false,
+                learnedTopicsCount = 0
             )
         )
 
@@ -147,7 +158,9 @@ class StudyPlanWidgetTest {
                             type = StudyPlanSectionType.NEXT_PROJECT
                         )
                     ),
-                    subscription = subscription
+                    subscription = subscription,
+                    canMakePayments = false,
+                    learnedTopicsCount = 0
                 )
             )
             assertTrue {
@@ -160,7 +173,7 @@ class StudyPlanWidgetTest {
     fun `Study plan sections should be empty if loaded sections does not contains current section`() {
         val expectedState = StudyPlanWidgetFeature.State(
             studyPlanSections = emptyMap(),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            sectionsStatus = SectionStatus.LOADED,
             isRefreshing = false
         )
 
@@ -172,7 +185,9 @@ class StudyPlanWidgetTest {
                     studyPlanSectionStub(id = 0),
                     studyPlanSectionStub(id = 1, activities = listOf(1))
                 ),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                canMakePayments = false,
+                learnedTopicsCount = 0
             )
         )
 
@@ -183,6 +198,7 @@ class StudyPlanWidgetTest {
     fun `Sections in ViewState should be sorted by backend order`() {
         val expectedSectionsIds = listOf<Long>(3, 5, 2, 1, 4)
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             expectedSectionsIds.mapIndexed { index, sectionId ->
                 sectionViewState(
                     section = studyPlanSectionStub(
@@ -198,7 +214,9 @@ class StudyPlanWidgetTest {
                                     activityId = 1,
                                     state = StudyPlanWidgetViewState.SectionItemState.NEXT
                                 )
-                            )
+                            ),
+                            isLoadAllTopicsButtonShown = false,
+                            isNextPageLoadingShowed = false
                         )
                     },
                     isCurrent = sectionId == expectedSectionsIds[0]
@@ -220,7 +238,9 @@ class StudyPlanWidgetTest {
                         activities = if (index == 0) listOf(1L) else emptyList()
                     )
                 },
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                canMakePayments = false,
+                learnedTopicsCount = 0
             )
         )
 
@@ -243,7 +263,9 @@ class StudyPlanWidgetTest {
                     stubLearningActivity(id = 2)
                 ),
                 studyPlanSections = listOf(firstSection, secondSection),
-                subscription = Subscription.stub()
+                subscription = Subscription.stub(),
+                canMakePayments = false,
+                learnedTopicsCount = 0
             )
         )
 
@@ -252,7 +274,7 @@ class StudyPlanWidgetTest {
         }
 
         val actualFirstSection = state.studyPlanSections[firstSection.id]
-        assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADED, actualFirstSection?.contentStatus)
+        assertEquals(SectionContentStatus.ALL_PAGES_LOADED, actualFirstSection?.sectionContentStatus)
         assertEquals(true, actualFirstSection?.isExpanded)
     }
 
@@ -263,7 +285,7 @@ class StudyPlanWidgetTest {
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(sectionId),
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    sectionContentStatus = SectionContentStatus.NEXT_PAGE_LOADING,
                     isExpanded = true
                 )
             )
@@ -276,7 +298,7 @@ class StudyPlanWidgetTest {
                     activities = listOf(stubLearningActivity(1L))
                 )
             )
-        assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADED, state.studyPlanSections[sectionId]?.contentStatus)
+        assertEquals(SectionContentStatus.ALL_PAGES_LOADED, state.studyPlanSections[sectionId]?.sectionContentStatus)
     }
 
     @Test
@@ -287,12 +309,12 @@ class StudyPlanWidgetTest {
             studyPlanSections = mapOf(
                 currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(currentSectionId),
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    sectionContentStatus = SectionContentStatus.NEXT_PAGE_LOADING,
                     isExpanded = true
                 ),
                 nextSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(nextSectionId),
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    sectionContentStatus = SectionContentStatus.IDLE,
                     isExpanded = false
                 )
             )
@@ -305,7 +327,7 @@ class StudyPlanWidgetTest {
         assertTrue(state.studyPlanSections.containsKey(currentSectionId).not())
         val nextSection = state.studyPlanSections[nextSectionId]
         assertTrue(nextSection?.isExpanded == true)
-        assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADING, nextSection?.contentStatus)
+        assertEquals(SectionContentStatus.FIRST_PAGE_LOADING, nextSection?.sectionContentStatus)
     }
 
     @Test
@@ -316,12 +338,12 @@ class StudyPlanWidgetTest {
             studyPlanSections = mapOf(
                 currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(currentSectionId),
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED,
                     isExpanded = true
                 ),
                 notCurrent to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(notCurrent),
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    sectionContentStatus = SectionContentStatus.NEXT_PAGE_LOADING,
                     isExpanded = false
                 )
             )
@@ -368,7 +390,7 @@ class StudyPlanWidgetTest {
                         sectionId,
                         activities = activities.map { it.id }
                     ),
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    sectionContentStatus = SectionContentStatus.NEXT_PAGE_LOADING,
                     isExpanded = true
                 )
             )
@@ -389,7 +411,7 @@ class StudyPlanWidgetTest {
     }
 
     @Test
-    fun `New activities should replace old activities in activities map`() {
+    fun `New activities should replace old activities in activities map for non RootTopics sections`() {
         // ALTAPPS-743: old activities [0, 1], new activities [1, 2], result activities [1, 2]
         val sectionId = 0L
         val oldActivities = List(2) { index ->
@@ -409,9 +431,47 @@ class StudyPlanWidgetTest {
                         sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                             studyPlanSection = studyPlanSectionStub(
                                 sectionId,
-                                activities = oldActivities.map { it.id }
+                                activities = oldActivities.map { it.id },
+                                type = StudyPlanSectionType.EXTRA_TOPICS
                             ),
-                            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+                            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED,
+                            isExpanded = true
+                        )
+                    )
+                ),
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId, newActivities)
+            )
+
+        val resultActivitiesIds = state.activities.keys
+
+        assertEquals(expectedActivitiesIds, resultActivitiesIds)
+    }
+
+    @Test
+    fun `New loaded activities should be added to the activities map for RootTopics section`() {
+        // old activities [0, 1], new activities [2, 3], result activities [0, 1, 2, 3]
+        val sectionId = 0L
+        val oldActivities = List(2) { index ->
+            stubLearningActivity(id = index.toLong())
+        }
+        val newActivities = List(2) { index ->
+            stubLearningActivity(id = index.toLong() + 2)
+        }
+
+        val expectedActivitiesIds: Set<Long> = setOf(0, 1, 2, 3)
+
+        val (state, _) =
+            reducer.reduce(
+                StudyPlanWidgetFeature.State(
+                    activities = oldActivities.associateBy { it.id },
+                    studyPlanSections = mapOf(
+                        sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                            studyPlanSection = studyPlanSectionStub(
+                                sectionId,
+                                activities = oldActivities.map { it.id },
+                                type = StudyPlanSectionType.ROOT_TOPICS
+                            ),
+                            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED,
                             isExpanded = true
                         )
                     )
@@ -433,7 +493,7 @@ class StudyPlanWidgetTest {
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     section,
                     isExpanded = true,
-                    StudyPlanWidgetFeature.ContentStatus.ERROR
+                    SectionContentStatus.ERROR
                 )
             )
         )
@@ -449,7 +509,10 @@ class StudyPlanWidgetTest {
                 sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(true)
             )
         )
-        assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADING, state.studyPlanSections[section.id]?.contentStatus)
+        assertEquals(
+            SectionContentStatus.FIRST_PAGE_LOADING,
+            state.studyPlanSections[section.id]?.sectionContentStatus
+        )
 
         val analyticAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
         if (analyticAction.analyticEvent is StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent) {
@@ -466,25 +529,26 @@ class StudyPlanWidgetTest {
 
         val collapsedSection = StudyPlanWidgetFeature.StudyPlanSectionInfo(
             studyPlanSection = section,
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED,
             isExpanded = false
         )
 
         val idleSection = StudyPlanWidgetFeature.StudyPlanSectionInfo(
             studyPlanSection = section,
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+            sectionContentStatus = SectionContentStatus.IDLE,
             isExpanded = false
         )
 
         listOf(collapsedSection, idleSection).forEach { givenSection ->
             val state = StudyPlanWidgetFeature.State(
                 studyPlanSections = mapOf(sectionId to givenSection),
-                sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                sectionsStatus = SectionStatus.LOADED
             )
 
             val viewState = studyPlanWidgetViewStateMapper.map(state)
 
             val expectedViewStateSections = StudyPlanWidgetViewState.Content(
+                isPaywallBannerShown = false,
                 sections = listOf(
                     sectionViewState(
                         section = section,
@@ -504,18 +568,19 @@ class StudyPlanWidgetTest {
         val activityId = 0L
         val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
             studyPlanSection = studyPlanSectionStub(sectionId, activities = listOf(activityId)),
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+            sectionContentStatus = SectionContentStatus.FIRST_PAGE_LOADING,
             isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(sectionId to section),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            sectionsStatus = SectionStatus.LOADED,
             activities = mapOf(activityId to stubLearningActivity(activityId))
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             sections = listOf(
                 sectionViewState(
                     section = section.studyPlanSection,
@@ -525,7 +590,9 @@ class StudyPlanWidgetTest {
                                 activityId,
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
-                        )
+                        ),
+                        isLoadAllTopicsButtonShown = false,
+                        isNextPageLoadingShowed = false
                     ),
                     isCurrent = true
                 )
@@ -542,18 +609,19 @@ class StudyPlanWidgetTest {
 
         val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
             studyPlanSection = studyPlanSectionStub(sectionId, activities = listOf(activityId)),
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED,
             isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(sectionId to section),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            sectionsStatus = SectionStatus.LOADED,
             activities = mapOf(activityId to stubLearningActivity(activityId))
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             sections = listOf(
                 sectionViewState(
                     section = section.studyPlanSection,
@@ -563,7 +631,9 @@ class StudyPlanWidgetTest {
                                 activityId,
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
-                        )
+                        ),
+                        isLoadAllTopicsButtonShown = false,
+                        isNextPageLoadingShowed = false
                     ),
                     isCurrent = true
                 )
@@ -585,20 +655,20 @@ class StudyPlanWidgetTest {
         val sectionId = 0L
         val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
             studyPlanSection = studyPlanSectionStub(sectionId),
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED,
             isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(sectionId to section),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionsStatus = SectionStatus.LOADED
         )
 
         val (newState, actions) =
             reducer.reduce(state, StudyPlanWidgetFeature.InternalMessage.ReloadContentInBackground)
 
         assertEquals(
-            state.studyPlanSections[sectionId]?.contentStatus,
-            newState.studyPlanSections[sectionId]?.contentStatus
+            state.studyPlanSections[sectionId]?.sectionContentStatus,
+            newState.studyPlanSections[sectionId]?.sectionContentStatus
         )
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchLearningActivitiesWithSections())
     }
@@ -606,6 +676,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Section content item title in ViewState should be equal to learning activity title`() {
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -616,7 +687,9 @@ class StudyPlanWidgetTest {
                                 title = "Activity 1",
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
-                        )
+                        ),
+                        isLoadAllTopicsButtonShown = false,
+                        isNextPageLoadingShowed = false
                     ),
                     isCurrent = true
                 )
@@ -628,13 +701,13 @@ class StudyPlanWidgetTest {
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
                 0L to stubLearningActivity(id = 0, title = "Activity 1")
             ),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionsStatus = SectionStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -644,6 +717,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Section content item title in ViewState should be equal to learning activity id if title is blank`() {
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -654,7 +728,9 @@ class StudyPlanWidgetTest {
                                 title = "0",
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
-                        )
+                        ),
+                        isLoadAllTopicsButtonShown = false,
+                        isNextPageLoadingShowed = false
                     ),
                     isCurrent = true
                 )
@@ -666,11 +742,11 @@ class StudyPlanWidgetTest {
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(0L to stubLearningActivity(id = 0, title = "")),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionsStatus = SectionStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -680,6 +756,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Section content item title in ViewState should be equal to learning activity description`() {
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -691,7 +768,9 @@ class StudyPlanWidgetTest {
                                 subtitle = "Hello, coffee!",
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
-                        )
+                        ),
+                        isLoadAllTopicsButtonShown = false,
+                        isNextPageLoadingShowed = false
                     ),
                     isCurrent = true
                 )
@@ -703,7 +782,7 @@ class StudyPlanWidgetTest {
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
@@ -713,7 +792,7 @@ class StudyPlanWidgetTest {
                     description = "Work on project. Stage: 1/6"
                 )
             ),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionsStatus = SectionStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -732,13 +811,14 @@ class StudyPlanWidgetTest {
                             topicsCount = 10
                         ),
                         isExpanded = isExpanded,
-                        contentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE
+                        sectionContentStatus = SectionContentStatus.IDLE
                     )
                 ),
-                sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                sectionsStatus = SectionStatus.LOADED
             )
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0),
@@ -757,6 +837,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Section content statistics in ViewState should be visible for non first expanded visible section`() {
         val expectedViewState = StudyPlanWidgetViewState.Content(
+            isPaywallBannerShown = false,
             listOf(
                 sectionViewState(
                     section = studyPlanSectionStub(id = 0),
@@ -766,19 +847,23 @@ class StudyPlanWidgetTest {
                                 activityId = 0,
                                 state = StudyPlanWidgetViewState.SectionItemState.NEXT
                             )
-                        )
+                        ),
+                        isLoadAllTopicsButtonShown = false,
+                        isNextPageLoadingShowed = false
                     ),
                     isCurrent = true
                 ),
                 sectionViewState(
                     section = studyPlanSectionStub(id = 1),
                     content = StudyPlanWidgetViewState.SectionContent.Content(
-                        listOf(
+                        sectionItems = listOf(
                             studyPlanSectionItemStub(
                                 activityId = 1,
                                 state = StudyPlanWidgetViewState.SectionItemState.IDLE
                             )
-                        )
+                        ),
+                        isLoadAllTopicsButtonShown = false,
+                        isNextPageLoadingShowed = false
                     ),
                     isCurrent = false,
                     formattedTopicsCount = "1 / 10",
@@ -792,7 +877,7 @@ class StudyPlanWidgetTest {
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 ),
                 1L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(
@@ -802,14 +887,14 @@ class StudyPlanWidgetTest {
                         topicsCount = 10
                     ),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
                 0L to stubLearningActivity(id = 0),
                 1L to stubLearningActivity(id = 1)
             ),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionsStatus = SectionStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -829,7 +914,7 @@ class StudyPlanWidgetTest {
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
@@ -842,7 +927,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertContains(
@@ -858,12 +946,13 @@ class StudyPlanWidgetTest {
     @Test
     fun `Click on stage implement learning activity with non stage target should do nothing`() {
         val activityId = 0L
+        val sectionId = 0L
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
-                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(activityId)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
@@ -876,7 +965,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
@@ -894,7 +986,7 @@ class StudyPlanWidgetTest {
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
@@ -907,7 +999,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
 
@@ -933,12 +1028,13 @@ class StudyPlanWidgetTest {
     @Test
     fun `Click on learn topic learning activity with non step target should do nothing`() {
         val activityId = 0L
+        val sectionId = 0L
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(activityId)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
@@ -951,7 +1047,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
@@ -969,7 +1068,7 @@ class StudyPlanWidgetTest {
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
@@ -983,7 +1082,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertContains(
@@ -1007,7 +1109,7 @@ class StudyPlanWidgetTest {
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
@@ -1015,7 +1117,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertContains(
@@ -1036,7 +1141,7 @@ class StudyPlanWidgetTest {
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
@@ -1044,7 +1149,10 @@ class StudyPlanWidgetTest {
             )
         )
 
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+        val (newState, actions) = reducer.reduce(
+            state,
+            StudyPlanWidgetFeature.Message.ActivityClicked(activityId, sectionId)
+        )
 
         assertEquals(state, newState)
         assertContains(
@@ -1064,7 +1172,7 @@ class StudyPlanWidgetTest {
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId),
                     isExpanded = false,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             )
         )
@@ -1091,7 +1199,7 @@ class StudyPlanWidgetTest {
                 activities = expectedActivitiesIds
             ),
             isExpanded = false,
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
         )
 
         assertEquals(
@@ -1110,7 +1218,7 @@ class StudyPlanWidgetTest {
                 activities = expectedActivitiesIds
             ),
             isExpanded = false,
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
         )
 
         assertEquals(
@@ -1130,7 +1238,7 @@ class StudyPlanWidgetTest {
                 nextActivityId = 3L
             ),
             isExpanded = false,
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
         )
 
         assertEquals(
@@ -1150,7 +1258,7 @@ class StudyPlanWidgetTest {
                 nextActivityId = 5L
             ),
             isExpanded = false,
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
         )
 
         assertEquals(
@@ -1170,7 +1278,7 @@ class StudyPlanWidgetTest {
                 nextActivityId = 10L
             ),
             isExpanded = false,
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
         )
 
         assertEquals(
@@ -1190,7 +1298,7 @@ class StudyPlanWidgetTest {
                 nextActivityId = 5L
             ),
             isExpanded = false,
-            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
         )
 
         assertEquals(
@@ -1213,14 +1321,14 @@ class StudyPlanWidgetTest {
                         nextActivityId = nextActivityId
                     ),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
                 notNextActivityId to stubLearningActivity(notNextActivityId),
                 nextActivityId to stubLearningActivity(nextActivityId)
             ),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionsStatus = SectionStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -1256,14 +1364,14 @@ class StudyPlanWidgetTest {
                         nextActivityId = null
                     ),
                     isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                    sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED
                 )
             ),
             activities = mapOf(
                 firstActivityId to stubLearningActivity(firstActivityId),
                 secondActivityId to stubLearningActivity(secondActivityId)
             ),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+            sectionsStatus = SectionStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -1303,6 +1411,53 @@ class StudyPlanWidgetTest {
             )
 
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.PutTopicsProgressesToCache(expectedProgresses))
+    }
+
+    @Test
+    fun `LoadMoreActivitiesClicked should trigger loading more activities for given section`() {
+        val sectionId = 1L
+        val loadedActivitiesIds = listOf(1L, 2L, 3L)
+        val unloadedActivitiesIds = listOf(4L, 5L, 6L)
+        val section = StudyPlanSection.stub(
+            id = sectionId,
+            type = StudyPlanSectionType.ROOT_TOPICS,
+            activities = loadedActivitiesIds + unloadedActivitiesIds
+        )
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    section,
+                    isExpanded = false,
+                    sectionContentStatus = SectionContentStatus.IDLE
+                )
+            ),
+            profile = Profile.stub(),
+            activities = loadedActivitiesIds.associateWith { LearningActivity.stub(id = it) }
+        )
+
+        val (state, actions) = reducer.reduce(
+            initialState,
+            StudyPlanWidgetFeature.Message.LoadMoreActivitiesClicked(sectionId)
+        )
+
+        assertTrue {
+            actions.any {
+                it is StudyPlanWidgetFeature.InternalAction.FetchLearningActivities &&
+                    it.sectionId == sectionId &&
+                    it.activitiesIds == unloadedActivitiesIds
+            }
+        }
+        assertEquals(
+            SectionContentStatus.NEXT_PAGE_LOADING,
+            state.studyPlanSections[sectionId]?.sectionContentStatus
+        )
+
+        assertTrue {
+            actions.any {
+                it is StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent
+            }
+        }
     }
 
     private fun sectionViewState(

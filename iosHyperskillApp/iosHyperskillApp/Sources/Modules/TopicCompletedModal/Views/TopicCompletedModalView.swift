@@ -57,6 +57,10 @@ private extension TopicCompletedModalView {
             viewModel.doNextTopicPresentation()
         case .studyPlan:
             viewModel.doStudyPlanPresentation()
+        case .paywall(let navigateToPaywallViewAction):
+            viewModel.doPaywallPresentation(
+                paywallTransitionSource: navigateToPaywallViewAction.paywallTransitionSource
+            )
         }
 
         dismiss()

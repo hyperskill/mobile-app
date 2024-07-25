@@ -11,10 +11,13 @@ struct TrackSelectionListGridCellBadgesView: View {
     }
 
     var body: some View {
-        if isEmpty {
-            EmptyView()
-        } else {
-            HStack(spacing: LayoutInsets.smallInset) {
+        if !isEmpty {
+            FlowLayoutCompatibility(
+                configuration: .init(
+                    spacing: LayoutInsets.smallInset,
+                    fallbackLayout: .horizontal()
+                )
+            ) {
                 if isSelected {
                     BadgeView.selected()
                 }
@@ -35,23 +38,25 @@ struct TrackSelectionListGridCellBadgesView: View {
     }
 }
 
-struct TrackSelectionListGridCellBadgesView_Previews: PreviewProvider {
-    static var previews: some View {
-        TrackSelectionListGridCellBadgesView(
-            isSelected: true,
-            isIdeRequired: true,
-            isBeta: true,
-            isCompleted: true
-        )
-        .padding()
-
-        TrackSelectionListGridCellBadgesView(
-            isSelected: true,
-            isIdeRequired: true,
-            isBeta: true,
-            isCompleted: true
-        )
-        .padding()
-        .preferredColorScheme(.dark)
-    }
+#if DEBUG
+#Preview {
+    TrackSelectionListGridCellBadgesView(
+        isSelected: true,
+        isIdeRequired: true,
+        isBeta: true,
+        isCompleted: true
+    )
+    .padding()
 }
+
+#Preview {
+    TrackSelectionListGridCellBadgesView(
+        isSelected: true,
+        isIdeRequired: true,
+        isBeta: true,
+        isCompleted: true
+    )
+    .padding()
+    .preferredColorScheme(.dark)
+}
+#endif

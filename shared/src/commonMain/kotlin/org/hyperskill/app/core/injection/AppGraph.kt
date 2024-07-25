@@ -69,6 +69,7 @@ import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_feedback.injection.StepFeedbackComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_quiz_code_blanks.injection.StepQuizCodeBlanksComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
@@ -87,6 +88,7 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComp
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsDataComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
@@ -134,6 +136,7 @@ interface AppGraph {
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent
     fun buildStepQuizToolbarComponent(stepRoute: StepRoute): StepQuizToolbarComponent
+    fun buildStepQuizCodeBlanksComponent(stepRoute: StepRoute): StepQuizCodeBlanksComponent
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStepToolbarComponent(stepRoute: StepRoute): StepToolbarComponent
     fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
@@ -149,6 +152,7 @@ interface AppGraph {
     fun buildTrackDataComponent(): TrackDataComponent
     fun buildTrackSelectionListComponent(): TrackSelectionListComponent
     fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent
+    fun buildTrackSelectionDetailsDataComponent(): TrackSelectionDetailsDataComponent
     fun buildProfileComponent(): ProfileComponent
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent

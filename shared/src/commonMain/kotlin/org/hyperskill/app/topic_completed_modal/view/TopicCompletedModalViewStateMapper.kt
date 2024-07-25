@@ -2,6 +2,7 @@ package org.hyperskill.app.topic_completed_modal.view
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams.ContinueBehaviour
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.State
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.ViewState
 
@@ -50,10 +51,12 @@ internal class TopicCompletedModalViewStateMapper(
                 COMPLETED_TOPIC_EARNED_GEMS_VALUE
             ),
             callToActionButtonTitle = resourceProvider.getString(
-                if (state.canContinueWithNextTopic) {
-                    SharedResources.strings.topic_completed_modal_continue_with_next_topic_button_text
-                } else {
-                    SharedResources.strings.go_to_study_plan
+                when (state.continueBehaviour) {
+                    ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC,
+                    ContinueBehaviour.SHOW_PAYWALL ->
+                        SharedResources.strings.topic_completed_modal_continue_with_next_topic_button_text
+                    ContinueBehaviour.GO_TO_STUDY_PLAN ->
+                        SharedResources.strings.go_to_study_plan
                 }
             ),
             spacebotAvatarVariantIndex = state.passedTopicsCount % SPACEBOT_AVATAR_VARIANT_COUNT,

@@ -14,7 +14,8 @@ fun TrackWithProgress.Companion.stub(
     topicsCount: Int = 1,
     appliedCapstoneTopicsCount: Int = 0,
     capstoneTopicsCount: Int = 0,
-    projects: List<Long> = emptyList()
+    projects: List<Long> = emptyList(),
+    rank: Int = 0
 ): TrackWithProgress =
     TrackWithProgress(
         track = Track.stub(
@@ -29,6 +30,7 @@ fun TrackWithProgress.Companion.stub(
             trackId,
             learnedTopicsCount = learnedTopicsCount,
             skippedTopicsCount = skippedTopicsCount,
-            appliedCapstoneTopicsCount = appliedCapstoneTopicsCount
+            appliedCapstoneTopicsCount = appliedCapstoneTopicsCount,
+            rank = rank
         )
     )

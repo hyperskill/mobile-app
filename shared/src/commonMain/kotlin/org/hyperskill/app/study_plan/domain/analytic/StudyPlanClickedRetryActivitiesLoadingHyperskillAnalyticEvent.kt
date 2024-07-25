@@ -31,9 +31,5 @@ class StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent(
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.STUDY_PLAN_SECTION_ACTIVITIES,
     target = HyperskillAnalyticTarget.RETRY,
-    context = mapOf(SECTION_ID to sectionId)
-) {
-    companion object {
-        private const val SECTION_ID = "section_id"
-    }
-}
+    context = mapOf(StudyPlanAnalyticParams.PARAM_SECTION_ID to sectionId)
+)

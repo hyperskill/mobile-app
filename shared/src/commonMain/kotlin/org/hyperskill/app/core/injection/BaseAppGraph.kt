@@ -125,6 +125,8 @@ import org.hyperskill.app.step_feedback.injection.StepFeedbackComponent
 import org.hyperskill.app.step_feedback.injection.StepFeedbackComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.step_quiz_code_blanks.injection.StepQuizCodeBlanksComponent
+import org.hyperskill.app.step_quiz_code_blanks.injection.StepQuizCodeBlanksComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
@@ -160,6 +162,8 @@ import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponentImpl
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsDataComponent
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsDataComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
@@ -291,6 +295,9 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildStepQuizToolbarComponent(stepRoute: StepRoute): StepQuizToolbarComponent =
         StepQuizToolbarComponentImpl(this, stepRoute)
 
+    override fun buildStepQuizCodeBlanksComponent(stepRoute: StepRoute): StepQuizCodeBlanksComponent =
+        StepQuizCodeBlanksComponentImpl(this, stepRoute)
+
     /**
      * Step completion component
      */
@@ -401,6 +408,9 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
         TrackSelectionDetailsComponentImpl(this)
+
+    override fun buildTrackSelectionDetailsDataComponent(): TrackSelectionDetailsDataComponent =
+        TrackSelectionDetailsDataComponentImpl(this)
 
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)

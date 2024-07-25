@@ -20,6 +20,7 @@ import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.home.view.mapper.HomeViewStateMapper
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
@@ -47,6 +48,7 @@ internal object HomeFeatureBuilder {
         topicRepeatedFlow: TopicRepeatedFlow,
         topicCompletedFlow: TopicCompletedFlow,
         stepCompletedFlow: StepCompletedFlow,
+        purchaseInteractor: PurchaseInteractor,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         challengeWidgetReducer: ChallengeWidgetReducer,
@@ -60,16 +62,17 @@ internal object HomeFeatureBuilder {
             challengeWidgetReducer = challengeWidgetReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
-            ActionDispatcherOptions(),
-            currentProfileStateRepository,
-            topicsRepetitionsInteractor,
-            stepInteractor,
-            currentSubscriptionStateRepository,
-            sentryInteractor,
-            dateFormatter,
-            topicRepeatedFlow,
-            topicCompletedFlow,
-            stepCompletedFlow
+            config = ActionDispatcherOptions(),
+            currentProfileStateRepository = currentProfileStateRepository,
+            topicsRepetitionsInteractor = topicsRepetitionsInteractor,
+            stepInteractor = stepInteractor,
+            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
+            sentryInteractor = sentryInteractor,
+            purchaseInteractor = purchaseInteractor,
+            dateFormatter = dateFormatter,
+            topicRepeatedFlow = topicRepeatedFlow,
+            topicCompletedFlow = topicCompletedFlow,
+            stepCompletedFlow = stepCompletedFlow
         )
         val homeViewStateMapper = HomeViewStateMapper(
             challengeWidgetViewStateMapper = challengeWidgetViewStateMapper

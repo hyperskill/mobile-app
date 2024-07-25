@@ -6,6 +6,7 @@ enum StudyPlanWidgetViewStateSectionItemStateWrapper {
     case next
     case skipped
     case completed
+    case locked
 }
 
 extension StudyPlanWidgetViewStateSectionItemStateWrapper {
@@ -19,6 +20,8 @@ extension StudyPlanWidgetViewStateSectionItemStateWrapper {
             self = .skipped
         case .completed:
             self = .completed
+        case .locked:
+            self = .locked
         default:
             assertionFailure("Did receive unsupported item state type = \(sharedItemState)")
             return nil

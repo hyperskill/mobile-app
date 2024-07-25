@@ -15,6 +15,7 @@ struct StudyPlanView: View {
     @StateObject var viewModel: StudyPlanViewModel
 
     let stackRouter: StackRouterProtocol
+    let modalRouter: ModalRouterProtocol
     let panModalPresenter: PanModalPresenter
 
     var body: some View {
@@ -75,10 +76,17 @@ struct StudyPlanView: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                     if let trackTitle = viewModel.state.trackTitle {
-                        Text(trackTitle)
-                            .font(.subheadline)
-                            .foregroundColor(.secondaryText)
-                            .padding(.bottom, appearance.trackTitleBottomPadding)
+                        Button(action: viewModel.doTrackSelectionPresentation) {
+                            HStack {
+                                Text(trackTitle)
+
+                                Image(systemName: "arrow.left.arrow.right.square")
+                                    .imageScale(.large)
+                            }
+                        }
+                        .font(.subheadline)
+                        .foregroundColor(.secondaryText)
+                        .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
 
                     let usersInterviewWidgetFeatureStateKs = viewModel.usersInterviewWidgetFeatureStateKs
@@ -90,12 +98,19 @@ struct StudyPlanView: View {
                         .makeModule()
                     }
 
+                    if data.isPaywallBannerShown {
+                        StudyPlanPaywallBanner(
+                            action: viewModel.doPaywallBannerAction
+                        )
+                    }
+
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(
                             section: section,
                             onSectionTap: viewModel.doSectionToggle(sectionId:),
-                            onActivityTap: viewModel.doActivityPresentation(activityId:),
-                            onRetryActivitiesLoadingTap: viewModel.doRetryActivitiesLoading(sectionId:)
+                            onActivityTap: viewModel.doActivityPresentation(activityID:sectionID:),
+                            onRetryActivitiesLoadingTap: viewModel.doRetryActivitiesLoading(sectionId:),
+                            onLoadMoreActivitiesTap: viewModel.doLoadMoreActivities(sectionID:)
                         )
                     }
                 }
@@ -120,6 +135,8 @@ private extension StudyPlanView {
         _ viewAction: StudyPlanScreenFeatureActionViewAction
     ) {
         switch StudyPlanScreenFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(navigateToViewAction)
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             GamificationToolbarViewActionHandler.handle(
                 viewAction: gamificationToolbarViewAction.viewAction,
@@ -134,6 +151,16 @@ private extension StudyPlanView {
             handleUsersInterviewWidgetViewAction(
                 usersInterviewWidgetViewAction.viewAction
             )
+        }
+    }
+
+    func handleNavigateToViewAction(
+        _ viewAction: StudyPlanScreenFeatureActionViewActionNavigateTo
+    ) {
+        switch StudyPlanScreenFeatureActionViewActionNavigateToKs(viewAction) {
+        case .trackSelectionScreen:
+            let assembly = TrackSelectionListAssembly(isNewUserMode: false)
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 
@@ -156,6 +183,11 @@ private extension StudyPlanView {
             handleNavigateToLearningActivityTargetViewAction(
                 navigateToLearningActivityTargetViewAction.viewAction
             )
+        case .paywall(let navigateToPaywallViewAction):
+            let assembly = PaywallAssembly(
+                source: navigateToPaywallViewAction.paywallTransitionSource
+            )
+            modalRouter.present(module: assembly.makeModule())
         }
     }
 

@@ -1,13 +1,14 @@
 package org.hyperskill.app.study_plan.widget.view.model
 
 sealed interface StudyPlanWidgetViewState {
-    object Idle : StudyPlanWidgetViewState
+    data object Idle : StudyPlanWidgetViewState
 
-    object Loading : StudyPlanWidgetViewState
+    data object Loading : StudyPlanWidgetViewState
 
-    object Error : StudyPlanWidgetViewState
+    data object Error : StudyPlanWidgetViewState
 
     data class Content(
+        val isPaywallBannerShown: Boolean,
         val sections: List<Section>
     ) : StudyPlanWidgetViewState
 
@@ -25,14 +26,16 @@ sealed interface StudyPlanWidgetViewState {
     }
 
     sealed interface SectionContent {
-        object Collapsed : SectionContent
+        data object Collapsed : SectionContent
 
-        object Loading : SectionContent
+        data object Loading : SectionContent
 
-        object Error : SectionContent
+        data object Error : SectionContent
 
         data class Content(
-            val sectionItems: List<SectionItem>
+            val sectionItems: List<SectionItem>,
+            val isNextPageLoadingShowed: Boolean,
+            val isLoadAllTopicsButtonShown: Boolean
         ) : SectionContent
     }
 
@@ -51,6 +54,7 @@ sealed interface StudyPlanWidgetViewState {
         IDLE,
         NEXT,
         SKIPPED,
-        COMPLETED
+        COMPLETED,
+        LOCKED
     }
 }

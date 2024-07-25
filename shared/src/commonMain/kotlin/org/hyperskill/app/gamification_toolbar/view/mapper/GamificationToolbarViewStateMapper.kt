@@ -4,7 +4,8 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarT
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.areProblemsLimited
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 
 internal object GamificationToolbarViewStateMapper {
     fun map(state: GamificationToolbarFeature.State): GamificationToolbarFeature.ViewState =
@@ -25,7 +26,11 @@ internal object GamificationToolbarViewStateMapper {
                 isCompleted = state.historicalStreak.isCompleted,
                 isRecovered = state.historicalStreak.state == StreakState.RECOVERED
             ),
-            problemsLimit = getProblemsLimitState(state.subscription)
+            problemsLimit = getProblemsLimitState(
+                subscription = state.subscription,
+                isMobileContentTrialEnabled = state.isMobileContentTrialEnabled,
+                canMakePayments = state.canMakePayments
+            )
         )
 
     private fun getProgress(
@@ -42,13 +47,19 @@ internal object GamificationToolbarViewStateMapper {
     }
 
     private fun getProblemsLimitState(
-        subscription: Subscription
+        subscription: Subscription,
+        isMobileContentTrialEnabled: Boolean,
+        canMakePayments: Boolean
     ): GamificationToolbarFeature.ViewState.Content.ProblemsLimit? {
         val stepsLimitLeft = subscription.stepsLimitLeft
-        return if (!subscription.areProblemsLimited || stepsLimitLeft == null) {
-            null
-        } else {
+        val subscriptionLimitType = subscription.getSubscriptionLimitType(
+            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+            canMakePayments = canMakePayments
+        )
+        return if (subscriptionLimitType == SubscriptionLimitType.PROBLEMS && stepsLimitLeft != null) {
             GamificationToolbarFeature.ViewState.Content.ProblemsLimit(limitLabel = stepsLimitLeft.toString())
+        } else {
+            null
         }
     }
 }

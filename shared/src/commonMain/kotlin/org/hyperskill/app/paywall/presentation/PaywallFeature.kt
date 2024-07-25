@@ -30,8 +30,7 @@ object PaywallFeature {
         object Error : ViewStateContent
         data class Content(
             val buyButtonText: String,
-            val priceText: String?,
-            val isContinueWithLimitsButtonVisible: Boolean
+            val priceText: String?
         ) : ViewStateContent
 
         object SubscriptionSyncLoading : ViewStateContent
@@ -42,7 +41,7 @@ object PaywallFeature {
 
         object RetryContentLoading : Message
 
-        object ContinueWithLimitsClicked : Message
+        object CloseClicked : Message
 
         data class BuySubscriptionClicked(
             val purchaseParams: PlatformPurchaseParams

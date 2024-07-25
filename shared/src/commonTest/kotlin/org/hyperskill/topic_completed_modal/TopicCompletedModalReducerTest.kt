@@ -11,6 +11,7 @@ import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedMo
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalUserDidTakeScreenshotHyperskillAnalyticEvent
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams.ContinueBehaviour
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.Action
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.InternalAction
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.Message
@@ -24,7 +25,7 @@ class TopicCompletedModalReducerTest {
 
     @Test
     fun `CloseButtonClicked triggers LogAnalyticEvent and Dismiss action`() {
-        val initialState = createInitialState(canContinueWithNextTopic = true)
+        val initialState = createInitialState(continueBehaviour = ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC)
         val message = Message.CloseButtonClicked
 
         val (state, actions) = reducer.reduce(initialState, message)
@@ -42,7 +43,7 @@ class TopicCompletedModalReducerTest {
 
     @Test
     fun `CallToActionButtonClicked triggers appropriate navigation and logging when can continue with next topic`() {
-        val initialState = createInitialState(canContinueWithNextTopic = true)
+        val initialState = createInitialState(continueBehaviour = ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC)
         val message = Message.CallToActionButtonClicked
 
         val (state, actions) = reducer.reduce(initialState, message)
@@ -60,7 +61,7 @@ class TopicCompletedModalReducerTest {
 
     @Test
     fun `CallToActionButtonClicked triggers appropriate navigation and logging when cannot continue with next topic`() {
-        val initialState = createInitialState(canContinueWithNextTopic = false)
+        val initialState = createInitialState(continueBehaviour = ContinueBehaviour.GO_TO_STUDY_PLAN)
         val message = Message.CallToActionButtonClicked
 
         val (state, actions) = reducer.reduce(initialState, message)
@@ -78,7 +79,7 @@ class TopicCompletedModalReducerTest {
 
     @Test
     fun `ShownEventMessage triggers LogAnalyticEvent with shown event`() {
-        val initialState = createInitialState(canContinueWithNextTopic = true)
+        val initialState = createInitialState(continueBehaviour = ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC)
         val message = Message.ShownEventMessage
 
         val (state, actions) = reducer.reduce(initialState, message)
@@ -95,7 +96,7 @@ class TopicCompletedModalReducerTest {
 
     @Test
     fun `HiddenEventMessage triggers LogAnalyticEvent with hidden event`() {
-        val initialState = createInitialState(canContinueWithNextTopic = true)
+        val initialState = createInitialState(continueBehaviour = ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC)
         val message = Message.HiddenEventMessage
 
         val (state, actions) = reducer.reduce(initialState, message)
@@ -112,7 +113,7 @@ class TopicCompletedModalReducerTest {
 
     @Test
     fun `UserDidTakeScreenshotEventMessage triggers LogAnalyticEvent with screenshot event`() {
-        val initialState = createInitialState(canContinueWithNextTopic = true)
+        val initialState = createInitialState(continueBehaviour = ContinueBehaviour.CONTINUE_WITH_NEXT_TOPIC)
         val message = Message.UserDidTakeScreenshotEventMessage
 
         val (state, actions) = reducer.reduce(initialState, message)
@@ -127,10 +128,10 @@ class TopicCompletedModalReducerTest {
         }
     }
 
-    private fun createInitialState(canContinueWithNextTopic: Boolean): State =
+    private fun createInitialState(continueBehaviour: ContinueBehaviour): State =
         State(
             topic = Topic(id = 1, title = "Sample Topic", progressId = ""),
             passedTopicsCount = 5,
-            canContinueWithNextTopic = canContinueWithNextTopic
+            continueBehaviour = continueBehaviour
         )
 }

@@ -5,8 +5,10 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
+import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
@@ -22,7 +24,7 @@ object StudyPlanWidgetFeature {
         /**
          * Describes status of sections loading
          */
-        val sectionsStatus: ContentStatus = ContentStatus.IDLE,
+        val sectionsStatus: SectionStatus = SectionStatus.IDLE,
 
         /**
          * Map of activity ids to activities
@@ -32,20 +34,48 @@ object StudyPlanWidgetFeature {
         /**
          * Pull to refresh flag
          */
-        val isRefreshing: Boolean = false
+        val isRefreshing: Boolean = false,
+
+        /**
+         * Current user subscription
+         */
+        val subscription: Subscription? = null,
+
+        /**
+         * Actual learnedTopicsCount in the current track
+         */
+        val learnedTopicsCount: Int = 0,
+
+        val canMakePayments: Boolean = false
     ) {
         /**
          * Divided track topics feature enabled flag
          */
         val isLearningPathDividedTrackTopicsEnabled: Boolean
             get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
+
+        /**
+         * MobileContentTrial feature flag
+         */
+        val isMobileContentTrialEnabled: Boolean
+            get() = profile?.features?.isMobileContentTrialEnabled ?: false
     }
 
-    enum class ContentStatus {
+    enum class SectionStatus {
         IDLE,
         LOADING,
         ERROR,
         LOADED
+    }
+
+    enum class SectionContentStatus {
+        IDLE,
+        ERROR,
+
+        FIRST_PAGE_LOADING,
+        NEXT_PAGE_LOADING,
+        PAGE_LOADED,
+        ALL_PAGES_LOADED
     }
 
     data class StudyPlanSectionInfo(
@@ -55,42 +85,50 @@ object StudyPlanWidgetFeature {
         /**
          * Describes status of section's activities loading
          * */
-        val contentStatus: ContentStatus
+        val sectionContentStatus: SectionContentStatus
     )
 
     sealed interface Message {
         data class SectionClicked(val sectionId: Long) : Message
 
-        data class ActivityClicked(val activityId: Long) : Message
+        data class ActivityClicked(val activityId: Long, val sectionId: Long) : Message
+
+        data class LoadMoreActivitiesClicked(val sectionId: Long) : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
 
-        object PullToRefresh : Message
+        data object PullToRefresh : Message
+
+        data object SubscribeClicked : Message
 
         /**
          * Stage implementation unsupported modal
          */
-        object StageImplementUnsupportedModalGoToHomeClicked : Message
-        object StageImplementUnsupportedModalShownEventMessage : Message
-        object StageImplementUnsupportedModalHiddenEventMessage : Message
+        data object StageImplementUnsupportedModalGoToHomeClicked : Message
+        data object StageImplementUnsupportedModalShownEventMessage : Message
+        data object StageImplementUnsupportedModalHiddenEventMessage : Message
     }
 
     internal sealed interface InternalMessage : Message {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
 
-        object ReloadContentInBackground : InternalMessage
+        data object ReloadContentInBackground : InternalMessage
 
         data class ProfileChanged(val profile: Profile) : InternalMessage
+
+        data class FetchPaymentAbilityResult(val canMakePayments: Boolean) : InternalMessage
     }
 
     internal sealed interface LearningActivitiesWithSectionsFetchResult : Message {
         data class Success(
             val learningActivities: List<LearningActivity>,
             val studyPlanSections: List<StudyPlanSection>,
-            val subscription: Subscription
+            val subscription: Subscription,
+            val learnedTopicsCount: Int,
+            val canMakePayments: Boolean
         ) : LearningActivitiesWithSectionsFetchResult
 
-        object Failed : LearningActivitiesWithSectionsFetchResult
+        data object Failed : LearningActivitiesWithSectionsFetchResult
     }
 
     internal sealed interface LearningActivitiesFetchResult : Message {
@@ -105,14 +143,15 @@ object StudyPlanWidgetFeature {
     internal sealed interface ProfileFetchResult : Message {
         data class Success(val profile: Profile) : ProfileFetchResult
 
-        object Failed : ProfileFetchResult
+        data object Failed : ProfileFetchResult
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
-                object Home : NavigateTo
+                data object Home : NavigateTo
                 data class LearningActivityTarget(val viewAction: LearningActivityTargetViewAction) : NavigateTo
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }
@@ -132,12 +171,14 @@ object StudyPlanWidgetFeature {
             val sentryTransaction: HyperskillSentryTransaction
         ) : InternalAction
 
-        object FetchProfile : InternalAction
+        data object FetchProfile : InternalAction
 
         data class UpdateCurrentStudyPlanState(val forceUpdate: Boolean) : InternalAction
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
 
         data class PutTopicsProgressesToCache(val topicsProgresses: List<TopicProgress>) : InternalAction
+
+        data object FetchPaymentAbility : InternalAction
 
         data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
