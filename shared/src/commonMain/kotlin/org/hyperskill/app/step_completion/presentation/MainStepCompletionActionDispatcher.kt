@@ -169,7 +169,7 @@ internal class MainStepCompletionActionDispatcher(
                         val isTopicsLimitReached = isTopicsLimitReached(
                             trackId = trackId,
                             isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
-                            mobileContentTrialFreeTopics = profile.feautureValues.mobileContentTrialFreeTopics
+                            mobileContentTrialFreeTopics = profile.featureValues.mobileContentTrialFreeTopics
                         )
 
                         val nextLearningActivity = if (!isTopicsLimitReached) {

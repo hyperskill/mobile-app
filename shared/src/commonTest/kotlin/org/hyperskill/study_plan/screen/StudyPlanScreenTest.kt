@@ -14,6 +14,7 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanViewedHyperskillAn
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenReducer
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
 import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetReducer
@@ -61,7 +62,7 @@ class StudyPlanScreenTest {
             toolbarState = GamificationToolbarFeature.State.Loading,
             questionnaireWidgetState = UsersInterviewWidgetFeature.State.Loading,
             studyPlanWidgetState = StudyPlanWidgetFeature.State(
-                sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
+                sectionsStatus = SectionStatus.LOADING
             )
         )
 

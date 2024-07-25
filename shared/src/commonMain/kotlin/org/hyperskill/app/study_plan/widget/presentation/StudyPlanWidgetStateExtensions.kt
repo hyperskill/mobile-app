@@ -4,6 +4,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
+import org.hyperskill.app.study_plan.domain.model.rootTopicsActivitiesToBeLoaded
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 
@@ -27,7 +28,7 @@ internal fun StudyPlanWidgetFeature.State.getCurrentSection(): StudyPlanSection?
  */
 internal fun StudyPlanWidgetFeature.State.getCurrentActivity(): LearningActivity? =
     getCurrentSection()?.let { section ->
-        getSectionActivities(section.id)
+        getLoadedSectionActivities(section.id)
             .firstOrNull {
                 if (section.type == StudyPlanSectionType.ROOT_TOPICS) {
                     it.id == section.nextActivityId
@@ -42,13 +43,32 @@ internal fun StudyPlanWidgetFeature.State.getCurrentActivity(): LearningActivity
  * @return a sequence of [LearningActivity] for the given section with [sectionId]
  * filtered by availability in [StudyPlanWidgetFeature.State.activities]
  */
-internal fun StudyPlanWidgetFeature.State.getSectionActivities(sectionId: Long): Sequence<LearningActivity> =
+internal fun StudyPlanWidgetFeature.State.getLoadedSectionActivities(sectionId: Long): Sequence<LearningActivity> =
     studyPlanSections[sectionId]
         ?.studyPlanSection
         ?.activities
         ?.asSequence()
         ?.mapNotNull { id -> activities[id] }
         ?: emptySequence()
+
+internal fun StudyPlanWidgetFeature.State.getActivitiesToBeLoaded(sectionId: Long): Set<Long> {
+    val sectionInfo = studyPlanSections[sectionId] ?: return emptySet()
+    val studyPlanSection = sectionInfo.studyPlanSection
+    return if (studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS) {
+        val sectionLoadedActivity = getLoadedSectionActivities(sectionId).map { it.id }.toSet()
+        studyPlanSection.rootTopicsActivitiesToBeLoaded.subtract(sectionLoadedActivity)
+    } else {
+        emptySet()
+    }
+}
+
+internal fun StudyPlanSection.getActivitiesToBeLoaded(allLoadedActivities: Collection<LearningActivity>): Set<Long> =
+    if (type == StudyPlanSectionType.ROOT_TOPICS) {
+        val sectionActivities = activities.intersect(allLoadedActivities.map { it.id }.toSet())
+        rootTopicsActivitiesToBeLoaded.subtract(sectionActivities)
+    } else {
+        emptySet()
+    }
 
 /**
  * @param sectionId target section id.
@@ -64,7 +84,7 @@ internal fun StudyPlanWidgetFeature.State.isActivityLocked(
 ): Boolean {
     val unlockedActivitiesCount = getUnlockedActivitiesCount(sectionId)
     return unlockedActivitiesCount != null &&
-        getSectionActivities(sectionId)
+        getLoadedSectionActivities(sectionId)
             .take(unlockedActivitiesCount)
             .map { it.id }
             .contains(activityId)
@@ -85,7 +105,7 @@ internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesCount(sectionId: 
             isMobileContentTrialEnabled = isMobileContentTrialEnabled,
             canMakePayments = canMakePayments
         ) == SubscriptionLimitType.TOPICS
-    val unlockedActivitiesCount = profile?.feautureValues?.mobileContentTrialFreeTopics?.minus(learnedTopicsCount)
+    val unlockedActivitiesCount = profile?.featureValues?.mobileContentTrialFreeTopics?.minus(learnedTopicsCount)
     return if (isRootTopicsSection && isTopicsLimitEnabled && unlockedActivitiesCount != null) {
         unlockedActivitiesCount
     } else {

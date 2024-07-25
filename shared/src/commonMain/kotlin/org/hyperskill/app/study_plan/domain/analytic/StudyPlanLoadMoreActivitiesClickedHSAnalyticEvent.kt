@@ -7,15 +7,15 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a click analytic event of the error state placeholder in the section activities.
+ * Represents a click analytic event of the load more button in the section.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/study-plan"",
  *     "action": "click",
- *     "part": "study_plan_section_activities",
- *     "target": "retry",
+ *     "part": "study_plan_section",
+ *     "target": "load_more",
  *     "context":
  *     {
  *         "section_id": 123
@@ -24,12 +24,12 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent(
+class StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent(
     val sectionId: Long
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.StudyPlan(),
     action = HyperskillAnalyticAction.CLICK,
-    part = HyperskillAnalyticPart.STUDY_PLAN_SECTION_ACTIVITIES,
-    target = HyperskillAnalyticTarget.RETRY,
+    part = HyperskillAnalyticPart.STUDY_PLAN_SECTION,
+    target = HyperskillAnalyticTarget.LOAD_MORE,
     context = mapOf(StudyPlanAnalyticKeys.SECTION_ID to sectionId)
 )

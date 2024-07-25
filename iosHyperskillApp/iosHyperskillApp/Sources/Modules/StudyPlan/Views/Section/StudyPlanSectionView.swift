@@ -74,7 +74,9 @@ extension StudyPlanWidgetViewStateSection {
                     .makePlaceholder(state: .skipped),
                     .makePlaceholder(state: .completed),
                     .makePlaceholder(state: .next)
-                ]
+                ],
+                isNextPageLoadingShowed: false,
+                isLoadAllTopicsButtonShown: false
             )
         )
     }
