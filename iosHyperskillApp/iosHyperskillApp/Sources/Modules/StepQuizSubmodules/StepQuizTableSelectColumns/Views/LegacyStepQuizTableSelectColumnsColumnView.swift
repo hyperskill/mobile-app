@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension StepQuizTableSelectColumnsColumnView {
+extension LegacyStepQuizTableSelectColumnsColumnView {
     struct Appearance {
         let interItemSpacing = LayoutInsets.smallInset
 
@@ -9,7 +9,7 @@ extension StepQuizTableSelectColumnsColumnView {
     }
 }
 
-struct StepQuizTableSelectColumnsColumnView: View {
+struct LegacyStepQuizTableSelectColumnsColumnView: View {
     private(set) var appearance = Appearance()
 
     let isSelected: Bool
@@ -56,13 +56,13 @@ struct StepQuizTableSelectColumnsColumnView: View {
 #if DEBUG
 #Preview {
     VStack {
-        StepQuizTableSelectColumnsColumnView(
+        LegacyStepQuizTableSelectColumnsColumnView(
             isSelected: true,
             text: "Some option",
             isMultipleChoice: false,
             onTap: {}
         )
-        StepQuizTableSelectColumnsColumnView(
+        LegacyStepQuizTableSelectColumnsColumnView(
             isSelected: true,
             text: "Some option",
             isMultipleChoice: true,

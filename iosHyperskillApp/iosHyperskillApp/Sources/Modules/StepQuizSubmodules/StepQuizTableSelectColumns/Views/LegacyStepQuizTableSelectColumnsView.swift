@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StepQuizTableSelectColumnsView: View {
+struct LegacyStepQuizTableSelectColumnsView: View {
     let prompt: String
     let title: String
 
@@ -27,7 +27,7 @@ struct StepQuizTableSelectColumnsView: View {
 
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(columns) { column in
-                        StepQuizTableSelectColumnsColumnView(
+                        LegacyStepQuizTableSelectColumnsColumnView(
                             isSelected: selectedColumnsIDs.contains(column.id),
                             text: column.text,
                             isMultipleChoice: isMultipleChoice,
@@ -76,7 +76,7 @@ struct StepQuizTableSelectColumnsView: View {
 struct StepQuizTableSelectColumnsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            StepQuizTableSelectColumnsView(
+            LegacyStepQuizTableSelectColumnsView(
                 prompt: "Choose from the table",
                 title: "Variant A",
                 columns: [
@@ -90,7 +90,7 @@ struct StepQuizTableSelectColumnsView_Previews: PreviewProvider {
                 onConfirmTapped: {}
             )
 
-            StepQuizTableSelectColumnsView(
+            LegacyStepQuizTableSelectColumnsView(
                 prompt: "Choose one or multiple options",
                 title: "Variant A",
                 columns: [.init(text: "1"), .init(text: "2"), .init(text: "3")],

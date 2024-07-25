@@ -2,13 +2,13 @@ import PanModal
 import SwiftUI
 import UIKit
 
-extension StepQuizTableSelectColumnsViewController {
+extension LegacyStepQuizTableSelectColumnsViewController {
     enum Animation {
         static let dismissAnimationDelay: TimeInterval = 0.33
     }
 }
 
-final class StepQuizTableSelectColumnsViewController: PanModalSwiftUIViewController<StepQuizTableSelectColumnsView> {
+final class LegacyStepQuizTableSelectColumnsViewController: PanModalSwiftUIViewController<LegacyStepQuizTableSelectColumnsView> {
     private let columns: [StepQuizTableViewData.Column]
     private var selectedColumnsIDs: Set<Int>
     private let isMultipleChoice: Bool
@@ -30,7 +30,7 @@ final class StepQuizTableSelectColumnsViewController: PanModalSwiftUIViewControl
             ? Strings.StepQuizTable.multipleChoicePrompt
             : Strings.StepQuizTable.singleChoicePrompt
 
-        var view = StepQuizTableSelectColumnsView(
+        var view = LegacyStepQuizTableSelectColumnsView(
             prompt: prompt,
             title: title,
             columns: columns,

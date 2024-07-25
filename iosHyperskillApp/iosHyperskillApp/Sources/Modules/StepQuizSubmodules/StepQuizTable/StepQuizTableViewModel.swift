@@ -39,7 +39,7 @@ final class StepQuizTableViewModel: ObservableObject, StepQuizChildQuizInputProt
     }
 
     func makeSelectColumnsViewController(for row: StepQuizTableViewData.Row) -> PanModalPresentableViewController {
-        StepQuizTableSelectColumnsViewController(
+        LegacyStepQuizTableSelectColumnsViewController(
             title: row.text,
             columns: viewData.columns,
             selectedColumnsIDs: Set(row.answers.map(\.id)),
