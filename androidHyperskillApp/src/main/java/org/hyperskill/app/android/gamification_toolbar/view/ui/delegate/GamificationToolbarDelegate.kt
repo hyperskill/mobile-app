@@ -2,6 +2,7 @@ package org.hyperskill.app.android.gamification_toolbar.view.ui.delegate
 
 import android.content.Context
 import android.util.TypedValue
+import androidx.annotation.DrawableRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnNextLayout
@@ -22,6 +23,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
 import org.hyperskill.app.android.progress.navigation.ProgressScreen
 import org.hyperskill.app.android.topic_search.navigation.TopicSearchScreen
+import org.hyperskill.app.android.view.base.ui.extension.setCompoundDrawables
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
@@ -33,7 +35,7 @@ class GamificationToolbarDelegate(
     lifecycleOwner: LifecycleOwner,
     private val context: Context,
     private val viewBinding: LayoutGamificationToolbarBinding,
-    onChangeTrackClicked: () -> Unit = {},
+    onChangeTrackClicked: (() -> Unit)? = null,
     onNewMessage: (Message) -> Unit,
 ) {
 
@@ -56,8 +58,10 @@ class GamificationToolbarDelegate(
             gamificationProblemsLimitTextView.setOnClickListener {
                 onNewMessage(Message.ProblemsLimitClicked)
             }
-            subtitleTextView.setOnClickListener {
-                onChangeTrackClicked()
+            if (onChangeTrackClicked != null) {
+                subtitleTextView.setOnClickListener {
+                    onChangeTrackClicked()
+                }
             }
         }
     }
@@ -157,12 +161,18 @@ class GamificationToolbarDelegate(
         }
     }
 
-    fun setSubtitle(subtitle: String?) {
+    fun setSubtitle(
+        subtitle: String?,
+        @DrawableRes drawableEnd: Int? = null
+    ) {
         this.subtitle = subtitle
         with(viewBinding.subtitleTextView) {
             isVisible = subtitle != null
             if (subtitle != null) {
                 setTextIfChanged(subtitle)
+            }
+            if (subtitle != null) {
+                setCompoundDrawables(end = drawableEnd ?: -1)
             }
         }
         applyInsetsToCollapsingToolbarLayout(
@@ -206,7 +216,7 @@ class GamificationToolbarDelegate(
                 context.resources.getDimensionPixelOffset(R.dimen.gamification_toolbar_with_subtitle_height) +
                     subtitlePaddingVertical
             } else {
-                R.dimen.gamification_toolbar_default_height
+                context.resources.getDimensionPixelOffset(R.dimen.gamification_toolbar_default_height)
             } + insetTop
         }
         collapsingToolbarLayout.expandedTitleMarginTop = insetTop + subtitlePaddingVertical
