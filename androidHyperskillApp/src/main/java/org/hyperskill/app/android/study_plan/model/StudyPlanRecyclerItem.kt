@@ -19,26 +19,28 @@ interface StudyPlanRecyclerItem {
     data class SectionLoading(
         val index: Int
     ) : StudyPlanRecyclerItem, Identifiable<String> {
-        override val id: String
-            get() = "sections-list-loading-item-$index"
+        override val id: String = "sections-list-loading-item-$index"
+    }
+
+    data class LoadAllTopicsButton(
+        val sectionId: Long
+    ) : StudyPlanRecyclerItem, Identifiable<String> {
+        override val id: String = "study-plan-$sectionId-load-all-topics"
     }
 
     object PaywallBanner : StudyPlanRecyclerItem, Identifiable<String> {
-        override val id: String
-            get() = "study-plan-paywall-banner"
+        override val id: String = "study-plan-paywall-banner"
     }
 
     data class ActivityLoading(
         val sectionId: Long,
         val index: Int
     ) : StudyPlanRecyclerItem, Identifiable<String> {
-        override val id: String
-            get() = "activity-loading-item-$sectionId-$index"
+        override val id: String = "activity-loading-item-$sectionId-$index"
     }
 
     data class ActivitiesError(val sectionId: Long) : StudyPlanRecyclerItem, Identifiable<String> {
-        override val id: String
-            get() = "section-content-error-$sectionId"
+        override val id: String = "section-content-error-$sectionId"
     }
 
     data class Activity(

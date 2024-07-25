@@ -45,6 +45,7 @@ class StudyPlanWidgetDelegate(
             }
         )
         addDelegate(sectionsLoadingAdapterDelegate())
+        addDelegate(loadAllTopicsButtonDelegate())
         addDelegate(paywallAdapterDelegate())
         addDelegate(ActivityLoadingAdapterDelegate())
         addDelegate(
@@ -132,10 +133,12 @@ class StudyPlanWidgetDelegate(
     private fun getTopMarginFor(item: StudyPlanRecyclerItem): Int =
         when (item) {
             is StudyPlanRecyclerItem.SectionLoading,
-            is StudyPlanRecyclerItem.Section -> sectionTopMargin
+            is StudyPlanRecyclerItem.Section,
+            is StudyPlanRecyclerItem.PaywallBanner -> sectionTopMargin
             is StudyPlanRecyclerItem.ActivityLoading,
             is StudyPlanRecyclerItem.Activity,
-            is StudyPlanRecyclerItem.ActivitiesError -> activityTopMargin
+            is StudyPlanRecyclerItem.ActivitiesError,
+            is StudyPlanRecyclerItem.LoadAllTopicsButton -> activityTopMargin
             else -> 0
         }
 
@@ -171,6 +174,20 @@ class StudyPlanWidgetDelegate(
             }
         }
 
+    private fun loadAllTopicsButtonDelegate() =
+        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.LoadAllTopicsButton>(
+            R.layout.item_study_plan_load_more_button
+        ) {
+            itemView.setOnClickListener {
+                val sectionId = item?.sectionId
+                if (sectionId != null) {
+                    onNewMessage(
+                        StudyPlanWidgetFeature.Message.LoadMoreActivitiesClicked(sectionId)
+                    )
+                }
+            }
+        }
+
     private fun mapContentToRecyclerItems(
         studyPlanContent: StudyPlanWidgetViewState.Content
     ): List<StudyPlanRecyclerItem> =
@@ -185,14 +202,16 @@ class StudyPlanWidgetDelegate(
                         // no op
                     }
                     StudyPlanWidgetViewState.SectionContent.Loading -> {
-                        addAll(
-                            List(ACTIVITIES_LOADING_ITEMS_COUNT) { index ->
-                                StudyPlanRecyclerItem.ActivityLoading(section.id, index)
-                            }
-                        )
+                        addAll(getActivitiesLoadingItems(section.id))
                     }
                     is StudyPlanWidgetViewState.SectionContent.Content -> {
-                        addAll(mapSectionContentToActivityItems(section.id, sectionContent))
+                        addAll(mapSectionItemsToActivityItems(section.id, sectionContent.sectionItems))
+                        if (sectionContent.isLoadAllTopicsButtonShown) {
+                            add(StudyPlanRecyclerItem.LoadAllTopicsButton(section.id))
+                        }
+                        if (sectionContent.isNextPageLoadingShowed) {
+                            addAll(getActivitiesLoadingItems(section.id))
+                        }
                     }
                     StudyPlanWidgetViewState.SectionContent.Error -> {
                         add(StudyPlanRecyclerItem.ActivitiesError(section.id))
@@ -220,11 +239,11 @@ class StudyPlanWidgetDelegate(
             isCurrentBadgeShown = section.isCurrentBadgeShown
         )
 
-    private fun mapSectionContentToActivityItems(
+    private fun mapSectionItemsToActivityItems(
         sectionId: Long,
-        content: StudyPlanWidgetViewState.SectionContent.Content
+        sectionItems: List<StudyPlanWidgetViewState.SectionItem>
     ): List<StudyPlanRecyclerItem.Activity> =
-        content.sectionItems.map { item ->
+        sectionItems.map { item ->
             StudyPlanRecyclerItem.Activity(
                 id = item.id,
                 sectionId = sectionId,
@@ -246,5 +265,10 @@ class StudyPlanWidgetDelegate(
                 },
                 isIdeRequired = item.isIdeRequired
             )
+        }
+
+    private fun getActivitiesLoadingItems(sectionId: Long) =
+        List(ACTIVITIES_LOADING_ITEMS_COUNT) { index ->
+            StudyPlanRecyclerItem.ActivityLoading(sectionId, index)
         }
 }

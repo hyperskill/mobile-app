@@ -1,5 +1,6 @@
 package org.hyperskill.profile
 
+import org.hyperskill.app.profile.domain.model.FeatureValues
 import org.hyperskill.app.profile.domain.model.Gamification
 import org.hyperskill.app.profile.domain.model.Profile
 
@@ -9,6 +10,7 @@ fun Profile.Companion.stub(
     isGuest: Boolean = false,
     trackId: Long? = null,
     projectId: Long? = null,
+    featureValues: FeatureValues = FeatureValues(),
     featuresMap: Map<String, Boolean> = emptyMap()
 ): Profile =
     Profile(
@@ -36,5 +38,6 @@ fun Profile.Companion.stub(
         trackTitle = null,
         projectId = projectId,
         isBeta = isBeta,
+        featureValues = featureValues,
         featuresMap = featuresMap
     )
