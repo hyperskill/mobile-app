@@ -770,4 +770,50 @@ class StepQuizTest {
             }
         }
     }
+
+    @Test
+    fun `Wrong and rejected submissions should be counted`() {
+        val step = Step.stub(id = 1)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Loaded(
+            Submission.stub(status = SubmissionStatus.EVALUATION)
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val expectedWrongSubmissionsCount = 1
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        listOf(
+            SubmissionStatus.WRONG,
+            SubmissionStatus.REJECTED
+        ).forEach { submissionStatus ->
+            val (state, _) = reducer.reduce(
+                StepQuizFeature.State(
+                    stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                        step = step,
+                        attempt = attempt,
+                        submissionState = submissionState,
+                        isProblemsLimitReached = false,
+                        isTheoryAvailable = false,
+                        wrongSubmissionsCount = 0
+                    ),
+                    stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                    stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+                ),
+                StepQuizFeature.Message.CreateSubmissionSuccess(
+                    submission = Submission.stub(status = submissionStatus)
+                )
+            )
+
+            assertEquals(
+                expectedWrongSubmissionsCount,
+                (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.wrongSubmissionsCount
+            )
+        }
+    }
 }

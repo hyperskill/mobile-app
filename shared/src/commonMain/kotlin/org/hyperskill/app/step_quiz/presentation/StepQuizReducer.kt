@@ -36,6 +36,7 @@ import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
+import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -491,14 +492,17 @@ internal class StepQuizReducer(
         message: Message.CreateSubmissionSuccess
     ): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+            val submissionStatus = message.submission.status
             state.copy(
                 stepQuizState = state.stepQuizState.copy(
                     attempt = message.newAttempt ?: state.stepQuizState.attempt,
-                    submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
+                    submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission),
+                    wrongSubmissionsCount = getWrongSubmissionCount(
+                        currentWrongSubmissionCount = state.stepQuizState.wrongSubmissionsCount,
+                        currentSubmissionStatus = submissionStatus
+                    )
                 )
             ) to buildSet {
-                val submissionStatus = message.submission.status
-
                 if (submissionStatus == SubmissionStatus.WRONG &&
                     StepQuizResolver.isStepHasLimitedAttempts(stepRoute)
                 ) {
@@ -515,6 +519,16 @@ internal class StepQuizReducer(
             }
         } else {
             null
+        }
+
+    private fun getWrongSubmissionCount(
+        currentWrongSubmissionCount: Int,
+        currentSubmissionStatus: SubmissionStatus?
+    ): Int =
+        if (currentSubmissionStatus.isWrongOrRejected) {
+            currentWrongSubmissionCount + 1
+        } else {
+            currentWrongSubmissionCount
         }
 
     private fun handleUpdateProblemsLimitResult(
