@@ -11,7 +11,7 @@
 	<key>CFBundleVersion</key>
 	<string>523</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.65</string>
+	<string>1.66</string>
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleExecutable</key>
