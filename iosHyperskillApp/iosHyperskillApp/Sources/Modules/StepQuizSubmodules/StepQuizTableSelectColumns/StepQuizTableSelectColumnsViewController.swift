@@ -1,25 +1,24 @@
 import PanModal
 import UIKit
 
-protocol TableQuizSelectColumnsViewControllerDelegate: AnyObject {
-    func tableQuizSelectColumnsViewController(
-        _ controller: TableQuizSelectColumnsViewController,
-        didSelectColumn column: StepQuizTableViewData.Column
-    )
+extension StepQuizTableSelectColumnsViewController {
+    enum Animation {
+        static let dismissAnimationDelay: TimeInterval = 0.33
+    }
 }
 
-final class TableQuizSelectColumnsViewController: PanModalPresentableViewController {
+final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewController {
     private let rowTitle: String
     private let columns: [StepQuizTableViewData.Column]
     private var selectedColumnsIDs: Set<Int>
     private let isMultipleChoice: Bool
     private let onColumnsSelected: (Set<Int>) -> Void
 
-    weak var delegate: TableQuizSelectColumnsViewControllerDelegate?
-
-    var tableQuizSelectColumnsView: TableQuizSelectColumnsView? { self.view as? TableQuizSelectColumnsView }
+    var tableQuizSelectColumnsView: StepQuizTableSelectColumnsView? { self.view as? StepQuizTableSelectColumnsView }
 
     override var panScrollable: UIScrollView? { tableQuizSelectColumnsView?.panScrollable }
+
+    override var shortFormHeight: PanModalHeight { longFormHeight }
 
     init(
         title: String,
@@ -35,12 +34,10 @@ final class TableQuizSelectColumnsViewController: PanModalPresentableViewControl
         self.onColumnsSelected = onColumnsSelected
 
         super.init()
-
-        self.isShortFormEnabled = false
     }
 
     override func loadView() {
-        let view = TableQuizSelectColumnsView(frame: UIScreen.main.bounds)
+        let view = StepQuizTableSelectColumnsView(frame: UIScreen.main.bounds)
         self.view = view
         view.delegate = self
     }
@@ -52,24 +49,24 @@ final class TableQuizSelectColumnsViewController: PanModalPresentableViewControl
             ? Strings.StepQuizTable.multipleChoicePrompt
             : Strings.StepQuizTable.singleChoicePrompt
         tableQuizSelectColumnsView?.title = rowTitle
-        tableQuizSelectColumnsView?.set(columns: columns, selectedColumnsIDs: selectedColumnsIDs)
+        tableQuizSelectColumnsView?.isMultipleChoice = isMultipleChoice
 
-        panModalSetNeedsLayoutUpdate()
+        tableQuizSelectColumnsView?.set(columns: columns, selectedColumnsIDs: selectedColumnsIDs)
     }
 
-    override func shouldTransition(to state: PanModalPresentationController.PresentationState) -> Bool {
-        switch state {
-        case .shortForm:
-            false
-        case .longForm:
-            true
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        DispatchQueue.main.async {
+            self.panModalSetNeedsLayoutUpdate()
+            self.panModalTransition(to: .longForm)
         }
     }
 }
 
-extension TableQuizSelectColumnsViewController: TableQuizSelectColumnsViewDelegate {
+extension StepQuizTableSelectColumnsViewController: StepQuizTableSelectColumnsViewDelegate {
     func tableQuizSelectColumnsView(
-        _ view: TableQuizSelectColumnsView,
+        _ view: StepQuizTableSelectColumnsView,
         didSelectColumn column: StepQuizTableViewData.Column,
         isOn: Bool
     ) {
@@ -89,5 +86,13 @@ extension TableQuizSelectColumnsViewController: TableQuizSelectColumnsViewDelega
         }
 
         tableQuizSelectColumnsView?.update(selectedColumnsIDs: selectedColumnsIDs)
+    }
+
+    func tableQuizSelectColumnsViewDidTapConfirm(_ view: StepQuizTableSelectColumnsView) {
+        onColumnsSelected(selectedColumnsIDs)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + Animation.dismissAnimationDelay) {
+            self.dismiss(animated: true)
+        }
     }
 }

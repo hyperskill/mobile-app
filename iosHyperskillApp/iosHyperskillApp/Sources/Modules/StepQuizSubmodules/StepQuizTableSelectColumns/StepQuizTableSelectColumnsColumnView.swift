@@ -2,8 +2,9 @@ import BEMCheckBox
 import SnapKit
 import UIKit
 
-extension TableQuizSelectColumnsColumnView {
+extension StepQuizTableSelectColumnsColumnView {
     struct Appearance {
+        var checkBoxBoxType: BEMBoxType = .circle
         let checkBoxLineWidth: CGFloat = 2
         let checkBoxAnimationDuration: CGFloat = 0.5
         let checkBoxTintColor = ColorPalette.primary
@@ -23,14 +24,14 @@ extension TableQuizSelectColumnsColumnView {
     }
 }
 
-final class TableQuizSelectColumnsColumnView: UIControl {
+final class StepQuizTableSelectColumnsColumnView: UIControl {
     let appearance: Appearance
 
     private lazy var checkBox: BEMCheckBox = {
         let checkBox = BEMCheckBox()
         checkBox.lineWidth = appearance.checkBoxLineWidth
         checkBox.hideBox = false
-        checkBox.boxType = .circle
+        checkBox.boxType = appearance.checkBoxBoxType
         checkBox.tintColor = appearance.checkBoxTintColor
         checkBox.onCheckColor = appearance.checkBoxOnCheckColor
         checkBox.onFillColor = appearance.checkBoxOnFillColor
@@ -42,27 +43,24 @@ final class TableQuizSelectColumnsColumnView: UIControl {
     }()
 
     private lazy var titleProcessedContentView: ProcessedContentView = {
-        let appearance = ProcessedContentView.Appearance(
+        let processedContentViewAppearance = ProcessedContentView.Appearance(
             labelFont: appearance.titleFont,
             labelTextColor: appearance.titleTextColor,
-            activityIndicatorViewColor: nil,
-            insets: LayoutInsets(uiEdgeInsets: .zero),
             backgroundColor: .clear
         )
 
         let contentProcessor = ContentProcessor(
-            rules: ContentProcessor.defaultRules,
             injections: ContentProcessor.defaultInjections + [
-                FontInjection(font: self.appearance.titleFont),
-                TextColorInjection(dynamicColor: self.appearance.titleTextColor)
+                FontInjection(font: appearance.titleFont),
+                TextColorInjection(dynamicColor: appearance.titleTextColor)
             ]
         )
 
         let processedContentView = ProcessedContentView(
             frame: .zero,
-            appearance: appearance,
+            appearance: processedContentViewAppearance,
             contentProcessor: contentProcessor,
-            htmlToAttributedStringConverter: HTMLToAttributedStringConverter(font: self.appearance.titleFont)
+            htmlToAttributedStringConverter: HTMLToAttributedStringConverter(font: appearance.titleFont)
         )
         processedContentView.delegate = self
 
@@ -73,23 +71,23 @@ final class TableQuizSelectColumnsColumnView: UIControl {
 
     private lazy var tapProxyView = UIKitTapProxyView(targetView: self)
 
-    var isOn: Bool { self.checkBox.on }
+    var isOn: Bool { checkBox.on }
 
     var onValueChanged: ((Bool) -> Void)?
 
     override var isHighlighted: Bool {
         didSet {
-            self.titleProcessedContentView.alpha = self.isHighlighted ? 0.5 : 1.0
+            titleProcessedContentView.alpha = isHighlighted ? 0.5 : 1.0
         }
     }
 
     override var intrinsicContentSize: CGSize {
-        let titleProcessedContentViewIntrinsicContentSize = self.titleProcessedContentView.intrinsicContentSize
+        let titleProcessedContentViewIntrinsicContentSize = titleProcessedContentView.intrinsicContentSize
         let titleProcessedContentViewHeightWithInsets = titleProcessedContentViewIntrinsicContentSize.height
-            + self.appearance.titleInsets.top
-            + self.appearance.titleInsets.bottom
+            + appearance.titleInsets.top
+            + appearance.titleInsets.bottom
 
-        let height = max(self.appearance.contentViewMinHeight, titleProcessedContentViewHeightWithInsets)
+        let height = max(appearance.contentViewMinHeight, titleProcessedContentViewHeightWithInsets)
 
         return CGSize(width: UIView.noIntrinsicMetric, height: height)
     }
@@ -113,71 +111,71 @@ final class TableQuizSelectColumnsColumnView: UIControl {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.invalidateIntrinsicContentSize()
+        invalidateIntrinsicContentSize()
     }
 
     func setOn(_ isOn: Bool, animated: Bool) {
-        self.checkBox.setOn(isOn, animated: animated)
+        checkBox.setOn(isOn, animated: animated)
     }
 
     func setTitle(_ title: String) {
-        self.titleProcessedContentView.setText(title)
+        titleProcessedContentView.setText(title)
     }
 
     @objc
     private func clicked() {
-        let newValue = !self.checkBox.on
-        self.onValueChanged?(newValue)
+        let newValue = !checkBox.on
+        onValueChanged?(newValue)
     }
 }
 
-extension TableQuizSelectColumnsColumnView: ProgrammaticallyInitializableViewProtocol {
+extension StepQuizTableSelectColumnsColumnView: ProgrammaticallyInitializableViewProtocol {
     func setupView() {
-        self.backgroundColor = self.appearance.backgroundColor
-        self.contentView.backgroundColor = self.appearance.backgroundColor
+        backgroundColor = appearance.backgroundColor
+        contentView.backgroundColor = appearance.backgroundColor
 
-        self.addTarget(self, action: #selector(self.clicked), for: .touchUpInside)
+        addTarget(self, action: #selector(clicked), for: .touchUpInside)
     }
 
     func addSubviews() {
-        self.addSubview(self.contentView)
-        self.contentView.addSubview(self.checkBox)
-        self.contentView.addSubview(self.titleProcessedContentView)
+        addSubview(contentView)
+        contentView.addSubview(checkBox)
+        contentView.addSubview(titleProcessedContentView)
 
-        self.addSubview(self.tapProxyView)
+        addSubview(tapProxyView)
     }
 
     func makeConstraints() {
-        self.contentView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.snp.makeConstraints { make in
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.greaterThanOrEqualTo(self.appearance.contentViewMinHeight)
+            make.height.greaterThanOrEqualTo(appearance.contentViewMinHeight)
         }
 
-        self.checkBox.translatesAutoresizingMaskIntoConstraints = false
-        self.checkBox.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(self.appearance.checkBoxInsets.leading)
+        checkBox.translatesAutoresizingMaskIntoConstraints = false
+        checkBox.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(appearance.checkBoxInsets.leading)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(self.appearance.checkBoxWidthHeight)
+            make.width.height.equalTo(appearance.checkBoxWidthHeight)
         }
 
-        self.titleProcessedContentView.translatesAutoresizingMaskIntoConstraints = false
-        self.titleProcessedContentView.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualToSuperview().offset(self.appearance.titleInsets.top)
-            make.leading.equalTo(self.checkBox.snp.trailing).offset(self.appearance.titleInsets.leading)
-            make.bottom.lessThanOrEqualToSuperview().offset(-self.appearance.titleInsets.bottom)
-            make.trailing.equalToSuperview().offset(-self.appearance.titleInsets.trailing)
+        titleProcessedContentView.translatesAutoresizingMaskIntoConstraints = false
+        titleProcessedContentView.snp.makeConstraints { make in
+            make.top.greaterThanOrEqualToSuperview().offset(appearance.titleInsets.top)
+            make.leading.equalTo(checkBox.snp.trailing).offset(appearance.titleInsets.leading)
+            make.bottom.lessThanOrEqualToSuperview().offset(-appearance.titleInsets.bottom)
+            make.trailing.equalToSuperview().offset(-appearance.titleInsets.trailing)
             make.centerY.equalToSuperview()
         }
 
-        self.tapProxyView.translatesAutoresizingMaskIntoConstraints = false
-        self.tapProxyView.snp.makeConstraints { make in
+        tapProxyView.translatesAutoresizingMaskIntoConstraints = false
+        tapProxyView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
 }
 
-extension TableQuizSelectColumnsColumnView: ProcessedContentViewDelegate {
+extension StepQuizTableSelectColumnsColumnView: ProcessedContentViewDelegate {
     func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
         invalidateIntrinsicContentSize()
     }
@@ -194,10 +192,10 @@ extension TableQuizSelectColumnsColumnView: ProcessedContentViewDelegate {
 #if DEBUG
 @available(iOS 17.0, *)
 #Preview {
-    let view = TableQuizSelectColumnsColumnView()
+    let view = StepQuizTableSelectColumnsColumnView()
     view.setTitle("test")
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
         view.setOn(true, animated: true)
     }
 

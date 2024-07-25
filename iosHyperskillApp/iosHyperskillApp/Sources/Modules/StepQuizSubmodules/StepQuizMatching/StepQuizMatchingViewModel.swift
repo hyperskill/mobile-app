@@ -46,7 +46,7 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
             StepQuizTableViewData.Column(id: option.id, text: option.text)
         }
 
-        return LegacyStepQuizTableSelectColumnsViewController(
+        return StepQuizTableSelectColumnsViewController(
             title: matchItem.title.text,
             columns: columns,
             selectedColumnsIDs: matchItem.option != nil ? [matchItem.option.require().id] : [],

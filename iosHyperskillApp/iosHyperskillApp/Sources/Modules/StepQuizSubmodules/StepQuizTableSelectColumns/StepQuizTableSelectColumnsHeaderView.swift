@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-extension TableQuizSelectColumnsHeaderView {
+extension StepQuizTableSelectColumnsHeaderView {
     struct Appearance {
         let promptFont = UIFont.preferredFont(forTextStyle: .caption1)
         let promptTextColor = UIColor.secondaryText
@@ -16,7 +16,7 @@ extension TableQuizSelectColumnsHeaderView {
     }
 }
 
-final class TableQuizSelectColumnsHeaderView: UIView {
+final class StepQuizTableSelectColumnsHeaderView: UIView {
     let appearance: Appearance
 
     private lazy var promptLabel: UILabel = {
@@ -29,27 +29,24 @@ final class TableQuizSelectColumnsHeaderView: UIView {
     }()
 
     private lazy var titleProcessedContentView: ProcessedContentView = {
-        let appearance = ProcessedContentView.Appearance(
+        let processedContentViewAppearance = ProcessedContentView.Appearance(
             labelFont: appearance.titleFont,
             labelTextColor: appearance.titleTextColor,
-            activityIndicatorViewColor: nil,
-            insets: LayoutInsets(uiEdgeInsets: .zero),
             backgroundColor: .clear
         )
 
         let contentProcessor = ContentProcessor(
-            rules: ContentProcessor.defaultRules,
             injections: ContentProcessor.defaultInjections + [
-                FontInjection(font: self.appearance.titleFont),
-                TextColorInjection(dynamicColor: self.appearance.titleTextColor)
+                FontInjection(font: appearance.titleFont),
+                TextColorInjection(dynamicColor: appearance.titleTextColor)
             ]
         )
 
         let processedContentView = ProcessedContentView(
             frame: .zero,
-            appearance: appearance,
+            appearance: processedContentViewAppearance,
             contentProcessor: contentProcessor,
-            htmlToAttributedStringConverter: HTMLToAttributedStringConverter(font: self.appearance.titleFont)
+            htmlToAttributedStringConverter: HTMLToAttributedStringConverter(font: appearance.titleFont)
         )
         processedContentView.delegate = self
 
@@ -67,23 +64,23 @@ final class TableQuizSelectColumnsHeaderView: UIView {
 
     var prompt: String? {
         didSet {
-            self.promptLabel.text = self.prompt
-            self.promptLabel.isHidden = self.prompt?.isEmpty ?? true
+            promptLabel.text = prompt
+            promptLabel.isHidden = prompt?.isEmpty ?? true
         }
     }
 
     var title: String? {
         didSet {
-            self.titleProcessedContentView.setText(self.title)
+            titleProcessedContentView.setText(title)
         }
     }
 
     override var intrinsicContentSize: CGSize {
-        let contentStackViewIntrinsicContentSize = self.contentStackView
+        let contentStackViewIntrinsicContentSize = contentStackView
             .systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         let contentStackViewHeightWithInsets = contentStackViewIntrinsicContentSize.height
-            + self.appearance.contentStackViewInsets.top
-            + self.appearance.contentStackViewInsets.bottom
+            + appearance.contentStackViewInsets.top
+            + appearance.contentStackViewInsets.bottom
 
         let height = contentStackViewHeightWithInsets.rounded(.up)
 
@@ -109,37 +106,37 @@ final class TableQuizSelectColumnsHeaderView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.invalidateIntrinsicContentSize()
+        invalidateIntrinsicContentSize()
     }
 }
 
-extension TableQuizSelectColumnsHeaderView: ProgrammaticallyInitializableViewProtocol {
+extension StepQuizTableSelectColumnsHeaderView: ProgrammaticallyInitializableViewProtocol {
     func setupView() {
-        self.backgroundColor = self.appearance.backgroundColor
+        backgroundColor = appearance.backgroundColor
     }
 
     func addSubviews() {
-        self.addSubview(self.contentStackView)
-        self.contentStackView.addArrangedSubview(self.promptLabel)
-        self.contentStackView.addArrangedSubview(self.titleProcessedContentView)
+        addSubview(contentStackView)
+        contentStackView.addArrangedSubview(promptLabel)
+        contentStackView.addArrangedSubview(titleProcessedContentView)
 
-        self.addSubview(self.separatorView)
+        addSubview(separatorView)
     }
 
     func makeConstraints() {
-        self.contentStackView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(self.appearance.contentStackViewInsets)
+        contentStackView.translatesAutoresizingMaskIntoConstraints = false
+        contentStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(appearance.contentStackViewInsets)
         }
 
-        self.separatorView.translatesAutoresizingMaskIntoConstraints = false
-        self.separatorView.snp.makeConstraints { make in
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalToSuperview()
         }
     }
 }
 
-extension TableQuizSelectColumnsHeaderView: ProcessedContentViewDelegate {
+extension StepQuizTableSelectColumnsHeaderView: ProcessedContentViewDelegate {
     func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
         invalidateIntrinsicContentSize()
     }
@@ -156,7 +153,7 @@ extension TableQuizSelectColumnsHeaderView: ProcessedContentViewDelegate {
 #if DEBUG
 @available(iOS 17.0, *)
 #Preview {
-    let view = TableQuizSelectColumnsHeaderView()
+    let view = StepQuizTableSelectColumnsHeaderView()
     view.prompt = Strings.StepQuizTable.multipleChoicePrompt
     view.title = "Title goes here"
     return view
