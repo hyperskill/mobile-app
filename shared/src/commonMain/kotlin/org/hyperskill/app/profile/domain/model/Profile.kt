@@ -65,7 +65,7 @@ data class Profile(
     @SerialName("notification_hour")
     val notificationHour: Int? = null,
     @SerialName("feature_values")
-    val feautureValues: FeatureValues = FeatureValues(),
+    val featureValues: FeatureValues = FeatureValues(),
     @SerialName("features")
     private val featuresMap: Map<String, Boolean> = emptyMap(),
 ) {

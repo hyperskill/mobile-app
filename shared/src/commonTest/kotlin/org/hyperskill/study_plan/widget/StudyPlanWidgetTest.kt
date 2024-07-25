@@ -18,6 +18,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityToTopicProgressMapper
@@ -30,7 +31,9 @@ import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionStatus
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.learning_activities.domain.model.stub
 import org.hyperskill.profile.stub
+import org.hyperskill.study_plan.domain.model.stub
 import org.hyperskill.subscriptions.stub
 
 class StudyPlanWidgetTest {
@@ -1408,6 +1411,53 @@ class StudyPlanWidgetTest {
             )
 
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.PutTopicsProgressesToCache(expectedProgresses))
+    }
+
+    @Test
+    fun `LoadMoreActivitiesClicked should trigger loading more activities for given section`() {
+        val sectionId = 1L
+        val loadedActivitiesIds = listOf(1L, 2L, 3L)
+        val unloadedActivitiesIds = listOf(4L, 5L, 6L)
+        val section = StudyPlanSection.stub(
+            id = sectionId,
+            type = StudyPlanSectionType.ROOT_TOPICS,
+            activities = loadedActivitiesIds + unloadedActivitiesIds
+        )
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    section,
+                    isExpanded = false,
+                    sectionContentStatus = SectionContentStatus.IDLE
+                )
+            ),
+            profile = Profile.stub(),
+            activities = loadedActivitiesIds.associateWith { LearningActivity.stub(id = it) }
+        )
+
+        val (state, actions) = reducer.reduce(
+            initialState,
+            StudyPlanWidgetFeature.Message.LoadMoreActivitiesClicked(sectionId)
+        )
+
+        assertTrue {
+            actions.any {
+                it is StudyPlanWidgetFeature.InternalAction.FetchLearningActivities &&
+                    it.sectionId == sectionId &&
+                    it.activitiesIds == unloadedActivitiesIds
+            }
+        }
+        assertEquals(
+            SectionContentStatus.NEXT_PAGE_LOADING,
+            state.studyPlanSections[sectionId]?.sectionContentStatus
+        )
+
+        assertTrue {
+            actions.any {
+                it is StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent
+            }
+        }
     }
 
     private fun sectionViewState(

@@ -4,7 +4,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
-import org.hyperskill.app.study_plan.domain.model.activitiesToBeLoaded
+import org.hyperskill.app.study_plan.domain.model.rootTopicsActivitiesToBeLoaded
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 
@@ -56,7 +56,7 @@ internal fun StudyPlanWidgetFeature.State.getActivitiesToBeLoaded(sectionId: Lon
     val studyPlanSection = sectionInfo.studyPlanSection
     return if (studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS) {
         val sectionLoadedActivity = getLoadedSectionActivities(sectionId).map { it.id }.toSet()
-        studyPlanSection.activitiesToBeLoaded.subtract(sectionLoadedActivity)
+        studyPlanSection.rootTopicsActivitiesToBeLoaded.subtract(sectionLoadedActivity)
     } else {
         emptySet()
     }
@@ -65,7 +65,7 @@ internal fun StudyPlanWidgetFeature.State.getActivitiesToBeLoaded(sectionId: Lon
 internal fun StudyPlanSection.getActivitiesToBeLoaded(allLoadedActivities: Collection<LearningActivity>): Set<Long> =
     if (type == StudyPlanSectionType.ROOT_TOPICS) {
         val sectionActivities = activities.intersect(allLoadedActivities.map { it.id }.toSet())
-        activitiesToBeLoaded.subtract(sectionActivities)
+        rootTopicsActivitiesToBeLoaded.subtract(sectionActivities)
     } else {
         emptySet()
     }
@@ -105,7 +105,7 @@ internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesCount(sectionId: 
             isMobileContentTrialEnabled = isMobileContentTrialEnabled,
             canMakePayments = canMakePayments
         ) == SubscriptionLimitType.TOPICS
-    val unlockedActivitiesCount = profile?.feautureValues?.mobileContentTrialFreeTopics?.minus(learnedTopicsCount)
+    val unlockedActivitiesCount = profile?.featureValues?.mobileContentTrialFreeTopics?.minus(learnedTopicsCount)
     return if (isRootTopicsSection && isTopicsLimitEnabled && unlockedActivitiesCount != null) {
         unlockedActivitiesCount
     } else {
