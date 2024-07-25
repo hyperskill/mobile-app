@@ -45,22 +45,19 @@ final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewCon
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableQuizSelectColumnsView?.prompt = isMultipleChoice
+        let prompt = isMultipleChoice
             ? Strings.StepQuizTable.multipleChoicePrompt
             : Strings.StepQuizTable.singleChoicePrompt
-        tableQuizSelectColumnsView?.title = rowTitle
+        tableQuizSelectColumnsView?.prompt = prompt
         tableQuizSelectColumnsView?.isMultipleChoice = isMultipleChoice
 
-        tableQuizSelectColumnsView?.set(columns: columns, selectedColumnsIDs: selectedColumnsIDs)
-    }
+        tableQuizSelectColumnsView?.set(
+            title: rowTitle,
+            columns: columns,
+            selectedColumnsIDs: selectedColumnsIDs
+        )
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        DispatchQueue.main.async {
-            self.panModalSetNeedsLayoutUpdate()
-            self.panModalTransition(to: .longForm)
-        }
+        panModalSetNeedsLayoutUpdate()
     }
 }
 
@@ -93,6 +90,13 @@ extension StepQuizTableSelectColumnsViewController: StepQuizTableSelectColumnsVi
 
         DispatchQueue.main.asyncAfter(deadline: .now() + Animation.dismissAnimationDelay) {
             self.dismiss(animated: true)
+        }
+    }
+
+    func tableQuizSelectColumnsViewDidLoadContent(_ view: StepQuizTableSelectColumnsView) {
+        DispatchQueue.main.async {
+            self.panModalSetNeedsLayoutUpdate()
+            self.panModalTransition(to: .longForm)
         }
     }
 }

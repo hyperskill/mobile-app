@@ -75,6 +75,8 @@ final class StepQuizTableSelectColumnsColumnView: UIControl {
 
     var onValueChanged: ((Bool) -> Void)?
 
+    var onContentLoad: (() -> Void)?
+
     override var isHighlighted: Bool {
         didSet {
             titleProcessedContentView.alpha = isHighlighted ? 0.5 : 1.0
@@ -178,6 +180,7 @@ extension StepQuizTableSelectColumnsColumnView: ProgrammaticallyInitializableVie
 extension StepQuizTableSelectColumnsColumnView: ProcessedContentViewDelegate {
     func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
         invalidateIntrinsicContentSize()
+        onContentLoad?()
     }
 
     func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {

@@ -87,6 +87,8 @@ final class StepQuizTableSelectColumnsHeaderView: UIView {
         return CGSize(width: UIView.noIntrinsicMetric, height: height)
     }
 
+    var onContentLoad: (() -> Void)?
+
     init(
         frame: CGRect = .zero,
         appearance: Appearance = Appearance()
@@ -139,6 +141,7 @@ extension StepQuizTableSelectColumnsHeaderView: ProgrammaticallyInitializableVie
 extension StepQuizTableSelectColumnsHeaderView: ProcessedContentViewDelegate {
     func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
         invalidateIntrinsicContentSize()
+        onContentLoad?()
     }
 
     func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {

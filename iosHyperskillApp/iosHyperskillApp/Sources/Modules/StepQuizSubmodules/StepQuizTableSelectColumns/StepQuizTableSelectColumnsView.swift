@@ -8,6 +8,7 @@ protocol StepQuizTableSelectColumnsViewDelegate: AnyObject {
         isOn: Bool
     )
     func tableQuizSelectColumnsViewDidTapConfirm(_ view: StepQuizTableSelectColumnsView)
+    func tableQuizSelectColumnsViewDidLoadContent(_ view: StepQuizTableSelectColumnsView)
 }
 
 extension StepQuizTableSelectColumnsView {
@@ -41,18 +42,14 @@ final class StepQuizTableSelectColumnsView: UIView {
 
     private lazy var scrollableContentStackView = UIKitScrollableStackView(orientation: .vertical)
 
+    private var loadGroup: DispatchGroup?
+
     private var columns = [StepQuizTableViewData.Column]()
     private var selectedColumnsIDs = Set<Int>()
 
     var prompt: String? {
         didSet {
             headerView.prompt = prompt
-        }
-    }
-
-    var title: String? {
-        didSet {
-            headerView.title = title
         }
     }
 
@@ -75,10 +72,31 @@ final class StepQuizTableSelectColumnsView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func set(columns: [StepQuizTableViewData.Column], selectedColumnsIDs: Set<Int>) {
-        if self.columns == columns {
-            return
+    func set(
+        title: String,
+        columns: [StepQuizTableViewData.Column],
+        selectedColumnsIDs: Set<Int>
+    ) {
+        loadGroup = DispatchGroup()
+        let enterCount = columns.count + 1 // title + columns
+        for _ in 0..<enterCount {
+            loadGroup?.enter()
         }
+        loadGroup?.notify(queue: .main) { [weak self] in
+            // dispatch_group_leave call isn't balanced with dispatch_group_enter, deinit dispatch_group_t here to
+            // prevent possible future call to leave onContentLoad.
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.loadGroup = nil
+            strongSelf.delegate?.tableQuizSelectColumnsViewDidLoadContent(strongSelf)
+        }
+
+        headerView.onContentLoad = { [weak self] in
+            self?.loadGroup?.leave()
+        }
+        headerView.title = title
 
         self.columns = columns
         self.selectedColumnsIDs = selectedColumnsIDs
@@ -99,6 +117,9 @@ final class StepQuizTableSelectColumnsView: UIView {
                 strongSelf.delegate?.tableQuizSelectColumnsView(strongSelf, didSelectColumn: column, isOn: isOn)
             }
             columnView.tag = column.id
+            columnView.onContentLoad = { [weak self] in
+                self?.loadGroup?.leave()
+            }
 
             columnsStackView.addArrangedSubview(columnView)
 
