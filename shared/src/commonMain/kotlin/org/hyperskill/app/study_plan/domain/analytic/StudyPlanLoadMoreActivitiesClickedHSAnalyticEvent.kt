@@ -31,5 +31,5 @@ class StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent(
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.STUDY_PLAN_SECTION,
     target = HyperskillAnalyticTarget.LOAD_MORE,
-    context = mapOf(StudyPlanAnalyticKeys.SECTION_ID to sectionId)
+    context = mapOf(StudyPlanAnalyticParams.PARAM_SECTION_ID to sectionId)
 )
