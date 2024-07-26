@@ -406,7 +406,8 @@ internal class StepQuizReducer(
                     attempt = message.attempt,
                     submissionState = message.submissionState,
                     isProblemsLimitReached = message.isProblemsLimitReached,
-                    isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
+                    isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step),
+                    wrongSubmissionsCount = state.stepQuizState.oldState.wrongSubmissionsCount
                 ),
                 stepQuizCodeBlanksState = stepQuizCodeBlanksState
             ) to stepQuizCodeBlanksActions
