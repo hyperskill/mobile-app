@@ -16,7 +16,7 @@ enum class SubscriptionType(
     @SerialName("commercial")
     COMMERCIAL,
     @SerialName("team member")
-    TEAM_MEMBER,
+    TEAM_MEMBER(isProjectSelectionEnabled = true),
     @SerialName("trial")
     TRIAL(isProjectSelectionEnabled = true),
     @SerialName("content trial")

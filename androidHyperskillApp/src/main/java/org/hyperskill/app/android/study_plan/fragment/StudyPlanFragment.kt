@@ -145,7 +145,7 @@ class StudyPlanFragment :
     override fun render(state: StudyPlanScreenFeature.ViewState) {
         renderSwipeRefresh(state)
         gamificationToolbarDelegate?.render(state.toolbarViewState)
-        gamificationToolbarDelegate?.setSubtitle(state.trackTitle)
+        gamificationToolbarDelegate?.setSubtitle(state.trackTitle, R.drawable.ic_change_track)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
         usersInterviewCardDelegate?.render(
             state.usersInterviewWidgetState,
