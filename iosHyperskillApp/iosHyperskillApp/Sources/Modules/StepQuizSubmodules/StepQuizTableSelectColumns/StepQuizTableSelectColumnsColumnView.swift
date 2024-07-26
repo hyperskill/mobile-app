@@ -6,8 +6,7 @@ extension StepQuizTableSelectColumnsColumnView {
     struct Appearance {
         var checkBoxBoxType: BEMBoxType = .circle
         let checkBoxLineWidth: CGFloat = 2
-        let checkBoxAnimationDuration: CGFloat =
-            StepQuizTableSelectColumnsViewController.Animation.dismissAnimationDelayAfterChoiceSelected
+        let checkBoxAnimationDuration: CGFloat = 0.5
         let checkBoxTintColor = ColorPalette.primary
         let checkBoxOnCheckColor = UIColor.white
         let checkBoxOnFillColor = ColorPalette.primary
