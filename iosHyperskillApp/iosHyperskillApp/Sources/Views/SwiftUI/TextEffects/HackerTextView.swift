@@ -28,6 +28,7 @@ struct HackerTextView: View {
 
                 setRandomCharacters()
                 animateText()
+                applyFinalTextCharacters()
             }
             .onChange(of: text) { _ in
                 animatedText = text
@@ -35,6 +36,7 @@ struct HackerTextView: View {
 
                 setRandomCharacters()
                 animateText()
+                applyFinalTextCharacters()
             }
     }
 
@@ -93,6 +95,20 @@ struct HackerTextView: View {
         // swiftlint:disable:next empty_string
         if indexCharacter.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             animatedText.replaceSubrange(index...index, with: String(character))
+        }
+    }
+
+    private func applyFinalTextCharacters() {
+        let currentID = animationID
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            guard currentID == animationID else {
+                return
+            }
+
+            if animatedText != text {
+                animatedText = text
+            }
         }
     }
 }
