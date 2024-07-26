@@ -175,7 +175,8 @@ class StepQuizTest {
                     Submission.stub(status = SubmissionStatus.WRONG)
                 ),
                 isProblemsLimitReached = false,
-                isTheoryAvailable = false
+                isTheoryAvailable = false,
+                wrongSubmissionsCount = 1
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
             stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
@@ -224,11 +225,12 @@ class StepQuizTest {
                     Submission.stub(status = SubmissionStatus.WRONG)
                 ),
                 isProblemsLimitReached = false,
-                isTheoryAvailable = false
+                isTheoryAvailable = false,
+                wrongSubmissionsCount = 1
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
             stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
-            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState(),
         )
 
         assertEquals(expectedState, actualState)
@@ -772,7 +774,7 @@ class StepQuizTest {
     }
 
     @Test
-    fun `Wrong and rejected submissions should be counted`() {
+    fun `Wrong and rejected submissions should incremented on CreateSubmissionSuccess`() {
         val step = Step.stub(id = 1)
         val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Loaded(
@@ -815,5 +817,51 @@ class StepQuizTest {
                 (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.wrongSubmissionsCount
             )
         }
+    }
+
+    @Test
+    fun `Wrong and rejected submissions should be kept on CreateAttemptSuccess`() {
+        val step = Step.stub(id = 1)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Loaded(
+            Submission.stub(status = SubmissionStatus.EVALUATION)
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val expectedWrongSubmissionsCount = 1
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val (state, _) = reducer.reduce(
+            StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.AttemptLoading(
+                    StepQuizFeature.StepQuizState.AttemptLoaded(
+                        step = step,
+                        attempt = attempt,
+                        submissionState = submissionState,
+                        isProblemsLimitReached = false,
+                        isTheoryAvailable = false,
+                        wrongSubmissionsCount = expectedWrongSubmissionsCount
+                    )
+                ),
+                stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+            ),
+            StepQuizFeature.Message.CreateAttemptSuccess(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false
+            )
+        )
+
+        assertEquals(
+            expectedWrongSubmissionsCount,
+            (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.wrongSubmissionsCount
+        )
     }
 }
