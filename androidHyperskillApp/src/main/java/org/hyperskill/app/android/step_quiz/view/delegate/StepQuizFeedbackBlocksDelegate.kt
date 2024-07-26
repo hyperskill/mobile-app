@@ -74,9 +74,7 @@ class StepQuizFeedbackBlocksDelegate(
         layoutStepQuizFeedbackBlockBinding.root.isVisible = state !is StepQuizFeedbackState.Idle
         when (state) {
             is StepQuizFeedbackState.Correct -> {
-                val formattedHint = getFormattedHint(state.hint, state.useLatex)
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedback.isVisible = formattedHint != null
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody.setText(formattedHint)
+                setHint(layoutStepQuizFeedbackBlockBinding, state.hint, state.useLatex)
             }
             is StepQuizFeedbackState.Wrong -> {
                 with(layoutStepQuizFeedbackBlockBinding) {
@@ -105,9 +103,7 @@ class StepQuizFeedbackBlocksDelegate(
                         } else null
                     )
 
-                    if (state.feedbackHint != null) {
-                        setHint(layoutStepQuizFeedbackBlockBinding, state.feedbackHint, state.useFeedbackHintLatex)
-                    }
+                    setHint(layoutStepQuizFeedbackBlockBinding, state.feedbackHint, state.useFeedbackHintLatex)
                 }
             }
             is StepQuizFeedbackState.ValidationFailed -> {
@@ -137,15 +133,6 @@ class StepQuizFeedbackBlocksDelegate(
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedback.isVisible = resultHint != null
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody.setText(resultHint)
     }
-
-    private fun getFormattedHint(hint: String?, useLatex: Boolean): String? =
-        hint?.let {
-            if (useLatex) {
-                hint
-            } else {
-                String.format(NON_LATEX_HINT_TEMPLATE, hint)
-            }
-        }
 
     private fun getEvaluationDrawable(context: Context): AnimationDrawable =
         AnimationDrawable().apply {
