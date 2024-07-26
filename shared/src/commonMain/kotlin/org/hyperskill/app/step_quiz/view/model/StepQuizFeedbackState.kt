@@ -11,10 +11,17 @@ sealed interface StepQuizFeedbackState {
     data class Wrong(
         val title: String,
         val description: String?,
-        val action: String?,
+        val actionText: String?,
+        val actionType: Action?,
         val feedbackHint: String?,
         val useFeedbackHintLatex: Boolean,
-    ) : StepQuizFeedbackState
+    ) : StepQuizFeedbackState {
+        enum class Action {
+            SEE_HINT,
+            READ_COMMENTS,
+            SKIP_PROBLEM
+        }
+    }
 
     data class RejectedSubmission(val message: String) : StepQuizFeedbackState
 

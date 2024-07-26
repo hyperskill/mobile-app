@@ -7,6 +7,7 @@ import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModa
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.presentation.StepFeature.Action.ViewAction.NavigateTo
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
@@ -27,9 +28,9 @@ object StepQuizFeature {
     )
 
     sealed interface StepQuizState {
-        object Idle : StepQuizState
-        object Loading : StepQuizState
-        object Unsupported : StepQuizState
+        data object Idle : StepQuizState
+        data object Loading : StepQuizState
+        data object Unsupported : StepQuizState
         data class AttemptLoading(val oldState: AttemptLoaded) : StepQuizState
         data class AttemptLoaded(
             val step: Step,
@@ -54,9 +55,9 @@ object StepQuizFeature {
     @Serializable
     sealed interface ProblemOnboardingModal {
         @Serializable
-        object Parsons : ProblemOnboardingModal
+        data object Parsons : ProblemOnboardingModal
         @Serializable
-        object GptCodeGenerationWithErrors : ProblemOnboardingModal
+        data object GptCodeGenerationWithErrors : ProblemOnboardingModal
     }
 
     internal sealed interface ChildFeatureMessage
@@ -74,14 +75,14 @@ object StepQuizFeature {
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean
         ) : Message
-        object CreateAttemptError : Message
+        data object CreateAttemptError : Message
 
         /**
          * Submit submission
          */
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
         data class CreateSubmissionSuccess(val submission: Submission, val newAttempt: Attempt? = null) : Message
-        object CreateSubmissionNetworkError : Message
+        data object CreateSubmissionNetworkError : Message
         data class CreateSubmissionReplyValidationResult(
             val step: Step,
             val reply: Reply,
@@ -106,27 +107,31 @@ object StepQuizFeature {
          *
          * @see StepQuizFeature.Action.ViewAction.NavigateTo.TheoryStepScreen
          */
-        object TheoryToolbarItemClicked : Message
+        data object TheoryToolbarItemClicked : Message
 
-        object UnsupportedQuizSolveOnTheWebClicked : Message
-        object UnsupportedQuizGoToStudyPlanClicked : Message
+        data object SeeHintClicked : Message
+        data object ReadCommentsClicked : Message
+        data object SkipClicked : Message
+
+        data object UnsupportedQuizSolveOnTheWebClicked : Message
+        data object UnsupportedQuizGoToStudyPlanClicked : Message
 
         /**
          * Analytic
          */
-        object ClickedCodeDetailsEventMessage : Message
-        object FullScreenCodeEditorClickedCodeDetailsEventMessage : Message
+        data object ClickedCodeDetailsEventMessage : Message
+        data object FullScreenCodeEditorClickedCodeDetailsEventMessage : Message
 
-        object ClickedStepTextDetailsEventMessage : Message
-        object FullScreenCodeEditorClickedStepTextDetailsEventMessage : Message
+        data object ClickedStepTextDetailsEventMessage : Message
+        data object FullScreenCodeEditorClickedStepTextDetailsEventMessage : Message
 
-        object ClickedOpenFullScreenCodeEditorEventMessage : Message
+        data object ClickedOpenFullScreenCodeEditorEventMessage : Message
 
         data class CodeEditorClickedInputAccessoryButtonEventMessage(val symbol: String) : Message
 
-        object ClickedRetryEventMessage : Message
+        data object ClickedRetryEventMessage : Message
 
-        object FixGptGeneratedCodeMistakesBadgeClickedQuestionMark : Message
+        data object FixGptGeneratedCodeMistakesBadgeClickedQuestionMark : Message
 
         /**
          * Message Wrappers
@@ -139,7 +144,7 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        object FetchAttemptError : InternalMessage
+        data object FetchAttemptError : InternalMessage
         data class FetchAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
@@ -167,7 +172,7 @@ object StepQuizFeature {
             val isProblemsLimitReached: Boolean
         ) : InternalMessage
 
-        object CreateMagicLinkForUnsupportedQuizError : InternalMessage
+        data object CreateMagicLinkForUnsupportedQuizError : InternalMessage
         data class CreateMagicLinkForUnsupportedQuizSuccess(val url: String) : InternalMessage
     }
 
@@ -204,9 +209,9 @@ object StepQuizFeature {
         data class StepQuizCodeBlanksAction(val action: StepQuizCodeBlanksFeature.Action) : Action
 
         sealed interface ViewAction : Action {
-            object ShowNetworkError : ViewAction // error
+            data object ShowNetworkError : ViewAction // error
 
-            object RequestResetCode : ViewAction
+            data object RequestResetCode : ViewAction
 
             data class ShowProblemsLimitReachedModal(
                 val subscription: Subscription,
@@ -214,11 +219,13 @@ object StepQuizFeature {
                 val context: ProblemsLimitInfoModalContext
             ) : ViewAction
 
-            object HideProblemsLimitReachedModal : ViewAction
+            data object HideProblemsLimitReachedModal : ViewAction
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
-            object ScrollToCallToActionButton : ViewAction
+            data object ScrollToCallToActionButton : ViewAction
+
+            data object ScrollToHints : ViewAction
 
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
@@ -233,22 +240,26 @@ object StepQuizFeature {
             ) : ViewAction
 
             sealed interface CreateMagicLinkState : ViewAction {
-                object Loading : CreateMagicLinkState
-                object Error : CreateMagicLinkState
-                object Success : CreateMagicLinkState
+                data object Loading : CreateMagicLinkState
+                data object Error : CreateMagicLinkState
+                data object Success : CreateMagicLinkState
             }
             data class OpenUrl(val url: String) : ViewAction
 
+            data object ShowComments : ViewAction
+
+            data object SkipStep : ViewAction
+
             sealed interface NavigateTo : ViewAction {
-                object StudyPlan : NavigateTo
+                data object StudyPlan : NavigateTo
                 data class TheoryStepScreen(val stepRoute: StepRoute) : NavigateTo
             }
 
             sealed interface HapticFeedback : ViewAction {
-                object ReplyValidationError : HapticFeedback
+                data object ReplyValidationError : HapticFeedback
 
-                object WrongSubmission : HapticFeedback
-                object CorrectSubmission : HapticFeedback
+                data object WrongSubmission : HapticFeedback
+                data object CorrectSubmission : HapticFeedback
             }
         }
     }

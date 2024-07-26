@@ -85,3 +85,6 @@ fun Step.isSupported(): Boolean =
 
 val Step.areCommentsAvailable: Boolean
     get() = commentsStatistics.any { it.thread == CommentThread.COMMENT && it.totalCount > 0 }
+
+val Step.commentThreadStatistic: CommentStatisticsEntry?
+    get() = commentsStatistics.firstOrNull { it.thread == CommentThread.COMMENT }

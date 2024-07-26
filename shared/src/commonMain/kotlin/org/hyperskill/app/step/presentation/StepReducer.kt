@@ -1,6 +1,5 @@
 package org.hyperskill.app.step.presentation
 
-import org.hyperskill.app.comments.domain.model.CommentThread
 import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.analytic.StepToolbarCommentClickedHyperskillAnalyticEvent
@@ -8,6 +7,7 @@ import org.hyperskill.app.step.domain.analytic.StepToolbarMenuActionClickedHyper
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.commentThreadStatistic
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.InternalMessage
@@ -199,11 +199,7 @@ internal class StepReducer(
         }
 
     private fun handleCommentClicked(state: State): ReducerResult? {
-        val commentThreadStatistics = (state.stepState as? StepState.Data)
-            ?.step
-            ?.commentsStatistics
-            ?.firstOrNull { it.thread == CommentThread.COMMENT }
-
+        val commentThreadStatistics = (state.stepState as? StepState.Data)?.step?.commentThreadStatistic
         return commentThreadStatistics?.let {
             state to setOf(
                 InternalAction.LogAnalyticEvent(StepToolbarCommentClickedHyperskillAnalyticEvent(stepRoute)),

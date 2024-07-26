@@ -8,6 +8,7 @@ import org.hyperskill.app.step.domain.model.areCommentsAvailable
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.view.model.StepQuizFeedbackState
+import org.hyperskill.app.step_quiz.view.model.StepQuizFeedbackState.Wrong.Action
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
@@ -68,25 +69,26 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
         return StepQuizFeedbackState.Wrong(
             title = resourcesProvider.getString(SharedResources.strings.step_quiz_status_wrong_title),
             description = when (wrongSubmissionAction) {
-                WrongSubmissionState.SEE_HINT ->
+                Action.SEE_HINT ->
                     resourcesProvider.getString(SharedResources.strings.step_quiz_status_see_hint_suggestion)
-                WrongSubmissionState.READ_COMMENTS ->
+                Action.READ_COMMENTS ->
                     resourcesProvider.getString(SharedResources.strings.step_quiz_status_see_comments_suggestion)
-                WrongSubmissionState.SKIP_PROBLEM ->
+                Action.SKIP_PROBLEM ->
                     resourcesProvider.getString(SharedResources.strings.step_quiz_status_skip_suggestion)
-                WrongSubmissionState.FEEDBACK -> null
+                null -> null
             },
-            action = when (wrongSubmissionAction) {
-                WrongSubmissionState.SEE_HINT ->
+            actionText = when (wrongSubmissionAction) {
+                Action.SEE_HINT ->
                     resourcesProvider.getString(SharedResources.strings.step_quiz_status_hint_action)
-                WrongSubmissionState.READ_COMMENTS ->
+                Action.READ_COMMENTS ->
                     resourcesProvider.getString(SharedResources.strings.step_quiz_status_comments_action)
-                WrongSubmissionState.SKIP_PROBLEM ->
+                Action.SKIP_PROBLEM ->
                     resourcesProvider.getString(SharedResources.strings.step_quiz_status_skip_action)
-                WrongSubmissionState.FEEDBACK -> null
+                null -> null
             },
+            actionType = wrongSubmissionAction,
             feedbackHint = getHint(submission),
-            useFeedbackHintLatex = shouldUseLatex(stepQuizState.step),
+            useFeedbackHintLatex = shouldUseLatex(stepQuizState.step)
         )
     }
 
@@ -96,19 +98,19 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
     private fun getWrongSubmissionAction(
         state: StepQuizFeature.State,
         stepQuizState: StepQuizFeature.StepQuizState.AttemptLoaded
-    ): WrongSubmissionState =
+    ): Action? =
         when (stepQuizState.wrongSubmissionsCount) {
-            in 0 until SEE_HINT_SUGGESTION_THRESHOLD -> WrongSubmissionState.FEEDBACK
+            in 0 until SEE_HINT_SUGGESTION_THRESHOLD -> null
             in SEE_HINT_SUGGESTION_THRESHOLD until SKIP_SUGGESTION_THRESHOLD -> {
                 val hintState = state.stepQuizHintsState as? StepQuizHintsFeature.State.Content
                 val canSeeHint = hintState?.currentHint == null && hintState?.hintsIds?.isNotEmpty() == true
                 when {
-                    canSeeHint -> WrongSubmissionState.SEE_HINT
-                    stepQuizState.step.areCommentsAvailable -> WrongSubmissionState.READ_COMMENTS
-                    else -> WrongSubmissionState.FEEDBACK
+                    canSeeHint -> Action.SEE_HINT
+                    stepQuizState.step.areCommentsAvailable -> Action.READ_COMMENTS
+                    else -> null
                 }
             }
-            else -> WrongSubmissionState.SKIP_PROBLEM
+            else -> Action.SKIP_PROBLEM
         }
 
     private fun getHint(submission: Submission): String? =
@@ -116,11 +118,4 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
             .hint
             ?.takeIf(String::isNotEmpty)
             ?.replace("\n", "<br />")
-
-    private enum class WrongSubmissionState {
-        SEE_HINT,
-        READ_COMMENTS,
-        SKIP_PROBLEM,
-        FEEDBACK
-    }
 }

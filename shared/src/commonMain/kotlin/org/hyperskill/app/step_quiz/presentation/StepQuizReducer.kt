@@ -164,6 +164,12 @@ internal class StepQuizReducer(
                 handleUpdateProblemsLimitResult(state, message)
             is InternalMessage.ProblemsLimitChanged ->
                 handleProblemsLimitChanged(state, message)
+            is Message.SeeHintClicked ->
+                handleSeeHintsClicked(state)
+            is Message.ReadCommentsClicked ->
+                handleReadCommentsClicked(state)
+            is Message.SkipClicked ->
+                handleSkipClicked(state)
             is Message.ClickedCodeDetailsEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedCodeDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -695,4 +701,25 @@ internal class StepQuizReducer(
                 )
             )
         )
+
+    private fun handleSeeHintsClicked(state: State): StepQuizReducerResult {
+        val step = (state.stepQuizState as? StepQuizState.AttemptLoaded)?.step
+        return if (step != null && StepQuizHintsFeature.isHintsFeatureAvailable(step)) {
+            val (newState, actions) = stepQuizChildFeatureReducer.reduce(
+                state = state,
+                message = Message.StepQuizHintsMessage(
+                    StepQuizHintsFeature.Message.LoadHintButtonClicked
+                )
+            )
+            newState to actions + Action.ViewAction.ScrollToHints
+        } else {
+            state to emptySet()
+        }
+    }
+
+    private fun handleReadCommentsClicked(state: State): StepQuizReducerResult =
+        state to setOf(Action.ViewAction.ShowComments)
+
+    private fun handleSkipClicked(state: State): StepQuizReducerResult =
+        state to setOf(Action.ViewAction.SkipStep)
 }
