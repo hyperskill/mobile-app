@@ -1,8 +1,8 @@
 package org.hyperskill.app.step.view.mapper
 
-import org.hyperskill.app.comments.domain.model.CommentThread
 import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.areCommentsAvailable
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_toolbar.view.mapper.StepToolbarViewStateMapper
 
@@ -36,6 +36,6 @@ internal class StepViewStateMapper(
 
     private fun isCommentsToolbarItemAvailable(stepState: StepFeature.StepState): Boolean {
         val step = (stepState as? StepFeature.StepState.Data)?.step ?: return false
-        return step.commentsStatistics.any { it.thread == CommentThread.COMMENT && it.totalCount > 0 }
+        return step.areCommentsAvailable
     }
 }

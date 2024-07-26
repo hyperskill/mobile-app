@@ -74,9 +74,17 @@
 
     <!-- Step quiz -->
     <string name="step_quiz_status_correct_text">You\'re absolutely correct!</string>
+    <string name="step_quiz_status_wrong_title">Not correct</string>
     <string name="step_quiz_status_wrong_text">Not correct, but keep on trying\nand never give up!</string>
     <string name="step_quiz_status_evaluation_text">Evaluation...</string>
     <string name="step_quiz_status_loading_text">Loading...</string>
+    <string name="step_quiz_status_see_hint_suggestion">Take a look at what other users are suggesting to solve this problem.</string>
+    <string name="step_quiz_status_hint_action">See community hint</string>
+    <string name="step_quiz_status_see_comments_suggestion">Study the comments of other learners, it may help you to find the right solution.</string>
+    <string name="step_quiz_status_comments_action">Read the comments</string>
+    <string name="step_quiz_status_skip_suggestion">Go to the next problem if you're stuck on the current one.</string>
+    <string name="step_quiz_status_skip_action">Skip this problem</string>
+
     <string name="step_quiz_stats_text">%s solved this problem. Latest completion was %s ago.</string>
     <string name="step_quiz_feedback_title">FEEDBACK:</string>
     <string name="step_quiz_continue_button_text">Continue</string>
