@@ -9,7 +9,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleVersion</key>
-	<string>524</string>
+	<string>525</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.66</string>
 	<key>CFBundlePackageType</key>
