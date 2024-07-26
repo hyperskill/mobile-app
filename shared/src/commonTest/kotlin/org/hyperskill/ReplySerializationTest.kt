@@ -3,6 +3,7 @@ package org.hyperskill
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
@@ -297,5 +298,57 @@ class ReplySerializationTest {
             "{ \"prompt\": \"prompt\" }"
         )
         assertEquals(expectedReply, decodedReply)
+    }
+
+    @Test
+    fun `Code Reply serialization with nullable lint_profile`() {
+        val json = NetworkModule.provideJson()
+        val encodedValue = json.encodeToJsonElement(
+            Reply.code(
+                code = "code",
+                language = "language"
+            )
+        )
+        val expected = buildJsonObject {
+            put("code", JsonPrimitive("code"))
+            put("language", JsonPrimitive("language"))
+            put("lint_profile", JsonNull)
+        }
+        assertEquals(expected, encodedValue)
+    }
+
+    @Test
+    fun `Code Reply serialization with provided lint_profile`() {
+        val json = NetworkModule.provideJson()
+        val encodedValue = json.encodeToJsonElement(
+            Reply.code(
+                code = "code",
+                language = "language",
+                lintProfile = "lint_profile"
+            )
+        )
+        val expected = buildJsonObject {
+            put("code", JsonPrimitive("code"))
+            put("language", JsonPrimitive("language"))
+            put("lint_profile", JsonPrimitive("lint_profile"))
+        }
+        assertEquals(expected, encodedValue)
+    }
+
+    @Test
+    fun `Code Reply serialization with default lint_profile`() {
+        val json = NetworkModule.provideJson()
+        val encodedValue = json.encodeToJsonElement(
+            Reply.code(
+                code = "code",
+                language = "language",
+                lintProfile = ""
+            )
+        )
+        val expected = buildJsonObject {
+            put("code", JsonPrimitive("code"))
+            put("language", JsonPrimitive("language"))
+        }
+        assertEquals(expected, encodedValue)
     }
 }
