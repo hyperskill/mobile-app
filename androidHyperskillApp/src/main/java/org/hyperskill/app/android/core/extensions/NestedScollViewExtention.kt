@@ -16,3 +16,10 @@ fun NestedScrollView.smoothScrollToBottom(durationMilliseconds: Int = DEFAULT_SM
         scrollView.smoothScrollTo(0, y, durationMilliseconds)
     }
 }
+
+fun NestedScrollView.smoothScrollTo(view: View, durationMilliseconds: Int = DEFAULT_SMOOTH_SCROLL_DURATION) {
+    val scrollView = this
+    val lp = view.layoutParams as ViewGroup.MarginLayoutParams
+    val y = view.bottom + lp.bottomMargin
+    scrollView.smoothScrollTo(0, y, durationMilliseconds)
+}

@@ -7,6 +7,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.extensions.smoothScrollTo
 import org.hyperskill.app.android.core.extensions.smoothScrollToBottom
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
@@ -89,5 +90,11 @@ class StepPracticeFragment :
         stepPracticeViewBinding
             .stepPracticeContainer
             .smoothScrollToBottom(SMOOTH_SCROLL_DURATION_MILLISECONDS)
+    }
+
+    override fun scrollTo(view: View) {
+        stepPracticeViewBinding
+            .stepPracticeContainer
+            .smoothScrollTo(view, SMOOTH_SCROLL_DURATION_MILLISECONDS)
     }
 }

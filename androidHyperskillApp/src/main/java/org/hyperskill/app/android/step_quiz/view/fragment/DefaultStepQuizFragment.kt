@@ -33,6 +33,7 @@ import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.model.StepMenuPrimaryAction
 import org.hyperskill.app.android.step.view.model.StepMenuPrimaryActionParams
 import org.hyperskill.app.android.step.view.model.StepPracticeCallback
+import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_practice.model.StepPracticeHost
@@ -41,17 +42,15 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.ProblemOnboardingBottomSheetCallback
 import org.hyperskill.app.android.step_quiz.view.dialog.ProblemsOnboardingBottomSheetFactory
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
-import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizButtonsState
-import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
@@ -91,9 +90,7 @@ abstract class DefaultStepQuizFragment :
 
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
     private var stepQuizTitleMapper: StepQuizTitleMapper? = null
-    private val stepQuizFeedbackMapper by lazy(LazyThreadSafetyMode.NONE) {
-        StepQuizFeedbackMapper()
-    }
+    private var stepQuizFeedbackMapper: org.hyperskill.app.step_quiz.view.mapper.StepQuizFeedbackMapper? = null
 
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
@@ -118,6 +115,7 @@ abstract class DefaultStepQuizFragment :
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
         stepQuizStatsTextMapper = stepQuizComponent.stepQuizStatsTextMapper
         stepQuizTitleMapper = stepQuizComponent.stepQuizTitleMapper
+        stepQuizFeedbackMapper = stepQuizComponent.stepQuizFeedbackMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
     }
 
@@ -137,7 +135,11 @@ abstract class DefaultStepQuizFragment :
         )
         viewBinding.stepQuizFeedbackBlocks.stepQuizFeedbackWrong.isHapticFeedbackEnabled = true
         stepQuizFeedbackBlocksDelegate =
-            StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
+            StepQuizFeedbackBlocksDelegate(
+                context = requireContext(),
+                layoutStepQuizFeedbackBlockBinding = viewBinding.stepQuizFeedbackBlocks,
+                onNewMessage = stepQuizViewModel::onNewMessage
+            )
         stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
             delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
         }
@@ -320,6 +322,18 @@ abstract class DefaultStepQuizFragment :
             StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton -> {
                 handleScrollToCallToActionButton()
             }
+            StepQuizFeature.Action.ViewAction.ScrollToHints -> {
+                parentOfType(StepPracticeHost::class.java)
+                    ?.scrollTo(viewBinding.stepQuizHints.root)
+            }
+            is StepQuizFeature.Action.ViewAction.ShowComments -> {
+                parentOfType(StepToolbarCallback::class.java)
+                    ?.onPrimaryActionClicked(StepMenuPrimaryAction.COMMENTS)
+            }
+            is StepQuizFeature.Action.ViewAction.SkipStep -> {
+                parentOfType(StepToolbarCallback::class.java)
+                    ?.onSecondaryActionClicked(StepMenuSecondaryAction.SKIP)
+            }
             is StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction -> {
                 // no op
             }
@@ -379,10 +393,12 @@ abstract class DefaultStepQuizFragment :
             }
         }
 
+        val feedbackState = stepQuizFeedbackMapper?.map(state)
+        if (feedbackState != null) {
+            stepQuizFeedbackBlocksDelegate?.setState(feedbackState)
+        }
+
         when (val stepQuizState = state.stepQuizState) {
-            StepQuizFeature.StepQuizState.Unsupported -> {
-                stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Unsupported)
-            }
             is StepQuizFeature.StepQuizState.AttemptLoaded -> {
                 renderAttemptLoaded(stepQuizState)
             }
@@ -412,21 +428,11 @@ abstract class DefaultStepQuizFragment :
                 isCheckbox = state.attempt.dataset?.isCheckbox
             )
         stepQuizFormDelegate?.setState(state)
-        stepQuizFeedbackBlocksDelegate?.setState(
-            stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state)
-        )
         viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
 
         when (val submissionState = state.submissionState) {
             is StepQuizFeature.SubmissionState.Loaded -> {
                 switchStepQuizButtonsState(getLoadedSubmissionButtonsState(submissionState.submission.status, step))
-
-                val replyValidation = submissionState.replyValidation
-                if (replyValidation is ReplyValidationResult.Error) {
-                    stepQuizFeedbackBlocksDelegate?.setState(
-                        StepQuizFeedbackState.Validation(replyValidation.message)
-                    )
-                }
             }
             is StepQuizFeature.SubmissionState.Empty -> {
                 switchStepQuizButtonsState(StepQuizButtonsState.Submit)

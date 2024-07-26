@@ -12,6 +12,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.logger
+import org.hyperskill.app.android.core.extensions.smoothScrollTo
 import org.hyperskill.app.android.core.extensions.smoothScrollToBottom
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -227,5 +228,11 @@ class StageStepWrapperFragment :
         viewBinding
             .stagePracticeContainer
             .smoothScrollToBottom(SMOOTH_SCROLL_DURATION_MILLISECONDS)
+    }
+
+    override fun scrollTo(view: View) {
+        viewBinding
+            .stagePracticeContainer
+            .smoothScrollTo(view, SMOOTH_SCROLL_DURATION_MILLISECONDS)
     }
 }
