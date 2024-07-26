@@ -3,7 +3,8 @@ import UIKit
 
 extension StepQuizTableSelectColumnsViewController {
     enum Animation {
-        static let dismissAnimationDelay: TimeInterval = 0.33
+        static let dismissAnimationDelayAfterDidTapConfirm: TimeInterval = 0.33
+        static let dismissAnimationDelayAfterChoiceSelected: TimeInterval = 0.5
     }
 }
 
@@ -83,20 +84,28 @@ extension StepQuizTableSelectColumnsViewController: StepQuizTableSelectColumnsVi
         }
 
         tableQuizSelectColumnsView?.update(selectedColumnsIDs: selectedColumnsIDs)
+
+        if !isMultipleChoice {
+            confirmSelection(delay: Animation.dismissAnimationDelayAfterChoiceSelected)
+        }
     }
 
     func tableQuizSelectColumnsViewDidTapConfirm(_ view: StepQuizTableSelectColumnsView) {
-        onColumnsSelected(selectedColumnsIDs)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + Animation.dismissAnimationDelay) {
-            self.dismiss(animated: true)
-        }
+        confirmSelection(delay: Animation.dismissAnimationDelayAfterDidTapConfirm)
     }
 
     func tableQuizSelectColumnsViewDidLoadContent(_ view: StepQuizTableSelectColumnsView) {
         DispatchQueue.main.async {
             self.panModalSetNeedsLayoutUpdate()
             self.panModalTransition(to: .longForm)
+        }
+    }
+
+    private func confirmSelection(delay: TimeInterval) {
+        onColumnsSelected(selectedColumnsIDs)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            self.dismiss(animated: true)
         }
     }
 }

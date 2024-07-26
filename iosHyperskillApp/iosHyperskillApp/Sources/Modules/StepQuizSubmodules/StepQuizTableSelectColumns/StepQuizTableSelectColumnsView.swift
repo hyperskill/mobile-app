@@ -53,7 +53,11 @@ final class StepQuizTableSelectColumnsView: UIView {
         }
     }
 
-    var isMultipleChoice = false
+    var isMultipleChoice = false {
+        didSet {
+            confirmButtonContainerView.isHidden = !isMultipleChoice
+        }
+    }
 
     init(
         frame: CGRect = .zero,
