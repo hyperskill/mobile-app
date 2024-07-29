@@ -92,7 +92,9 @@ class StepQuizCodeBlanksReducer(
             return null
         }
 
-        val targetCodeBlock = state.codeBlocks.getOrNull(index = message.codeBlockItem.id)
+        val targetCodeBlockIndex = message.codeBlockItem.id
+        val targetCodeBlock = state.codeBlocks.getOrNull(index = targetCodeBlockIndex)
+
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent(
@@ -102,15 +104,17 @@ class StepQuizCodeBlanksReducer(
             )
         )
 
-        if (targetCodeBlock?.isActive == true) {
-            return state to actions
+        return if (targetCodeBlock == null || targetCodeBlock.isActive) {
+            state to actions
+        } else {
+            val newCodeBlocks = state.codeBlocks.mutate {
+                state.activeCodeBlockIndex()?.let {
+                    set(it, copyCodeBlock(state.codeBlocks[it], isActive = false))
+                }
+                set(targetCodeBlockIndex, copyCodeBlock(targetCodeBlock, isActive = true))
+            }
+            state.copy(codeBlocks = newCodeBlocks) to actions
         }
-
-        val newCodeBlocks = state.codeBlocks.mapIndexed { index, codeBlock ->
-            copyCodeBlock(codeBlock, isActive = index == message.codeBlockItem.id)
-        }
-
-        return state.copy(codeBlocks = newCodeBlocks) to actions
     }
 
     private fun handleDeleteButtonClicked(
