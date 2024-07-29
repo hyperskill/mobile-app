@@ -79,16 +79,7 @@ class StepQuizCodeBlanksReducer(
                         selectedSuggestion = message.suggestion as? Suggestion.ConstantString
                     )
             }
-
-        val newCodeBlocks =
-            if (activeCodeBlockIndex == state.codeBlocks.lastIndex && newCodeBlock.selectedSuggestion != null) {
-                state.codeBlocks.mutate {
-                    set(activeCodeBlockIndex, newCodeBlock.copy(isActive = false))
-                    add(CodeBlock.Blank(isActive = true))
-                }
-            } else {
-                state.codeBlocks.mutate { set(activeCodeBlockIndex, newCodeBlock) }
-            }
+        val newCodeBlocks = state.codeBlocks.mutate { set(activeCodeBlockIndex, newCodeBlock) }
 
         return state.copy(codeBlocks = newCodeBlocks) to actions
     }

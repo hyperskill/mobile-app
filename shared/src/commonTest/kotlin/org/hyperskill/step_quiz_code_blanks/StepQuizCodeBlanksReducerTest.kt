@@ -111,37 +111,6 @@ class StepQuizCodeBlanksReducerTest {
     }
 
     @Test
-    fun `SuggestionClicked should add new active Blank code block when selecting last suggestion`() {
-        val suggestion = Suggestion.ConstantString("suggestion")
-        val initialState = stubContentState(
-            codeBlocks = listOf(
-                CodeBlock.Print(
-                    isActive = true,
-                    suggestions = listOf(suggestion),
-                    selectedSuggestion = null
-                )
-            )
-        )
-
-        val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(suggestion)
-        val (state, actions) = reducer.reduce(initialState, message)
-
-        val expectedState = initialState.copy(
-            codeBlocks = listOf(
-                CodeBlock.Print(
-                    isActive = false,
-                    suggestions = listOf(suggestion),
-                    selectedSuggestion = suggestion
-                ),
-                CodeBlock.Blank(isActive = true)
-            )
-        )
-
-        assertEquals(expectedState, state)
-        assertContainsSuggestionClickedAnalyticEvent(actions)
-    }
-
-    @Test
     fun `CodeBlockClicked should not update state if state is not Content`() {
         val initialState = StepQuizCodeBlanksFeature.State.Idle
         val message = StepQuizCodeBlanksFeature.Message.CodeBlockClicked(
