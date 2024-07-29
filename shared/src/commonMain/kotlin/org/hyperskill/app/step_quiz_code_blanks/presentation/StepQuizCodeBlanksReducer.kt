@@ -152,19 +152,14 @@ class StepQuizCodeBlanksReducer(
                         set(activeCodeBlockIndex, activeCodeBlock.copy(selectedSuggestion = null))
                     } else if (state.codeBlocks.size > 1) {
                         val nextActiveIndex =
-                            if (activeCodeBlockIndex < state.codeBlocks.size - 1) {
-                                activeCodeBlockIndex + 1
-                            } else {
+                            if (activeCodeBlockIndex > 0) {
                                 activeCodeBlockIndex - 1
+                            } else {
+                                activeCodeBlockIndex + 1
                             }
-
-                        val newNextActiveCodeBlock =
-                            when (val nextCodeBlock = state.codeBlocks.getOrNull(nextActiveIndex)) {
-                                is CodeBlock.Blank -> nextCodeBlock.copy(isActive = true)
-                                is CodeBlock.Print -> nextCodeBlock.copy(isActive = true)
-                                null -> null
-                            }
-                        newNextActiveCodeBlock?.let { set(nextActiveIndex, it) }
+                        state.codeBlocks.getOrNull(nextActiveIndex)?.let {
+                            set(nextActiveIndex, copyCodeBlock(it, isActive = true))
+                        }
 
                         removeAt(activeCodeBlockIndex)
                     }

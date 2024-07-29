@@ -193,6 +193,16 @@ class StepQuizCodeBlanksReducerTest {
     }
 
     @Test
+    fun `DeleteButtonClicked should log analytic event and not update state if no active code block`() {
+        val initialState = stubContentState(codeBlocks = listOf(CodeBlock.Blank(isActive = false)))
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
+
+        assertEquals(initialState, state)
+        assertContainsDeleteButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
     fun `DeleteButtonClicked should not update state if active code block is Blank`() {
         val initialState = stubContentState(codeBlocks = listOf(CodeBlock.Blank(isActive = true)))
 
@@ -232,7 +242,7 @@ class StepQuizCodeBlanksReducerTest {
     }
 
     @Test
-    fun `DeleteButtonClicked should set next code block as active if active Print code block is deleted`() {
+    fun `DeleteButtonClicked should set next code block as active if no code block before deleted`() {
         val initialState = stubContentState(
             codeBlocks = listOf(
                 CodeBlock.Print(
