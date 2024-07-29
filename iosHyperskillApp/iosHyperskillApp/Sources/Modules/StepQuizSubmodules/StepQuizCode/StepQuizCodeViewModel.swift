@@ -82,7 +82,11 @@ class StepQuizCodeViewModel: ObservableObject {
 extension StepQuizCodeViewModel: StepQuizChildQuizInputProtocol {
     @objc
     func createReply() -> Reply {
-        Reply(language: viewData.languageStringValue, code: viewData.code)
+        Reply.Companion.shared.code(
+            code: viewData.code,
+            language: viewData.languageStringValue,
+            lintProfile: nil
+        )
     }
 
     func update(step: Step, dataset: Dataset, reply: Reply?) {
@@ -148,7 +152,11 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
 
     @objc
     func syncReply(code: String?) {
-        let reply = Reply.Companion.shared.code(code: code, language: viewData.languageStringValue)
+        let reply = Reply.Companion.shared.code(
+            code: code,
+            language: viewData.languageStringValue,
+            lintProfile: nil
+        )
         moduleOutput?.handleChildQuizSync(reply: reply)
     }
 }
