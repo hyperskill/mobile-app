@@ -33,6 +33,14 @@
 		2C05AC5F2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC5E2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift */; };
 		2C05AC622A0EDFC20039C7EF /* ProjectSelectionListGridCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC612A0EDFC20039C7EF /* ProjectSelectionListGridCellView.swift */; };
 		2C05AC642A0EDFD80039C7EF /* ProjectSelectionListGridCellBadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC632A0EDFD80039C7EF /* ProjectSelectionListGridCellBadgesView.swift */; };
+		2C065AA22C52347E00B820F5 /* StepQuizTableSelectColumnsColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C065AA12C52347E00B820F5 /* StepQuizTableSelectColumnsColumnView.swift */; };
+		2C065AA42C523EE900B820F5 /* StepQuizTableSelectColumnsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C065AA32C523EE900B820F5 /* StepQuizTableSelectColumnsHeaderView.swift */; };
+		2C065AA62C5240E900B820F5 /* StepQuizTableSelectColumnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C065AA52C5240E900B820F5 /* StepQuizTableSelectColumnsView.swift */; };
+		2C065AAA2C5242AE00B820F5 /* StepQuizTableSelectColumnsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C065AA92C5242AE00B820F5 /* StepQuizTableSelectColumnsViewController.swift */; };
+		2C065AAC2C524BB800B820F5 /* UIKitScrollableStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C065AAB2C524BB800B820F5 /* UIKitScrollableStackView.swift */; };
+		2C065AAE2C524C7600B820F5 /* UIStackView+RemoveAllArrangedSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C065AAD2C524C7600B820F5 /* UIStackView+RemoveAllArrangedSubviews.swift */; };
+		2C065AB02C524CDA00B820F5 /* UIStackViewExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C065AAF2C524CDA00B820F5 /* UIStackViewExtensionTests.swift */; };
+		2C065AB22C524E4100B820F5 /* UIKitTapProxyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C065AB12C524E4100B820F5 /* UIKitTapProxyView.swift */; };
 		2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */; };
 		2C078CE52AE26CB400D97E24 /* FillBlanksQuizTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C078CE42AE26CB400D97E24 /* FillBlanksQuizTitleView.swift */; };
 		2C078CE72AE26E2000D97E24 /* UIKitSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C078CE62AE26E2000D97E24 /* UIKitSeparatorView.swift */; };
@@ -315,9 +323,6 @@
 		2C8E4F982848961C0011ADFA /* UIViewController+PresentPanModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */; };
 		2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */; };
 		2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F9B2848A1550011ADFA /* PanModalViewModifier.swift */; };
-		2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FA02848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift */; };
-		2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */; };
-		2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB32848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift */; };
 		2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */; };
 		2C8E66D52878771B00D3928D /* ProfilePresentationDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D42878771B00D3928D /* ProfilePresentationDescription.swift */; };
 		2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D6287877F500D3928D /* ProfileViewModel.swift */; };
@@ -815,6 +820,14 @@
 		2C05AC5E2A0ED9710039C7EF /* BadgeView+ConcreateTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BadgeView+ConcreateTypes.swift"; sourceTree = "<group>"; };
 		2C05AC612A0EDFC20039C7EF /* ProjectSelectionListGridCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridCellView.swift; sourceTree = "<group>"; };
 		2C05AC632A0EDFD80039C7EF /* ProjectSelectionListGridCellBadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridCellBadgesView.swift; sourceTree = "<group>"; };
+		2C065AA12C52347E00B820F5 /* StepQuizTableSelectColumnsColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsColumnView.swift; sourceTree = "<group>"; };
+		2C065AA32C523EE900B820F5 /* StepQuizTableSelectColumnsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsHeaderView.swift; sourceTree = "<group>"; };
+		2C065AA52C5240E900B820F5 /* StepQuizTableSelectColumnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsView.swift; sourceTree = "<group>"; };
+		2C065AA92C5242AE00B820F5 /* StepQuizTableSelectColumnsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsViewController.swift; sourceTree = "<group>"; };
+		2C065AAB2C524BB800B820F5 /* UIKitScrollableStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitScrollableStackView.swift; sourceTree = "<group>"; };
+		2C065AAD2C524C7600B820F5 /* UIStackView+RemoveAllArrangedSubviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+RemoveAllArrangedSubviews.swift"; sourceTree = "<group>"; };
+		2C065AAF2C524CDA00B820F5 /* UIStackViewExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtensionTests.swift; sourceTree = "<group>"; };
+		2C065AB12C524E4100B820F5 /* UIKitTapProxyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTapProxyView.swift; sourceTree = "<group>"; };
 		2C069EB028F03782009A3DA1 /* AnalyticExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticExtensions.swift; sourceTree = "<group>"; };
 		2C078CE42AE26CB400D97E24 /* FillBlanksQuizTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlanksQuizTitleView.swift; sourceTree = "<group>"; };
 		2C078CE62AE26E2000D97E24 /* UIKitSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitSeparatorView.swift; sourceTree = "<group>"; };
@@ -1105,9 +1118,6 @@
 		2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+PresentPanModal.swift"; sourceTree = "<group>"; };
 		2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalSwiftUIViewController.swift; sourceTree = "<group>"; };
 		2C8E4F9B2848A1550011ADFA /* PanModalViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalViewModifier.swift; sourceTree = "<group>"; };
-		2C8E4FA02848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsViewController.swift; sourceTree = "<group>"; };
-		2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsView.swift; sourceTree = "<group>"; };
-		2C8E4FB32848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSelectColumnsColumnView.swift; sourceTree = "<group>"; };
 		2C8E4FB528490C020011ADFA /* PanModalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalPresenter.swift; sourceTree = "<group>"; };
 		2C8E66D42878771B00D3928D /* ProfilePresentationDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresentationDescription.swift; sourceTree = "<group>"; };
 		2C8E66D6287877F500D3928D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -1956,6 +1966,7 @@
 		2C1F587C280D2F6600372A37 /* ExtensionsTests */ = {
 			isa = PBXGroup;
 			children = (
+				2C065AAF2C524CDA00B820F5 /* UIStackViewExtensionTests.swift */,
 				2C1F587D280D2F9200372A37 /* URLExtensionsTests.swift */,
 			);
 			path = ExtensionsTests;
@@ -2913,19 +2924,12 @@
 		2C8E4F9D2848BE420011ADFA /* StepQuizTableSelectColumns */ = {
 			isa = PBXGroup;
 			children = (
-				2C8E4FA02848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift */,
-				2C8E4FB22848CB6A0011ADFA /* Views */,
+				2C065AA12C52347E00B820F5 /* StepQuizTableSelectColumnsColumnView.swift */,
+				2C065AA32C523EE900B820F5 /* StepQuizTableSelectColumnsHeaderView.swift */,
+				2C065AA52C5240E900B820F5 /* StepQuizTableSelectColumnsView.swift */,
+				2C065AA92C5242AE00B820F5 /* StepQuizTableSelectColumnsViewController.swift */,
 			);
 			path = StepQuizTableSelectColumns;
-			sourceTree = "<group>";
-		};
-		2C8E4FB22848CB6A0011ADFA /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2C8E4FB32848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift */,
-				2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		2C8EBE522A4D475200A77205 /* Project */ = {
@@ -3195,6 +3199,7 @@
 				2C2CCB482B74FA6600D1E596 /* UIFont+PreferredFont.swift */,
 				2C7CB6812ADFDB45006F78DA /* UIFont+SizeOfString.swift */,
 				2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */,
+				2C065AAD2C524C7600B820F5 /* UIStackView+RemoveAllArrangedSubviews.swift */,
 				2C5B2A22286596400097B270 /* UITableView+RegisterReusable.swift */,
 				2CC78D0D28C75A3D0006EF91 /* UIViewControllerExtensions.swift */,
 				2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */,
@@ -3516,7 +3521,9 @@
 				2CBD1918291D399500F5FB0B /* UIKitBounceButton.swift */,
 				2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */,
 				2CBD191C291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift */,
+				2C065AAB2C524BB800B820F5 /* UIKitScrollableStackView.swift */,
 				2C078CE62AE26E2000D97E24 /* UIKitSeparatorView.swift */,
+				2C065AB12C524E4100B820F5 /* UIKitTapProxyView.swift */,
 				2C5F19162AE6857F0039414D /* CollectionViewLayouts */,
 			);
 			path = UIKit;
@@ -4908,6 +4915,7 @@
 				2CB2BDB12BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift in Sources */,
 				2CB2BDB52BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift in Sources */,
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
+				2C065AB02C524CDA00B820F5 /* UIStackViewExtensionTests.swift in Sources */,
 				2CB2BDB92BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift in Sources */,
 				2CB2BDB72BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift in Sources */,
 				2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */,
@@ -4936,6 +4944,7 @@
 				E9F27D782906447A007F16D7 /* StepQuizHintCardView.swift in Sources */,
 				E9F0A2AA29D417C800C4A61E /* StudyPlanSectionHeaderView.swift in Sources */,
 				2C8EBE542A4D476700A77205 /* ProgressScreenProjectProgressContentView.swift in Sources */,
+				2C065AAA2C5242AE00B820F5 /* StepQuizTableSelectColumnsViewController.swift in Sources */,
 				E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */,
 				E9CF48A92A38499F00938CCE /* StreakRecoveryModalViewController.swift in Sources */,
 				2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */,
@@ -5009,6 +5018,7 @@
 				2C725B612809125700A49043 /* LayoutInsets.swift in Sources */,
 				2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */,
 				2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */,
+				2C065AAE2C524C7600B820F5 /* UIStackView+RemoveAllArrangedSubviews.swift in Sources */,
 				2C54E4282A1F717F003406B9 /* CardView.swift in Sources */,
 				2C5837A62B284E570096B89B /* NavigationLink+Empty.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
@@ -5087,7 +5097,6 @@
 				2CD20ED12B73475400FB5269 /* ApplicationShortcutsService.swift in Sources */,
 				2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
-				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
 				2CE0F6EE2BB40B760032C439 /* StepFeedbackViewModel.swift in Sources */,
 				2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */,
 				2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */,
@@ -5134,7 +5143,6 @@
 				2C8247AF2BB6BAAF00CDD668 /* StepQuizCodeFixCodeMistakesBadge.swift in Sources */,
 				2CEB50D0288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift in Sources */,
 				E9A1DA702ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift in Sources */,
-				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
 				2C83FBC22B1781FA007AD7E2 /* LeaderboardListRowView.swift in Sources */,
 				2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */,
 				2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */,
@@ -5168,6 +5176,7 @@
 				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,
 				2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */,
+				2C065AA62C5240E900B820F5 /* StepQuizTableSelectColumnsView.swift in Sources */,
 				2CBD1919291D399500F5FB0B /* UIKitBounceButton.swift in Sources */,
 				2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift in Sources */,
 				E9523BF029DA933C0013A661 /* StudyPlanViewModel.swift in Sources */,
@@ -5227,6 +5236,7 @@
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
 				E94BB0462A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift in Sources */,
 				2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */,
+				2C065AAC2C524BB800B820F5 /* UIKitScrollableStackView.swift in Sources */,
 				2C54E4262A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift in Sources */,
 				2CEA454F2BD6B75C0011838D /* StepQuizToolbarContent.swift in Sources */,
 				2C9AA4052C2556F400F5170E /* WelcomeOnboardingOutputProtocol.swift in Sources */,
@@ -5238,6 +5248,7 @@
 				2C7CB66B2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift in Sources */,
 				2CBC97CA2A5553330078E445 /* StageImplementStageCompletedModalViewController.swift in Sources */,
 				2C20FBC9284F6F97006D879E /* UnitConverters.swift in Sources */,
+				2C065AB22C524E4100B820F5 /* UIKitTapProxyView.swift in Sources */,
 				2C336D152865C49D00C91342 /* ApplicationThemeService.swift in Sources */,
 				2C3796122877001700C197E2 /* ProfileHeaderView.swift in Sources */,
 				2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */,
@@ -5264,7 +5275,6 @@
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
 				2CD48D892858657100CFCC4A /* StepQuizView.swift in Sources */,
 				2CD4148729A8D92000ACA855 /* CodeInputPasteControl.swift in Sources */,
-				2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */,
 				2C078CE72AE26E2000D97E24 /* UIKitSeparatorView.swift in Sources */,
 				2C677D022C4A3F860019AF03 /* StepQuizCodeBlanksSuggestionsView.swift in Sources */,
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
@@ -5290,6 +5300,7 @@
 				2CAE8D0528055D8300E6C83D /* StepTheoryActionButton.swift in Sources */,
 				2C45E7BD2A0FD9D600DFF32D /* ProjectSelectionListGridCellProjectLevelView.swift in Sources */,
 				2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */,
+				2C065AA22C52347E00B820F5 /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
 				2C2600852A1FF8B000BD3D39 /* AppPowerModeObserver.swift in Sources */,
 				2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */,
 				E94BC944291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift in Sources */,
@@ -5441,6 +5452,7 @@
 				2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */,
 				2C32374D2837F7190062CAF6 /* Images.swift in Sources */,
 				2C23C00A2879EB1E0083709F /* StreakViewBuilder.swift in Sources */,
+				2C065AA42C523EE900B820F5 /* StepQuizTableSelectColumnsHeaderView.swift in Sources */,
 				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
 				2C84E7082C47BA11002EE787 /* StepQuizCodeBlanksViewModel.swift in Sources */,
 				E99B21832887E996006A6154 /* StepQuizChoiceSkeletonView.swift in Sources */,
@@ -5641,7 +5653,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 512;
+				CURRENT_PROJECT_VERSION = 523;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -5662,7 +5674,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 512;
+				CURRENT_PROJECT_VERSION = 523;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = iosHyperskillAppUITests/Info.plist;
@@ -5683,7 +5695,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 512;
+				CURRENT_PROJECT_VERSION = 523;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
@@ -5704,7 +5716,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 512;
+				CURRENT_PROJECT_VERSION = 523;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5725,7 +5737,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 512;
+				CURRENT_PROJECT_VERSION = 523;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -5754,7 +5766,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 512;
+				CURRENT_PROJECT_VERSION = 523;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5900,7 +5912,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 512;
+				CURRENT_PROJECT_VERSION = 523;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;
@@ -5936,7 +5948,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 512;
+				CURRENT_PROJECT_VERSION = 523;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;
