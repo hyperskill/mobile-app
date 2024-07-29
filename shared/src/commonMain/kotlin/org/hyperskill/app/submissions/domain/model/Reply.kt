@@ -40,14 +40,16 @@ data class Reply(
     @SerialName("lines")
     val lines: List<ParsonsLine>? = null,
     @SerialName("prompt")
-    val prompt: String? = null
+    val prompt: String? = null,
+    @SerialName("lint_profile")
+    val lintProfile: String? = ""
 ) {
 
     companion object {
         internal const val PROMPT_MANUALLY_CONFIRMED_SCORE: Float = 1F
 
-        fun code(code: String?, language: String?): Reply =
-            Reply(code = code, language = language)
+        fun code(code: String?, language: String?, lintProfile: String? = null): Reply =
+            Reply(code = code, language = language, lintProfile = lintProfile)
 
         fun sql(sqlCode: String?): Reply =
             Reply(solveSql = sqlCode)
