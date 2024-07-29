@@ -44,7 +44,7 @@ extension Reply {
             solution: solution,
             checkProfile: checkProfile,
             lines: lines,
-            prompt: nil, 
+            prompt: nil,
             lintProfile: nil
         )
     }
