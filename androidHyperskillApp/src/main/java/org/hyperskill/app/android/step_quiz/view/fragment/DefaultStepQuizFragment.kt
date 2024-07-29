@@ -328,7 +328,7 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.Action.ViewAction.ShowComments -> {
                 parentOfType(StepToolbarCallback::class.java)
-                    ?.onSecondaryActionClicked(StepMenuSecondaryAction.СOMMENTS)
+                    ?.onSecondaryActionClicked(StepMenuSecondaryAction.COMMENTS)
             }
             is StepQuizFeature.Action.ViewAction.SkipStep -> {
                 parentOfType(StepToolbarCallback::class.java)

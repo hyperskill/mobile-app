@@ -100,7 +100,7 @@ class StepQuizFeedbackMapperTest {
     }
 
     @Test
-    fun `SubmissionStatus_Evaluation should be mapped to Evaluation viewState`(){
+    fun `SubmissionStatus_Evaluation should be mapped to Evaluation viewState`() {
         val state = getAttemptLoadedSubmissionState(
             Submission.stub(status = SubmissionStatus.EVALUATION)
         )
@@ -111,7 +111,7 @@ class StepQuizFeedbackMapperTest {
     }
 
     @Test
-    fun `SubmissionStatus_Local should be mapped to Idle viewState`(){
+    fun `SubmissionStatus_Local should be mapped to Idle viewState`() {
         val state = getAttemptLoadedSubmissionState(
             Submission.stub(status = SubmissionStatus.LOCAL)
         )
@@ -187,6 +187,7 @@ class StepQuizFeedbackMapperTest {
         assertEquals(StepQuizFeedbackState.Wrong.Action.SEE_HINT, viewState.actionType)
     }
 
+    /*ktlint-disable*/
     @Test
     fun `Second wrong submission should trigger Wrong viewState with READ_COMMENTS actionType when hint is opened and there are comments`() {
         val stepId = 0L
@@ -219,7 +220,7 @@ class StepQuizFeedbackMapperTest {
         assertEquals(StepQuizFeedbackState.Wrong.Action.READ_COMMENTS, viewState.actionType)
     }
 
-
+    /*ktlint-disable*/
     @Test
     fun `Second wrong submission should trigger Wrong viewState with null actionType when hint is opened and no comments available`() {
         val stepId = 0L

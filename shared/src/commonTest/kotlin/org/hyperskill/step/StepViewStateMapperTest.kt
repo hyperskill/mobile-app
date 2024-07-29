@@ -32,7 +32,7 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertContains(viewState.stepMenuSecondaryActions, StepMenuSecondaryAction.СOMMENTS)
+        assertContains(viewState.stepMenuSecondaryActions, StepMenuSecondaryAction.COMMENTS)
     }
 
     @Test
@@ -52,7 +52,7 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertFalse(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.СOMMENTS))
+        assertFalse(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.COMMENTS))
     }
 
     @Test

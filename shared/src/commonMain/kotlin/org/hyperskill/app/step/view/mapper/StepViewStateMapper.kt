@@ -23,7 +23,7 @@ internal class StepViewStateMapper(
     ): Set<StepMenuSecondaryAction> =
         StepMenuSecondaryAction.entries.filter { action ->
             when (action) {
-                StepMenuSecondaryAction.СOMMENTS -> isCommentsToolbarItemAvailable(stepState)
+                StepMenuSecondaryAction.COMMENTS -> isCommentsToolbarItemAvailable(stepState)
                 StepMenuSecondaryAction.SKIP -> isSkipButtonAvailable(stepState, stepRoute)
                 StepMenuSecondaryAction.SHARE,
                 StepMenuSecondaryAction.REPORT,

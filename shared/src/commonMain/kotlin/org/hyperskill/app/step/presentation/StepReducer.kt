@@ -203,7 +203,7 @@ internal class StepReducer(
             state to setOf(
                 InternalAction.LogAnalyticEvent(
                     StepToolbarMenuActionClickedHyperskillAnalyticEvent(
-                        StepMenuSecondaryAction.СOMMENTS,
+                        StepMenuSecondaryAction.COMMENTS,
                         stepRoute
                     )
                 ),

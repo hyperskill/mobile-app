@@ -107,7 +107,7 @@ class StepMenuDelegate(
                 StepMenuSecondaryAction.REPORT -> R.id.practiceFeedback
                 StepMenuSecondaryAction.SKIP -> R.id.skip
                 StepMenuSecondaryAction.OPEN_IN_WEB -> R.id.open_in_web
-                StepMenuSecondaryAction.СOMMENTS -> R.id.comments
+                StepMenuSecondaryAction.COMMENTS -> R.id.comments
             }
             menu.findItem(menuItemId)?.isVisible = actions.contains(action)
         }
@@ -120,7 +120,7 @@ class StepMenuDelegate(
                 true
             }
             R.id.comments -> {
-                onSecondaryActionClick.invoke(StepMenuSecondaryAction.СOMMENTS)
+                onSecondaryActionClick.invoke(StepMenuSecondaryAction.COMMENTS)
                 true
             }
             R.id.practiceFeedback -> {
