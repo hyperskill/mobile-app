@@ -5,6 +5,7 @@ package org.hyperskill.app.step.domain.model
  * The order of the enum entries is used to display actions on the ui.
  */
 enum class StepMenuSecondaryAction {
+    СOMMENTS,
     SHARE,
     REPORT,
     SKIP,

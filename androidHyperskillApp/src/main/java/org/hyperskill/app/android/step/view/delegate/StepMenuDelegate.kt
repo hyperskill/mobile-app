@@ -24,7 +24,7 @@ import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 @OptIn(FlowPreview::class)
 class StepMenuDelegate(
     menuHost: MenuHost,
-    private val viewLifecycleOwner: LifecycleOwner,
+    viewLifecycleOwner: LifecycleOwner,
     private val onPrimaryActionClick: (StepMenuPrimaryAction) -> Unit,
     private val onSecondaryActionClick: (StepMenuSecondaryAction) -> Unit,
     private val onBackClick: () -> Unit
@@ -89,7 +89,6 @@ class StepMenuDelegate(
             val menuItem: MenuItem? = menu.findItem(
                 when (action) {
                     StepMenuPrimaryAction.THEORY -> R.id.theory
-                    StepMenuPrimaryAction.COMMENTS -> R.id.comments
                 }
             )
             val isVisible = params?.isVisible == true
@@ -108,6 +107,7 @@ class StepMenuDelegate(
                 StepMenuSecondaryAction.REPORT -> R.id.practiceFeedback
                 StepMenuSecondaryAction.SKIP -> R.id.skip
                 StepMenuSecondaryAction.OPEN_IN_WEB -> R.id.open_in_web
+                StepMenuSecondaryAction.СOMMENTS -> R.id.comments
             }
             menu.findItem(menuItemId)?.isVisible = actions.contains(action)
         }
@@ -115,12 +115,12 @@ class StepMenuDelegate(
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
-            R.id.comments -> {
-                onPrimaryActionClick.invoke(StepMenuPrimaryAction.COMMENTS)
-                true
-            }
             R.id.theory -> {
                 onPrimaryActionClick.invoke(StepMenuPrimaryAction.THEORY)
+                true
+            }
+            R.id.comments -> {
+                onSecondaryActionClick.invoke(StepMenuSecondaryAction.СOMMENTS)
                 true
             }
             R.id.practiceFeedback -> {

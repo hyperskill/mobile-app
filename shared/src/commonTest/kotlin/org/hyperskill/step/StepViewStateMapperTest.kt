@@ -1,8 +1,8 @@
 package org.hyperskill.step
 
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.comments.domain.model.CommentThread
 import org.hyperskill.app.step.domain.model.Step
@@ -16,7 +16,7 @@ import org.hyperskill.step.domain.model.stub
 
 class StepViewStateMapperTest {
     @Test
-    fun `isCommentsToolbarItemAvailable returns true when comments are present`() {
+    fun `Comments secondary action should be presented when comments are present`() {
         val step = Step.stub(
             id = 1,
             commentsStatistics = listOf(
@@ -32,11 +32,11 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertTrue(viewState.isCommentsToolbarItemAvailable)
+        assertContains(viewState.stepMenuSecondaryActions, StepMenuSecondaryAction.СOMMENTS)
     }
 
     @Test
-    fun `isCommentsToolbarItemAvailable returns false when no comments are present`() {
+    fun `Comments secondary action should not be presented when no comments are present`() {
         val step = Step.stub(
             id = 1,
             commentsStatistics = listOf(
@@ -52,7 +52,7 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertFalse(viewState.isCommentsToolbarItemAvailable)
+        assertFalse(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.СOMMENTS))
     }
 
     @Test
@@ -67,7 +67,7 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertTrue(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.SKIP))
+        assertContains(viewState.stepMenuSecondaryActions, StepMenuSecondaryAction.SKIP)
     }
 
     @Test

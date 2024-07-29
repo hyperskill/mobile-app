@@ -14,7 +14,6 @@ internal class StepViewStateMapper(
             stepState = state.stepState,
             stepToolbarViewState = StepToolbarViewStateMapper.map(state.stepToolbarState),
             stepMenuSecondaryActions = getStepToolbarActions(state.stepState, stepRoute),
-            isCommentsToolbarItemAvailable = isCommentsToolbarItemAvailable(state.stepState),
             isLoadingShowed = state.isLoadingShowed
         )
 
@@ -23,7 +22,13 @@ internal class StepViewStateMapper(
         stepRoute: StepRoute
     ): Set<StepMenuSecondaryAction> =
         StepMenuSecondaryAction.entries.filter { action ->
-            action != StepMenuSecondaryAction.SKIP || isSkipButtonAvailable(stepState, stepRoute)
+            when (action) {
+                StepMenuSecondaryAction.СOMMENTS -> isCommentsToolbarItemAvailable(stepState)
+                StepMenuSecondaryAction.SKIP -> isSkipButtonAvailable(stepState, stepRoute)
+                StepMenuSecondaryAction.SHARE,
+                StepMenuSecondaryAction.REPORT,
+                StepMenuSecondaryAction.OPEN_IN_WEB -> true
+            }
         }.toSet()
 
     private fun isSkipButtonAvailable(

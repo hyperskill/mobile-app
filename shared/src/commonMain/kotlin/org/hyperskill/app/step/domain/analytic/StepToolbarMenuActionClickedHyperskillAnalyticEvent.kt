@@ -37,6 +37,7 @@ class StepToolbarMenuActionClickedHyperskillAnalyticEvent(
         StepMenuSecondaryAction.REPORT -> HyperskillAnalyticTarget.REPORT
         StepMenuSecondaryAction.SKIP -> HyperskillAnalyticTarget.SKIP
         StepMenuSecondaryAction.OPEN_IN_WEB -> HyperskillAnalyticTarget.OPEN_IN_WEB
+        StepMenuSecondaryAction.СOMMENTS -> HyperskillAnalyticTarget.COMMENT
     },
     context = mapOf(StepAnalyticParams.PARAM_STEP_ID to stepRoute.stepId)
 )

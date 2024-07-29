@@ -48,15 +48,12 @@ class StepViewModel(
     fun onActionClick(action: StepMenuSecondaryAction) {
         onNewMessage(
             when (action) {
+                StepMenuSecondaryAction.СOMMENTS -> Message.CommentClicked
                 StepMenuSecondaryAction.SHARE -> Message.ShareClicked
                 StepMenuSecondaryAction.REPORT -> Message.ReportClicked
                 StepMenuSecondaryAction.SKIP -> Message.SkipClicked
                 StepMenuSecondaryAction.OPEN_IN_WEB -> Message.OpenInWebClicked
             }
         )
-    }
-
-    fun onCommentsClick() {
-        onNewMessage(Message.CommentClicked)
     }
 }
