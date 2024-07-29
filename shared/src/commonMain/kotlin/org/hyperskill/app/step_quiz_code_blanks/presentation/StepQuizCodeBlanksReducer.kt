@@ -189,11 +189,9 @@ class StepQuizCodeBlanksReducer(
         }
     }
 
-    private fun copyCodeBlock(
-        codeBlock: CodeBlock,
-        isActive: Boolean
-    ): CodeBlock = when (codeBlock) {
-        is CodeBlock.Blank -> codeBlock.copy(isActive = isActive)
-        is CodeBlock.Print -> codeBlock.copy(isActive = isActive)
-    }
+    private fun copyCodeBlock(codeBlock: CodeBlock, isActive: Boolean): CodeBlock =
+        when (codeBlock) {
+            is CodeBlock.Blank -> codeBlock.copy(isActive = isActive)
+            is CodeBlock.Print -> codeBlock.copy(isActive = isActive)
+        }
 }
