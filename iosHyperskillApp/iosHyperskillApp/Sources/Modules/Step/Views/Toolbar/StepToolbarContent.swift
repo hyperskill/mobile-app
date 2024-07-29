@@ -18,7 +18,7 @@ extension View {
         if #available(iOS 16.0, *) {
             toolbar {
                 StepToolbarContent(
-                    isCommentsToolbarItemAvailable: state.isCommentsToolbarItemAvailable,
+                    isCommentsToolbarItemAvailable: false,
                     menuActions: state.stepMenuSecondaryActions,
                     isMenuActionsDisabled: isMenuActionsDisabled,
                     onCommentButtonTap: onCommentButtonTap,
@@ -29,30 +29,15 @@ extension View {
                 )
             }
         } else {
-            if state.isCommentsToolbarItemAvailable {
-                toolbar {
-                    CommentsToolbarItem(action: onCommentButtonTap)
-
-                    StepMenuActionsToolbarItem(
-                        actions: state.stepMenuSecondaryActions,
-                        disabled: isMenuActionsDisabled,
-                        onShareButtonTap: onShareButtonTap,
-                        onReportButtonTap: onReportButtonTap,
-                        onSkipButtonTap: onSkipButtonTap,
-                        onOpenInWebButtonTap: onOpenInWebButtonTap
-                    )
-                }
-            } else {
-                toolbar {
-                    StepMenuActionsToolbarItem(
-                        actions: state.stepMenuSecondaryActions,
-                        disabled: isMenuActionsDisabled,
-                        onShareButtonTap: onShareButtonTap,
-                        onReportButtonTap: onReportButtonTap,
-                        onSkipButtonTap: onSkipButtonTap,
-                        onOpenInWebButtonTap: onOpenInWebButtonTap
-                    )
-                }
+            toolbar {
+                StepMenuActionsToolbarItem(
+                    actions: state.stepMenuSecondaryActions,
+                    disabled: isMenuActionsDisabled,
+                    onShareButtonTap: onShareButtonTap,
+                    onReportButtonTap: onReportButtonTap,
+                    onSkipButtonTap: onSkipButtonTap,
+                    onOpenInWebButtonTap: onOpenInWebButtonTap
+                )
             }
         }
     }
@@ -61,6 +46,7 @@ extension View {
 
 @available(iOS 16.0, *)
 private struct StepToolbarContent: ToolbarContent {
+    #warning("TOOD: Replace with stepMenuSecondaryActions in ALTAPPS-1314")
     let isCommentsToolbarItemAvailable: Bool
 
     let menuActions: Set<StepMenuSecondaryAction>
