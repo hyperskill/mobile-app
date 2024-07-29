@@ -5,7 +5,7 @@ final class CodePlaygroundManager {
     typealias AnalyzeResult = (text: String, position: Int, autocomplete: CodeCompletion?)
     typealias Changes = (isInsertion: Bool, changes: String)
 
-    private static let closersDict = ["{": "}", "[": "]", "(": ")", "\"": "\""]
+    private static let closersDict = ["{": "}", "[": "]", "(": ")", "\"": "\"", "'": "'"]
 
     private static let allowedCharactersSet = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_")
 
@@ -218,11 +218,37 @@ final class CodePlaygroundManager {
 
         var text = currentText
 
-        text.insert(
-            closer[closer.startIndex],
-            at: currentText.index(currentText.startIndex, offsetBy: cursorPosition)
-        )
-        return (text: text, position: cursorPosition, autocomplete: nil)
+        // Check if there is text after the bracket, not a \n or whitespace
+        let cursorIndex = text.index(text.startIndex, offsetBy: cursorPosition)
+
+        if cursorIndex != text.endIndex {
+            let textAfter = String(text[cursorIndex...])
+            if let indexOfLineEndAfter = textAfter.indexOf("\n") {
+                let line = String(textAfter[..<textAfter.index(textAfter.startIndex, offsetBy: indexOfLineEndAfter)])
+
+                var onlySpaces = true
+                for character in line where character != " " {
+                    onlySpaces = false
+                    break
+                }
+
+                if onlySpaces {
+                    text.insert(
+                        closer[closer.startIndex],
+                        at: currentText.index(currentText.startIndex, offsetBy: cursorPosition)
+                    )
+                    return (text: text, position: cursorPosition, autocomplete: nil)
+                }
+            }
+        } else {
+            text.insert(
+                closer[closer.startIndex],
+                at: currentText.index(currentText.startIndex, offsetBy: cursorPosition)
+            )
+            return (text: text, position: cursorPosition, autocomplete: nil)
+        }
+
+        return nil
     }
 
     private func getAutocompleteSuggestions(
