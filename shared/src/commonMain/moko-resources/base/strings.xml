@@ -165,7 +165,6 @@
     <string name="step_quiz_code_reset">Reset</string>
     <string name="step_quiz_code_editor_title">Code editor</string>
     <string name="step_quiz_code_language_template">(%s)</string>
-    <string name="step_quiz_code_badge_fix_mistakes_title">Fix code mistakes</string>
 
     <!-- Step quiz sql -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>
@@ -180,10 +179,6 @@
     <string name="step_quiz_problem_onboarding_modal_title">You\'ve unlocked a new problem type!</string>
     <string name="step_quiz_problem_onboarding_modal_parsons_description">Now you can rearrange the lines to make the
         code work. Use the "Tab" button to add indentation.
-    </string>
-    <string name="step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_header">Fix mistakes in the code</string>
-    <string name="step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_description">Spacebot wrote some
-        code for you, but made a few mistakes. Read through the task and correct the code!
     </string>
 
     <!-- Step quiz fill in the blanks -->
