@@ -177,7 +177,6 @@ struct StepQuizView: View {
                 moduleOutput: viewModel
             )
             .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
-            .environment(\.isFixCodeMistakesBadgeVisible, attemptLoadedState.isFixGptCodeGenerationMistakesBadgeVisible)
         }
     }
 

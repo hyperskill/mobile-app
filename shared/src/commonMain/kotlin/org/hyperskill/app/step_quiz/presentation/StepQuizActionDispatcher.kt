@@ -14,7 +14,6 @@ import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
-import org.hyperskill.app.profile.domain.model.isMobileGptCodeGenerationWithErrorsEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -208,8 +207,6 @@ internal class StepQuizActionDispatcher(
                 when (action.modalType) {
                     StepQuizFeature.ProblemOnboardingModal.Parsons ->
                         onboardingInteractor.setParsonsOnboardingShown(isShown = true)
-                    StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
-                        onboardingInteractor.setGptCodeGenerationWithErrorsOnboardingShown(isShown = true)
                 }
             }
             is InternalAction.UpdateProblemsLimit ->
@@ -222,8 +219,6 @@ internal class StepQuizActionDispatcher(
                         onFailure = { onNewMessage(InternalMessage.CreateMagicLinkForUnsupportedQuizError) }
                     )
             }
-            is InternalAction.GenerateGptCodeWithErrors ->
-                handleGenerateGptCodeWithErrorsAction(action, ::onNewMessage)
             else -> {}
         }
     }
@@ -264,9 +259,6 @@ internal class StepQuizActionDispatcher(
                 getSubmissionState(attempt.id, action.step.id, currentProfile.id)
                     .getOrThrow()
 
-            val isMobileGptCodeGenerationWithErrorsEnabled =
-                currentProfile.features.isMobileGptCodeGenerationWithErrorsEnabled
-
             InternalMessage.FetchAttemptSuccess(
                 step = action.step,
                 attempt = attempt,
@@ -274,7 +266,6 @@ internal class StepQuizActionDispatcher(
                 subscription = currentSubscription,
                 chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
-                isMobileGptCodeGenerationWithErrorsEnabled = isMobileGptCodeGenerationWithErrorsEnabled,
                 isProblemsLimitReached = currentSubscription
                     .isProblemsLimitReached(
                         isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
@@ -332,33 +323,6 @@ internal class StepQuizActionDispatcher(
                 chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy
             )
         )
-    }
-
-    private suspend fun handleGenerateGptCodeWithErrorsAction(
-        action: InternalAction.GenerateGptCodeWithErrors,
-        onNewMessage: (Message) -> Unit
-    ) {
-        sentryInteractor.withTransaction(
-            transaction = HyperskillSentryTransactionBuilder.buildStepQuizGenerateGptCodeWithErrors(
-                blockName = action.attemptLoadedState.step.block.name
-            ),
-            onError = { error ->
-                logger.e(error) { "Failed to generate GPT code with errors" }
-                InternalMessage.GenerateGptCodeWithErrorsResult(
-                    attemptLoadedState = action.attemptLoadedState,
-                    code = null
-                )
-            },
-            measureBlock = {
-                val code = stepQuizInteractor
-                    .generateGptCodeWithErrors(action.attemptLoadedState.step.id)
-                    .getOrThrow()
-                InternalMessage.GenerateGptCodeWithErrorsResult(
-                    attemptLoadedState = action.attemptLoadedState,
-                    code = code
-                )
-            }
-        ).let(onNewMessage)
     }
 
     private suspend fun canMakePayments(): Boolean =

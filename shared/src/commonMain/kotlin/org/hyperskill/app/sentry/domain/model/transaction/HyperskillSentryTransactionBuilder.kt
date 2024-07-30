@@ -136,15 +136,6 @@ object HyperskillSentryTransactionBuilder {
             )
         )
 
-    fun buildStepQuizGenerateGptCodeWithErrors(blockName: String): HyperskillSentryTransaction =
-        HyperskillSentryTransaction(
-            name = "step-quiz-feature-generate-gpt-code-with-errors",
-            operation = HyperskillSentryTransactionOperation.API_LOAD,
-            tags = listOf(
-                HyperskillSentryTransactionTag.Step.Block.Name(blockName)
-            )
-        )
-
     /**
      * StepQuizHintsFeature
      */

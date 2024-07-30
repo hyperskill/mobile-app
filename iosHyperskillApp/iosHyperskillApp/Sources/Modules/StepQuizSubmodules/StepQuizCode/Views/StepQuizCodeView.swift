@@ -3,8 +3,6 @@ import SwiftUI
 struct StepQuizCodeView: View {
     @StateObject var viewModel: StepQuizCodeViewModel
 
-    @Environment(\.isFixCodeMistakesBadgeVisible) private var isFixCodeMistakesBadgeVisible
-
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             let viewData = viewModel.viewData
@@ -13,12 +11,6 @@ struct StepQuizCodeView: View {
                 samples: viewData.samples,
                 onExpandTapped: viewModel.logClickedCodeDetailsEvent
             )
-
-            if isFixCodeMistakesBadgeVisible {
-                StepQuizCodeFixCodeMistakesBadge(
-                    onQuestionmarkButtonTap: viewModel.logClickedFixCodeMistakesQuestionmarkButton
-                )
-            }
 
             StepQuizCodeEditorView(
                 code: Binding(

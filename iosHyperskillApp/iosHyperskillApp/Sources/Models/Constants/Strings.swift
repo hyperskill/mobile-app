@@ -152,11 +152,6 @@ enum Strings {
 
             static let parsonsDescription =
               sharedStrings.step_quiz_problem_onboarding_modal_parsons_description.localized()
-
-            static let gptCodeGenerationWithErrorsHeader =
-              sharedStrings.step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_header.localized()
-            static let gptCodeGenerationWithErrorsDescription =
-              sharedStrings.step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_description.localized()
         }
     }
 
@@ -183,8 +178,6 @@ enum Strings {
         static let reset = sharedStrings.step_quiz_code_reset.localized()
 
         static let codeEditorTitle = sharedStrings.step_quiz_code_editor_title.localized()
-
-        static let badgeFixMistakes = sharedStrings.step_quiz_code_badge_fix_mistakes_title.localized()
     }
 
     // MARK: - StepQuizSQL -
