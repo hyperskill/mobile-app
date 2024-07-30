@@ -59,6 +59,9 @@ object StepFeature {
         object SkipClicked : Message
         object OpenInWebClicked : Message
 
+        data object RequestShowComment : Message
+        data object RequestSkip : Message
+
         /**
          * Message Wrappers
          */

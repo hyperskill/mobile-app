@@ -665,8 +665,18 @@ internal class StepQuizReducer(
     }
 
     private fun handleReadCommentsClicked(state: State): StepQuizReducerResult =
-        state to setOf(Action.ViewAction.ShowComments)
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizFeedbackReadCommentsClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+            ),
+            Action.ViewAction.RequestShowComments
+        )
 
     private fun handleSkipClicked(state: State): StepQuizReducerResult =
-        state to setOf(Action.ViewAction.SkipStep)
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizFeedbackSkipClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+            ),
+            Action.ViewAction.RequestSkipStep
+        )
 }

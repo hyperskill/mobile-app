@@ -56,4 +56,12 @@ class StepViewModel(
             }
         )
     }
+
+    fun requestShowComments() {
+        onNewMessage(Message.RequestShowComment)
+    }
+
+    fun requestSkip() {
+        onNewMessage(Message.RequestSkip)
+    }
 }

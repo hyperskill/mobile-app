@@ -48,7 +48,6 @@ import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -326,13 +325,13 @@ abstract class DefaultStepQuizFragment :
                 parentOfType(StepPracticeHost::class.java)
                     ?.scrollTo(viewBinding.stepQuizHints.root)
             }
-            is StepQuizFeature.Action.ViewAction.ShowComments -> {
+            is StepQuizFeature.Action.ViewAction.RequestShowComments -> {
                 parentOfType(StepToolbarCallback::class.java)
-                    ?.onSecondaryActionClicked(StepMenuSecondaryAction.COMMENTS)
+                    ?.requestShowComments()
             }
-            is StepQuizFeature.Action.ViewAction.SkipStep -> {
+            is StepQuizFeature.Action.ViewAction.RequestSkipStep -> {
                 parentOfType(StepToolbarCallback::class.java)
-                    ?.onSecondaryActionClicked(StepMenuSecondaryAction.SKIP)
+                    ?.requestSkip()
             }
             is StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction -> {
                 // no op

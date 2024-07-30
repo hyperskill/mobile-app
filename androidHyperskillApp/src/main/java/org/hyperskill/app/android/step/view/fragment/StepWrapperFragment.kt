@@ -221,4 +221,12 @@ class StepWrapperFragment :
     override fun onSecondaryActionClicked(action: StepMenuSecondaryAction) {
         stepViewModel.onActionClick(action)
     }
+
+    override fun requestShowComments() {
+        stepViewModel.requestShowComments()
+    }
+
+    override fun requestSkip() {
+        stepViewModel.requestSkip()
+    }
 }
