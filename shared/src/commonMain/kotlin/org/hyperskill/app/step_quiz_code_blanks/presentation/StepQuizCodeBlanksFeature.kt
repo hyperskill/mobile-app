@@ -30,6 +30,7 @@ object StepQuizCodeBlanksFeature {
         data class CodeBlockClicked(val codeBlockItem: StepQuizCodeBlanksViewState.CodeBlockItem) : Message
 
         data object DeleteButtonClicked : Message
+        data object EnterButtonClicked : Message
     }
 
     internal sealed interface InternalMessage : Message {
