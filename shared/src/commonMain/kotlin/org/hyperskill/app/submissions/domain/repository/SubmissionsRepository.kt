@@ -28,8 +28,6 @@ interface SubmissionsRepository {
         solvingContext: StepContext
     ): Result<Submission>
 
-    suspend fun generateCodeWithErrors(stepId: Long): Result<String>
-
     fun incrementSolvedStepsCount()
     fun getSolvedStepsCount(): Long
 }

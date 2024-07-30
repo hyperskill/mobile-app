@@ -227,6 +227,14 @@ extension StepQuizViewModel: StepQuizCodeBlanksOutputProtocol {
             )
         )
     }
+
+    func handleStepQuizCodeBlanksDidTapEnter() {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizCodeBlanksMessage(
+                message: StepQuizCodeBlanksFeatureMessageEnterButtonClicked()
+            )
+        )
+    }
 }
 
 // MARK: - StepQuizViewModel: StepQuizProblemOnboardingModalViewControllerDelegate -

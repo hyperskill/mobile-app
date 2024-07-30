@@ -29,7 +29,7 @@ object StepQuizCodeBlanksViewStateMapper {
                 null -> emptyList()
             }
 
-        val isDeleteButtonVisible =
+        val isDeleteButtonEnabled =
             when (activeCodeBlock) {
                 is CodeBlock.Blank -> false
                 is CodeBlock.Print ->
@@ -44,7 +44,7 @@ object StepQuizCodeBlanksViewStateMapper {
         return StepQuizCodeBlanksViewState.Content(
             codeBlocks = codeBlocks,
             suggestions = suggestions,
-            isDeleteButtonVisible = isDeleteButtonVisible
+            isDeleteButtonEnabled = isDeleteButtonEnabled
         )
     }
 

@@ -38,11 +38,10 @@ object StepQuizFeature {
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
             internal val isTheoryAvailable: Boolean,
-            val isFixGptCodeGenerationMistakesBadgeVisible: Boolean = false,
             internal val wrongSubmissionsCount: Int = 0
         ) : StepQuizState
 
-        object NetworkError : StepQuizState
+        data object NetworkError : StepQuizState
     }
     sealed interface SubmissionState {
         data class Empty(val reply: Reply? = null) : SubmissionState
@@ -56,8 +55,6 @@ object StepQuizFeature {
     sealed interface ProblemOnboardingModal {
         @Serializable
         data object Parsons : ProblemOnboardingModal
-        @Serializable
-        data object GptCodeGenerationWithErrors : ProblemOnboardingModal
     }
 
     internal sealed interface ChildFeatureMessage
@@ -131,8 +128,6 @@ object StepQuizFeature {
 
         data object ClickedRetryEventMessage : Message
 
-        data object FixGptGeneratedCodeMistakesBadgeClickedQuestionMark : Message
-
         /**
          * Message Wrappers
          */
@@ -152,13 +147,7 @@ object StepQuizFeature {
             val subscription: Subscription,
             val isProblemsLimitReached: Boolean,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-            val problemsOnboardingFlags: ProblemsOnboardingFlags,
-            val isMobileGptCodeGenerationWithErrorsEnabled: Boolean
-        ) : InternalMessage
-
-        data class GenerateGptCodeWithErrorsResult(
-            val attemptLoadedState: StepQuizState.AttemptLoaded,
-            val code: String?
+            val problemsOnboardingFlags: ProblemsOnboardingFlags
         ) : InternalMessage
 
         data class UpdateProblemsLimitResult(
@@ -265,8 +254,6 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class GenerateGptCodeWithErrors(val attemptLoadedState: StepQuizState.AttemptLoaded) : InternalAction
-
         data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
 
         data class CreateMagicLinkForUnsupportedQuiz(val stepRoute: StepRoute) : InternalAction

@@ -17,10 +17,8 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskil
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFixGptGeneratedCodeMistakesBadgeClickedQuestionMarkHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizGptGeneratedCodeWithErrorsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
@@ -59,8 +57,6 @@ internal class StepQuizReducer(
                 } else {
                     null
                 }
-            is InternalMessage.GenerateGptCodeWithErrorsResult ->
-                handleGenerateGptCodeWithErrorsResult(state, message)
             is Message.CreateAttemptClicked ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     if (BlockName.codeRelatedBlocksNames.contains(state.stepQuizState.step.block.name)) {
@@ -276,9 +272,6 @@ internal class StepQuizReducer(
                     )
                 )
             }
-            Message.FixGptGeneratedCodeMistakesBadgeClickedQuestionMark ->
-                handleFixGptGeneratedCodeMistakesBadgeClickedQuestionMark(state)
-
             // Wrapper Messages
             is StepQuizFeature.ChildFeatureMessage -> stepQuizChildFeatureReducer.reduce(state, message)
         } ?: (state to emptySet())
@@ -295,14 +288,6 @@ internal class StepQuizReducer(
                     stepRoute = stepRoute,
                     isProblemsLimitReached = message.isProblemsLimitReached
                 )
-                val isMobileGptCodeGenerationWithErrorsAvailable =
-                    StepQuizResolver.isMobileGptCodeGenerationWithErrorsAvailable(
-                        step = message.step,
-                        submissionState = message.submissionState,
-                        isMobileGptCodeGenerationWithErrorsEnabled = message.isMobileGptCodeGenerationWithErrorsEnabled,
-                        isMobileGptCodeGenerationWithErrorsOnboardingShown =
-                        message.problemsOnboardingFlags.isGptCodeGenerationWithErrorsOnboardingShown
-                    )
 
                 val stepQuizState = StepQuizState.AttemptLoaded(
                     step = message.step,
@@ -312,78 +297,41 @@ internal class StepQuizReducer(
                     isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
                 )
 
-                if (isMobileGptCodeGenerationWithErrorsAvailable && !isProblemsLimitReached) {
-                    state to setOf(InternalAction.GenerateGptCodeWithErrors(stepQuizState))
-                } else {
-                    val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
-                        if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(message.step)) {
-                            stepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage(
-                                state.stepQuizCodeBlanksState,
-                                StepQuizCodeBlanksFeature.InternalMessage.Initialize(message.step)
-                            )
-                        } else {
-                            StepQuizCodeBlanksFeature.State.Idle to emptySet()
-                        }
-
-                    val shouldShowProblemsLimitModal = shouldShowProblemsLimitModal(
-                        subscription = message.subscription,
-                        isProblemsLimitReached = message.isProblemsLimitReached
-                    )
-
-                    state.copy(
-                        stepQuizState = stepQuizState,
-                        stepQuizCodeBlanksState = stepQuizCodeBlanksState
-                    ) to buildSet {
-                        if (isProblemsLimitReached && shouldShowProblemsLimitModal) {
-                            addAll(showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy))
-                        } else {
-                            addAll(
-                                getProblemOnboardingModalActions(
-                                    step = message.step,
-                                    problemsOnboardingFlags = message.problemsOnboardingFlags
-                                )
-                            )
-                        }
-                        addAll(stepQuizCodeBlanksActions)
+                val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
+                    if (StepQuizCodeBlanksFeature.isCodeBlanksFeatureAvailable(message.step)) {
+                        stepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage(
+                            state.stepQuizCodeBlanksState,
+                            StepQuizCodeBlanksFeature.InternalMessage.Initialize(message.step)
+                        )
+                    } else {
+                        StepQuizCodeBlanksFeature.State.Idle to emptySet()
                     }
+
+                val shouldShowProblemsLimitModal = shouldShowProblemsLimitModal(
+                    subscription = message.subscription,
+                    isProblemsLimitReached = message.isProblemsLimitReached
+                )
+
+                state.copy(
+                    stepQuizState = stepQuizState,
+                    stepQuizCodeBlanksState = stepQuizCodeBlanksState
+                ) to buildSet {
+                    if (isProblemsLimitReached && shouldShowProblemsLimitModal) {
+                        addAll(showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy))
+                    } else {
+                        addAll(
+                            getProblemOnboardingModalActions(
+                                step = message.step,
+                                problemsOnboardingFlags = message.problemsOnboardingFlags
+                            )
+                        )
+                    }
+                    addAll(stepQuizCodeBlanksActions)
                 }
             }
         } else {
             state to emptySet()
         }
-
-    private fun handleGenerateGptCodeWithErrorsResult(
-        state: State,
-        message: InternalMessage.GenerateGptCodeWithErrorsResult
-    ): StepQuizReducerResult {
-        val defaultResult: StepQuizReducerResult =
-            state.copy(stepQuizState = message.attemptLoadedState) to emptySet()
-
-        val code = message.code?.takeIf { it.isNotBlank() } ?: return defaultResult
-        val reply = when (message.attemptLoadedState.step.block.name) {
-            BlockName.CODE -> Reply.code(code = code, language = null)
-            BlockName.PYCHARM -> Reply.pycharm(step = message.attemptLoadedState.step, pycharmCode = code)
-            BlockName.SQL -> Reply.sql(sqlCode = code)
-            else -> null
-        } ?: return defaultResult
-
-        val stepQuizState = message.attemptLoadedState.copy(
-            submissionState = StepQuizFeature.SubmissionState.Empty(reply = reply),
-            isFixGptCodeGenerationMistakesBadgeVisible = true
-        )
-
-        return state.copy(stepQuizState = stepQuizState) to setOf(
-            InternalAction.LogAnalyticEvent(
-                StepQuizGptGeneratedCodeWithErrorsHyperskillAnalyticEvent(
-                    stepRoute = stepRoute,
-                    code = code
-                )
-            ),
-            Action.ViewAction.ShowProblemOnboardingModal(
-                modalType = StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors
-            )
-        )
-    }
 
     private fun handleCreateAttemptSuccess(
         state: State,
@@ -637,16 +585,6 @@ internal class StepQuizReducer(
         } else {
             state to emptySet()
         }
-
-    private fun handleFixGptGeneratedCodeMistakesBadgeClickedQuestionMark(state: State): StepQuizReducerResult =
-        state to setOf(
-            InternalAction.LogAnalyticEvent(
-                StepQuizFixGptGeneratedCodeMistakesBadgeClickedQuestionMarkHyperskillAnalyticEvent(stepRoute)
-            ),
-            Action.ViewAction.ShowProblemOnboardingModal(
-                modalType = StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors
-            )
-        )
 
     private fun createLocalSubmission(oldState: StepQuizState.AttemptLoaded, reply: Reply): Submission {
         val submission = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission

@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
@@ -26,8 +25,6 @@ class CodeStepQuizFormDelegate(
 ) : StepQuizFormDelegate {
 
     interface Callback {
-        fun onCodeGenerationAlertClick()
-
         fun onFullscreenClicked(lang: String, code: String)
 
         fun onQuizChanged(reply: Reply)
@@ -98,14 +95,6 @@ class CodeStepQuizFormDelegate(
         codeEditorViewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
             codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, replyCode)
             codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
-        }
-
-        viewBinding.stepQuizCodeFixMistakesBadge.isVisible =
-            state.isFixGptCodeGenerationMistakesBadgeVisible
-        if (state.isFixGptCodeGenerationMistakesBadgeVisible) {
-            viewBinding.stepQuizCodeFixMistakesBadge.setOnClickListener {
-                callback.onCodeGenerationAlertClick()
-            }
         }
     }
 

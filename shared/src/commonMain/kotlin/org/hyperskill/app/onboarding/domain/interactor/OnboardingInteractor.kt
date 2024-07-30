@@ -11,10 +11,6 @@ class OnboardingInteractor(
         onboardingRepository.setParsonsOnboardingShown(isShown)
     }
 
-    fun setGptCodeGenerationWithErrorsOnboardingShown(isShown: Boolean) {
-        onboardingRepository.setGptCodeGenerationWithErrorsOnboardingShown(isShown)
-    }
-
     fun getProblemsOnboardingFlags(): ProblemsOnboardingFlags =
         onboardingRepository.getProblemsOnboardingFlags()
 
