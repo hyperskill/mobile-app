@@ -313,9 +313,9 @@ private extension StepQuizView {
             )
         case .scrollToHints:
             #warning("TODO: ALTAPPS-1314")
-        case .showComments:
+        case .requestShowComments:
             #warning("TODO: ALTAPPS-1314")
-        case .skipStep:
+        case .requestSkipStep:
             #warning("TODO: ALTAPPS-1314")
         }
     }
