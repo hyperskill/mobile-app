@@ -22,7 +22,6 @@ import org.hyperskill.app.android.step.view.model.LimitsWidgetCallback
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepMenuPrimaryAction
-import org.hyperskill.app.android.step.view.model.StepMenuPrimaryActionParams
 import org.hyperskill.app.android.step.view.model.StepPracticeCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
@@ -136,13 +135,6 @@ class StepWrapperFragment :
             initStepContainer(stepState)
             parentOfType(StepToolbarHost::class.java)?.apply {
                 renderTopicProgress(state.stepToolbarViewState)
-                renderPrimaryAction(
-                    StepMenuPrimaryAction.COMMENTS,
-                    StepMenuPrimaryActionParams(
-                        isVisible = state.isCommentsToolbarItemAvailable,
-                        isEnabled = true
-                    )
-                )
                 renderSecondaryMenuActions(state.stepMenuSecondaryActions)
             }
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
@@ -223,13 +215,18 @@ class StepWrapperFragment :
                 (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepPracticeCallback)
                     ?.onTheoryClick()
             }
-            StepMenuPrimaryAction.COMMENTS -> {
-                stepViewModel.onCommentsClick()
-            }
         }
     }
 
     override fun onSecondaryActionClicked(action: StepMenuSecondaryAction) {
         stepViewModel.onActionClick(action)
+    }
+
+    override fun requestShowComments() {
+        stepViewModel.requestShowComments()
+    }
+
+    override fun requestSkip() {
+        stepViewModel.requestSkip()
     }
 }

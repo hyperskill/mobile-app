@@ -17,6 +17,9 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskil
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFeedbackReadCommentsClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFeedbackSeeHintClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFeedbackSkipClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
@@ -34,6 +37,7 @@ import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
+import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -159,6 +163,12 @@ internal class StepQuizReducer(
                 handleUpdateProblemsLimitResult(state, message)
             is InternalMessage.ProblemsLimitChanged ->
                 handleProblemsLimitChanged(state, message)
+            is Message.SeeHintClicked ->
+                handleSeeHintsClicked(state)
+            is Message.ReadCommentsClicked ->
+                handleReadCommentsClicked(state)
+            is Message.SkipClicked ->
+                handleSkipClicked(state)
             is Message.ClickedCodeDetailsEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedCodeDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -347,7 +357,8 @@ internal class StepQuizReducer(
                     attempt = message.attempt,
                     submissionState = message.submissionState,
                     isProblemsLimitReached = message.isProblemsLimitReached,
-                    isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
+                    isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step),
+                    wrongSubmissionsCount = state.stepQuizState.oldState.wrongSubmissionsCount
                 ),
                 stepQuizCodeBlanksState = stepQuizCodeBlanksState
             ) to stepQuizCodeBlanksActions
@@ -439,14 +450,17 @@ internal class StepQuizReducer(
         message: Message.CreateSubmissionSuccess
     ): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+            val submissionStatus = message.submission.status
             state.copy(
                 stepQuizState = state.stepQuizState.copy(
                     attempt = message.newAttempt ?: state.stepQuizState.attempt,
-                    submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
+                    submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission),
+                    wrongSubmissionsCount = getWrongSubmissionCount(
+                        currentWrongSubmissionCount = state.stepQuizState.wrongSubmissionsCount,
+                        currentSubmissionStatus = submissionStatus
+                    )
                 )
             ) to buildSet {
-                val submissionStatus = message.submission.status
-
                 if (submissionStatus == SubmissionStatus.WRONG &&
                     StepQuizResolver.isStepHasLimitedAttempts(stepRoute)
                 ) {
@@ -463,6 +477,16 @@ internal class StepQuizReducer(
             }
         } else {
             null
+        }
+
+    private fun getWrongSubmissionCount(
+        currentWrongSubmissionCount: Int,
+        currentSubmissionStatus: SubmissionStatus?
+    ): Int =
+        if (currentSubmissionStatus.isWrongOrRejected) {
+            currentWrongSubmissionCount + 1
+        } else {
+            currentWrongSubmissionCount
         }
 
     private fun handleUpdateProblemsLimitResult(
@@ -618,5 +642,41 @@ internal class StepQuizReducer(
                     stepRoute = stepRoute
                 )
             )
+        )
+
+    private fun handleSeeHintsClicked(state: State): StepQuizReducerResult {
+        val step = (state.stepQuizState as? StepQuizState.AttemptLoaded)?.step
+        return if (step != null && StepQuizHintsFeature.isHintsFeatureAvailable(step)) {
+            val (newState, actions) = stepQuizChildFeatureReducer.reduce(
+                state = state,
+                message = Message.StepQuizHintsMessage(
+                    StepQuizHintsFeature.InternalMessage.InitiateHintLoading
+                )
+            )
+            newState to actions + setOf(
+                InternalAction.LogAnalyticEvent(
+                    StepQuizFeedbackSeeHintClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                ),
+                Action.ViewAction.ScrollToHints
+            )
+        } else {
+            state to emptySet()
+        }
+    }
+
+    private fun handleReadCommentsClicked(state: State): StepQuizReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizFeedbackReadCommentsClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+            ),
+            Action.ViewAction.RequestShowComments
+        )
+
+    private fun handleSkipClicked(state: State): StepQuizReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizFeedbackSkipClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+            ),
+            Action.ViewAction.RequestSkipStep
         )
 }

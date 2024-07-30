@@ -26,7 +26,7 @@
     <ID>CyclomaticComplexMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
     <ID>CyclomaticComplexMethod:ProfileReducer.kt$ProfileReducer$override fun reduce(state: State, message: Message): ReducerResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
-    <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): StepQuizHintsReducerResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizReducer.kt$StepQuizReducer$override fun reduce(state: State, message: Message): StepQuizReducerResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(dataset: Dataset?, reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
     <ID>CyclomaticComplexMethod:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
@@ -52,6 +52,7 @@
     <ID>ImplicitDefaultLocale:TimeIntervalUtil.kt$TimeIntervalUtil$String.format("%02d:00 \u2014 %02d:00", i, i + 1)</ID>
     <ID>InvalidPackageDeclaration:HandleActions.kt$package org.hyperskill.app.core.view</ID>
     <ID>LambdaParameterInRestartableEffect:OnComposableShownFirstTime.kt$block</ID>
+    <ID>LargeClass:StepQuizReducer.kt$StepQuizReducer : StateReducer</ID>
     <ID>LongMethod:AppReducer.kt$AppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:ChallengeCard.kt$@Composable fun ChallengeCard( viewState: ChallengeWidgetViewState, onNewMessage: (Message) -&gt; Unit )</ID>
     <ID>LongMethod:DefaultStepQuizFragment.kt$DefaultStepQuizFragment$override fun onAction(action: StepQuizFeature.Action.ViewAction)</ID>

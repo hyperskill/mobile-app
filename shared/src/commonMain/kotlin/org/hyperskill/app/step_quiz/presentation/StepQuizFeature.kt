@@ -27,19 +27,20 @@ object StepQuizFeature {
     )
 
     sealed interface StepQuizState {
-        object Idle : StepQuizState
-        object Loading : StepQuizState
-        object Unsupported : StepQuizState
+        data object Idle : StepQuizState
+        data object Loading : StepQuizState
+        data object Unsupported : StepQuizState
         data class AttemptLoading(val oldState: AttemptLoaded) : StepQuizState
         data class AttemptLoaded(
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
-            internal val isTheoryAvailable: Boolean
+            internal val isTheoryAvailable: Boolean,
+            internal val wrongSubmissionsCount: Int = 0
         ) : StepQuizState
 
-        object NetworkError : StepQuizState
+        data object NetworkError : StepQuizState
     }
     sealed interface SubmissionState {
         data class Empty(val reply: Reply? = null) : SubmissionState
@@ -70,14 +71,14 @@ object StepQuizFeature {
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean
         ) : Message
-        object CreateAttemptError : Message
+        data object CreateAttemptError : Message
 
         /**
          * Submit submission
          */
         data class CreateSubmissionClicked(val step: Step, val reply: Reply) : Message
         data class CreateSubmissionSuccess(val submission: Submission, val newAttempt: Attempt? = null) : Message
-        object CreateSubmissionNetworkError : Message
+        data object CreateSubmissionNetworkError : Message
         data class CreateSubmissionReplyValidationResult(
             val step: Step,
             val reply: Reply,
@@ -102,25 +103,29 @@ object StepQuizFeature {
          *
          * @see StepQuizFeature.Action.ViewAction.NavigateTo.TheoryStepScreen
          */
-        object TheoryToolbarItemClicked : Message
+        data object TheoryToolbarItemClicked : Message
 
-        object UnsupportedQuizSolveOnTheWebClicked : Message
-        object UnsupportedQuizGoToStudyPlanClicked : Message
+        data object SeeHintClicked : Message
+        data object ReadCommentsClicked : Message
+        data object SkipClicked : Message
+
+        data object UnsupportedQuizSolveOnTheWebClicked : Message
+        data object UnsupportedQuizGoToStudyPlanClicked : Message
 
         /**
          * Analytic
          */
-        object ClickedCodeDetailsEventMessage : Message
-        object FullScreenCodeEditorClickedCodeDetailsEventMessage : Message
+        data object ClickedCodeDetailsEventMessage : Message
+        data object FullScreenCodeEditorClickedCodeDetailsEventMessage : Message
 
-        object ClickedStepTextDetailsEventMessage : Message
-        object FullScreenCodeEditorClickedStepTextDetailsEventMessage : Message
+        data object ClickedStepTextDetailsEventMessage : Message
+        data object FullScreenCodeEditorClickedStepTextDetailsEventMessage : Message
 
-        object ClickedOpenFullScreenCodeEditorEventMessage : Message
+        data object ClickedOpenFullScreenCodeEditorEventMessage : Message
 
         data class CodeEditorClickedInputAccessoryButtonEventMessage(val symbol: String) : Message
 
-        object ClickedRetryEventMessage : Message
+        data object ClickedRetryEventMessage : Message
 
         /**
          * Message Wrappers
@@ -155,7 +160,7 @@ object StepQuizFeature {
             val isProblemsLimitReached: Boolean
         ) : InternalMessage
 
-        object CreateMagicLinkForUnsupportedQuizError : InternalMessage
+        data object CreateMagicLinkForUnsupportedQuizError : InternalMessage
         data class CreateMagicLinkForUnsupportedQuizSuccess(val url: String) : InternalMessage
     }
 
@@ -192,9 +197,9 @@ object StepQuizFeature {
         data class StepQuizCodeBlanksAction(val action: StepQuizCodeBlanksFeature.Action) : Action
 
         sealed interface ViewAction : Action {
-            object ShowNetworkError : ViewAction // error
+            data object ShowNetworkError : ViewAction // error
 
-            object RequestResetCode : ViewAction
+            data object RequestResetCode : ViewAction
 
             data class ShowProblemsLimitReachedModal(
                 val subscription: Subscription,
@@ -202,11 +207,13 @@ object StepQuizFeature {
                 val context: ProblemsLimitInfoModalContext
             ) : ViewAction
 
-            object HideProblemsLimitReachedModal : ViewAction
+            data object HideProblemsLimitReachedModal : ViewAction
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
-            object ScrollToCallToActionButton : ViewAction
+            data object ScrollToCallToActionButton : ViewAction
+
+            data object ScrollToHints : ViewAction
 
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
@@ -221,22 +228,26 @@ object StepQuizFeature {
             ) : ViewAction
 
             sealed interface CreateMagicLinkState : ViewAction {
-                object Loading : CreateMagicLinkState
-                object Error : CreateMagicLinkState
-                object Success : CreateMagicLinkState
+                data object Loading : CreateMagicLinkState
+                data object Error : CreateMagicLinkState
+                data object Success : CreateMagicLinkState
             }
             data class OpenUrl(val url: String) : ViewAction
 
+            data object RequestShowComments : ViewAction
+
+            data object RequestSkipStep : ViewAction
+
             sealed interface NavigateTo : ViewAction {
-                object StudyPlan : NavigateTo
+                data object StudyPlan : NavigateTo
                 data class TheoryStepScreen(val stepRoute: StepRoute) : NavigateTo
             }
 
             sealed interface HapticFeedback : ViewAction {
-                object ReplyValidationError : HapticFeedback
+                data object ReplyValidationError : HapticFeedback
 
-                object WrongSubmission : HapticFeedback
-                object CorrectSubmission : HapticFeedback
+                data object WrongSubmission : HapticFeedback
+                data object CorrectSubmission : HapticFeedback
             }
         }
     }

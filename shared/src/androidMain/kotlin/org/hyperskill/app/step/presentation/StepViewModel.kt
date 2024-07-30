@@ -48,6 +48,7 @@ class StepViewModel(
     fun onActionClick(action: StepMenuSecondaryAction) {
         onNewMessage(
             when (action) {
+                StepMenuSecondaryAction.COMMENTS -> Message.CommentClicked
                 StepMenuSecondaryAction.SHARE -> Message.ShareClicked
                 StepMenuSecondaryAction.REPORT -> Message.ReportClicked
                 StepMenuSecondaryAction.SKIP -> Message.SkipClicked
@@ -56,7 +57,11 @@ class StepViewModel(
         )
     }
 
-    fun onCommentsClick() {
-        onNewMessage(Message.CommentClicked)
+    fun requestShowComments() {
+        onNewMessage(Message.RequestShowComment)
+    }
+
+    fun requestSkip() {
+        onNewMessage(Message.RequestSkip)
     }
 }

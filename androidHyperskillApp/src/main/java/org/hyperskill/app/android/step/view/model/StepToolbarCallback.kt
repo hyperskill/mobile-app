@@ -5,4 +5,6 @@ import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 interface StepToolbarCallback {
     fun onPrimaryActionClicked(action: StepMenuPrimaryAction)
     fun onSecondaryActionClicked(action: StepMenuSecondaryAction)
+    fun requestShowComments()
+    fun requestSkip()
 }
