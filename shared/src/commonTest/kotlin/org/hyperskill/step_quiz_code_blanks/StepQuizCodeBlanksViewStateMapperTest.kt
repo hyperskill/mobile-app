@@ -26,7 +26,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
         val expectedViewState = StepQuizCodeBlanksViewState.Content(
             codeBlocks = listOf(StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = 0, isActive = true)),
             suggestions = listOf(Suggestion.Print),
-            isDeleteButtonVisible = false
+            isDeleteButtonEnabled = false
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -54,7 +54,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 StepQuizCodeBlanksViewState.CodeBlockItem.Print(id = 0, isActive = true, output = null)
             ),
             suggestions = suggestions,
-            isDeleteButtonVisible = false
+            isDeleteButtonEnabled = false
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -88,7 +88,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = 1, isActive = true)
             ),
             suggestions = listOf(Suggestion.Print),
-            isDeleteButtonVisible = false
+            isDeleteButtonEnabled = false
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -126,7 +126,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 StepQuizCodeBlanksViewState.CodeBlockItem.Print(id = 1, isActive = true, output = null)
             ),
             suggestions = printSuggestions,
-            isDeleteButtonVisible = true
+            isDeleteButtonEnabled = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)

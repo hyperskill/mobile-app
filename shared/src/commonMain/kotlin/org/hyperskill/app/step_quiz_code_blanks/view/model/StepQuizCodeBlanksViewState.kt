@@ -8,7 +8,7 @@ sealed interface StepQuizCodeBlanksViewState {
     data class Content(
         val codeBlocks: List<CodeBlockItem>,
         val suggestions: List<Suggestion>,
-        val isDeleteButtonVisible: Boolean
+        val isDeleteButtonEnabled: Boolean
     ) : StepQuizCodeBlanksViewState
 
     sealed interface CodeBlockItem {

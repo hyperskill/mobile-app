@@ -242,7 +242,6 @@
     <ID>ReturnCount:SharedDateFormatter.kt$SharedDateFormatter$fun formatTimeDistance(millis: Long): String</ID>
     <ID>ReturnCount:StateExtentions.kt$internal fun ChallengeWidgetFeature.State.Content.setCurrentChallengeIntervalProgressAsCompleted(): Challenge?</ID>
     <ID>ReturnCount:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$private suspend fun handleUpdateProblemsLimitAction( action: InternalAction.UpdateProblemsLimit, onNewMessage: (Message) -&gt; Unit )</ID>
-    <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleCodeBlockClicked( state: State, message: Message.CodeBlockClicked ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleDeleteButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSuggestionClicked( state: State, message: Message.SuggestionClicked ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getLastSeenHint(stepId: Long): Comment?</ID>

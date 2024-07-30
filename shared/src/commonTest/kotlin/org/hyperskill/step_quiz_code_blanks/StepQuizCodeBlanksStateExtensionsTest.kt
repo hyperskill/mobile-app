@@ -26,7 +26,7 @@ class StepQuizCodeBlanksStateExtensionsTest {
                 )
             )
         )
-        assertNull(state.activeCodeBlockIndex)
+        assertNull(state.activeCodeBlockIndex())
     }
 
     @Test
@@ -41,7 +41,7 @@ class StepQuizCodeBlanksStateExtensionsTest {
                 )
             )
         )
-        assertEquals(1, state.activeCodeBlockIndex)
+        assertEquals(1, state.activeCodeBlockIndex())
     }
 
     @Test
