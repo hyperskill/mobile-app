@@ -59,7 +59,9 @@ object StepFeature {
         object SkipClicked : Message
         object OpenInWebClicked : Message
 
+        // Represents a comment request without a click on the toolbar comment button
         data object RequestShowComment : Message
+        // Represents a skip request without a click on the toolbar skip button
         data object RequestSkip : Message
 
         /**
