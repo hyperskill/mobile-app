@@ -35,7 +35,7 @@ struct StepView: View {
         .environmentObject(modalRouter)
         .stepToolbar(
             state: viewModel.state,
-            onCommentButtonTap: viewModel.doCommentToolbarAction,
+            onCommentsButtonTap: viewModel.doCommentToolbarAction,
             onShareButtonTap: viewModel.doShareToolbarMenuAction,
             onReportButtonTap: viewModel.doReportToolbarMenuAction,
             onSkipButtonTap: viewModel.doSkipToolbarMenuAction,
