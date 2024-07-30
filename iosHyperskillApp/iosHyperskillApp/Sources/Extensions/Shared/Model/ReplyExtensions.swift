@@ -2,6 +2,7 @@ import Foundation
 import shared
 
 extension Reply {
+    @available(*, deprecated, message: "Use shared companion object functions instead")
     convenience init(
         sortingChoices: [Bool]? = nil,
         tableChoices: [TableChoiceAnswer]? = nil,
@@ -45,7 +46,7 @@ extension Reply {
             checkProfile: checkProfile,
             lines: lines,
             prompt: nil, 
-            lintProfile: nil
+            lintProfile: ""
         )
     }
 }
