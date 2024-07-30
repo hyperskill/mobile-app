@@ -81,7 +81,6 @@ class StepQuizTest {
                     subscription = limitReachedSubscription,
                     chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                     problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                    isMobileGptCodeGenerationWithErrorsEnabled = false,
                     isProblemsLimitReached = true
                 )
             )
@@ -129,7 +128,6 @@ class StepQuizTest {
                 subscription = limitReachedSubscription,
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false,
                 isProblemsLimitReached = true
             )
         )
@@ -393,7 +391,6 @@ class StepQuizTest {
                 subscription = Subscription.stub(),
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false,
                 isProblemsLimitReached = false
             )
         )
@@ -458,7 +455,6 @@ class StepQuizTest {
                 subscription = Subscription.stub(),
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false,
                 isProblemsLimitReached = false
             )
         )
@@ -704,8 +700,7 @@ class StepQuizTest {
                 subscription = Subscription.stub(),
                 isProblemsLimitReached = false,
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
-                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub()
             )
         )
 
@@ -753,8 +748,7 @@ class StepQuizTest {
                 subscription = Subscription.stub(),
                 isProblemsLimitReached = false,
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
-                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub()
             )
         )
 

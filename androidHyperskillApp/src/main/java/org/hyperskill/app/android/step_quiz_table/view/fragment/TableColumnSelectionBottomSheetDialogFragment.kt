@@ -128,8 +128,10 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
 
     private fun handleColumnSelectionClick(cell: TableChoiceItem) {
         when (selectionHelper) {
-            is SingleChoiceSelectionHelper ->
+            is SingleChoiceSelectionHelper -> {
                 selectionHelper.select(columnsAdapter.items.indexOf(cell))
+                dismiss()
+            }
 
             is MultipleChoiceSelectionHelper ->
                 selectionHelper.toggle(columnsAdapter.items.indexOf(cell))

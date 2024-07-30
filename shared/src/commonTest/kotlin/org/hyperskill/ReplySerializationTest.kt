@@ -160,7 +160,6 @@ class ReplySerializationTest {
             isNext = false,
             canSkip = false,
             secondsToComplete = null,
-            successRate = null,
             checkProfile = "hyperskill_java"
         )
 

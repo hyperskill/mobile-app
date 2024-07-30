@@ -12,8 +12,5 @@ object ProblemsOnboardingBottomSheetFactory {
             StepQuizFeature.ProblemOnboardingModal.Parsons -> {
                 ProblemOnboardingBottomSheetDialogFragment.newInstance(modalType)
             }
-            StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors -> {
-                CodeGenerationWithErrorsBottomSheetDialogFragment.newInstance()
-            }
         }
 }

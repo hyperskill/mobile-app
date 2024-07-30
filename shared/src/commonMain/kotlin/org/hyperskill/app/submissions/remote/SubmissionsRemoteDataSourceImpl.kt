@@ -19,8 +19,6 @@ import org.hyperskill.app.submissions.data.source.SubmissionsRemoteDataSource
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.remote.model.CreateSubmissionRequest
-import org.hyperskill.app.submissions.remote.model.GenerateCodeWithErrorsRequest
-import org.hyperskill.app.submissions.remote.model.GenerateCodeWithErrorsResponse
 import org.hyperskill.app.submissions.remote.model.SubmissionsResponse
 
 internal class SubmissionsRemoteDataSourceImpl(
@@ -66,14 +64,5 @@ internal class SubmissionsRemoteDataSourceImpl(
                     contentType(ContentType.Application.Json)
                     setBody(CreateSubmissionRequest(attemptId, reply, solvingContext))
                 }.body<SubmissionsResponse>().submissions.first()
-        }
-
-    override suspend fun generateCodeWithErrors(stepId: Long): Result<String> =
-        kotlin.runCatching {
-            httpClient
-                .post("/api/submissions/generate-code-with-errors") {
-                    contentType(ContentType.Application.Json)
-                    setBody(GenerateCodeWithErrorsRequest(stepId))
-                }.body<GenerateCodeWithErrorsResponse>().code
         }
 }

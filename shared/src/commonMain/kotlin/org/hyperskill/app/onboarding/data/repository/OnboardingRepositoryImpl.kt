@@ -14,13 +14,6 @@ internal class OnboardingRepositoryImpl(
         onboardingCacheDataSource.setParsonsOnboardingShown(isShown)
     }
 
-    override fun isGptCodeGenerationWithErrorsOnboardingShown(): Boolean =
-        onboardingCacheDataSource.isGptCodeGenerationWithErrorsOnboardingShown()
-
-    override fun setGptCodeGenerationWithErrorsOnboardingShown(isShown: Boolean) {
-        onboardingCacheDataSource.setGptCodeGenerationWithErrorsOnboardingShown(isShown)
-    }
-
     override fun wasFirstProblemOnboardingShown(): Boolean =
         onboardingCacheDataSource.wasFirstProblemOnboardingShown()
 

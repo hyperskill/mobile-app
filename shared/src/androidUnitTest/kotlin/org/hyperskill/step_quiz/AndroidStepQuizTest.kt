@@ -100,7 +100,6 @@ class AndroidStepQuizTest {
                         ),
                         chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                         problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                        isMobileGptCodeGenerationWithErrorsEnabled = false,
                         isProblemsLimitReached = false
                     )
                 )

@@ -3,7 +3,6 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             xmlns:tools="http://schemas.android.com/tools"
              android:layout_marginTop="@dimen/step_quiz_content_padding_top"
              android:layout_marginBottom="@dimen/step_quiz_content_padding_bottom"
              app:layout_constraintStart_toStartOf="parent"
@@ -25,27 +24,6 @@
             layout="@layout/layout_step_quiz_code_details"
             android:layout_marginBottom="28dp"
             />
-
-        <FrameLayout
-            android:id="@+id/stepQuizCodeFixMistakesBadge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/code_badge_fix_mistakes_background"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/step_quiz_code_badge_fix_mistakes_title"
-                style="@style/TextAppearance.AppTheme.Subtitle1"
-                android:drawableEnd="@drawable/ic_question_mark"
-                android:layout_marginVertical="20dp"
-                android:layout_marginHorizontal="16dp"/>
-
-        </FrameLayout>
 
         <include
             android:id="@+id/stepQuizCodeEmbeddedEditor"
