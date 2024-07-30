@@ -185,7 +185,7 @@ class StepQuizCodeBlanksReducer(
         return if (activeCodeBlockIndex != null) {
             val newCodeBlocks = state.codeBlocks.mutate {
                 set(activeCodeBlockIndex, copyCodeBlock(state.codeBlocks[activeCodeBlockIndex], isActive = false))
-                add(CodeBlock.Blank(isActive = true))
+                add(activeCodeBlockIndex + 1, CodeBlock.Blank(isActive = true))
             }
             state.copy(codeBlocks = newCodeBlocks) to actions
         } else {

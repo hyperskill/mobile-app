@@ -310,6 +310,37 @@ class StepQuizCodeBlanksReducerTest {
         assertContainsEnterButtonClickedAnalyticEvent(actions)
     }
 
+    @Test
+    fun `EnterButtonClicked should add new active Blank block after active code block`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(
+                CodeBlock.Blank(isActive = true),
+                CodeBlock.Print(
+                    isActive = false,
+                    suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                    selectedSuggestion = null
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.EnterButtonClicked)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.Blank(isActive = false),
+                CodeBlock.Blank(isActive = true),
+                CodeBlock.Print(
+                    isActive = false,
+                    suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                    selectedSuggestion = null
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsEnterButtonClickedAnalyticEvent(actions)
+    }
+
     private fun assertContainsSuggestionClickedAnalyticEvent(actions: Set<StepQuizCodeBlanksFeature.Action>) {
         assertTrue {
             actions.any {
