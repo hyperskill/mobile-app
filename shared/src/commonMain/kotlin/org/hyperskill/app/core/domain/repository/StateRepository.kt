@@ -1,6 +1,6 @@
 package org.hyperskill.app.core.domain.repository
 
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 interface StateRepository<State : Any?> {
@@ -26,7 +26,7 @@ interface StateRepository<State : Any?> {
      *
      * @return shared flow
      */
-    val changes: SharedFlow<State>
+    val changes: Flow<State>
 
     /**
      * Update state locally in app.

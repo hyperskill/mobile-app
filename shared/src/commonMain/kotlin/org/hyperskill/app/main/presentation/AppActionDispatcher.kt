@@ -5,7 +5,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -30,7 +29,6 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.subscriptions.domain.model.isExpired
 import org.hyperskill.app.subscriptions.domain.model.isValidTillPassed
-import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -73,12 +71,6 @@ internal class AppActionDispatcher(
 
         currentSubscriptionStateRepository
             .changes
-            .map {
-                it.orContentTrial(
-                    isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                    canMakePayments = canMakePayments()
-                )
-            }
             .distinctUntilChanged()
             .onEach { subscription ->
                 onNewMessage(InternalMessage.SubscriptionChanged(subscription))

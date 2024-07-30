@@ -38,7 +38,6 @@ import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
-import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -201,17 +200,8 @@ internal class MainStepCompletionActionDispatcher(
         mobileContentTrialFreeTopics: Int
     ): Boolean =
         coroutineScope {
-            val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
-
             val subscriptionDeferred = async {
-                currentSubscriptionStateRepository
-                    .getState(forceUpdate = true)
-                    .map { subscription ->
-                        subscription.orContentTrial(
-                            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                            canMakePayments = canMakePayments
-                        )
-                    }
+                currentSubscriptionStateRepository.getState(forceUpdate = true)
             }
             val trackProgressDeferred = async {
                 progressesInteractor
@@ -223,6 +213,8 @@ internal class MainStepCompletionActionDispatcher(
 
             val subscription = subscriptionDeferred.await().getOrThrow()
             val trackProgress = requireNotNull(trackProgressDeferred.await().getOrThrow())
+
+            val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
 
             val subscriptionLimitType = subscription.getSubscriptionLimitType(
                 isMobileContentTrialEnabled = isMobileContentTrialEnabled,

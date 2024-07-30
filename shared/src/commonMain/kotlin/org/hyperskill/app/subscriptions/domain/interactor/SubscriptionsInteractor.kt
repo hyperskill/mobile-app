@@ -44,9 +44,6 @@ class SubscriptionsInteractor(
 
     // Problems limits
 
-    suspend fun getCurrentSubscription(): Result<Subscription> =
-        currentSubscriptionStateRepository.getState(forceUpdate = false)
-
     suspend fun chargeProblemsLimits(chargeStrategy: FreemiumChargeLimitsStrategy) {
         val isMobileContentTrialEnabled = currentProfileStateRepository
             .getState()
@@ -103,6 +100,8 @@ class SubscriptionsInteractor(
             }
         }
     }
+
+
 
     // Refresh mobile only subscription
 

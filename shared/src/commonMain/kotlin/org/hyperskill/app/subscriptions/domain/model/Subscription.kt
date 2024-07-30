@@ -69,7 +69,7 @@ internal val Subscription.isFreemium: Boolean
     get() = type == SubscriptionType.FREEMIUM ||
         type == SubscriptionType.MOBILE_ONLY && status != SubscriptionStatus.ACTIVE
 
-fun Subscription.orContentTrial(
+internal fun Subscription.orContentTrial(
     isMobileContentTrialEnabled: Boolean,
     canMakePayments: Boolean
 ): Subscription =

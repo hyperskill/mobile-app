@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
@@ -49,6 +50,7 @@ internal object StepQuizFeatureBuilder {
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+        featuresDataSource: FeaturesDataSource,
         purchaseInteractor: PurchaseInteractor,
         stepQuizHintsReducer: StepQuizHintsReducer,
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
@@ -75,6 +77,7 @@ internal object StepQuizFeatureBuilder {
             subscriptionsInteractor = subscriptionsInteractor,
             currentProfileStateRepository = currentProfileStateRepository,
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
+            featuresDataSource = featuresDataSource,
             urlPathProcessor = urlPathProcessor,
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,

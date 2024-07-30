@@ -4,8 +4,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.hyperskill.app.core.domain.DataSourceType
@@ -43,7 +43,7 @@ abstract class BaseStateRepository<State : Any?> : StateRepository<State> {
      *
      * @return shared flow
      */
-    override val changes: SharedFlow<State>
+    override val changes: Flow<State>
         get() = mutableSharedFlow
 
     /**

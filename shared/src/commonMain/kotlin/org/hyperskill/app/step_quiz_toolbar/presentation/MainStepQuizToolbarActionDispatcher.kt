@@ -3,40 +3,30 @@ package org.hyperskill.app.step_quiz_toolbar.presentation
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
-import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Action
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalAction
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalMessage
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Message
-import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class MainStepQuizToolbarActionDispatcher(
     config: ActionDispatcherOptions,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
-    private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val featuresDataSource: FeaturesDataSource,
     private val purchaseInteractor: PurchaseInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
-    private var isMobileContentTrialEnabled = false
-
     init {
         currentSubscriptionStateRepository
             .changes
-            .map { subscription ->
-                subscription.orContentTrial(
-                    isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                    canMakePayments = canMakePayments()
-                )
-            }
             .distinctUntilChanged()
             .onEach {
                 onNewMessage(InternalMessage.SubscriptionChanged(it))
@@ -54,24 +44,12 @@ internal class MainStepQuizToolbarActionDispatcher(
     }
 
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
-        val profile = currentProfileStateRepository.getState().getOrElse {
-            logger.e(it) { "Failed to fetch profile" }
-            onNewMessage(InternalMessage.SubscriptionFetchError)
-            return
-        }
-
-        this.isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled
+        val features = featuresDataSource.getFeaturesMap()
 
         val canMakePayments = canMakePayments()
 
         val subscription = currentSubscriptionStateRepository
             .getState()
-            .map { subscription ->
-                subscription.orContentTrial(
-                    isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                    canMakePayments = canMakePayments
-                )
-            }
             .getOrElse {
                 logger.e(it) { "Failed to fetch subscription" }
                 onNewMessage(InternalMessage.SubscriptionFetchError)
@@ -80,9 +58,9 @@ internal class MainStepQuizToolbarActionDispatcher(
         onNewMessage(
             InternalMessage.SubscriptionFetchSuccess(
                 subscription = subscription,
-                isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
+                isMobileContentTrialEnabled = features.isMobileContentTrialEnabled,
                 canMakePayment = canMakePayments,
-                chargeLimitsStrategy = profile.freemiumChargeLimitsStrategy
+                chargeLimitsStrategy = features.freemiumChargeLimitsStrategy
             )
         )
     }

@@ -4,7 +4,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -24,7 +23,6 @@ import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -40,8 +38,6 @@ internal class MainGamificationToolbarActionDispatcher(
     private val purchaseInteractor: PurchaseInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
-
-    private var isMobileContentTrialEnabled: Boolean = false
 
     init {
         stepCompletedFlow.observe()
@@ -75,12 +71,6 @@ internal class MainGamificationToolbarActionDispatcher(
             .launchIn(actionScope)
 
         currentSubscriptionStateRepository.changes
-            .map {
-                it.orContentTrial(
-                    isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                    canMakePayments = canMakePayments()
-                )
-            }
             .distinctUntilChanged()
             .onEach { onNewMessage(InternalMessage.SubscriptionChanged(it)) }
             .launchIn(actionScope)
@@ -117,14 +107,9 @@ internal class MainGamificationToolbarActionDispatcher(
                 val gamificationToolbarDataWithSource = toolbarDataDeferred.await().getOrThrow()
                 val profile = profileDeferred.await().getOrThrow()
 
-                this@MainGamificationToolbarActionDispatcher.isMobileContentTrialEnabled =
-                    profile.features.isMobileContentTrialEnabled
-
-                val canMakePayments = canMakePayments()
+                val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
 
                 val subscription = getSubscription(
-                    isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
-                    canMakePayments = canMakePayments,
                     forceUpdate = action.forceUpdate,
                     gamificationToolbarDataSourceType = gamificationToolbarDataWithSource.usedDataSourceType
                 )
@@ -141,22 +126,12 @@ internal class MainGamificationToolbarActionDispatcher(
     }
 
     private suspend fun getSubscription(
-        isMobileContentTrialEnabled: Boolean,
-        canMakePayments: Boolean,
         forceUpdate: Boolean,
         gamificationToolbarDataSourceType: DataSourceType
     ): Subscription {
         val subscriptionWithSource =
             currentSubscriptionStateRepository
                 .getStateWithSource(forceUpdate = forceUpdate)
-                .map {
-                    it.copy(
-                        state = it.state.orContentTrial(
-                            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                            canMakePayments = canMakePayments
-                        )
-                    )
-                }
                 .getOrThrow()
 
         // Fetch subscription from remote
@@ -170,18 +145,9 @@ internal class MainGamificationToolbarActionDispatcher(
         return if (shouldFetchSubscriptionFromRemote) {
             currentSubscriptionStateRepository
                 .getState(forceUpdate = true)
-                .map { subscription ->
-                    subscription.orContentTrial(
-                        isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                        canMakePayments = canMakePayments
-                    )
-                }
                 .getOrThrow()
         } else {
             subscriptionWithSource.state
         }
     }
-
-    private suspend fun canMakePayments(): Boolean =
-        purchaseInteractor.canMakePayments().getOrDefault(false)
 }

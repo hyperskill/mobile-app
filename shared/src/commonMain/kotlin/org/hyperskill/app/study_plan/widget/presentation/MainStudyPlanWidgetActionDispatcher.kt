@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
-import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
@@ -20,7 +19,6 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
-import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -131,10 +129,7 @@ internal class MainStudyPlanWidgetActionDispatcher(
                     subscriptionDeferred
                         .await()
                         .getOrThrow()
-                        .orContentTrial(
-                            isMobileContentTrialEnabled = profile?.features?.isMobileContentTrialEnabled == true,
-                            canMakePayments = canMakePayments
-                        )
+
                 val trackProgress = trackProgressDeferred.await().getOrThrow()
 
                 StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(

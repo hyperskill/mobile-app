@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
@@ -32,7 +33,6 @@ import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
-import org.hyperskill.app.subscriptions.domain.model.orContentTrial
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -43,6 +43,7 @@ internal class StepQuizActionDispatcher(
     private val subscriptionsInteractor: SubscriptionsInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val featuresDataSource: FeaturesDataSource,
     private val urlPathProcessor: UrlPathProcessor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
@@ -53,19 +54,12 @@ internal class StepQuizActionDispatcher(
 
     init {
         actionScope.launch {
-            val isMobileContentTrialEnabled = currentProfileStateRepository
-                .getState()
-                .map { it.features.isMobileContentTrialEnabled }
-                .getOrDefault(false)
             currentSubscriptionStateRepository
                 .changes
                 .map { subscription ->
                     val canMakePayments = canMakePayments()
+                    val isMobileContentTrialEnabled = featuresDataSource.getFeaturesMap().isMobileContentTrialEnabled
                     subscription to subscription
-                        .orContentTrial(
-                            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                            canMakePayments = canMakePayments
-                        )
                         .isProblemsLimitReached(
                             isMobileContentTrialEnabled = isMobileContentTrialEnabled,
                             canMakePayments = canMakePayments
@@ -240,16 +234,7 @@ internal class StepQuizActionDispatcher(
 
             val canMakePayments = canMakePayments()
 
-            val currentSubscription =
-                currentSubscriptionStateRepository
-                    .getState()
-                    .map { subscription ->
-                        subscription.orContentTrial(
-                            isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
-                            canMakePayments = canMakePayments
-                        )
-                    }
-                    .getOrThrow()
+            val currentSubscription = currentSubscriptionStateRepository.getState().getOrThrow()
 
             val attempt =
                 stepQuizInteractor
@@ -294,33 +279,25 @@ internal class StepQuizActionDispatcher(
         action: InternalAction.UpdateProblemsLimit,
         onNewMessage: (Message) -> Unit
     ) {
-        val currentProfile = currentProfileStateRepository.getState().getOrElse { return }
-        if (!currentProfile.features.isFreemiumWrongSubmissionChargeLimitsEnabled) return
+        val features = featuresDataSource.getFeaturesMap()
+        if (!features.isFreemiumWrongSubmissionChargeLimitsEnabled) return
 
         subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
 
         val canMakePayments = canMakePayments()
 
         val currentSubscription =
-            currentSubscriptionStateRepository
-                .getState()
-                .map { subscription ->
-                    subscription.orContentTrial(
-                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
-                        canMakePayments = canMakePayments
-                    )
-                }
-                .getOrElse { return }
+            currentSubscriptionStateRepository.getState().getOrElse { return }
 
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
                 subscription = currentSubscription,
                 isProblemsLimitReached = currentSubscription
                     .isProblemsLimitReached(
-                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
+                        isMobileContentTrialEnabled = features.isMobileContentTrialEnabled,
                         canMakePayments = canMakePayments
                     ),
-                chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy
+                chargeLimitsStrategy = features.freemiumChargeLimitsStrategy
             )
         )
     }
