@@ -27,12 +27,7 @@ struct StepQuizProblemOnboardingModalView: View {
 
     @ViewBuilder private var graphicView: some View {
         switch modalType {
-        case .gptCodeGenerationWithErrors:
-            Image(.problemOnboardingGptCodeGenerationWithErrors)
-                .renderingMode(.original)
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity, alignment: .center)
-        default:
+        case .parsons:
             animationView
         }
     }
@@ -41,15 +36,11 @@ struct StepQuizProblemOnboardingModalView: View {
         let height: CGFloat = switch modalType {
         case .parsons:
             264
-        case .gptCodeGenerationWithErrors:
-            fatalError("Did receive unsupported modal type")
         }
 
         let fileName = switch modalType {
         case .parsons:
             LottieAnimations.parsonsProblemOnboarding
-        case .gptCodeGenerationWithErrors:
-            fatalError("Did receive unsupported modal type")
         }
 
         return LottieAnimationViewWrapper(
@@ -61,18 +52,14 @@ struct StepQuizProblemOnboardingModalView: View {
 
     private var header: String {
         switch modalType {
-        case .gptCodeGenerationWithErrors:
-            Strings.StepQuiz.ProblemOnboardingModal.gptCodeGenerationWithErrorsHeader
-        default:
+        case .parsons:
             Strings.StepQuiz.ProblemOnboardingModal.header
         }
     }
 
     private var title: String? {
         switch modalType {
-        case .gptCodeGenerationWithErrors:
-            nil
-        default:
+        case .parsons:
             Strings.StepQuiz.ProblemOnboardingModal.title
         }
     }
@@ -81,8 +68,6 @@ struct StepQuizProblemOnboardingModalView: View {
         switch modalType {
         case .parsons:
             Strings.StepQuiz.ProblemOnboardingModal.parsonsDescription
-        case .gptCodeGenerationWithErrors:
-            Strings.StepQuiz.ProblemOnboardingModal.gptCodeGenerationWithErrorsDescription
         }
     }
 }
@@ -90,9 +75,5 @@ struct StepQuizProblemOnboardingModalView: View {
 #if DEBUG
 #Preview {
     StepQuizProblemOnboardingModalView(modalType: .parsons)
-}
-
-#Preview {
-    StepQuizProblemOnboardingModalView(modalType: .gptCodeGenerationWithErrors)
 }
 #endif

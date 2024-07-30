@@ -1,8 +1,7 @@
 package org.hyperskill.app.onboarding.domain.model
 
 class ProblemsOnboardingFlags(
-    val isParsonsOnboardingShown: Boolean,
-    val isGptCodeGenerationWithErrorsOnboardingShown: Boolean
+    val isParsonsOnboardingShown: Boolean
 ) {
     companion object
 }

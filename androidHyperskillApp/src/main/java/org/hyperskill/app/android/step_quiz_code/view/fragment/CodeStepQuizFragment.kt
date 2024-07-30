@@ -134,12 +134,6 @@ class CodeStepQuizFragment :
             codeLayoutDelegate = createCodeLayoutDelegate(),
             codeStepQuizConfig = config,
             callback = object : CodeStepQuizFormDelegate.Callback {
-                override fun onCodeGenerationAlertClick() {
-                    stepQuizViewModel.onNewMessage(
-                        StepQuizFeature.Message.FixGptGeneratedCodeMistakesBadgeClickedQuestionMark
-                    )
-                }
-
                 override fun onFullscreenClicked(lang: String, code: String) {
                     onFullScreenClicked(lang = lang, code = code)
                 }

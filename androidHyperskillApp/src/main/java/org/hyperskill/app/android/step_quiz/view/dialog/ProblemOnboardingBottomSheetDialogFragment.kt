@@ -84,7 +84,6 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private fun getAnimation(modalType: StepQuizFeature.ProblemOnboardingModal): Int =
         when (modalType) {
             StepQuizFeature.ProblemOnboardingModal.Parsons -> R.raw.parsons_problem_onboarding_animation
-            StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors -> throwWrongModalTypeError()
         }
 
     private fun getDescription(
@@ -95,11 +94,6 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
             when (modalType) {
                 StepQuizFeature.ProblemOnboardingModal.Parsons ->
                     org.hyperskill.app.R.string.step_quiz_problem_onboarding_modal_parsons_description
-                StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
-                    throwWrongModalTypeError()
             }
         )
-
-    private fun throwWrongModalTypeError(): Nothing =
-        error("Don't use ProblemOnboardingBottomSheetDialogFragment for GptCodeGenerationWithErrors onboarding")
 }
