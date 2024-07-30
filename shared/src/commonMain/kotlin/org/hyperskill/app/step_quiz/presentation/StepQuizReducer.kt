@@ -17,6 +17,9 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskil
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFeedbackReadCommentsClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFeedbackSeeHintClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFeedbackSkipClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
@@ -647,10 +650,15 @@ internal class StepQuizReducer(
             val (newState, actions) = stepQuizChildFeatureReducer.reduce(
                 state = state,
                 message = Message.StepQuizHintsMessage(
-                    StepQuizHintsFeature.Message.LoadHintButtonClicked
+                    StepQuizHintsFeature.InternalMessage.InitiateHintLoading
                 )
             )
-            newState to actions + Action.ViewAction.ScrollToHints
+            newState to actions + setOf(
+                InternalAction.LogAnalyticEvent(
+                    StepQuizFeedbackSeeHintClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                ),
+                Action.ViewAction.ScrollToHints
+            )
         } else {
             state to emptySet()
         }

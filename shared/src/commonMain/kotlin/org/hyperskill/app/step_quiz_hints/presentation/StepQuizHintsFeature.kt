@@ -175,6 +175,13 @@ object StepQuizHintsFeature {
         data class ReportHintNoticeHiddenEventMessage(val isReported: Boolean) : Message
     }
 
+    internal sealed class InternalMessage : Message {
+        /**
+         * Initiate loading next hint without analytic event
+         */
+        data object InitiateHintLoading : Message
+    }
+
     sealed interface Action {
         /**
          * Reporting hint action
