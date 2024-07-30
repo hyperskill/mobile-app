@@ -1,11 +1,11 @@
 package org.hyperskill.app.profile.injection
 
 import org.hyperskill.app.core.injection.CommonComponent
+import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.profile.cache.CurrentProfileStateHolderImpl
 import org.hyperskill.app.profile.data.repository.CurrentProfileStateRepositoryImpl
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
-import org.hyperskill.app.profile.data.source.CurrentProfileStateHolder
 import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
@@ -22,7 +22,7 @@ internal class ProfileDataComponentImpl(
         )
     }
 
-    private val currentProfileStateHolder: CurrentProfileStateHolder by lazy {
+    private val currentProfileStateHolder by lazy {
         CurrentProfileStateHolderImpl(
             commonComponent.json,
             commonComponent.settings
@@ -38,4 +38,7 @@ internal class ProfileDataComponentImpl(
             stateHolder = currentProfileStateHolder
         )
     }
+
+    override val featuresDataSource: FeaturesDataSource
+        get() = currentProfileStateHolder
 }
