@@ -7,7 +7,6 @@ import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModa
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.presentation.StepFeature.Action.ViewAction.NavigateTo
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
@@ -235,9 +234,9 @@ object StepQuizFeature {
             }
             data class OpenUrl(val url: String) : ViewAction
 
-            data object ShowComments : ViewAction
+            data object RequestShowComments : ViewAction
 
-            data object SkipStep : ViewAction
+            data object RequestSkipStep : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 data object StudyPlan : NavigateTo

@@ -5,6 +5,8 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
+import org.hyperskill.app.comments.domain.model.CommentThread
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
@@ -904,5 +906,62 @@ class StepQuizTest {
                 (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.wrongSubmissionsCount
             )
         }
+    }
+
+    @Test
+    fun `Clicking on the SeeHint button in the feedback should trigger hint loading`() {
+        val step = Step.stub(
+            id = 1,
+            commentsStatistics = listOf(
+                CommentStatisticsEntry(CommentThread.HINT, totalCount = 1)
+            )
+        )
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Loaded(
+            Submission.stub(status = SubmissionStatus.EVALUATION)
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val expectedNextHintId = 2L
+
+        val (_, actions) = reducer.reduce(
+            StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                    step = step,
+                    attempt = attempt,
+                    submissionState = submissionState,
+                    isProblemsLimitReached = false,
+                    isTheoryAvailable = false,
+                    wrongSubmissionsCount = 0
+                ),
+                stepQuizHintsState = StepQuizHintsFeature.State.Content(
+                    hintsIds = listOf(0, 1, expectedNextHintId),
+                    currentHint = null,
+                    hintHasReaction = false,
+                    areHintsLimited = false,
+                    stepId = step.id
+                ),
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+            ),
+            StepQuizFeature.Message.SeeHintClicked
+        )
+
+        assertContains(
+            actions,
+            StepQuizFeature.Action.StepQuizHintsAction(
+                StepQuizHintsFeature.Action.FetchNextHint(
+                    nextHintId = expectedNextHintId,
+                    remainingHintsIds = listOf(0, 1),
+                    areHintsLimited = false,
+                    stepId = step.id
+                )
+            )
+        )
     }
 }
