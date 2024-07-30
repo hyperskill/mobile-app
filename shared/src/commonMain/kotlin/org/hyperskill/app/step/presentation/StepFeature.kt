@@ -28,6 +28,7 @@ object StepFeature {
         val stepState: StepState,
         val stepToolbarViewState: StepToolbarFeature.ViewState,
         val stepMenuSecondaryActions: Set<StepMenuSecondaryAction>,
+        val isCommentsToolbarItemAvailable: Boolean,
         val isLoadingShowed: Boolean
     )
 

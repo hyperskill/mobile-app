@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.view.mapper
 
+import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.areCommentsAvailable
@@ -13,17 +14,18 @@ internal class StepViewStateMapper(
         StepFeature.ViewState(
             stepState = state.stepState,
             stepToolbarViewState = StepToolbarViewStateMapper.map(state.stepToolbarState),
-            stepMenuSecondaryActions = getStepToolbarActions(state.stepState, stepRoute),
-            isLoadingShowed = state.isLoadingShowed
+            stepMenuSecondaryActions = getStepMenuSecondaryActions(state.stepState, stepRoute),
+            isLoadingShowed = state.isLoadingShowed,
+            isCommentsToolbarItemAvailable = isPrimaryCommentsToolbarItemAvailable(state.stepState)
         )
 
-    private fun getStepToolbarActions(
+    private fun getStepMenuSecondaryActions(
         stepState: StepFeature.StepState,
         stepRoute: StepRoute
     ): Set<StepMenuSecondaryAction> =
         StepMenuSecondaryAction.entries.filter { action ->
             when (action) {
-                StepMenuSecondaryAction.COMMENTS -> isCommentsToolbarItemAvailable(stepState)
+                StepMenuSecondaryAction.COMMENTS -> isSecondaryCommentsMenuActionAvailable(stepState)
                 StepMenuSecondaryAction.SKIP -> isSkipButtonAvailable(stepState, stepRoute)
                 StepMenuSecondaryAction.SHARE,
                 StepMenuSecondaryAction.REPORT,
@@ -39,8 +41,13 @@ internal class StepViewStateMapper(
             stepRoute is StepRoute.Learn.Step &&
             stepState.step.canSkip
 
-    private fun isCommentsToolbarItemAvailable(stepState: StepFeature.StepState): Boolean {
+    private fun isPrimaryCommentsToolbarItemAvailable(stepState: StepFeature.StepState): Boolean {
         val step = (stepState as? StepFeature.StepState.Data)?.step ?: return false
-        return step.areCommentsAvailable
+        return step.type == Step.Type.THEORY && step.areCommentsAvailable
+    }
+
+    private fun isSecondaryCommentsMenuActionAvailable(stepState: StepFeature.StepState): Boolean {
+        val step = (stepState as? StepFeature.StepState.Data)?.step ?: return false
+        return step.type == Step.Type.PRACTICE && step.areCommentsAvailable
     }
 }

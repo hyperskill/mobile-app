@@ -22,6 +22,7 @@ import org.hyperskill.app.android.step.view.model.LimitsWidgetCallback
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepMenuPrimaryAction
+import org.hyperskill.app.android.step.view.model.StepMenuPrimaryActionParams
 import org.hyperskill.app.android.step.view.model.StepPracticeCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
@@ -136,6 +137,13 @@ class StepWrapperFragment :
             parentOfType(StepToolbarHost::class.java)?.apply {
                 renderTopicProgress(state.stepToolbarViewState)
                 renderSecondaryMenuActions(state.stepMenuSecondaryActions)
+                renderPrimaryAction(
+                    StepMenuPrimaryAction.COMMENTS,
+                    StepMenuPrimaryActionParams(
+                        isVisible = state.isCommentsToolbarItemAvailable,
+                        isEnabled = true
+                    )
+                )
             }
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
                 ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
@@ -214,6 +222,9 @@ class StepWrapperFragment :
             StepMenuPrimaryAction.THEORY -> {
                 (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepPracticeCallback)
                     ?.onTheoryClick()
+            }
+            StepMenuPrimaryAction.COMMENTS -> {
+                stepViewModel.onActionClick(StepMenuSecondaryAction.COMMENTS)
             }
         }
     }

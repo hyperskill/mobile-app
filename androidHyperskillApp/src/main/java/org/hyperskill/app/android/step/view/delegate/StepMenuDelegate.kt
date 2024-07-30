@@ -78,6 +78,7 @@ class StepMenuDelegate(
         val state = menuActionsStateFlow.value
         renderMainAction(menu, state.primaryActions)
         renderSecondaryActions(menu, state.secondaryActions)
+        renderCommentsAction(menu, state)
     }
 
     private fun renderMainAction(
@@ -86,11 +87,11 @@ class StepMenuDelegate(
     ) {
         StepMenuPrimaryAction.entries.forEach { action ->
             val params: StepMenuPrimaryActionParams? = primaryActions[action]
-            val menuItem: MenuItem? = menu.findItem(
+            val menuItem: MenuItem? =
                 when (action) {
-                    StepMenuPrimaryAction.THEORY -> R.id.theory
+                    StepMenuPrimaryAction.THEORY -> menu.findItem(R.id.theory)
+                    StepMenuPrimaryAction.COMMENTS -> null
                 }
-            )
             val isVisible = params?.isVisible == true
             menuItem?.isVisible = isVisible
             if (isVisible) {
@@ -107,10 +108,20 @@ class StepMenuDelegate(
                 StepMenuSecondaryAction.REPORT -> R.id.practiceFeedback
                 StepMenuSecondaryAction.SKIP -> R.id.skip
                 StepMenuSecondaryAction.OPEN_IN_WEB -> R.id.open_in_web
-                StepMenuSecondaryAction.COMMENTS -> R.id.comments
+                StepMenuSecondaryAction.COMMENTS -> null
             }
-            menu.findItem(menuItemId)?.isVisible = actions.contains(action)
+            menuItemId?.let(menu::findItem)?.isVisible = actions.contains(action)
         }
+    }
+
+    private fun renderCommentsAction(menu: Menu, state: MenuActionsState) {
+        val commentsAction = menu.findItem(R.id.comments)
+        val isPrimary = state.primaryActions[StepMenuPrimaryAction.COMMENTS]?.isVisible == true
+        commentsAction?.isVisible =
+            isPrimary || state.secondaryActions.contains(StepMenuSecondaryAction.COMMENTS)
+        commentsAction?.setShowAsAction(
+            if (isPrimary) MenuItem.SHOW_AS_ACTION_IF_ROOM else MenuItem.SHOW_AS_ACTION_NEVER
+        )
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
