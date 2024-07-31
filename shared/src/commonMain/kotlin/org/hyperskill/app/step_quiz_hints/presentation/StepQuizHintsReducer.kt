@@ -8,12 +8,15 @@ import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsClickedHy
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.InternalMessage
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
+private typealias StepQuizHintsReducerResult = Pair<State, Set<Action>>
+
 class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
-    override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
+    override fun reduce(state: State, message: Message): StepQuizHintsReducerResult =
         when (message) {
             is Message.InitWithStepId ->
                 if (state is State.Idle) {
@@ -97,42 +100,9 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
                     null
                 }
             is Message.LoadHintButtonClicked ->
-                when (state) {
-                    is State.Content -> {
-                        val hintsIds = state.hintsIds.toMutableList()
-                        val nextHintId = hintsIds.removeLast()
-                        State.Loading() to setOf(
-                            Action.FetchNextHint(
-                                nextHintId,
-                                hintsIds,
-                                state.areHintsLimited,
-                                state.stepId
-                            ),
-                            Action.LogAnalyticEvent(
-                                StepQuizHintsClickedHyperskillAnalyticEvent(
-                                    stepRoute.analyticRoute,
-                                    when (state.currentHint) {
-                                        null -> HyperskillAnalyticTarget.SEE_HINT
-                                        else -> HyperskillAnalyticTarget.SEE_NEXT_HINT
-                                    }
-                                )
-                            )
-                        )
-                    }
-                    is State.NetworkError -> {
-                        State.Loading() to setOf(
-                            Action.FetchNextHint(
-                                nextHintId = state.nextHintId,
-                                remainingHintsIds = state.hintsIds,
-                                areHintsLimited = state.areHintsLimited,
-                                stepId = state.stepId
-                            )
-                        )
-                    }
-                    else -> {
-                        null
-                    }
-                }
+                handleLoadHintButtonClicked(state, logAnalyticEvent = true)
+            is InternalMessage.InitiateHintLoading ->
+                handleLoadHintButtonClicked(state, logAnalyticEvent = false)
             is Message.NextHintLoaded ->
                 if (state is State.Loading) {
                     State.Content(
@@ -194,4 +164,49 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
                     null
                 }
         } ?: (state to emptySet())
+
+    private fun handleLoadHintButtonClicked(
+        state: State,
+        logAnalyticEvent: Boolean
+    ): StepQuizHintsReducerResult =
+        when (state) {
+            is State.Content -> {
+                val hintsIds = state.hintsIds.toMutableList()
+                val nextHintId = hintsIds.removeLast()
+                State.Loading() to setOfNotNull(
+                    Action.FetchNextHint(
+                        nextHintId,
+                        hintsIds,
+                        state.areHintsLimited,
+                        state.stepId
+                    ),
+                    if (logAnalyticEvent) {
+                        Action.LogAnalyticEvent(
+                            StepQuizHintsClickedHyperskillAnalyticEvent(
+                                route = stepRoute.analyticRoute,
+                                target = when (state.currentHint) {
+                                    null -> HyperskillAnalyticTarget.SEE_HINT
+                                    else -> HyperskillAnalyticTarget.SEE_NEXT_HINT
+                                }
+                            )
+                        )
+                    } else {
+                        null
+                    }
+                )
+            }
+            is State.NetworkError -> {
+                State.Loading() to setOf(
+                    Action.FetchNextHint(
+                        nextHintId = state.nextHintId,
+                        remainingHintsIds = state.hintsIds,
+                        areHintsLimited = state.areHintsLimited,
+                        stepId = state.stepId
+                    )
+                )
+            }
+            else -> {
+                state to emptySet()
+            }
+        }
 }
