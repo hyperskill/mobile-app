@@ -278,6 +278,7 @@
     <ID>TooManyFunctions:MainActivity.kt$MainActivity : AppCompatActivityAppNavigationContainerReduxView</ID>
     <ID>TooManyFunctions:NotificationInteractor.kt$NotificationInteractor</ID>
     <ID>TooManyFunctions:ProfileFragment.kt$ProfileFragment : FragmentReduxViewCallbackCallback</ID>
+    <ID>TooManyFunctions:Reply.kt$Reply$Companion</ID>
     <ID>TooManyFunctions:SharedDateFormatter.kt$SharedDateFormatter</ID>
     <ID>TooManyFunctions:StepActionDispatcher.kt$StepActionDispatcher : CoroutineActionDispatcher</ID>
     <ID>TooManyFunctions:StudyPlanWidgetDelegate.kt$StudyPlanWidgetDelegate</ID>

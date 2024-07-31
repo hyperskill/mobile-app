@@ -57,7 +57,7 @@ class ChoiceStepQuizFormDelegate(
     }
 
     override fun createReply(): Reply =
-        Reply(choices = choicesAdapter.items.map { ChoiceAnswer.Choice(it.isSelected) })
+        Reply.choice(choices = choicesAdapter.items.map { ChoiceAnswer.Choice(it.isSelected) })
 
     private fun handleSingleChoiceClick(choice: Choice) {
         choicesAdapter.items = choicesAdapter.items.map {

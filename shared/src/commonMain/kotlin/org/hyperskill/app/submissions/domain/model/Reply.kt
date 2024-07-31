@@ -79,11 +79,26 @@ data class Reply(
                 score = if (markedAsCorrect) ReplyScore.Float(PROMPT_MANUALLY_CONFIRMED_SCORE) else null
             )
 
-        fun table(answers: List<ChoiceAnswer>): Reply =
-            Reply(choices = answers)
+        fun table(choices: List<ChoiceAnswer.Table>): Reply =
+            Reply(choices = choices)
+
+        fun choice(choices: List<ChoiceAnswer.Choice>): Reply =
+            Reply(choices = choices)
 
         fun matching(ordering: List<Int?>): Reply =
             Reply(ordering = ordering)
+
+        fun sorting(ordering: List<Int>): Reply =
+            Reply(ordering = ordering)
+
+        fun string(text: String): Reply =
+            Reply(text = text, files = emptyList())
+
+        fun number(number: String): Reply =
+            Reply(number = number)
+
+        fun math(formula: String): Reply =
+            Reply(formula = formula)
     }
 }
 
