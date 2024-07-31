@@ -49,9 +49,9 @@ class SubscriptionsInteractor(
 
     // Problems limits
 
-    suspend fun isProblemsLimitEnabled(): Boolean {
+    suspend fun isProblemsLimitEnabled(forceUpdate: Boolean = false): Boolean {
         val subscription = currentSubscriptionStateRepository
-            .getState(forceUpdate = false)
+            .getState(forceUpdate = forceUpdate)
             .getOrElse {
                 return false
             }
@@ -59,16 +59,16 @@ class SubscriptionsInteractor(
         return subscriptionLimitType == SubscriptionLimitType.PROBLEMS
     }
 
-    suspend fun getSubscriptionLimitType(): Result<SubscriptionLimitType> =
+    suspend fun getSubscriptionLimitType(forceUpdate: Boolean = false): Result<SubscriptionLimitType> =
         currentSubscriptionStateRepository
-            .getState(forceUpdate = false)
+            .getState(forceUpdate = forceUpdate)
             .map {
                 getSubscriptionLimitType(it)
             }
 
-    suspend fun getSubscriptionWithLimitType(): Result<SubscriptionWithLimitType> =
+    suspend fun getSubscriptionWithLimitType(forceUpdate: Boolean = false): Result<SubscriptionWithLimitType> =
         currentSubscriptionStateRepository
-            .getState(forceUpdate = false)
+            .getState(forceUpdate = forceUpdate)
             .map {
                 SubscriptionWithLimitType(
                     subscription = it,
@@ -137,8 +137,6 @@ class SubscriptionsInteractor(
             }
         }
     }
-
-
 
     // Refresh mobile only subscription
 
