@@ -10,7 +10,6 @@ import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -29,7 +28,6 @@ import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarActionDi
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -49,9 +47,7 @@ internal object StepQuizFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
-        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         featuresDataSource: FeaturesDataSource,
-        purchaseInteractor: PurchaseInteractor,
         stepQuizHintsReducer: StepQuizHintsReducer,
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
         stepQuizToolbarReducer: StepQuizToolbarReducer,
@@ -76,13 +72,11 @@ internal object StepQuizFeatureBuilder {
             stepQuizReplyValidator = stepQuizReplyValidator,
             subscriptionsInteractor = subscriptionsInteractor,
             currentProfileStateRepository = currentProfileStateRepository,
-            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             featuresDataSource = featuresDataSource,
             urlPathProcessor = urlPathProcessor,
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
-            purchaseInteractor = purchaseInteractor,
             logger = logger.withTag(LOG_TAG)
         )
 
