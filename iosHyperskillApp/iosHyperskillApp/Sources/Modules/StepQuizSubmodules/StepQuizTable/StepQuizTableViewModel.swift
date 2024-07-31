@@ -62,13 +62,15 @@ final class StepQuizTableViewModel: ObservableObject, StepQuizChildQuizInputProt
     }
 
     func createReply() -> Reply {
-        Reply(
-            tableChoices: viewData.rows.map { row in
-                TableChoiceAnswer(
-                    nameRow: row.text,
-                    columns: viewData.columns.map { column in
-                        .init(id: column.text, answer: row.answers.contains(where: { $0.id == column.id }))
-                    }
+        Reply.companion.table(
+            choices: viewData.rows.map { row in
+                ChoiceAnswerTable(
+                    tableChoice: TableChoiceAnswer(
+                        nameRow: row.text,
+                        columns: viewData.columns.map { column in
+                            .init(id: column.text, answer: row.answers.contains(where: { $0.id == column.id }))
+                        }
+                    )
                 )
             }
         )

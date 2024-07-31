@@ -28,7 +28,9 @@ final class StepQuizChoiceViewModel: ObservableObject, StepQuizChildQuizInputPro
     }
 
     func createReply() -> Reply {
-        Reply(sortingChoices: viewData.choices.map(\.isSelected))
+        Reply.Companion.shared.choice(
+            choices: viewData.choices.map { ChoiceAnswerChoice(boolValue: $0.isSelected) }
+        )
     }
 
     func doChoiceSelection(at selectedIndex: Int) {

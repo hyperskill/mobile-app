@@ -36,13 +36,13 @@ final class StepQuizStringViewModel: ObservableObject, StepQuizChildQuizInputPro
     }
 
     func createReply() -> Reply {
-        switch self.dataType {
+        switch dataType {
         case .string:
-            Reply(text: viewData.text, files: [])
+            Reply.companion.string(text: viewData.text)
         case .number:
-            Reply(number: viewData.text)
+            Reply.companion.number(number: viewData.text)
         case .math:
-            Reply(formula: viewData.text)
+            Reply.companion.math(formula: viewData.text)
         case .prompt:
             Reply.companion.prompt(
                 prompt: viewData.text,
