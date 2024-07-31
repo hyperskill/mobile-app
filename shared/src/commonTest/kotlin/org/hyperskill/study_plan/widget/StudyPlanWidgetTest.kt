@@ -29,6 +29,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionStatus
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.learning_activities.domain.model.stub
@@ -62,7 +63,7 @@ class StudyPlanWidgetTest {
                 learningActivities = emptyList(),
                 studyPlanSections = emptyList(),
                 subscription = Subscription.stub(),
-                canMakePayments = false,
+                subscriptionLimitType = SubscriptionLimitType.NONE,
                 learnedTopicsCount = 0
             )
         )
@@ -90,7 +91,7 @@ class StudyPlanWidgetTest {
                     visibleSection
                 ),
                 subscription = Subscription.stub(),
-                canMakePayments = false,
+                subscriptionLimitType = SubscriptionLimitType.NONE,
                 learnedTopicsCount = 0
             )
         )
@@ -121,7 +122,7 @@ class StudyPlanWidgetTest {
                 learningActivities = listOf(stubLearningActivity(id = 1L)),
                 studyPlanSections = listOf(visibleSection, currentSection),
                 subscription = Subscription.stub(),
-                canMakePayments = false,
+                subscriptionLimitType = SubscriptionLimitType.NONE,
                 learnedTopicsCount = 0
             )
         )
@@ -159,7 +160,7 @@ class StudyPlanWidgetTest {
                         )
                     ),
                     subscription = subscription,
-                    canMakePayments = false,
+                    subscriptionLimitType = SubscriptionLimitType.NONE,
                     learnedTopicsCount = 0
                 )
             )
@@ -186,7 +187,7 @@ class StudyPlanWidgetTest {
                     studyPlanSectionStub(id = 1, activities = listOf(1))
                 ),
                 subscription = Subscription.stub(),
-                canMakePayments = false,
+                subscriptionLimitType = SubscriptionLimitType.NONE,
                 learnedTopicsCount = 0
             )
         )
@@ -239,7 +240,7 @@ class StudyPlanWidgetTest {
                     )
                 },
                 subscription = Subscription.stub(),
-                canMakePayments = false,
+                subscriptionLimitType = SubscriptionLimitType.NONE,
                 learnedTopicsCount = 0
             )
         )
@@ -264,7 +265,7 @@ class StudyPlanWidgetTest {
                 ),
                 studyPlanSections = listOf(firstSection, secondSection),
                 subscription = Subscription.stub(),
-                canMakePayments = false,
+                subscriptionLimitType = SubscriptionLimitType.NONE,
                 learnedTopicsCount = 0
             )
         )
