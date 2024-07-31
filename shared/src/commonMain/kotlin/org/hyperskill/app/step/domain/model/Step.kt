@@ -5,6 +5,7 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
+import org.hyperskill.app.comments.domain.model.CommentThread
 
 @Serializable
 data class Step(
@@ -76,3 +77,9 @@ fun Step.pycharmCode(): String? =
  */
 fun Step.isSupported(): Boolean =
     BlockName.supportedBlocksNames.contains(block.name)
+
+val Step.areCommentsAvailable: Boolean
+    get() = commentsStatistics.any { it.thread == CommentThread.COMMENT && it.totalCount > 0 }
+
+val Step.commentThreadStatistic: CommentStatisticsEntry?
+    get() = commentsStatistics.firstOrNull { it.thread == CommentThread.COMMENT }

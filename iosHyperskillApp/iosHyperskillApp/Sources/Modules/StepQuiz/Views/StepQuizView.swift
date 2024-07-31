@@ -311,6 +311,12 @@ private extension StepQuizView {
             assertionFailure(
                 "StepQuizView :: did receive unexpected StepQuizCodeBlanksViewAction: \(stepQuizCodeBlanksViewAction)"
             )
+        case .scrollToHints:
+            #warning("TODO: ALTAPPS-1314")
+        case .requestShowComments:
+            #warning("TODO: ALTAPPS-1314")
+        case .requestSkipStep:
+            #warning("TODO: ALTAPPS-1314")
         }
     }
 

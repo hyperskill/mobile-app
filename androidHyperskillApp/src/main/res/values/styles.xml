@@ -77,8 +77,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">48dp</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:gravity">center_vertical</item>
@@ -94,6 +94,12 @@
     </style>
 
     <style name="StepQuizFeedback.Wrong">
+        <item name="android:background">@drawable/bg_step_quiz_feedback_wrong</item>
+        <item name="android:textColor">@color/color_overlay_orange</item>
+        <item name="drawableTint">@color/color_overlay_orange</item>
+    </style>
+
+    <style name="StepQuizFeedback.Neutral">
         <item name="backgroundTint">@color/color_overlay_blue_alpha_12</item>
         <item name="android:textColor">@color/color_primary</item>
         <item name="drawableTint">@color/color_primary</item>

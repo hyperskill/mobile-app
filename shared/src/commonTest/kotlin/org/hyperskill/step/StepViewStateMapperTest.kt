@@ -1,6 +1,7 @@
 package org.hyperskill.step
 
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
@@ -16,9 +17,73 @@ import org.hyperskill.step.domain.model.stub
 
 class StepViewStateMapperTest {
     @Test
-    fun `isCommentsToolbarItemAvailable returns true when comments are present`() {
+    fun `Comments secondary action should be presented for practical step when comments are present`() {
         val step = Step.stub(
             id = 1,
+            type = Step.Type.PRACTICE,
+            commentsStatistics = listOf(
+                CommentStatisticsEntry(
+                    thread = CommentThread.COMMENT,
+                    totalCount = 1
+                )
+            )
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+        val state = stubState(stepState = stubStepDataState(step, stepRoute))
+
+        val mapper = StepViewStateMapper(stepRoute)
+        val viewState = mapper.map(state)
+
+        assertContains(viewState.stepMenuSecondaryActions, StepMenuSecondaryAction.COMMENTS)
+    }
+
+    @Test
+    fun `Comments secondary action should not be presented for practical step when no comments are present`() {
+        val step = Step.stub(
+            id = 1,
+            type = Step.Type.PRACTICE,
+            commentsStatistics = listOf(
+                CommentStatisticsEntry(
+                    thread = CommentThread.COMMENT,
+                    totalCount = 0
+                )
+            )
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+        val state = stubState(stepState = stubStepDataState(step, stepRoute))
+
+        val mapper = StepViewStateMapper(stepRoute)
+        val viewState = mapper.map(state)
+
+        assertFalse(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.COMMENTS))
+    }
+
+    @Test
+    fun `Comments primary action should not be available for practical step when comments are presented`() {
+        val step = Step.stub(
+            id = 1,
+            type = Step.Type.PRACTICE,
+            commentsStatistics = listOf(
+                CommentStatisticsEntry(
+                    thread = CommentThread.COMMENT,
+                    totalCount = 1
+                )
+            )
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+        val state = stubState(stepState = stubStepDataState(step, stepRoute))
+
+        val mapper = StepViewStateMapper(stepRoute)
+        val viewState = mapper.map(state)
+
+        assertFalse(viewState.isCommentsToolbarItemAvailable)
+    }
+
+    @Test
+    fun `Comments primary action should be available for theory step when comments are presented`() {
+        val step = Step.stub(
+            id = 1,
+            type = Step.Type.THEORY,
             commentsStatistics = listOf(
                 CommentStatisticsEntry(
                     thread = CommentThread.COMMENT,
@@ -36,9 +101,10 @@ class StepViewStateMapperTest {
     }
 
     @Test
-    fun `isCommentsToolbarItemAvailable returns false when no comments are present`() {
+    fun `Comments primary action should not be available for theory step when no comments presented`() {
         val step = Step.stub(
             id = 1,
+            type = Step.Type.THEORY,
             commentsStatistics = listOf(
                 CommentStatisticsEntry(
                     thread = CommentThread.COMMENT,
@@ -56,6 +122,27 @@ class StepViewStateMapperTest {
     }
 
     @Test
+    fun `Comments secondary action should not be presented for theory step when comments are presented`() {
+        val step = Step.stub(
+            id = 1,
+            type = Step.Type.THEORY,
+            commentsStatistics = listOf(
+                CommentStatisticsEntry(
+                    thread = CommentThread.COMMENT,
+                    totalCount = 1
+                )
+            )
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+        val state = stubState(stepState = stubStepDataState(step, stepRoute))
+
+        val mapper = StepViewStateMapper(stepRoute)
+        val viewState = mapper.map(state)
+
+        assertFalse(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.COMMENTS))
+    }
+
+    @Test
     fun `stepMenuActions contains SKIP when skip is available`() {
         val step = Step.stub(
             id = 1,
@@ -67,7 +154,7 @@ class StepViewStateMapperTest {
         val mapper = StepViewStateMapper(stepRoute)
         val viewState = mapper.map(state)
 
-        assertTrue(viewState.stepMenuSecondaryActions.contains(StepMenuSecondaryAction.SKIP))
+        assertContains(viewState.stepMenuSecondaryActions, StepMenuSecondaryAction.SKIP)
     }
 
     @Test
