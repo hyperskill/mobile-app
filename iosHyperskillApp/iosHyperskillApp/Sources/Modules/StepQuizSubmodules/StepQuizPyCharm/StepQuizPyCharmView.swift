@@ -31,20 +31,3 @@ struct StepQuizPyCharmView: View {
         .onAppear(perform: viewModel.doProvideModuleInput)
     }
 }
-
-#if DEBUG
-#Preview {
-    StepQuizPyCharmAssembly
-        .makePlaceholder()
-        .makeModule()
-        .padding()
-}
-
-#Preview("Disabled") {
-    StepQuizPyCharmAssembly
-        .makePlaceholder()
-        .makeModule()
-        .padding()
-        .disabled(true)
-}
-#endif

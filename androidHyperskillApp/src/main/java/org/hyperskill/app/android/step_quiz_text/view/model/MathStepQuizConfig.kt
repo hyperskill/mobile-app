@@ -8,7 +8,7 @@ object MathStepQuizConfig : TextStepQuizConfig {
         get() = InputType.TYPE_CLASS_TEXT
 
     override fun createReply(inputText: String, markedAsCorrect: Boolean): Reply =
-        Reply(formula = inputText)
+        Reply.math(formula = inputText)
 
     override fun getText(reply: Reply): String? =
         reply.formula
