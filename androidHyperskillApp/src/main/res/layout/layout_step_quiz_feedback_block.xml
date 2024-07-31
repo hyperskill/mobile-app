@@ -6,29 +6,64 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <LinearLayout
         android:id="@+id/stepQuizFeedbackWrong"
-        style="@style/StepQuizFeedback.Wrong"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxWidth="@dimen/auth_button_max_width"
-        app:drawableStartCompat="@drawable/ic_info_outline_24px"
-        android:text="@string/step_quiz_status_wrong_text"/>
+        style="@style/StepQuizFeedback.Wrong"
+        android:orientation="vertical"
+        android:maxWidth="@dimen/auth_button_max_width">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/stepQuizFeedbackWrongTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:drawableStartCompat="@drawable/ic_step_quiz_feedback_wrong"
+            android:drawablePadding="8dp"
+            android:textAppearance="?textAppearanceBody1"
+            android:textColor="@color/color_overlay_orange"
+            tools:text="@string/step_quiz_status_wrong_title"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/stepQuizFeedbackWrongDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceBody1"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="4dp"
+            tools:text="@string/step_quiz_status_see_comments_suggestion"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/stepQuizFeedbackWrongAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceBody1"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/selectable_item_rounded_background"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="@dimen/gamification_toolbar_subtitle_padding_vertical"
+            tools:text="@string/step_quiz_status_comments_action"
+            />
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackEvaluation"
-        style="@style/StepQuizFeedback.Wrong"
+        style="@style/StepQuizFeedback.Neutral"
         android:text="@string/step_quiz_status_evaluation_text" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackValidation"
-        style="@style/StepQuizFeedback.Wrong"
+        style="@style/StepQuizFeedback.Neutral"
         app:drawableStartCompat="@drawable/ic_info_outline_24px"
         tools:text="Evaluation"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackUnsupported"
-        style="@style/StepQuizFeedback.Wrong"
+        style="@style/StepQuizFeedback.Neutral"
         app:drawableStartCompat="@drawable/ic_info_outline_24px"
         android:text="@string/step_quiz_unsupported_quiz_text" />
 

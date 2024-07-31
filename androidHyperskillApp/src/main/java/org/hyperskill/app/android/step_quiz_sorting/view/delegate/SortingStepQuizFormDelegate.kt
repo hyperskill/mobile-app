@@ -67,5 +67,5 @@ class SortingStepQuizFormDelegate(
     }
 
     override fun createReply(): Reply =
-        Reply(ordering = optionsAdapter.items.map(SortingOption::id))
+        Reply.sorting(ordering = optionsAdapter.items.map(SortingOption::id))
 }

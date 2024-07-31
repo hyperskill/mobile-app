@@ -136,6 +136,7 @@ class StepWrapperFragment :
             initStepContainer(stepState)
             parentOfType(StepToolbarHost::class.java)?.apply {
                 renderTopicProgress(state.stepToolbarViewState)
+                renderSecondaryMenuActions(state.stepMenuSecondaryActions)
                 renderPrimaryAction(
                     StepMenuPrimaryAction.COMMENTS,
                     StepMenuPrimaryActionParams(
@@ -143,7 +144,6 @@ class StepWrapperFragment :
                         isEnabled = true
                     )
                 )
-                renderSecondaryMenuActions(state.stepMenuSecondaryActions)
             }
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
                 ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
@@ -224,12 +224,20 @@ class StepWrapperFragment :
                     ?.onTheoryClick()
             }
             StepMenuPrimaryAction.COMMENTS -> {
-                stepViewModel.onCommentsClick()
+                stepViewModel.onActionClick(StepMenuSecondaryAction.COMMENTS)
             }
         }
     }
 
     override fun onSecondaryActionClicked(action: StepMenuSecondaryAction) {
         stepViewModel.onActionClick(action)
+    }
+
+    override fun requestShowComments() {
+        stepViewModel.requestShowComments()
+    }
+
+    override fun requestSkip() {
+        stepViewModel.requestSkip()
     }
 }

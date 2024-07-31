@@ -46,7 +46,9 @@ final class StepQuizSortingViewModel: ObservableObject, StepQuizChildQuizInputPr
     }
 
     func createReply() -> Reply {
-        Reply(ordering: viewData.items.map(\.id))
+        Reply.Companion.shared.sorting(
+            ordering: viewData.items.map { KotlinInt(value: Int32($0.id)) }
+        )
     }
 
     private func outputCurrentReply() {

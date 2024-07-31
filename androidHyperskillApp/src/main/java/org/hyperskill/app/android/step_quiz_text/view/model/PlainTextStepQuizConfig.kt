@@ -8,7 +8,7 @@ object PlainTextStepQuizConfig : TextStepQuizConfig {
         get() = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
 
     override fun createReply(inputText: String, markedAsCorrect: Boolean): Reply =
-        Reply(text = inputText, files = emptyList())
+        Reply.string(text = inputText)
 
     override fun getText(reply: Reply): String? =
         reply.text
