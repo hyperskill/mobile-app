@@ -125,7 +125,6 @@ internal class MainStudyPlanWidgetActionDispatcher(
                     }
                 }
 
-
                 val learningActivitiesResponse = learningActivitiesDeferred.await().getOrThrow()
                 val subscriptionWithLimitType =
                     subscriptionWithLimitTypeDeferred
