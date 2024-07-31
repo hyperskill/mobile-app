@@ -18,7 +18,7 @@ extension View {
         if #available(iOS 16.0, *) {
             toolbar {
                 StepToolbarContent(
-                    isCommentsToolbarItemAvailable: false,
+                    isCommentsToolbarItemAvailable: state.isCommentsToolbarItemAvailable,
                     menuActions: state.stepMenuSecondaryActions,
                     isMenuActionsDisabled: isMenuActionsDisabled,
                     onCommentButtonTap: onCommentButtonTap,
@@ -29,15 +29,32 @@ extension View {
                 )
             }
         } else {
-            toolbar {
-                StepMenuActionsToolbarItem(
-                    actions: state.stepMenuSecondaryActions,
-                    disabled: isMenuActionsDisabled,
-                    onShareButtonTap: onShareButtonTap,
-                    onReportButtonTap: onReportButtonTap,
-                    onSkipButtonTap: onSkipButtonTap,
-                    onOpenInWebButtonTap: onOpenInWebButtonTap
-                )
+            if state.isCommentsToolbarItemAvailable {
+                toolbar {
+                    CommentsToolbarItem(action: onCommentButtonTap)
+
+                    StepMenuActionsToolbarItem(
+                        actions: state.stepMenuSecondaryActions,
+                        disabled: isMenuActionsDisabled,
+                        onCommentButtonTap: onCommentButtonTap,
+                        onShareButtonTap: onShareButtonTap,
+                        onReportButtonTap: onReportButtonTap,
+                        onSkipButtonTap: onSkipButtonTap,
+                        onOpenInWebButtonTap: onOpenInWebButtonTap
+                    )
+                }
+            } else {
+                toolbar {
+                    StepMenuActionsToolbarItem(
+                        actions: state.stepMenuSecondaryActions,
+                        disabled: isMenuActionsDisabled,
+                        onCommentButtonTap: onCommentButtonTap,
+                        onShareButtonTap: onShareButtonTap,
+                        onReportButtonTap: onReportButtonTap,
+                        onSkipButtonTap: onSkipButtonTap,
+                        onOpenInWebButtonTap: onOpenInWebButtonTap
+                    )
+                }
             }
         }
     }
@@ -46,7 +63,6 @@ extension View {
 
 @available(iOS 16.0, *)
 private struct StepToolbarContent: ToolbarContent {
-    #warning("TOOD: Replace with stepMenuSecondaryActions in ALTAPPS-1314")
     let isCommentsToolbarItemAvailable: Bool
 
     let menuActions: Set<StepMenuSecondaryAction>
@@ -67,6 +83,7 @@ private struct StepToolbarContent: ToolbarContent {
         StepMenuActionsToolbarItem(
             actions: menuActions,
             disabled: isMenuActionsDisabled,
+            onCommentButtonTap: onCommentButtonTap,
             onShareButtonTap: onShareButtonTap,
             onReportButtonTap: onReportButtonTap,
             onSkipButtonTap: onSkipButtonTap,
@@ -91,6 +108,7 @@ private struct StepMenuActionsToolbarItem: ToolbarContent {
     let actions: Set<StepMenuSecondaryAction>
     let disabled: Bool
 
+    let onCommentButtonTap: () -> Void
     let onShareButtonTap: () -> Void
     let onReportButtonTap: () -> Void
     let onSkipButtonTap: () -> Void
@@ -99,6 +117,12 @@ private struct StepMenuActionsToolbarItem: ToolbarContent {
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
+                if actions.contains(.comments) {
+                    Button(action: onCommentButtonTap) {
+                        Label("Comments", systemImage: "message")
+                    }
+                }
+
                 if actions.contains(.share) {
                     Button(action: onShareButtonTap) {
                         Label("Share", systemImage: "square.and.arrow.up")
