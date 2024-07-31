@@ -139,7 +139,7 @@ internal class MainStudyPlanWidgetActionDispatcher(
                     studyPlanSections = learningActivitiesResponse.studyPlanSections,
                     learnedTopicsCount = trackProgress?.learnedTopicsCount ?: 0,
                     subscription = subscriptionWithLimitType.subscription,
-                    subscriptionLimitType = subscriptionWithLimitType.limitType
+                    subscriptionLimitType = subscriptionWithLimitType.subscriptionLimitType
                 )
             }
         }.let(onNewMessage)

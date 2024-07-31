@@ -5,5 +5,5 @@ import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 
 data class SubscriptionWithLimitType(
     val subscription: Subscription,
-    val limitType: SubscriptionLimitType
+    val subscriptionLimitType: SubscriptionLimitType
 )

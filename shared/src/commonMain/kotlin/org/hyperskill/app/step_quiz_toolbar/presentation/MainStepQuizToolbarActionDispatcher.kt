@@ -7,26 +7,25 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
-import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Action
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalAction
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalMessage
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Message
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class MainStepQuizToolbarActionDispatcher(
     config: ActionDispatcherOptions,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val subscriptionsInteractor: SubscriptionsInteractor,
     private val featuresDataSource: FeaturesDataSource,
     private val purchaseInteractor: PurchaseInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        currentSubscriptionStateRepository
-            .changes
+        subscriptionsInteractor
+            .subscribeOnSubscriptionWithLimitType()
             .distinctUntilChanged()
             .onEach {
                 onNewMessage(InternalMessage.SubscriptionChanged(it))
@@ -48,18 +47,19 @@ internal class MainStepQuizToolbarActionDispatcher(
 
         val canMakePayments = canMakePayments()
 
-        val subscription = currentSubscriptionStateRepository
-            .getState()
-            .getOrElse {
-                logger.e(it) { "Failed to fetch subscription" }
-                onNewMessage(InternalMessage.SubscriptionFetchError)
-                return
-            }
+        val subscriptionWithLimitType =
+            subscriptionsInteractor
+                .getSubscriptionWithLimitType()
+                .getOrElse {
+                    logger.e(it) { "Failed to fetch subscription" }
+                    onNewMessage(InternalMessage.SubscriptionFetchError)
+                    return
+                }
+
         onNewMessage(
             InternalMessage.SubscriptionFetchSuccess(
-                subscription = subscription,
-                isMobileContentTrialEnabled = features.isMobileContentTrialEnabled,
-                canMakePayment = canMakePayments,
+                subscription = subscriptionWithLimitType.subscription,
+                subscriptionLimitType = subscriptionWithLimitType.subscriptionLimitType,
                 chargeLimitsStrategy = features.freemiumChargeLimitsStrategy
             )
         )

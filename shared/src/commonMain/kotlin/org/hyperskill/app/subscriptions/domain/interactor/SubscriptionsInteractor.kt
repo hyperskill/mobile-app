@@ -72,7 +72,7 @@ class SubscriptionsInteractor(
             .map {
                 SubscriptionWithLimitType(
                     subscription = it,
-                    limitType = getSubscriptionLimitType(it)
+                    subscriptionLimitType = getSubscriptionLimitType(it)
                 )
             }
 
@@ -81,6 +81,15 @@ class SubscriptionsInteractor(
             .changes
             .map(::getSubscriptionLimitType)
 
+    fun subscribeOnSubscriptionWithLimitType(): Flow<SubscriptionWithLimitType> =
+        currentSubscriptionStateRepository
+            .changes
+            .map {
+                SubscriptionWithLimitType(
+                    subscription = it,
+                    subscriptionLimitType = getSubscriptionLimitType(it)
+                )
+            }
 
     private suspend fun getSubscriptionLimitType(subscription: Subscription): SubscriptionLimitType =
         subscription.getSubscriptionLimitType(
