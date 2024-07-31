@@ -15,6 +15,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.core.domain.repository.StateWithSource
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
@@ -73,6 +74,21 @@ class SubscriptionsInteractor(
                 SubscriptionWithLimitType(
                     subscription = it,
                     subscriptionLimitType = getSubscriptionLimitType(it)
+                )
+            }
+
+    suspend fun getSubscriptionWithLimitTypeWithSource(
+        forceUpdate: Boolean = false
+    ): Result<StateWithSource<SubscriptionWithLimitType>> =
+        currentSubscriptionStateRepository
+            .getStateWithSource(forceUpdate = forceUpdate)
+            .map {
+                StateWithSource(
+                    state = SubscriptionWithLimitType(
+                        subscription = it.state,
+                        subscriptionLimitType = getSubscriptionLimitType(it.state)
+                    ),
+                    usedDataSourceType = it.usedDataSourceType
                 )
             }
 

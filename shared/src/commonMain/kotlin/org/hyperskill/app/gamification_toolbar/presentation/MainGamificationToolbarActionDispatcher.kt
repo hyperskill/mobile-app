@@ -13,17 +13,15 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalMessage
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
-import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
-import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionWithLimitType
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class MainGamificationToolbarActionDispatcher(
@@ -33,9 +31,8 @@ internal class MainGamificationToolbarActionDispatcher(
     currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     topicCompletedFlow: TopicCompletedFlow,
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val purchaseInteractor: PurchaseInteractor,
+    private val subscriptionInteractor: SubscriptionsInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -70,7 +67,8 @@ internal class MainGamificationToolbarActionDispatcher(
             .onEach { onNewMessage(InternalMessage.GamificationToolbarDataChanged(it)) }
             .launchIn(actionScope)
 
-        currentSubscriptionStateRepository.changes
+        subscriptionInteractor
+            .subscribeOnSubscriptionWithLimitType()
             .distinctUntilChanged()
             .onEach { onNewMessage(InternalMessage.SubscriptionChanged(it)) }
             .launchIn(actionScope)
@@ -107,19 +105,16 @@ internal class MainGamificationToolbarActionDispatcher(
                 val gamificationToolbarDataWithSource = toolbarDataDeferred.await().getOrThrow()
                 val profile = profileDeferred.await().getOrThrow()
 
-                val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
-
-                val subscription = getSubscription(
+                val subscriptionWithLimitType = getSubscription(
                     forceUpdate = action.forceUpdate,
                     gamificationToolbarDataSourceType = gamificationToolbarDataWithSource.usedDataSourceType
                 )
 
                 InternalMessage.FetchGamificationToolbarDataSuccess(
                     gamificationToolbarData = gamificationToolbarDataWithSource.state,
-                    subscription = subscription,
+                    subscription = subscriptionWithLimitType.subscription,
+                    subscriptionLimitType = subscriptionWithLimitType.subscriptionLimitType,
                     chargeLimitsStrategy = profile.freemiumChargeLimitsStrategy,
-                    isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
-                    canMakePayments = canMakePayments
                 )
             }
         }.let(onNewMessage)
@@ -128,10 +123,10 @@ internal class MainGamificationToolbarActionDispatcher(
     private suspend fun getSubscription(
         forceUpdate: Boolean,
         gamificationToolbarDataSourceType: DataSourceType
-    ): Subscription {
+    ): SubscriptionWithLimitType {
         val subscriptionWithSource =
-            currentSubscriptionStateRepository
-                .getStateWithSource(forceUpdate = forceUpdate)
+            subscriptionInteractor
+                .getSubscriptionWithLimitTypeWithSource(forceUpdate = forceUpdate)
                 .getOrThrow()
 
         // Fetch subscription from remote
@@ -143,8 +138,8 @@ internal class MainGamificationToolbarActionDispatcher(
             subscriptionWithSource.usedDataSourceType == DataSourceType.CACHE
 
         return if (shouldFetchSubscriptionFromRemote) {
-            currentSubscriptionStateRepository
-                .getState(forceUpdate = true)
+            subscriptionInteractor
+                .getSubscriptionWithLimitType(forceUpdate = true)
                 .getOrThrow()
         } else {
             subscriptionWithSource.state

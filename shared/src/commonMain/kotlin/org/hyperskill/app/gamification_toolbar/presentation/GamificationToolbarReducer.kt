@@ -16,6 +16,7 @@ import org.hyperskill.app.streaks.domain.model.HistoricalStreak
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias GamificationToolbarReducerResult = Pair<State, Set<Action>>
@@ -33,9 +34,8 @@ class GamificationToolbarReducer(
                 createContentState(
                     gamificationToolbarData = message.gamificationToolbarData,
                     subscription = message.subscription,
-                    chargeLimitsStrategy = message.chargeLimitsStrategy,
-                    isMobileContentTrialEnabled = message.isMobileContentTrialEnabled,
-                    canMakePayments = message.canMakePayments
+                    subscriptionLimitType = message.subscriptionLimitType,
+                    chargeLimitsStrategy = message.chargeLimitsStrategy
                 ) to emptySet()
             is InternalMessage.PullToRefresh ->
                 handlePullToRefreshMessage(state)
@@ -99,7 +99,10 @@ class GamificationToolbarReducer(
                 if (state.isRefreshing) {
                     state to emptySet()
                 } else {
-                    state.copy(subscription = message.subscription) to emptySet()
+                    state.copy(
+                        subscription = message.subscriptionWithLimitType.subscription,
+                        subscriptionLimitType = message.subscriptionWithLimitType.subscriptionLimitType
+                    ) to emptySet()
                 }
             else -> state to emptySet()
         }
@@ -226,9 +229,8 @@ class GamificationToolbarReducer(
     private fun createContentState(
         gamificationToolbarData: GamificationToolbarData,
         subscription: Subscription,
-        chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-        isMobileContentTrialEnabled: Boolean,
-        canMakePayments: Boolean
+        subscriptionLimitType: SubscriptionLimitType,
+        chargeLimitsStrategy: FreemiumChargeLimitsStrategy
     ): State.Content =
         State.Content(
             trackProgress = gamificationToolbarData.trackProgress,
@@ -236,7 +238,6 @@ class GamificationToolbarReducer(
             historicalStreak = HistoricalStreak(gamificationToolbarData.streakState),
             subscription = subscription,
             chargeLimitsStrategy = chargeLimitsStrategy,
-            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-            canMakePayments = canMakePayments
+            subscriptionLimitType = subscriptionLimitType
         )
 }
