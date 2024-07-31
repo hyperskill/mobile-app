@@ -112,7 +112,9 @@ object StudyPlanWidgetFeature {
             val subscriptionLimitType: SubscriptionLimitType
         ) : InternalMessage
 
-        data class SubscriptionLimitTypeChanged(val subscriptionLimitType: SubscriptionLimitType): InternalMessage
+        data class SubscriptionLimitTypeChanged(
+            val subscriptionLimitType: SubscriptionLimitType
+        ): InternalMessage
     }
 
     internal sealed interface LearningActivitiesWithSectionsFetchResult : Message {

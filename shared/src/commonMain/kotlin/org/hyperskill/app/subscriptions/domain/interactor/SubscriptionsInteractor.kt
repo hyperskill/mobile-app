@@ -50,15 +50,14 @@ class SubscriptionsInteractor(
 
     // Problems limits
 
-    suspend fun isProblemsLimitEnabled(forceUpdate: Boolean = false): Boolean {
-        val subscription = currentSubscriptionStateRepository
+    suspend fun isProblemsLimitEnabled(forceUpdate: Boolean = false): Boolean =
+        currentSubscriptionStateRepository
             .getState(forceUpdate = forceUpdate)
-            .getOrElse {
-                return false
+            .map {
+                val subscriptionLimitType = getSubscriptionLimitType(it)
+                subscriptionLimitType == SubscriptionLimitType.PROBLEMS
             }
-        val subscriptionLimitType = getSubscriptionLimitType(subscription)
-        return subscriptionLimitType == SubscriptionLimitType.PROBLEMS
-    }
+            .getOrDefault(false)
 
     suspend fun getSubscriptionLimitType(forceUpdate: Boolean = false): Result<SubscriptionLimitType> =
         currentSubscriptionStateRepository

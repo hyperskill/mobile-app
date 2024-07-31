@@ -18,7 +18,6 @@ import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
-import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
@@ -45,8 +44,6 @@ internal class AppActionDispatcher(
     private val subscriptionsInteractor: SubscriptionsInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
-
-    private var isMobileContentTrialEnabled: Boolean = false
 
     init {
         authInteractor
@@ -129,8 +126,6 @@ internal class AppActionDispatcher(
                 val subscriptionDeferred = async { fetchSubscription(isAuthorized = isAuthorized) }
 
                 val profile = profileDeferred.await().getOrThrow()
-
-                this@AppActionDispatcher.isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled
 
                 val subscription = subscriptionDeferred.await()
 

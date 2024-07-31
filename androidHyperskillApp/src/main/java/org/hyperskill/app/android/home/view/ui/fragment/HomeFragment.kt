@@ -242,13 +242,13 @@ class HomeFragment :
     private fun renderProblemOfDay(
         viewBinding: FragmentHomeBinding,
         state: HomeFeature.ProblemOfDayState,
-        areProblemsLimited: Boolean
+        isProblemsLimitEnabled: Boolean
     ) {
         problemOfDayCardFormDelegate.render(
             dateFormatter = dateFormatter,
             binding = viewBinding.homeScreenProblemOfDayCard,
             state = state,
-            areProblemsLimited = areProblemsLimited
+            areProblemsLimited = isProblemsLimitEnabled
         )
     }
 

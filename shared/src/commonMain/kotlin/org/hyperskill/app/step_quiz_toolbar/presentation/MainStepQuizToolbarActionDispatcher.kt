@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
-import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Action
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalAction
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalMessage
@@ -19,7 +18,6 @@ internal class MainStepQuizToolbarActionDispatcher(
     config: ActionDispatcherOptions,
     private val subscriptionsInteractor: SubscriptionsInteractor,
     private val featuresDataSource: FeaturesDataSource,
-    private val purchaseInteractor: PurchaseInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -45,8 +43,6 @@ internal class MainStepQuizToolbarActionDispatcher(
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
         val features = featuresDataSource.getFeaturesMap()
 
-        val canMakePayments = canMakePayments()
-
         val subscriptionWithLimitType =
             subscriptionsInteractor
                 .getSubscriptionWithLimitType()
@@ -64,7 +60,4 @@ internal class MainStepQuizToolbarActionDispatcher(
             )
         )
     }
-
-    private suspend fun canMakePayments(): Boolean =
-        purchaseInteractor.canMakePayments().getOrDefault(false)
 }
