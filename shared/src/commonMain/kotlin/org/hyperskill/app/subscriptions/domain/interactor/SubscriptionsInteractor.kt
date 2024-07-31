@@ -6,6 +6,8 @@ import kotlin.time.toDuration
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -14,6 +16,7 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.repository.updateState
+import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -21,14 +24,16 @@ import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionCha
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.isActive
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
 
 class SubscriptionsInteractor(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val featuresDataSource: FeaturesDataSource,
     private val purchaseInteractor: PurchaseInteractor,
     private val authInteractor: AuthInteractor,
     logger: Logger
@@ -44,16 +49,48 @@ class SubscriptionsInteractor(
 
     // Problems limits
 
-    suspend fun chargeProblemsLimits(chargeStrategy: FreemiumChargeLimitsStrategy) {
-        val isMobileContentTrialEnabled = currentProfileStateRepository
-            .getState()
-            .map { it.features.isMobileContentTrialEnabled }
-            .getOrDefault(false)
-        val areProblemsLimitEnabled = currentSubscriptionStateRepository.areProblemsLimited(
-            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
+    suspend fun isProblemsLimitEnabled(): Boolean {
+        val subscription = currentSubscriptionStateRepository
+            .getState(forceUpdate = false)
+            .getOrElse {
+                return false
+            }
+        val subscriptionLimitType = getSubscriptionLimitType(subscription)
+        return subscriptionLimitType == SubscriptionLimitType.PROBLEMS
+    }
+
+    suspend fun getSubscriptionLimitType(): Result<SubscriptionLimitType> =
+        currentSubscriptionStateRepository
+            .getState(forceUpdate = false)
+            .map {
+                getSubscriptionLimitType(it)
+            }
+
+    suspend fun getSubscriptionWithLimitType(): Result<SubscriptionWithLimitType> =
+        currentSubscriptionStateRepository
+            .getState(forceUpdate = false)
+            .map {
+                SubscriptionWithLimitType(
+                    subscription = it,
+                    limitType = getSubscriptionLimitType(it)
+                )
+            }
+
+    fun subscribeOnSubscriptionLimitType(): Flow<SubscriptionLimitType> =
+        currentSubscriptionStateRepository
+            .changes
+            .map(::getSubscriptionLimitType)
+
+
+    private suspend fun getSubscriptionLimitType(subscription: Subscription): SubscriptionLimitType =
+        subscription.getSubscriptionLimitType(
+            isMobileContentTrialEnabled = featuresDataSource.getFeaturesMap().isMobileContentTrialEnabled,
             canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
         )
-        if (areProblemsLimitEnabled) {
+
+    suspend fun chargeProblemsLimits(chargeStrategy: FreemiumChargeLimitsStrategy) {
+        val isProblemsLimitEnabled = isProblemsLimitEnabled()
+        if (isProblemsLimitEnabled) {
             when (chargeStrategy) {
                 FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION -> chargeLimitsAfterWrongSubmission()
                 FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION -> chargeLimitsAfterCorrectSubmission()

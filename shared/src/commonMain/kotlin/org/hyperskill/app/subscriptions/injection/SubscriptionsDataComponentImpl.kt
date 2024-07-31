@@ -3,6 +3,7 @@ package org.hyperskill.app.subscriptions.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.subscriptions.data.repository.SubscriptionsRepositoryImpl
@@ -24,6 +25,9 @@ class SubscriptionsDataComponentImpl(
     private val currentProfileStateRepository: CurrentProfileStateRepository =
         appGraph.profileDataComponent.currentProfileStateRepository
 
+    private val featuresDataSource: FeaturesDataSource =
+        appGraph.profileDataComponent.featuresDataSource
+
     private val purchaseInteractor: PurchaseInteractor =
         appGraph.buildPurchaseComponent().purchaseInteractor
 
@@ -42,6 +46,7 @@ class SubscriptionsDataComponentImpl(
             currentProfileStateRepository = currentProfileStateRepository,
             purchaseInteractor = purchaseInteractor,
             authInteractor = authInteractor,
+            featuresDataSource = featuresDataSource,
             logger = logger
         )
     }

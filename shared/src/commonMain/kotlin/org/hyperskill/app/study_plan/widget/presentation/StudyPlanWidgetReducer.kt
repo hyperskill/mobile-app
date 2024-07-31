@@ -112,8 +112,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
-            is InternalMessage.FetchPaymentAbilityResult ->
-                handleFetchPaymentAbilityResult(state, message)
+            is InternalMessage.FetchSubscriptionLimitTypeResult ->
+                handleFetchSubscriptionLimitTypeResult(state, message)
+            is InternalMessage.SubscriptionLimitTypeChanged ->
+                handleSubscriptionLimitTypeChanged(state, message)
         } ?: (state to emptySet())
 
     private fun coldContentFetch(state: State, message: InternalMessage.Initialize): StudyPlanWidgetReducerResult =
@@ -131,7 +133,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             InternalAction.FetchLearningActivitiesWithSections(),
             InternalAction.FetchProfile,
             InternalAction.UpdateCurrentStudyPlanState(forceUpdate),
-            if (forceUpdate) InternalAction.FetchPaymentAbility else null
+            if (forceUpdate) InternalAction.FetchSubscriptionLimitType else null
         )
 
     private fun handleLearningActivitiesWithSectionsFetchSuccess(
@@ -143,7 +145,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val currentSectionId = visibleSections.firstOrNull()?.id ?: return state.copy(
             studyPlanSections = emptyMap(),
             sectionsStatus = StudyPlanWidgetFeature.SectionStatus.LOADED,
-            isRefreshing = false
+            isRefreshing = false,
+            subscriptionLimitType = message.subscriptionLimitType
         ) to emptySet()
 
         val supportedSections = visibleSections
@@ -172,10 +175,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             studyPlanSections = studyPlanSections,
             sectionsStatus = StudyPlanWidgetFeature.SectionStatus.LOADED,
             isRefreshing = false,
-            subscription = message.subscription,
             learnedTopicsCount = message.learnedTopicsCount,
-            canMakePayments = message.canMakePayments,
-            activities = message.learningActivities.associateBy { it.id }
+            activities = message.learningActivities.associateBy { it.id },
+            subscriptionLimitType = message.subscriptionLimitType
         )
 
         return if (loadedSectionsState.studyPlanSections.isNotEmpty()) {
@@ -477,11 +479,17 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             state to emptySet()
         }
 
-    private fun handleFetchPaymentAbilityResult(
+    private fun handleFetchSubscriptionLimitTypeResult(
         state: State,
-        message: InternalMessage.FetchPaymentAbilityResult
+        message: InternalMessage.FetchSubscriptionLimitTypeResult
     ): StudyPlanWidgetReducerResult =
-        state.copy(canMakePayments = message.canMakePayments) to emptySet()
+        state.copy(subscriptionLimitType = message.subscriptionLimitType) to emptySet()
+
+    private fun handleSubscriptionLimitTypeChanged(
+        state: State,
+        message: InternalMessage.SubscriptionLimitTypeChanged
+    ): StudyPlanWidgetReducerResult =
+        state.copy(subscriptionLimitType = message.subscriptionLimitType) to emptySet()
 
     private fun getFetchLearningActivitiesSentryTransaction(
         state: State,

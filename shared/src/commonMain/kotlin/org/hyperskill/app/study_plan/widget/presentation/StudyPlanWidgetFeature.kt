@@ -8,11 +8,11 @@ import org.hyperskill.app.learning_activities.presentation.model.LearningActivit
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
-import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.topics.domain.model.TopicProgress
 
 object StudyPlanWidgetFeature {
@@ -37,28 +37,20 @@ object StudyPlanWidgetFeature {
         val isRefreshing: Boolean = false,
 
         /**
-         * Current user subscription
-         */
-        val subscription: Subscription? = null,
-
-        /**
          * Actual learnedTopicsCount in the current track
          */
         val learnedTopicsCount: Int = 0,
 
-        val canMakePayments: Boolean = false
+        /**
+         * Subscription limit type
+         */
+        val subscriptionLimitType: SubscriptionLimitType = SubscriptionLimitType.NONE
     ) {
         /**
          * Divided track topics feature enabled flag
          */
         val isLearningPathDividedTrackTopicsEnabled: Boolean
             get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
-
-        /**
-         * MobileContentTrial feature flag
-         */
-        val isMobileContentTrialEnabled: Boolean
-            get() = profile?.features?.isMobileContentTrialEnabled ?: false
     }
 
     enum class SectionStatus {
@@ -116,16 +108,20 @@ object StudyPlanWidgetFeature {
 
         data class ProfileChanged(val profile: Profile) : InternalMessage
 
-        data class FetchPaymentAbilityResult(val canMakePayments: Boolean) : InternalMessage
+        data class FetchSubscriptionLimitTypeResult(
+            val subscriptionLimitType: SubscriptionLimitType
+        ) : InternalMessage
+
+        data class SubscriptionLimitTypeChanged(val subscriptionLimitType: SubscriptionLimitType): InternalMessage
     }
 
     internal sealed interface LearningActivitiesWithSectionsFetchResult : Message {
         data class Success(
             val learningActivities: List<LearningActivity>,
             val studyPlanSections: List<StudyPlanSection>,
-            val subscription: Subscription,
             val learnedTopicsCount: Int,
-            val canMakePayments: Boolean
+            val subscription: Subscription,
+            val subscriptionLimitType: SubscriptionLimitType
         ) : LearningActivitiesWithSectionsFetchResult
 
         data object Failed : LearningActivitiesWithSectionsFetchResult
@@ -178,7 +174,7 @@ object StudyPlanWidgetFeature {
 
         data class PutTopicsProgressesToCache(val topicsProgresses: List<TopicProgress>) : InternalAction
 
-        data object FetchPaymentAbility : InternalAction
+        data object FetchSubscriptionLimitType : InternalAction
 
         data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction

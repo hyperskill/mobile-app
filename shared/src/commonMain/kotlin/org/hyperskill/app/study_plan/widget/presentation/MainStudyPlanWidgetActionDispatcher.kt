@@ -10,7 +10,6 @@ import org.hyperskill.app.learning_activities.domain.repository.LearningActiviti
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
-import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -19,7 +18,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class MainStudyPlanWidgetActionDispatcher(
@@ -28,9 +27,8 @@ internal class MainStudyPlanWidgetActionDispatcher(
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val subscriptionInteractor: SubscriptionsInteractor,
     private val progressesRepository: ProgressesRepository,
-    private val purchaseInteractor: PurchaseInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -39,6 +37,12 @@ internal class MainStudyPlanWidgetActionDispatcher(
             .distinctUntilChanged()
             .onEach { profile ->
                 onNewMessage(InternalMessage.ProfileChanged(profile))
+            }
+            .launchIn(actionScope)
+        subscriptionInteractor
+            .subscribeOnSubscriptionLimitType()
+            .onEach {
+                onNewMessage(InternalMessage.SubscriptionLimitTypeChanged(it))
             }
             .launchIn(actionScope)
     }
@@ -74,12 +78,11 @@ internal class MainStudyPlanWidgetActionDispatcher(
             is InternalAction.CaptureSentryException -> {
                 sentryInteractor.captureException(action.throwable)
             }
-            is InternalAction.FetchPaymentAbility -> {
-                purchaseInteractor
-                    .canMakePayments()
-                    .getOrDefault(false)
-                    .let {
-                        onNewMessage(InternalMessage.FetchPaymentAbilityResult(it))
+            is InternalAction.FetchSubscriptionLimitType -> {
+                subscriptionInteractor
+                    .getSubscriptionLimitType()
+                    .onSuccess {
+                        onNewMessage(InternalMessage.FetchSubscriptionLimitTypeResult(it))
                     }
             }
             else -> {
@@ -105,8 +108,8 @@ internal class MainStudyPlanWidgetActionDispatcher(
                             learningActivityStates = action.learningActivityStates
                         )
                 }
-                val subscriptionDeferred = async {
-                    currentSubscriptionStateRepository.getState()
+                val subscriptionWithLimitTypeDeferred = async {
+                    subscriptionInteractor.getSubscriptionWithLimitType()
                 }
 
                 val profile = currentProfileStateRepository.getState().getOrNull()
@@ -122,11 +125,10 @@ internal class MainStudyPlanWidgetActionDispatcher(
                     }
                 }
 
-                val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
 
                 val learningActivitiesResponse = learningActivitiesDeferred.await().getOrThrow()
-                val subscription =
-                    subscriptionDeferred
+                val subscriptionWithLimitType =
+                    subscriptionWithLimitTypeDeferred
                         .await()
                         .getOrThrow()
 
@@ -135,9 +137,9 @@ internal class MainStudyPlanWidgetActionDispatcher(
                 StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                     learningActivities = learningActivitiesResponse.learningActivities,
                     studyPlanSections = learningActivitiesResponse.studyPlanSections,
-                    subscription = subscription,
                     learnedTopicsCount = trackProgress?.learnedTopicsCount ?: 0,
-                    canMakePayments = canMakePayments
+                    subscription = subscriptionWithLimitType.subscription,
+                    subscriptionLimitType = subscriptionWithLimitType.limitType
                 )
             }
         }.let(onNewMessage)
