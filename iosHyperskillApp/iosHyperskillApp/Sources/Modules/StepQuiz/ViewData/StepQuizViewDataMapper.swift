@@ -3,20 +3,25 @@ import shared
 
 final class StepQuizViewDataMapper {
     private let stepQuizStatsTextMapper: StepQuizStatsTextMapper
-
     private let stepQuizTitleMapper: StepQuizTitleMapper
+    private let stepQuizFeedbackMapper: StepQuizFeedbackMapper
 
-    init(stepQuizStatsTextMapper: StepQuizStatsTextMapper, stepQuizTitleMapper: StepQuizTitleMapper) {
+    init(
+        stepQuizStatsTextMapper: StepQuizStatsTextMapper,
+        stepQuizTitleMapper: StepQuizTitleMapper,
+        stepQuizFeedbackMapper: StepQuizFeedbackMapper
+    ) {
         self.stepQuizStatsTextMapper = stepQuizStatsTextMapper
         self.stepQuizTitleMapper = stepQuizTitleMapper
+        self.stepQuizFeedbackMapper = stepQuizFeedbackMapper
     }
 
     func mapStepDataToViewData(
         step: Step,
         stepRoute: StepRoute,
-        state: StepQuizFeatureStepQuizStateKs
+        state: StepQuizFeature.State
     ) -> StepQuizViewData {
-        let attemptLoadedState = StepQuizStateExtentionsKt.attemptLoadedState(state.sealed)
+        let attemptLoadedState = StepQuizStateExtensionsKt.attemptLoadedState(state.stepQuizState)
 
         let quizType = resolveQuizType(
             step: step,
@@ -28,21 +33,21 @@ final class StepQuizViewDataMapper {
             ? nil
             : step.title
 
-        let stepTextHeaderTitle = stepRoute is StepRouteStageImplement
-            ? Strings.StepQuiz.stepTextHeaderTitle
-            : step.title
-
-        if case .unsupported = quizType {
+        if quizType.isUnsupported || state.stepQuizState is StepQuizFeatureStepQuizStateNetworkError {
             return StepQuizViewData(
                 navigationTitle: navigationTitle,
                 formattedStats: nil,
-                stepTextHeaderTitle: stepTextHeaderTitle,
-                stepText: step.block.text,
+                stepTextHeaderTitle: nil,
+                stepText: nil,
                 quizType: quizType,
                 quizName: nil,
-                feedbackHintText: nil
+                stepQuizFeedbackState: nil
             )
         }
+
+        let stepTextHeaderTitle = stepRoute is StepRouteStageImplement
+            ? Strings.StepQuiz.stepTextHeaderTitle
+            : step.title
 
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
             solvedByCount: step.solvedBy,
@@ -61,22 +66,7 @@ final class StepQuizViewDataMapper {
             )
         }()
 
-        let feedbackHintText: String? = {
-            guard let submissionStateLoaded =
-               attemptLoadedState?.submissionState as? StepQuizFeatureSubmissionStateLoaded else {
-                return nil
-            }
-
-            if submissionStateLoaded.submission.status == SubmissionStatus.rejected,
-               let feedback = submissionStateLoaded.submission.feedback {
-                let formattedText = FeedbackKt.formattedText(feedback)
-                return formattedText.isEmpty ? nil : formattedText
-            } else if let hint = submissionStateLoaded.submission.hint {
-                return hint.isEmpty ? nil : hint
-            } else {
-                return nil
-            }
-        }()
+        let stepQuizFeedbackState = stepQuizFeedbackMapper.map(state: state)
 
         return StepQuizViewData(
             navigationTitle: navigationTitle,
@@ -85,22 +75,22 @@ final class StepQuizViewDataMapper {
             stepText: step.block.text,
             quizType: quizType,
             quizName: quizName,
-            feedbackHintText: feedbackHintText
+            stepQuizFeedbackState: .init(stepQuizFeedbackState)
         )
     }
 
     private func resolveQuizType(
         step: Step,
-        state: StepQuizFeatureStepQuizStateKs,
+        state: StepQuizFeature.State,
         attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded?
     ) -> StepQuizChildQuizType {
-        if state == .unsupported {
-            return .unsupported(blockName: step.block.name)
+        if state.stepQuizState is StepQuizFeatureStepQuizStateUnsupported {
+            .unsupported(blockName: step.block.name)
+        } else {
+            StepQuizChildQuizType.resolve(
+                step: step,
+                datasetOrNil: attemptLoadedState?.attempt.dataset
+            )
         }
-
-        return StepQuizChildQuizType.resolve(
-            step: step,
-            datasetOrNil: attemptLoadedState?.attempt.dataset
-        )
     }
 }

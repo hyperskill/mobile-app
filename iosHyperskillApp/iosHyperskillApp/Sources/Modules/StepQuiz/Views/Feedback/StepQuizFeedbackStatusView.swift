@@ -1,17 +1,19 @@
 import shared
 import SwiftUI
 
-extension StepQuizStatusView {
+extension StepQuizFeedbackStatusView {
     struct Appearance {
         let interItemSpacing = LayoutInsets.defaultInset
 
         let iconImageWidthHeight: CGFloat = 20
 
+        let font = Font.headline
+
         let cornerRadius: CGFloat = 8
     }
 }
 
-struct StepQuizStatusView: View {
+struct StepQuizFeedbackStatusView: View {
     private(set) var appearance = Appearance()
 
     let state: State
@@ -33,7 +35,7 @@ struct StepQuizStatusView: View {
 
             Text(state.title)
                 .foregroundColor(state.foregroundColor)
-                .font(.body)
+                .font(appearance.font)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -48,7 +50,7 @@ struct StepQuizStatusView: View {
         case loading
         case invalidReply(message: String)
 
-        static var allCases: [StepQuizStatusView.State] {
+        static var allCases: [StepQuizFeedbackStatusView.State] {
             [
                 .correct,
                 .wrong,
@@ -61,80 +63,68 @@ struct StepQuizStatusView: View {
         fileprivate var iconImageName: String {
             switch self {
             case .correct:
-                return Images.StepQuiz.checkmark
+                Images.StepQuiz.checkmark
             case .wrong, .invalidReply:
-                return Images.StepQuiz.info
+                Images.StepQuiz.info
             case .evaluation, .loading:
-                return ""
+                ""
             }
         }
 
         fileprivate var title: String {
             switch self {
             case .correct:
-                return Strings.StepQuiz.quizStatusCorrect
+                Strings.StepQuiz.quizStatusCorrect
             case .wrong:
-                return Strings.StepQuiz.quizStatusWrong
+                Strings.StepQuiz.quizStatusWrong
             case .evaluation:
-                return Strings.StepQuiz.quizStatusEvaluation
+                Strings.StepQuiz.quizStatusEvaluation
             case .loading:
-                return Strings.StepQuiz.quizStatusLoading
+                Strings.StepQuiz.quizStatusLoading
             case .invalidReply(let message):
-                return message
+                message
             }
         }
 
         fileprivate var foregroundColor: Color {
             switch self {
             case .correct:
-                return Color(ColorPalette.secondary)
+                Color(ColorPalette.secondary)
             case .wrong, .evaluation, .loading, .invalidReply:
-                return Color(ColorPalette.primary)
+                Color(ColorPalette.primary)
             }
         }
 
         fileprivate var backgroundColor: Color {
             switch self {
             case .correct:
-                return Color(ColorPalette.green200Alpha12)
+                Color(ColorPalette.green200Alpha12)
             case .evaluation, .loading, .invalidReply, .wrong:
-                return Color(ColorPalette.blue200Alpha12)
+                Color(ColorPalette.blue200Alpha12)
             }
         }
     }
 }
 
-// MARK: - StepQuizStatusView (SubmissionStatus) -
+// MARK: - Preview -
 
-extension StepQuizStatusView {
-    @ViewBuilder
-    static func build(appearance: Appearance = Appearance(), submissionStatus: SubmissionStatus) -> some View {
-        switch submissionStatus {
-        case SubmissionStatus.evaluation:
-            StepQuizStatusView(state: .evaluation)
-        case SubmissionStatus.wrong:
-            StepQuizStatusView(state: .wrong)
-        case SubmissionStatus.correct:
-            StepQuizStatusView(state: .correct)
-        default:
-            EmptyView()
+#if DEBUG
+#Preview {
+    Group {
+        ForEach(StepQuizFeedbackStatusView.State.allCases, id: \.self) { state in
+            StepQuizFeedbackStatusView(state: state)
         }
     }
+    .padding()
 }
 
-// MARK: - StepQuizStatusView_Previews: PreviewProvider -
-
-struct StepQuizStatusView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ForEach(StepQuizStatusView.State.allCases, id: \.self) { state in
-                StepQuizStatusView(state: state)
-
-                StepQuizStatusView(state: state)
-                    .preferredColorScheme(.dark)
-            }
+#Preview {
+    Group {
+        ForEach(StepQuizFeedbackStatusView.State.allCases, id: \.self) { state in
+            StepQuizFeedbackStatusView(state: state)
+                .preferredColorScheme(.dark)
         }
-        .previewLayout(.sizeThatFits)
-        .padding()
     }
+    .padding()
 }
+#endif

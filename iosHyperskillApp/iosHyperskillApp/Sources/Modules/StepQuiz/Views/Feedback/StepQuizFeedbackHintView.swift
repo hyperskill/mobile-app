@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StepQuizFeedbackView: View {
+struct StepQuizFeedbackHintView: View {
     let text: String
 
     var body: some View {
@@ -25,9 +25,10 @@ struct StepQuizFeedbackView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     ScrollView {
-        StepQuizFeedbackView(
+        StepQuizFeedbackHintView(
             text: """
 That's right! Since any comparison results in a boolean value, there is no need to write everything twice.
 """
@@ -35,3 +36,4 @@ That's right! Since any comparison results in a boolean value, there is no need 
     }
     .padding()
 }
+#endif

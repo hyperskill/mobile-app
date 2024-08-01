@@ -318,10 +318,10 @@ abstract class DefaultStepQuizFragment :
             StepQuizFeature.Action.ViewAction.HapticFeedback.ReplyValidationError -> {
                 viewBinding.stepQuizButtons.stepQuizSubmitButton.performRejectHapticFeedback()
             }
-            StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton -> {
+            StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton -> {
                 handleScrollToCallToActionButton()
             }
-            StepQuizFeature.Action.ViewAction.ScrollToHints -> {
+            StepQuizFeature.Action.ViewAction.ScrollTo.Hints -> {
                 parentOfType(StepPracticeHost::class.java)
                     ?.scrollTo(viewBinding.stepQuizHints.root)
             }

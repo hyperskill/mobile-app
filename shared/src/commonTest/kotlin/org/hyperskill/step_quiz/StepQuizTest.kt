@@ -615,7 +615,7 @@ class StepQuizTest {
                 )
             )
 
-            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
+            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton)
         }
     }
 
@@ -652,7 +652,7 @@ class StepQuizTest {
                 )
             )
 
-            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
+            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton)
         }
     }
 

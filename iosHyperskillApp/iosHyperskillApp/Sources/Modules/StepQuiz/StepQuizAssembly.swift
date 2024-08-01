@@ -21,11 +21,12 @@ final class StepQuizAssembly: Assembly {
     }
 
     func makeModule() -> StepQuizView {
-        let stepQuizComponent = AppGraphBridge.sharedAppGraph.buildStepQuizComponent(stepRoute: self.stepRoute)
+        let stepQuizComponent = AppGraphBridge.sharedAppGraph.buildStepQuizComponent(stepRoute: stepRoute)
 
         let viewDataMapper = StepQuizViewDataMapper(
             stepQuizStatsTextMapper: stepQuizComponent.stepQuizStatsTextMapper,
-            stepQuizTitleMapper: stepQuizComponent.stepQuizTitleMapper
+            stepQuizTitleMapper: stepQuizComponent.stepQuizTitleMapper,
+            stepQuizFeedbackMapper: stepQuizComponent.stepQuizFeedbackMapper
         )
 
         let viewModel = StepQuizViewModel(
