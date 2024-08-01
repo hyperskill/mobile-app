@@ -17,8 +17,7 @@ struct StepQuizView: View {
     @EnvironmentObject private var stackRouter: SwiftUIStackRouter
     @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
-    @Namespace private var actionButtonID
-    @State private var scrollToCallToActionButtonTrigger = false
+    @State private var scrollPosition: ScrollPosition?
 
     var body: some View {
         let viewData = viewModel.makeViewData()
@@ -83,6 +82,7 @@ struct StepQuizView: View {
                                     }
                                 )
                                 .equatable()
+                                .id(ScrollPosition.hints)
                             }
 
                             buildQuizContent(
@@ -103,10 +103,16 @@ struct StepQuizView: View {
                     onLimitsButtonTap: viewModel.doLimitsToolbarAction,
                     onTheoryButtonTap: viewModel.doTheoryToolbarAction
                 )
-                .onChange(of: scrollToCallToActionButtonTrigger) { _ in
-                    withAnimation {
-                        scrollViewProxy.scrollTo(actionButtonID, anchor: .bottom)
+                .onChange(of: scrollPosition) { newScrollPosition in
+                    guard let newScrollPosition else {
+                        return
                     }
+
+                    withAnimation {
+                        scrollViewProxy.scrollTo(newScrollPosition, anchor: .bottom)
+                    }
+
+                    scrollPosition = nil
                 }
             }
         }
@@ -144,7 +150,7 @@ struct StepQuizView: View {
             }
 
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
-                .id(actionButtonID)
+                .id(ScrollPosition.callToActionButton)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
                 .padding(.top)
@@ -249,6 +255,13 @@ struct StepQuizView: View {
             }
         }
     }
+
+    // MARK: - Inner Types -
+
+    enum ScrollPosition: Hashable {
+        case hints
+        case callToActionButton
+    }
 }
 
 // MARK: - StepQuizView (ViewAction) -
@@ -289,12 +302,8 @@ private extension StepQuizView {
             handleStepQuizToolbarViewAction(viewAction: stepQuizToolbarViewAction.viewAction)
         case .hapticFeedback(let hapticFeedbackViewAction):
             handleHapticFeedbackViewAction(hapticFeedbackViewAction)
-        case .scrollToCallToActionButton:
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.33) {
-                self.scrollToCallToActionButtonTrigger.toggle()
-            }
-        case .scrollToHints:
-            #warning("TODO: ALTAPPS-1314")
+        case .scrollTo(let scrollToViewAction):
+            handleScrollToViewAction(scrollToViewAction)
         case .requestShowComments:
             viewModel.doRequestShowComments()
         case .requestSkipStep:
@@ -396,5 +405,19 @@ private extension StepQuizView {
                 .notification(.error)
             }
         FeedbackGenerator(feedbackType: feedbackType).triggerFeedback()
+    }
+
+    func handleScrollToViewAction(_ viewAction: StepQuizFeatureActionViewActionScrollTo) {
+        let targetScrollPosition =
+            switch StepQuizFeatureActionViewActionScrollToKs(viewAction) {
+            case .hints:
+                ScrollPosition.hints
+            case .callToActionButton:
+                ScrollPosition.callToActionButton
+            }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.33) {
+            self.scrollPosition = targetScrollPosition
+        }
     }
 }
