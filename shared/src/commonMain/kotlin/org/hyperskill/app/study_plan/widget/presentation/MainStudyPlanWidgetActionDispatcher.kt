@@ -78,13 +78,6 @@ internal class MainStudyPlanWidgetActionDispatcher(
             is InternalAction.CaptureSentryException -> {
                 sentryInteractor.captureException(action.throwable)
             }
-            is InternalAction.FetchSubscriptionLimitType -> {
-                subscriptionInteractor
-                    .getSubscriptionLimitType()
-                    .onSuccess {
-                        onNewMessage(InternalMessage.FetchSubscriptionLimitTypeResult(it))
-                    }
-            }
             else -> {
                 // no op
             }

@@ -28,7 +28,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
-import org.hyperskill.app.subscriptions.domain.interactor.isProblemsLimitReached
+import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class StepQuizActionDispatcher(

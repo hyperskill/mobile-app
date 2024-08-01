@@ -176,8 +176,6 @@ object StudyPlanWidgetFeature {
 
         data class PutTopicsProgressesToCache(val topicsProgresses: List<TopicProgress>) : InternalAction
 
-        data object FetchSubscriptionLimitType : InternalAction
-
         data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }

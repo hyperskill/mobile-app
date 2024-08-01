@@ -21,21 +21,14 @@ internal class CurrentSubscriptionStateRepositoryImpl(
     override suspend fun loadState(): Result<Subscription> =
         subscriptionsRemoteDataSource
             .getCurrentSubscription()
-            .map {
-                it.orContentTrial(
-                    isMobileContentTrialEnabled = featuresDataSource.getFeaturesMap().isMobileContentTrialEnabled,
-                    canMakePayments = canMakePayments()
-                )
-            }
+            .map { mapSubscription(it) }
 
     override val changes: Flow<Subscription>
-        get() = super.changes.map {
-            it.orContentTrial(
-                isMobileContentTrialEnabled = featuresDataSource.getFeaturesMap().isMobileContentTrialEnabled,
-                canMakePayments = canMakePayments()
-            )
-        }
+        get() = super.changes.map(::mapSubscription)
 
-    private suspend fun canMakePayments(): Boolean =
-        purchaseInteractor.canMakePayments().getOrDefault(false)
+    private suspend fun mapSubscription(subscription: Subscription): Subscription =
+        subscription.orContentTrial(
+            isMobileContentTrialEnabled = featuresDataSource.getFeaturesMap().isMobileContentTrialEnabled,
+            canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
+        )
 }

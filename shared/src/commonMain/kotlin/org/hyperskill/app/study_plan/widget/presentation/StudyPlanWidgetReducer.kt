@@ -132,8 +132,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         setOfNotNull(
             InternalAction.FetchLearningActivitiesWithSections(),
             InternalAction.FetchProfile,
-            InternalAction.UpdateCurrentStudyPlanState(forceUpdate),
-            if (forceUpdate) InternalAction.FetchSubscriptionLimitType else null
+            InternalAction.UpdateCurrentStudyPlanState(forceUpdate)
         )
 
     private fun handleLearningActivitiesWithSectionsFetchSuccess(

@@ -27,6 +27,7 @@ import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrateg
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionWithLimitType
 import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.isActive
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository

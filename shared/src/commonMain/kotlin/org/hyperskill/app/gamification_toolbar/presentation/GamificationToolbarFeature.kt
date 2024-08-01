@@ -8,10 +8,10 @@ import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModa
 import org.hyperskill.app.streaks.domain.model.HistoricalStreak
 import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
-import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionWithLimitType
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionWithLimitType
 
 object GamificationToolbarFeature {
     sealed interface State {
