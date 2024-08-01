@@ -70,7 +70,7 @@
     <string name="step_theory_reading_text">%s reading</string>
     <string name="step_theory_failed_to_start_practicing">Failed to start practicing</string>
     <string name="step_theory_failed_to_continue_practicing">Failed to continue practicing</string>
-    <string name="step_skip_failed_message">Unable to skip this step</string>
+    <string name="step_skip_failed_message">Unable to postpone this step</string>
 
     <!-- Step quiz -->
     <string name="step_quiz_status_correct_text">You\'re absolutely correct!</string>
@@ -83,7 +83,7 @@
     <string name="step_quiz_status_see_comments_suggestion">Study the comments of other learners, it may help you to find the right solution.</string>
     <string name="step_quiz_status_comments_action">Read the comments</string>
     <string name="step_quiz_status_skip_suggestion">Go to the next problem if you're stuck on the current one.</string>
-    <string name="step_quiz_status_skip_action">Skip this problem</string>
+    <string name="step_quiz_status_skip_action">Postpone this problem</string>
 
     <string name="step_quiz_stats_text">%s solved this problem. Latest completion was %s ago.</string>
     <string name="step_quiz_feedback_title">FEEDBACK:</string>
@@ -729,7 +729,7 @@
     <!--Step menu actions-->
     <string name="step_menu_share_action">Share</string>
     <string name="step_menu_report_action">Report</string>
-    <string name="step_menu_skip_action">Skip</string>
+    <string name="step_menu_skip_action">Postpone</string>
     <string name="step_menu_open_in_web_action">Open in Web</string>
 
     <!--Welcome onboarding-->

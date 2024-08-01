@@ -157,6 +157,8 @@ class StepQuizCodeBlanksReducer(
                         }
 
                         removeAt(activeCodeBlockIndex)
+                    } else {
+                        set(activeCodeBlockIndex, CodeBlock.Blank(isActive = true))
                     }
                 }
                 state.copy(codeBlocks = newCodeBlocks) to actions
