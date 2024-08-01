@@ -7,6 +7,8 @@ extension StepQuizFeedbackStatusView {
 
         let iconImageWidthHeight: CGFloat = 20
 
+        let font = Font.headline
+
         let cornerRadius: CGFloat = 8
     }
 }
@@ -33,7 +35,7 @@ struct StepQuizFeedbackStatusView: View {
 
             Text(state.title)
                 .foregroundColor(state.foregroundColor)
-                .font(.body)
+                .font(appearance.font)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()

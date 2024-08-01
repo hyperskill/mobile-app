@@ -106,6 +106,19 @@ final class StepQuizViewModel: FeatureViewModel<
         moduleOutput?.stepQuizDidRequestContinue()
     }
 
+    func doFeedbackAction(actionType: StepQuizFeedbackStateWrong.Action) {
+        switch actionType {
+        case .seeHint:
+            onNewMessage(StepQuizFeatureMessageSeeHintClicked())
+        case .readComments:
+            onNewMessage(StepQuizFeatureMessageReadCommentsClicked())
+        case .skipProblem:
+            onNewMessage(StepQuizFeatureMessageSkipClicked())
+        default:
+            assertionFailure("StepQuizViewModel: unknown action type \(actionType)")
+        }
+    }
+
     func doUnsupportedQuizSolveOnTheWebAction() {
         onNewMessage(StepQuizFeatureMessageUnsupportedQuizSolveOnTheWebClicked())
     }

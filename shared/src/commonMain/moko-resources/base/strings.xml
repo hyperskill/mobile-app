@@ -91,7 +91,6 @@
     <string name="step_quiz_retry_button_text">Retry</string>
     <string name="step_quiz_send_button_text">Send</string>
     <string name="step_quiz_checking_button_text">Checking</string>
-    <string name="step_quiz_discussions_button_text">Show discussions</string>
     <string name="step_quiz_problem_of_day_solved_modal_title">Problem of the day solved!</string>
     <string name="step_quiz_problem_of_day_solved_modal_text">Solve another one tomorrow to get more</string>
     <string name="step_quiz_problem_of_day_solved_modal_streak_text">%s streak</string>

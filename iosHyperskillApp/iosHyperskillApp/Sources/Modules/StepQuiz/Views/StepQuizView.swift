@@ -137,7 +137,10 @@ struct StepQuizView: View {
             if state.stepQuizState is StepQuizFeatureStepQuizStateAttemptLoading {
                 StepQuizFeedbackStatusView(state: .loading)
             } else {
-                StepQuizFeedbackView(stepQuizFeedbackState: stepQuizFeedbackState)
+                StepQuizFeedbackView(
+                    stepQuizFeedbackState: stepQuizFeedbackState,
+                    onAction: viewModel.doFeedbackAction(actionType:)
+                )
             }
 
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
