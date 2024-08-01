@@ -5,7 +5,6 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
-import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 
 internal object GamificationToolbarViewStateMapper {
     fun map(state: GamificationToolbarFeature.State): GamificationToolbarFeature.ViewState =
@@ -28,8 +27,7 @@ internal object GamificationToolbarViewStateMapper {
             ),
             problemsLimit = getProblemsLimitState(
                 subscription = state.subscription,
-                isMobileContentTrialEnabled = state.isMobileContentTrialEnabled,
-                canMakePayments = state.canMakePayments
+                subscriptionLimitType = state.subscriptionLimitType
             )
         )
 
@@ -48,14 +46,9 @@ internal object GamificationToolbarViewStateMapper {
 
     private fun getProblemsLimitState(
         subscription: Subscription,
-        isMobileContentTrialEnabled: Boolean,
-        canMakePayments: Boolean
+        subscriptionLimitType: SubscriptionLimitType
     ): GamificationToolbarFeature.ViewState.Content.ProblemsLimit? {
         val stepsLimitLeft = subscription.stepsLimitLeft
-        val subscriptionLimitType = subscription.getSubscriptionLimitType(
-            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-            canMakePayments = canMakePayments
-        )
         return if (subscriptionLimitType == SubscriptionLimitType.PROBLEMS && stepsLimitLeft != null) {
             GamificationToolbarFeature.ViewState.Content.ProblemsLimit(limitLabel = stepsLimitLeft.toString())
         } else {

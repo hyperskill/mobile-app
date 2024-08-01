@@ -54,22 +54,11 @@ internal fun Subscription.getSubscriptionLimitType(
         else -> type.subscriptionLimitType
     }
 
-internal fun Subscription.isProblemsLimitReached(
-    isMobileContentTrialEnabled: Boolean,
-    canMakePayments: Boolean
-): Boolean {
-    val subscriptionLimitType = getSubscriptionLimitType(
-        isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-        canMakePayments = canMakePayments
-    )
-    return subscriptionLimitType == SubscriptionLimitType.PROBLEMS && stepsLimitLeft == 0
-}
-
 internal val Subscription.isFreemium: Boolean
     get() = type == SubscriptionType.FREEMIUM ||
         type == SubscriptionType.MOBILE_ONLY && status != SubscriptionStatus.ACTIVE
 
-fun Subscription.orContentTrial(
+internal fun Subscription.orContentTrial(
     isMobileContentTrialEnabled: Boolean,
     canMakePayments: Boolean
 ): Subscription =

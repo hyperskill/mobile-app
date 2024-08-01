@@ -207,8 +207,8 @@ class HomeFragment :
 
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
-            renderProblemOfDay(viewBinding, homeState.problemOfDayState, homeState.areProblemsLimited)
-            renderTopicsRepetition(homeState.repetitionsState, homeState.areProblemsLimited)
+            renderProblemOfDay(viewBinding, homeState.problemOfDayState, homeState.isProblemsLimitEnabled)
+            renderTopicsRepetition(homeState.repetitionsState, homeState.isProblemsLimitEnabled)
         }
 
         renderChallengeCard(state.challengeWidgetViewState)
@@ -242,19 +242,19 @@ class HomeFragment :
     private fun renderProblemOfDay(
         viewBinding: FragmentHomeBinding,
         state: HomeFeature.ProblemOfDayState,
-        areProblemsLimited: Boolean
+        isProblemsLimitEnabled: Boolean
     ) {
         problemOfDayCardFormDelegate.render(
             dateFormatter = dateFormatter,
             binding = viewBinding.homeScreenProblemOfDayCard,
             state = state,
-            areProblemsLimited = areProblemsLimited
+            areProblemsLimited = isProblemsLimitEnabled
         )
     }
 
     private fun renderTopicsRepetition(
         repetitionsState: HomeFeature.RepetitionsState,
-        areProblemsLimited: Boolean
+        isProblemsLimitEnabled: Boolean
     ) {
         viewBinding.homeScreenTopicsRepetitionCard.root.isVisible =
             repetitionsState is HomeFeature.RepetitionsState.Available
@@ -263,7 +263,7 @@ class HomeFragment :
                 context = requireContext(),
                 binding = viewBinding.homeScreenTopicsRepetitionCard,
                 recommendedRepetitionsCount = repetitionsState.recommendedRepetitionsCount,
-                areProblemsLimited = areProblemsLimited
+                isProblemsLimitEnabled = isProblemsLimitEnabled
             )
         }
     }

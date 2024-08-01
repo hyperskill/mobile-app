@@ -87,7 +87,7 @@ struct HomeView: View {
 
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
-                        isFreemiumEnabled: data.areProblemsLimited,
+                        isFreemiumEnabled: data.isProblemsLimitEnabled,
                         output: viewModel
                     )
                     .makeModule()
@@ -96,7 +96,7 @@ struct HomeView: View {
                         TopicsRepetitionsCardView(
                             topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
                             onTap: viewModel.doTopicsRepetitionsPresentation,
-                            isFreemiumEnabled: data.areProblemsLimited
+                            isFreemiumEnabled: data.isProblemsLimitEnabled
                         )
                     }
                 }

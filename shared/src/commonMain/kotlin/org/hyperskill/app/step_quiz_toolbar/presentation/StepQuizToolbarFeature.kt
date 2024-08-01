@@ -5,6 +5,8 @@ import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModa
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionWithLimitType
 
 object StepQuizToolbarFeature {
     sealed interface State {
@@ -14,8 +16,7 @@ object StepQuizToolbarFeature {
         object Error : State
         data class Content(
             val subscription: Subscription,
-            val isMobileContentTrialEnabled: Boolean,
-            val canMakePayment: Boolean,
+            val subscriptionLimitType: SubscriptionLimitType,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : State
     }
@@ -47,12 +48,13 @@ object StepQuizToolbarFeature {
         object SubscriptionFetchError : InternalMessage
         data class SubscriptionFetchSuccess(
             val subscription: Subscription,
-            val isMobileContentTrialEnabled: Boolean,
-            val canMakePayment: Boolean,
+            val subscriptionLimitType: SubscriptionLimitType,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
 
-        data class SubscriptionChanged(val subscription: Subscription) : InternalMessage
+        data class SubscriptionChanged(
+            val subscriptionWithLimitType: SubscriptionWithLimitType
+        ) : InternalMessage
     }
 
     sealed interface Action {

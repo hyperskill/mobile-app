@@ -10,7 +10,7 @@ class TopicsRepetitionCardFormDelegate {
         context: Context,
         binding: LayoutTopicsRepetitionCardBinding,
         recommendedRepetitionsCount: Int,
-        areProblemsLimited: Boolean
+        isProblemsLimitEnabled: Boolean
     ) {
         with(binding) {
             topicsRepetitionBackgroundImageView.setImageResource(
@@ -49,7 +49,7 @@ class TopicsRepetitionCardFormDelegate {
                 }
             )
             topicsRepetitionUnlimitedBadge.isVisible =
-                areProblemsLimited && recommendedRepetitionsCount > 0
+                isProblemsLimitEnabled && recommendedRepetitionsCount > 0
         }
     }
 }

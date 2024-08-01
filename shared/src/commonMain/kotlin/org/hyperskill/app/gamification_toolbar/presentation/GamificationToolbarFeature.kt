@@ -10,6 +10,8 @@ import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionWithLimitType
 
 object GamificationToolbarFeature {
     sealed interface State {
@@ -22,8 +24,7 @@ object GamificationToolbarFeature {
             val historicalStreak: HistoricalStreak,
             val subscription: Subscription,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-            internal val isMobileContentTrialEnabled: Boolean,
-            internal val canMakePayments: Boolean = false,
+            internal val subscriptionLimitType: SubscriptionLimitType,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -72,9 +73,8 @@ object GamificationToolbarFeature {
         data class FetchGamificationToolbarDataSuccess(
             val gamificationToolbarData: GamificationToolbarData,
             val subscription: Subscription,
-            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-            val isMobileContentTrialEnabled: Boolean,
-            val canMakePayments: Boolean
+            val subscriptionLimitType: SubscriptionLimitType,
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
 
         object PullToRefresh : InternalMessage
@@ -89,7 +89,9 @@ object GamificationToolbarFeature {
         data class GamificationToolbarDataChanged(
             val gamificationToolbarData: GamificationToolbarData
         ) : InternalMessage
-        data class SubscriptionChanged(val subscription: Subscription) : InternalMessage
+        data class SubscriptionChanged(
+            val subscriptionWithLimitType: SubscriptionWithLimitType
+        ) : InternalMessage
     }
 
     sealed interface Action {

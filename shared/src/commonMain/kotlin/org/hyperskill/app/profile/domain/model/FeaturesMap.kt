@@ -1,5 +1,7 @@
 package org.hyperskill.app.profile.domain.model
 
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+
 data class FeaturesMap(internal val origin: Map<String, Boolean>) : Map<String, Boolean> by origin
 
 val FeaturesMap.isRecommendationsJavaProjectsFeatureEnabled: Boolean
@@ -16,6 +18,13 @@ val FeaturesMap.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled: Boolean
 
 val FeaturesMap.isFreemiumWrongSubmissionChargeLimitsEnabled: Boolean
     get() = get(FeatureKeys.FREEMIUM_WRONG_SUBMISSION_CHARGE_LIMITS) ?: false
+
+internal val FeaturesMap.freemiumChargeLimitsStrategy: FreemiumChargeLimitsStrategy
+    get() = if (isFreemiumWrongSubmissionChargeLimitsEnabled) {
+        FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION
+    } else {
+        FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION
+    }
 
 val FeaturesMap.isLearningPathDividedTrackTopicsEnabled: Boolean
     get() = get(FeatureKeys.LEARNING_PATH_DIVIDED_TRACK_TOPICS) ?: false
