@@ -8,7 +8,7 @@ class DebugCacheDataSourceImpl(private val settings: Settings) : DebugCacheDataS
     override fun getEndpointConfig(): EndpointConfigType {
         val cachedEndpointConfigName = settings.getString(
             key = DebugCacheKeyValues.ENDPOINT_CONFIG,
-            defaultValue = EndpointConfigType.PRODUCTION.name
+            defaultValue = EndpointConfigType.MAIN.name
         )
         return EndpointConfigType.valueOf(cachedEndpointConfigName)
     }
