@@ -293,16 +293,16 @@ private extension StepQuizView {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.33) {
                 self.scrollToCallToActionButtonTrigger.toggle()
             }
+        case .scrollToHints:
+            #warning("TODO: ALTAPPS-1314")
+        case .requestShowComments:
+            viewModel.doRequestShowComments()
+        case .requestSkipStep:
+            viewModel.doRequestSkipStep()
         case .stepQuizCodeBlanksViewAction(let stepQuizCodeBlanksViewAction):
             assertionFailure(
                 "StepQuizView :: did receive unexpected StepQuizCodeBlanksViewAction: \(stepQuizCodeBlanksViewAction)"
             )
-        case .scrollToHints:
-            #warning("TODO: ALTAPPS-1314")
-        case .requestShowComments:
-            #warning("TODO: ALTAPPS-1314")
-        case .requestSkipStep:
-            #warning("TODO: ALTAPPS-1314")
         }
     }
 

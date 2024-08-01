@@ -103,6 +103,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doQuizContinueAction() {
+        assert(moduleOutput != nil)
         moduleOutput?.stepQuizDidRequestContinue()
     }
 
@@ -117,6 +118,16 @@ final class StepQuizViewModel: FeatureViewModel<
         default:
             assertionFailure("StepQuizViewModel: unknown action type \(actionType)")
         }
+    }
+
+    func doRequestShowComments() {
+        assert(moduleOutput != nil)
+        moduleOutput?.stepQuizDidRequestShowComments()
+    }
+
+    func doRequestSkipStep() {
+        assert(moduleOutput != nil)
+        moduleOutput?.stepQuizDidRequestSkipStep()
     }
 
     func doUnsupportedQuizSolveOnTheWebAction() {
