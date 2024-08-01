@@ -35,6 +35,7 @@ enum CodeLanguage: String, CaseIterable {
     case pascal = "pascalabc"
     case perl = "perl"
     case sql = "sql"
+    case mysql = "mysql"
     case swift = "swift"
     case php = "php"
     case julia = "julia"
@@ -78,7 +79,7 @@ enum CodeLanguage: String, CaseIterable {
             return "delphi"
         case .perl:
             return "perl"
-        case .sql:
+        case .sql, .mysql:
             return "sql"
         case .swift:
             return "swift"
@@ -133,6 +134,8 @@ enum CodeLanguage: String, CaseIterable {
             return "Perl"
         case .sql:
             return "SQL"
+        case .mysql:
+            return "MySQL"
         case .swift:
             return "Swift"
         case .php:

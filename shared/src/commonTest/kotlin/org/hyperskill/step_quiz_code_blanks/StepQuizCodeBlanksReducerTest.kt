@@ -275,6 +275,28 @@ class StepQuizCodeBlanksReducerTest {
     }
 
     @Test
+    fun `DeleteButtonClicked should replace single Print code block with Blank`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    isActive = true,
+                    suggestions = emptyList(),
+                    selectedSuggestion = null
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(CodeBlock.Blank(isActive = true))
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsDeleteButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
     fun `EnterButtonClicked should not update state if state is not Content`() {
         val initialState = StepQuizCodeBlanksFeature.State.Idle
         val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.EnterButtonClicked)

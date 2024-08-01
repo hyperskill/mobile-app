@@ -211,10 +211,6 @@ object StepQuizFeature {
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
-            data object ScrollToCallToActionButton : ViewAction
-
-            data object ScrollToHints : ViewAction
-
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
             ) : ViewAction
@@ -235,8 +231,12 @@ object StepQuizFeature {
             data class OpenUrl(val url: String) : ViewAction
 
             data object RequestShowComments : ViewAction
-
             data object RequestSkipStep : ViewAction
+
+            sealed interface ScrollTo : ViewAction {
+                data object Hints : ScrollTo
+                data object CallToActionButton : ScrollTo
+            }
 
             sealed interface NavigateTo : ViewAction {
                 data object StudyPlan : NavigateTo

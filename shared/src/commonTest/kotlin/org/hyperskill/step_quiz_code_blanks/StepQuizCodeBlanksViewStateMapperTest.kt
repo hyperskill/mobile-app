@@ -19,7 +19,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
     }
 
     @Test
-    fun `Content with print suggestion and delete button hidden when active code block is Blank`() {
+    fun `Content with print suggestion and disabled delete button when active code block is Blank`() {
         val state = stubState(
             codeBlocks = listOf(CodeBlock.Blank(isActive = true))
         )
@@ -35,7 +35,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
     }
 
     @Test
-    fun `Content with suggestions and not visible delete button when active code block is Print`() {
+    fun `Content with suggestions and enabled delete button when active code block is Print`() {
         val suggestions = listOf(
             Suggestion.ConstantString("1"),
             Suggestion.ConstantString("2")
@@ -54,7 +54,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 StepQuizCodeBlanksViewState.CodeBlockItem.Print(id = 0, isActive = true, output = null)
             ),
             suggestions = suggestions,
-            isDeleteButtonEnabled = false
+            isDeleteButtonEnabled = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
