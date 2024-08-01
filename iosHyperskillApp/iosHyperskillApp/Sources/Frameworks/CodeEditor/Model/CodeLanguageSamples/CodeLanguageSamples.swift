@@ -73,7 +73,7 @@ enum CodeLanguageSamples {
                 return pascal
             case .perl:
                 return perl
-            case .sql:
+            case .sql, .mysql:
                 return sql
             case .swift:
                 return swift

@@ -34,9 +34,10 @@ final class StepQuizFillBlanksViewDataMapper {
 
     private func mapFillBlanksDataToViewData(_ fillBlanksData: FillBlanksData) -> StepQuizFillBlanksViewData {
         let language = fillBlanksData.language
+        let codeLanguage = language.flatMap(CodeLanguage.init(rawValue:))
 
         var components = fillBlanksData.fillBlanks
-            .map { mapFillBlanksItem($0, language: language) }
+            .map { mapFillBlanksItem($0, language: language, codeLanguage: codeLanguage) }
             .flatMap { $0 }
         for index in components.indices {
             components[index].id = index
@@ -63,7 +64,8 @@ final class StepQuizFillBlanksViewDataMapper {
 
     private func mapFillBlanksItem(
         _ fillBlanksItem: FillBlanksItem,
-        language: String?
+        language: String?,
+        codeLanguage: CodeLanguage?
     ) -> [StepQuizFillBlankComponent] {
         switch FillBlanksItemKs(fillBlanksItem) {
         case .text(let data):
@@ -80,7 +82,7 @@ final class StepQuizFillBlanksViewDataMapper {
             } else {
                 let unescaped = HTMLString.unescape(string: data.text)
 
-                if let highlightedCode = highlight(code: unescaped, language: language) {
+                if let highlightedCode = highlight(code: unescaped, codeLanguage: codeLanguage) {
                     cache.setHighlightedCode(highlightedCode, for: hash)
                     result.append(StepQuizFillBlankComponent(type: .text, attributedText: highlightedCode))
                 } else {
@@ -101,7 +103,7 @@ final class StepQuizFillBlanksViewDataMapper {
         }
     }
 
-    private func highlight(code: String, language: String?) -> NSAttributedString? {
-        highlightr.highlight(code, as: language, fastRender: true)
+    private func highlight(code: String, codeLanguage: CodeLanguage?) -> NSAttributedString? {
+        highlightr.highlight(code, as: codeLanguage?.highlightr, fastRender: true)
     }
 }
