@@ -6,7 +6,6 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.rootTopicsActivitiesToBeLoaded
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
-import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
 
 /**
  * @return current [StudyPlanSection].
@@ -100,11 +99,7 @@ internal fun StudyPlanWidgetFeature.State.isActivityLocked(
 internal fun StudyPlanWidgetFeature.State.getUnlockedActivitiesCount(sectionId: Long): Int? {
     val section = studyPlanSections[sectionId]?.studyPlanSection ?: return null
     val isRootTopicsSection = section.type == StudyPlanSectionType.ROOT_TOPICS
-    val isTopicsLimitEnabled =
-        subscription?.getSubscriptionLimitType(
-            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-            canMakePayments = canMakePayments
-        ) == SubscriptionLimitType.TOPICS
+    val isTopicsLimitEnabled = subscriptionLimitType == SubscriptionLimitType.TOPICS
     val unlockedActivitiesCount = profile?.featureValues?.mobileContentTrialFreeTopics?.minus(learnedTopicsCount)
     return if (isRootTopicsSection && isTopicsLimitEnabled && unlockedActivitiesCount != null) {
         unlockedActivitiesCount

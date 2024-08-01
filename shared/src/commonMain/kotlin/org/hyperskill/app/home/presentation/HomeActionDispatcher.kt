@@ -16,17 +16,14 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
 import org.hyperskill.app.home.presentation.HomeFeature.InternalMessage
 import org.hyperskill.app.home.presentation.HomeFeature.Message
-import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -36,9 +33,8 @@ internal class HomeActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val subscriptionInteractor: SubscriptionsInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val purchaseInteractor: PurchaseInteractor,
     private val dateFormatter: SharedDateFormatter,
     topicRepeatedFlow: TopicRepeatedFlow,
     topicCompletedFlow: TopicCompletedFlow,
@@ -115,18 +111,15 @@ internal class HomeActionDispatcher(
 
                 val problemOfDayStateResult = async { getProblemOfDayState(currentProfile.dailyStep) }
                 val repetitionsStateResult = async { getRepetitionsState() }
-                val areProblemsLimited = async {
-                    currentSubscriptionStateRepository.areProblemsLimited(
-                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
-                        canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
-                    )
+                val isProblemsLimitEnabled = async {
+                    subscriptionInteractor.isProblemsLimitEnabled()
                 }
 
                 setOf(
                     Message.HomeSuccess(
                         problemOfDayState = problemOfDayStateResult.await().getOrThrow(),
                         repetitionsState = repetitionsStateResult.await().getOrThrow(),
-                        areProblemsLimited = areProblemsLimited.await()
+                        isProblemsLimitEnabled = isProblemsLimitEnabled.await()
                     ),
                     Message.ReadyToLaunchNextProblemInTimer
                 )

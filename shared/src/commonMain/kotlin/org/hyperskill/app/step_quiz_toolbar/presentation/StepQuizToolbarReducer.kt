@@ -40,8 +40,7 @@ class StepQuizToolbarReducer(
     ): StepQuizToolbarReducerResult =
         State.Content(
             subscription = message.subscription,
-            isMobileContentTrialEnabled = message.isMobileContentTrialEnabled,
-            canMakePayment = message.canMakePayment,
+            subscriptionLimitType = message.subscriptionLimitType,
             chargeLimitsStrategy = message.chargeLimitsStrategy
         ) to emptySet()
 
@@ -53,7 +52,10 @@ class StepQuizToolbarReducer(
         message: InternalMessage.SubscriptionChanged
     ): StepQuizToolbarReducerResult =
         if (state is State.Content) {
-            state.copy(subscription = message.subscription) to emptySet()
+            state.copy(
+                subscription = message.subscriptionWithLimitType.subscription,
+                subscriptionLimitType = message.subscriptionWithLimitType.subscriptionLimitType
+            ) to emptySet()
         } else {
             state to emptySet()
         }
