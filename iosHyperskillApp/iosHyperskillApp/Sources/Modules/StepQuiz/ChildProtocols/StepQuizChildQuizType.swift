@@ -1,7 +1,7 @@
 import Foundation
 import shared
 
-enum StepQuizChildQuizType {
+enum StepQuizChildQuizType: Equatable {
     case choice
     case code
     case sql
@@ -20,9 +20,17 @@ enum StepQuizChildQuizType {
     var isCodeRelated: Bool {
         switch self {
         case .code, .sql, .pycharm:
-            return true
+            true
         default:
-            return false
+            false
+        }
+    }
+
+    var isUnsupported: Bool {
+        if case .unsupported = self {
+            true
+        } else {
+            false
         }
     }
 

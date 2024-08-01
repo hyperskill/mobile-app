@@ -20,7 +20,7 @@ sealed interface Feedback {
     ) : Feedback
 }
 
-fun Feedback.formattedText(): String =
+internal fun Feedback.formattedText(): String =
     when (this) {
         is Feedback.Object -> {
             "$title\n\n$message".trim()

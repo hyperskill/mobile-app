@@ -1,16 +1,17 @@
 import Foundation
+import shared
 
-struct StepQuizViewData {
+struct StepQuizViewData: Equatable {
     let navigationTitle: String?
 
     let formattedStats: String?
 
-    let stepTextHeaderTitle: String
-    let stepText: String
+    let stepTextHeaderTitle: String?
+    let stepText: String?
 
     let quizType: StepQuizChildQuizType
 
     let quizName: String?
 
-    let feedbackHintText: String?
+    let stepQuizFeedbackState: StepQuizFeedbackStateKs?
 }

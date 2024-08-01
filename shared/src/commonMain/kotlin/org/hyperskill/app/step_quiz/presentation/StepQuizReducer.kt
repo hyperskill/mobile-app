@@ -416,7 +416,7 @@ internal class StepQuizReducer(
                         )
                     ) to setOf(
                         Action.ViewAction.HapticFeedback.ReplyValidationError,
-                        Action.ViewAction.ScrollToCallToActionButton
+                        Action.ViewAction.ScrollTo.CallToActionButton
                     )
                 }
                 ReplyValidationResult.Success -> {
@@ -437,7 +437,7 @@ internal class StepQuizReducer(
                             state.stepQuizState.attempt.id,
                             submission
                         ),
-                        Action.ViewAction.ScrollToCallToActionButton
+                        Action.ViewAction.ScrollTo.CallToActionButton
                     )
                 }
             }
@@ -469,10 +469,10 @@ internal class StepQuizReducer(
 
                 if (submissionStatus == SubmissionStatus.CORRECT) {
                     add(Action.ViewAction.HapticFeedback.CorrectSubmission)
-                    add(Action.ViewAction.ScrollToCallToActionButton)
+                    add(Action.ViewAction.ScrollTo.CallToActionButton)
                 } else if (submissionStatus == SubmissionStatus.WRONG) {
                     add(Action.ViewAction.HapticFeedback.WrongSubmission)
-                    add(Action.ViewAction.ScrollToCallToActionButton)
+                    add(Action.ViewAction.ScrollTo.CallToActionButton)
                 }
             }
         } else {
@@ -657,7 +657,7 @@ internal class StepQuizReducer(
                 InternalAction.LogAnalyticEvent(
                     StepQuizFeedbackSeeHintClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
                 ),
-                Action.ViewAction.ScrollToHints
+                Action.ViewAction.ScrollTo.Hints
             )
         } else {
             state to emptySet()

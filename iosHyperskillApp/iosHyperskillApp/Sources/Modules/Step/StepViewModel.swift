@@ -130,6 +130,14 @@ extension StepViewModel: StepQuizOutputProtocol {
             )
         )
     }
+
+    func stepQuizDidRequestShowComments() {
+        onNewMessage(StepFeatureMessageRequestShowComment())
+    }
+
+    func stepQuizDidRequestSkipStep() {
+        onNewMessage(StepFeatureMessageRequestSkip())
+    }
 }
 
 // MARK: - StepViewModel: TopicCompletedModalOutputProtocol -
