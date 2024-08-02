@@ -11,7 +11,17 @@ struct StepView: View {
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(
-                onViewDidAppear: viewModel.doScreenShowedAction,
+                onViewDidAppear: {
+                    viewModel.onViewAction = handleViewAction(_:)
+                    viewModel.startListening()
+
+                    viewModel.doLoadStep()
+                    viewModel.doScreenShowedAction()
+                },
+                onViewWillDisappear: {
+                    viewModel.onViewAction = nil
+                    viewModel.stopListening()
+                },
                 onViewDidDisappear: viewModel.doScreenHiddenAction
             )
 
@@ -23,16 +33,6 @@ struct StepView: View {
         }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            viewModel.onViewAction = handleViewAction(_:)
-            viewModel.startListening()
-        }
-        .onDisappear {
-            viewModel.onViewAction = nil
-            viewModel.stopListening()
-        }
-        .environmentObject(stackRouter)
-        .environmentObject(modalRouter)
         .stepToolbar(
             state: viewModel.state,
             onCommentButtonTap: viewModel.doCommentToolbarAction,
@@ -91,6 +91,8 @@ struct StepView: View {
                 moduleOutput: viewModel
             )
             .makeModule()
+            .environmentObject(stackRouter)
+            .environmentObject(modalRouter)
             .environmentObject(panModalPresenter)
         }
     }
