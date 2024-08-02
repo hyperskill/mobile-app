@@ -88,7 +88,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = 1, isActive = true)
             ),
             suggestions = listOf(Suggestion.Print),
-            isDeleteButtonEnabled = false
+            isDeleteButtonEnabled = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)

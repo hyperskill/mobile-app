@@ -172,7 +172,7 @@ class StepQuizCodeBlanksReducerTest {
     }
 
     @Test
-    fun `DeleteButtonClicked should not update state if active code block is Blank`() {
+    fun `DeleteButtonClicked should not update state if active code block is Blank and single`() {
         val initialState = stubContentState(codeBlocks = listOf(CodeBlock.Blank(isActive = true)))
 
         val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
@@ -182,7 +182,7 @@ class StepQuizCodeBlanksReducerTest {
     }
 
     @Test
-    fun `DeleteButtonClicked should update state if active Print code block has selected suggestion`() {
+    fun `DeleteButtonClicked should clear suggestion if active Print code block has selected suggestion`() {
         val suggestion = Suggestion.ConstantString("suggestion")
         val initialState = stubContentState(
             codeBlocks = listOf(
@@ -212,48 +212,122 @@ class StepQuizCodeBlanksReducerTest {
 
     @Test
     fun `DeleteButtonClicked should set next code block as active if no code block before deleted`() {
-        val initialState = stubContentState(
-            codeBlocks = listOf(
-                CodeBlock.Print(
-                    isActive = true,
-                    suggestions = listOf(Suggestion.ConstantString("suggestion")),
-                    selectedSuggestion = null
-                ),
-                CodeBlock.Blank(isActive = false)
+        val initialStates = listOf(
+            stubContentState(
+                codeBlocks = listOf(
+                    CodeBlock.Print(isActive = true, suggestions = emptyList(), selectedSuggestion = null),
+                    CodeBlock.Blank(isActive = false)
+                )
+            ),
+            stubContentState(
+                codeBlocks = listOf(
+                    CodeBlock.Blank(isActive = true),
+                    CodeBlock.Blank(isActive = false)
+                )
+            ),
+            stubContentState(
+                codeBlocks = listOf(
+                    CodeBlock.Blank(isActive = true),
+                    CodeBlock.Print(isActive = false, suggestions = emptyList(), selectedSuggestion = null)
+                )
+            ),
+            stubContentState(
+                codeBlocks = listOf(
+                    CodeBlock.Print(isActive = true, suggestions = emptyList(), selectedSuggestion = null),
+                    CodeBlock.Print(
+                        isActive = false,
+                        suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                        selectedSuggestion = Suggestion.ConstantString("suggestion")
+                    )
+                )
             )
         )
-
-        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
-
-        val expectedState = initialState.copy(
-            codeBlocks = listOf(CodeBlock.Blank(isActive = true))
-        )
-
-        assertEquals(expectedState, state)
-        assertContainsDeleteButtonClickedAnalyticEvent(actions)
-    }
-
-    @Test
-    fun `DeleteButtonClicked should set previous code block as active if active Print code block is deleted`() {
-        val initialState = stubContentState(
-            codeBlocks = listOf(
-                CodeBlock.Blank(isActive = false),
-                CodeBlock.Print(
-                    isActive = true,
-                    suggestions = listOf(Suggestion.ConstantString("suggestion")),
-                    selectedSuggestion = null
+        val expectedStates = listOf(
+            initialStates[0].copy(codeBlocks = listOf(CodeBlock.Blank(isActive = true))),
+            initialStates[1].copy(codeBlocks = listOf(CodeBlock.Blank(isActive = true))),
+            initialStates[2].copy(
+                codeBlocks = listOf(
+                    CodeBlock.Print(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = null
+                    )
+                )
+            ),
+            initialStates[3].copy(
+                codeBlocks = listOf(
+                    CodeBlock.Print(
+                        isActive = true,
+                        suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                        selectedSuggestion = Suggestion.ConstantString("suggestion")
+                    )
                 )
             )
         )
 
-        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
+        initialStates.zip(expectedStates).forEach { (initialState, expectedState) ->
+            val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
+            assertEquals(expectedState, state)
+            assertContainsDeleteButtonClickedAnalyticEvent(actions)
+        }
+    }
 
-        val expectedState = initialState.copy(
-            codeBlocks = listOf(CodeBlock.Blank(isActive = true))
+    @Test
+    fun `DeleteButtonClicked should set previous code block as active if has code block before deleted`() {
+        val initialStates = listOf(
+            stubContentState(
+                codeBlocks = listOf(
+                    CodeBlock.Blank(isActive = false),
+                    CodeBlock.Print(isActive = true, suggestions = emptyList(), selectedSuggestion = null)
+                )
+            ),
+            stubContentState(
+                codeBlocks = listOf(
+                    CodeBlock.Print(isActive = false, suggestions = emptyList(), selectedSuggestion = null),
+                    CodeBlock.Blank(isActive = true)
+                )
+            ),
+            stubContentState(
+                codeBlocks = listOf(
+                    CodeBlock.Print(
+                        isActive = false,
+                        suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                        selectedSuggestion = Suggestion.ConstantString("suggestion")
+                    ),
+                    CodeBlock.Print(isActive = true, suggestions = emptyList(), selectedSuggestion = null)
+                )
+            ),
+            stubContentState(
+                codeBlocks = listOf(
+                    CodeBlock.Blank(isActive = false),
+                    CodeBlock.Blank(isActive = true)
+                )
+            )
+        )
+        val expectedStates = listOf(
+            initialStates[0].copy(codeBlocks = listOf(CodeBlock.Blank(isActive = true))),
+            initialStates[1].copy(
+                codeBlocks = listOf(
+                    CodeBlock.Print(isActive = true, suggestions = emptyList(), selectedSuggestion = null),
+                )
+            ),
+            initialStates[2].copy(
+                codeBlocks = listOf(
+                    CodeBlock.Print(
+                        isActive = true,
+                        suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                        selectedSuggestion = Suggestion.ConstantString("suggestion")
+                    )
+                )
+            ),
+            initialStates[0].copy(codeBlocks = listOf(CodeBlock.Blank(isActive = true))),
         )
 
-        assertEquals(expectedState, state)
-        assertContainsDeleteButtonClickedAnalyticEvent(actions)
+        initialStates.zip(expectedStates).forEach { (initialState, expectedState) ->
+            val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
+            assertEquals(expectedState, state)
+            assertContainsDeleteButtonClickedAnalyticEvent(actions)
+        }
     }
 
     @Test
