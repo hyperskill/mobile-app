@@ -36,8 +36,6 @@ final class StepQuizViewModel: FeatureViewModel<
         self.stepQuizViewDataMapper = viewDataMapper
 
         super.init(feature: feature)
-
-        onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: false))
     }
 
     override func shouldNotifyStateDidChange(
@@ -63,6 +61,12 @@ final class StepQuizViewModel: FeatureViewModel<
 
     func doProvideModuleInput() {
         provideModuleInputCallback(self)
+    }
+
+    func doLoadAttempt() {
+        if state.stepQuizState is StepQuizFeatureStepQuizStateIdle {
+            onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: false))
+        }
     }
 
     func doRetryLoadAttempt() {

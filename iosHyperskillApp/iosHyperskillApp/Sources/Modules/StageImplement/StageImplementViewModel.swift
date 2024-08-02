@@ -20,10 +20,6 @@ final class StageImplementViewModel: FeatureViewModel<
         self.stageID = stageID
 
         super.init(feature: feature)
-
-        onNewMessage(
-            StageImplementFeatureMessageInitialize(projectId: projectID, stageId: stageID, forceUpdate: false)
-        )
     }
 
     override func shouldNotifyStateDidChange(
@@ -31,6 +27,14 @@ final class StageImplementViewModel: FeatureViewModel<
         newState: StageImplementFeatureViewState
     ) -> Bool {
         StageImplementFeatureViewStateKs(oldState) != StageImplementFeatureViewStateKs(newState)
+    }
+
+    func doLoadStageImplement() {
+        if state is StageImplementFeatureViewStateIdle {
+            onNewMessage(
+                StageImplementFeatureMessageInitialize(projectId: projectID, stageId: stageID, forceUpdate: false)
+            )
+        }
     }
 
     func doRetryLoadStageImplement() {
