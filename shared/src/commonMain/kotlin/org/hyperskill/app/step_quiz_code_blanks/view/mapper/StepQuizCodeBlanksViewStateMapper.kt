@@ -31,7 +31,7 @@ object StepQuizCodeBlanksViewStateMapper {
 
         val isDeleteButtonEnabled =
             when (activeCodeBlock) {
-                is CodeBlock.Blank -> false
+                is CodeBlock.Blank -> codeBlocks.size > 1
                 is CodeBlock.Print -> true
                 null -> false
             }

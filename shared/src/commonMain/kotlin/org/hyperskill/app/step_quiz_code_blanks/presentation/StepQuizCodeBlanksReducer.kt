@@ -139,31 +139,39 @@ class StepQuizCodeBlanksReducer(
             return state to actions
         }
 
-        return when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
-            is CodeBlock.Blank -> state to actions
-            is CodeBlock.Print -> {
-                val newCodeBlocks = state.codeBlocks.mutate {
+        val newCodeBlocks = state.codeBlocks.mutate {
+            val removeActiveCodeBlockAndSetNextActive = {
+                val nextActiveIndex =
+                    if (activeCodeBlockIndex > 0) {
+                        activeCodeBlockIndex - 1
+                    } else {
+                        activeCodeBlockIndex + 1
+                    }
+                state.codeBlocks.getOrNull(nextActiveIndex)?.let {
+                    set(nextActiveIndex, copyCodeBlock(it, isActive = true))
+                }
+                removeAt(activeCodeBlockIndex)
+            }
+
+            when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
+                is CodeBlock.Blank -> {
+                    if (state.codeBlocks.size > 1) {
+                        removeActiveCodeBlockAndSetNextActive()
+                    }
+                }
+                is CodeBlock.Print -> {
                     if (activeCodeBlock.selectedSuggestion != null) {
                         set(activeCodeBlockIndex, activeCodeBlock.copy(selectedSuggestion = null))
                     } else if (state.codeBlocks.size > 1) {
-                        val nextActiveIndex =
-                            if (activeCodeBlockIndex > 0) {
-                                activeCodeBlockIndex - 1
-                            } else {
-                                activeCodeBlockIndex + 1
-                            }
-                        state.codeBlocks.getOrNull(nextActiveIndex)?.let {
-                            set(nextActiveIndex, copyCodeBlock(it, isActive = true))
-                        }
-
-                        removeAt(activeCodeBlockIndex)
+                        removeActiveCodeBlockAndSetNextActive()
                     } else {
                         set(activeCodeBlockIndex, CodeBlock.Blank(isActive = true))
                     }
                 }
-                state.copy(codeBlocks = newCodeBlocks) to actions
             }
         }
+
+        return state.copy(codeBlocks = newCodeBlocks) to actions
     }
 
     private fun handleEnterButtonClicked(
