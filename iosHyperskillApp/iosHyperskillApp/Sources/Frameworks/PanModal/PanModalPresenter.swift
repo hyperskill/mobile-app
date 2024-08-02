@@ -18,7 +18,7 @@ final class PanModalPresenter: ObservableObject {
             return assertionFailure("PanModalPresenter :: presentationViewController is nil")
         }
 
-        presentationViewController.presentIfPanModalWithCustomModalPresentationStyle(panModal)
+        presentationViewController.presentPanModalWithCustomModalPresentationStyle(panModal)
     }
 
     @discardableResult
