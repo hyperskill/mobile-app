@@ -20,21 +20,20 @@ internal class ProfileSettingsViewStateMapper(
         ViewState.Content(
             profileSettings = state.profileSettings,
             isLoadingMagicLink = state.isLoadingMagicLink,
-            subscriptionState = if (isSubscriptionVisible(state)) {
-                when (state.subscription?.type) {
-                    SubscriptionType.MOBILE_ONLY ->
+            subscriptionState = if (state.subscription != null && state.mobileOnlyFormattedPrice != null) {
+                when {
+                    state.subscription.type == SubscriptionType.MOBILE_ONLY -> {
                         ViewState.Content.SubscriptionState(
                             resourceProvider.getString(SharedResources.strings.settings_subscription_mobile_only)
                         )
-                    SubscriptionType.FREEMIUM -> {
-                        state.mobileOnlyFormattedPrice?.let {
-                            ViewState.Content.SubscriptionState(
-                                resourceProvider.getString(
-                                    SharedResources.strings.settings_subscription_mobile_only_suggestion,
-                                    state.mobileOnlyFormattedPrice
-                                )
+                    }
+                    state.subscription.type.canUpgradeToMobileOnly -> {
+                        ViewState.Content.SubscriptionState(
+                            resourceProvider.getString(
+                                SharedResources.strings.settings_subscription_mobile_only_suggestion,
+                                state.mobileOnlyFormattedPrice
                             )
-                        }
+                        )
                     }
                     else -> null
                 }
@@ -42,13 +41,4 @@ internal class ProfileSettingsViewStateMapper(
                 null
             }
         )
-
-    private fun isSubscriptionVisible(state: ProfileSettingsFeature.State.Content): Boolean =
-        state.subscription != null &&
-            state.mobileOnlyFormattedPrice != null &&
-            when (state.subscription.type) {
-                SubscriptionType.FREEMIUM,
-                SubscriptionType.MOBILE_ONLY -> true
-                else -> false
-            }
 }

@@ -9,6 +9,7 @@ enum class SubscriptionType(
     val isProjectInfoAvailable: Boolean = true,
     val isCertificateAvailable: Boolean = true,
     val areHintsLimited: Boolean = false,
+    val canUpgradeToMobileOnly: Boolean = false,
     val subscriptionLimitType: SubscriptionLimitType = SubscriptionLimitType.NONE
 ) {
     @SerialName("personal")
@@ -39,12 +40,14 @@ enum class SubscriptionType(
         isCertificateAvailable = false,
         isProjectInfoAvailable = false,
         areHintsLimited = true,
+        canUpgradeToMobileOnly = true,
         subscriptionLimitType = SubscriptionLimitType.PROBLEMS
     ),
     MOBILE_CONTENT_TRIAL(
         isCertificateAvailable = false,
         isProjectInfoAvailable = false,
         areHintsLimited = true,
+        canUpgradeToMobileOnly = true,
         subscriptionLimitType = SubscriptionLimitType.TOPICS
     ),
 
