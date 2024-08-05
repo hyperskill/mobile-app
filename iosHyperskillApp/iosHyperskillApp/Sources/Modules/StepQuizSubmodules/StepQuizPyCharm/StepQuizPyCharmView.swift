@@ -3,17 +3,9 @@ import SwiftUI
 struct StepQuizPyCharmView: View {
     @StateObject var viewModel: StepQuizPyCharmViewModel
 
-    @Environment(\.isFixCodeMistakesBadgeVisible) private var isFixCodeMistakesBadgeVisible
-
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             let viewData = viewModel.viewData
-
-            if isFixCodeMistakesBadgeVisible {
-                StepQuizCodeFixCodeMistakesBadge(
-                    onQuestionmarkButtonTap: viewModel.logClickedFixCodeMistakesQuestionmarkButton
-                )
-            }
 
             StepQuizCodeEditorView(
                 code: Binding(
@@ -39,20 +31,3 @@ struct StepQuizPyCharmView: View {
         .onAppear(perform: viewModel.doProvideModuleInput)
     }
 }
-
-#if DEBUG
-#Preview {
-    StepQuizPyCharmAssembly
-        .makePlaceholder()
-        .makeModule()
-        .padding()
-}
-
-#Preview("Disabled") {
-    StepQuizPyCharmAssembly
-        .makePlaceholder()
-        .makeModule()
-        .padding()
-        .disabled(true)
-}
-#endif

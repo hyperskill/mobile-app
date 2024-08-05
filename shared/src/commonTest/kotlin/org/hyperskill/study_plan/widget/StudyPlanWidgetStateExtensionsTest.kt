@@ -20,9 +20,7 @@ import org.hyperskill.app.study_plan.widget.presentation.getLoadedSectionActivit
 import org.hyperskill.app.study_plan.widget.presentation.getUnlockedActivitiesCount
 import org.hyperskill.app.study_plan.widget.presentation.isActivityLocked
 import org.hyperskill.app.study_plan.widget.presentation.isPaywallShown
-import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionStatus
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.learning_activities.domain.model.stub
 import org.hyperskill.profile.stub
 import org.hyperskill.study_plan.domain.model.stub
@@ -155,7 +153,7 @@ class StudyPlanWidgetStateExtensionsTest {
     }
 
     @Test
-    fun `isActivityLocked should return true if activity is locked`() {
+    fun `isActivityLocked should return true for locked activities in case of topics limit`() {
         val section = StudyPlanSection.stub(
             id = 1,
             type = StudyPlanSectionType.ROOT_TOPICS,
@@ -171,10 +169,7 @@ class StudyPlanWidgetStateExtensionsTest {
             ),
             activities = mapOf(1L to LearningActivity.stub(id = 1)),
             profile = Profile.stub(),
-            subscription = Subscription(
-                type = SubscriptionType.MOBILE_CONTENT_TRIAL,
-                status = SubscriptionStatus.ACTIVE
-            ),
+            subscriptionLimitType = SubscriptionLimitType.TOPICS,
             learnedTopicsCount = 1
         )
 
@@ -201,10 +196,7 @@ class StudyPlanWidgetStateExtensionsTest {
                 featureValues = FeatureValues(mobileContentTrialFreeTopics = 2),
                 featuresMap = mapOf(FeatureKeys.MOBILE_CONTENT_TRIAL to true),
             ),
-            subscription = Subscription(
-                type = SubscriptionType.MOBILE_CONTENT_TRIAL,
-                status = SubscriptionStatus.ACTIVE
-            ),
+            subscriptionLimitType = SubscriptionLimitType.TOPICS,
             learnedTopicsCount = 1
         )
 
@@ -231,10 +223,7 @@ class StudyPlanWidgetStateExtensionsTest {
                 featureValues = FeatureValues(mobileContentTrialFreeTopics = 2),
                 featuresMap = mapOf(FeatureKeys.MOBILE_CONTENT_TRIAL to true),
             ),
-            subscription = Subscription(
-                type = SubscriptionType.MOBILE_CONTENT_TRIAL,
-                status = SubscriptionStatus.ACTIVE
-            ),
+            subscriptionLimitType = SubscriptionLimitType.TOPICS,
             learnedTopicsCount = 1
         )
 
@@ -261,10 +250,7 @@ class StudyPlanWidgetStateExtensionsTest {
                 featureValues = FeatureValues(mobileContentTrialFreeTopics = 10),
                 featuresMap = mapOf(FeatureKeys.MOBILE_CONTENT_TRIAL to true),
             ),
-            subscription = Subscription(
-                type = SubscriptionType.MOBILE_CONTENT_TRIAL,
-                status = SubscriptionStatus.ACTIVE
-            ),
+            subscriptionLimitType = SubscriptionLimitType.TOPICS,
             learnedTopicsCount = 10
         )
 
@@ -291,10 +277,7 @@ class StudyPlanWidgetStateExtensionsTest {
                 featureValues = FeatureValues(mobileContentTrialFreeTopics = 10),
                 featuresMap = mapOf(FeatureKeys.MOBILE_CONTENT_TRIAL to true),
             ),
-            subscription = Subscription(
-                type = SubscriptionType.MOBILE_CONTENT_TRIAL,
-                status = SubscriptionStatus.ACTIVE
-            ),
+            subscriptionLimitType = SubscriptionLimitType.TOPICS,
             learnedTopicsCount = 10
         )
 
@@ -332,10 +315,7 @@ class StudyPlanWidgetStateExtensionsTest {
                 featureValues = FeatureValues(mobileContentTrialFreeTopics = 10),
                 featuresMap = mapOf(FeatureKeys.MOBILE_CONTENT_TRIAL to true),
             ),
-            subscription = Subscription(
-                type = SubscriptionType.MOBILE_CONTENT_TRIAL,
-                status = SubscriptionStatus.ACTIVE
-            ),
+            subscriptionLimitType = SubscriptionLimitType.TOPICS,
             learnedTopicsCount = 10
         )
 
@@ -362,10 +342,7 @@ class StudyPlanWidgetStateExtensionsTest {
                 featureValues = FeatureValues(mobileContentTrialFreeTopics = 10),
                 featuresMap = mapOf(FeatureKeys.MOBILE_CONTENT_TRIAL to true),
             ),
-            subscription = Subscription(
-                type = SubscriptionType.MOBILE_CONTENT_TRIAL,
-                status = SubscriptionStatus.ACTIVE
-            ),
+            subscriptionLimitType = SubscriptionLimitType.TOPICS,
             learnedTopicsCount = 5
         )
 

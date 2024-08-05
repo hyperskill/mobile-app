@@ -19,13 +19,19 @@ import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionSta
 import ru.nobird.app.core.model.mapOfNotNull
 
 class AnalyticInteractor(
+    // Provide CurrentSubscriptionStateRepository lazily
+    // because it depends on AnalyticInteractor
+    currentSubscriptionStateRepositoryProvider: () -> CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val notificationInteractor: NotificationInteractor,
     private val platform: Platform,
     private val analyticEngines: List<AnalyticEngine>,
     override val eventMonitor: AnalyticEventMonitor?
 ) : Analytic {
+
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository by lazy {
+        currentSubscriptionStateRepositoryProvider.invoke()
+    }
 
     private var userProperties: MutableMap<String, Any> = mutableMapOf()
 

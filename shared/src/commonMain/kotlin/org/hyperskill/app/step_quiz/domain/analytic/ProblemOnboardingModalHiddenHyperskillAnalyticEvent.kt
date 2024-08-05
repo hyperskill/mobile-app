@@ -26,15 +26,13 @@ class ProblemOnboardingModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     modalType: StepQuizFeature.ProblemOnboardingModal
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.HIDDEN,
-    modalType.hyperskillAnalyticPart,
-    HyperskillAnalyticTarget.CLOSE
+    route = route,
+    action = HyperskillAnalyticAction.HIDDEN,
+    part = modalType.hyperskillAnalyticPart,
+    target = HyperskillAnalyticTarget.CLOSE
 )
 
 internal val StepQuizFeature.ProblemOnboardingModal.hyperskillAnalyticPart: HyperskillAnalyticPart
     get() = when (this) {
         StepQuizFeature.ProblemOnboardingModal.Parsons -> HyperskillAnalyticPart.PARSONS_PROBLEM_ONBOARDING_MODAL
-        StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
-            HyperskillAnalyticPart.GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL
     }

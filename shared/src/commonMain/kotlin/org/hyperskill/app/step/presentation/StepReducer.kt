@@ -1,13 +1,12 @@
 package org.hyperskill.app.step.presentation
 
-import org.hyperskill.app.comments.domain.model.CommentThread
 import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.step.domain.analytic.StepToolbarCommentClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepToolbarMenuActionClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepMenuSecondaryAction
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.commentThreadStatistic
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.InternalMessage
@@ -58,13 +57,16 @@ internal class StepReducer(
                     reduceStepToolbarMessage(state.stepToolbarState, message.message)
                 state.copy(stepToolbarState = stepToolbarState) to stepToolbarActions
             }
-            Message.CommentClicked -> handleCommentClicked(state)
+            Message.CommentClicked -> showComments(state, isClickMessage = true)
+            Message.RequestShowComment -> showComments(state, isClickMessage = false)
 
             Message.ShareClicked -> handleShareClicked(state)
             is InternalMessage.ShareLinkReady -> handleShareLinkReady(state, message)
 
             Message.ReportClicked -> handleReportClicked(state)
-            Message.SkipClicked -> handleSkipClicked(state)
+
+            Message.SkipClicked -> handleSkip(state, isClickMessage = true)
+            Message.RequestSkip -> handleSkip(state, isClickMessage = false)
 
             Message.OpenInWebClicked -> handleOpenInWebClicked(state)
             is InternalMessage.GetMagicLinkReceiveSuccess -> handleMagicLinkSuccess(state, message)
@@ -198,15 +200,23 @@ internal class StepReducer(
             state to emptySet()
         }
 
-    private fun handleCommentClicked(state: State): ReducerResult? {
-        val commentThreadStatistics = (state.stepState as? StepState.Data)
-            ?.step
-            ?.commentsStatistics
-            ?.firstOrNull { it.thread == CommentThread.COMMENT }
-
+    private fun showComments(
+        state: State,
+        isClickMessage: Boolean
+    ): ReducerResult? {
+        val commentThreadStatistics = (state.stepState as? StepState.Data)?.step?.commentThreadStatistic
         return commentThreadStatistics?.let {
-            state to setOf(
-                InternalAction.LogAnalyticEvent(StepToolbarCommentClickedHyperskillAnalyticEvent(stepRoute)),
+            state to setOfNotNull(
+                if (isClickMessage) {
+                    InternalAction.LogAnalyticEvent(
+                        StepToolbarMenuActionClickedHyperskillAnalyticEvent(
+                            StepMenuSecondaryAction.COMMENTS,
+                            stepRoute
+                        )
+                    )
+                } else {
+                    null
+                },
                 Action.ViewAction.NavigateTo.CommentsScreen(
                     CommentsScreenFeatureParams(
                         stepRoute = stepRoute,
@@ -241,12 +251,19 @@ internal class StepReducer(
             )
         )
 
-    private fun handleSkipClicked(state: State): ReducerResult =
+    private fun handleSkip(
+        state: State,
+        isClickMessage: Boolean
+    ): ReducerResult =
         if (!state.isLoadingShowed && state.stepState is StepState.Data) {
-            state.copy(isLoadingShowed = true) to setOf(
-                InternalAction.LogAnalyticEvent(
-                    StepToolbarMenuActionClickedHyperskillAnalyticEvent(StepMenuSecondaryAction.SKIP, stepRoute)
-                ),
+            state.copy(isLoadingShowed = true) to setOfNotNull(
+                if (isClickMessage) {
+                    InternalAction.LogAnalyticEvent(
+                        StepToolbarMenuActionClickedHyperskillAnalyticEvent(StepMenuSecondaryAction.SKIP, stepRoute)
+                    )
+                } else {
+                    null
+                },
                 InternalAction.SkipStep(stepRoute.stepId)
             )
         } else {

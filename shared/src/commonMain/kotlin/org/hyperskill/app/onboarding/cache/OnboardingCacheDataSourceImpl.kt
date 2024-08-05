@@ -13,13 +13,6 @@ internal class OnboardingCacheDataSourceImpl(
         settings.putBoolean(OnboardingCacheKeyValues.IS_PARSONS_ONBOARDING_SHOWN, isShown)
     }
 
-    override fun isGptCodeGenerationWithErrorsOnboardingShown(): Boolean =
-        settings.getBoolean(OnboardingCacheKeyValues.IS_GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_SHOWN)
-
-    override fun setGptCodeGenerationWithErrorsOnboardingShown(isShown: Boolean) {
-        settings.putBoolean(OnboardingCacheKeyValues.IS_GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_SHOWN, isShown)
-    }
-
     override fun wasFirstProblemOnboardingShown(): Boolean =
         settings.getBoolean(OnboardingCacheKeyValues.IS_FIRST_PROBLEM_ONBOARDING_SHOWN, defaultValue = false)
 

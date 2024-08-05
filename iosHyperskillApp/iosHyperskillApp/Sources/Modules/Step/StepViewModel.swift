@@ -28,8 +28,6 @@ final class StepViewModel: FeatureViewModel<
         self.viewDataMapper = viewDataMapper
 
         super.init(feature: feature)
-
-        onNewMessage(StepFeatureMessageInitialize(forceUpdate: false))
     }
 
     override func shouldNotifyStateDidChange(
@@ -62,6 +60,12 @@ final class StepViewModel: FeatureViewModel<
 
     func doScreenHiddenAction() {
         onNewMessage(StepFeatureMessageScreenHidden())
+    }
+
+    func doLoadStep() {
+        if state.stepState is StepFeatureStepStateIdle {
+            onNewMessage(StepFeatureMessageInitialize(forceUpdate: false))
+        }
     }
 
     func doRetryLoadStep() {
@@ -129,6 +133,14 @@ extension StepViewModel: StepQuizOutputProtocol {
                 message: StepCompletionFeatureMessageContinuePracticingClicked()
             )
         )
+    }
+
+    func stepQuizDidRequestShowComments() {
+        onNewMessage(StepFeatureMessageRequestShowComment())
+    }
+
+    func stepQuizDidRequestSkipStep() {
+        onNewMessage(StepFeatureMessageRequestSkip())
     }
 }
 

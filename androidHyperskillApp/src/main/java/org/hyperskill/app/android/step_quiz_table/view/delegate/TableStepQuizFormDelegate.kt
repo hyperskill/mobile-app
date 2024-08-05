@@ -55,7 +55,7 @@ class TableStepQuizFormDelegate(
 
     override fun createReply(): Reply =
         Reply.table(
-            answers = tableAdapter.items.map { item ->
+            choices = tableAdapter.items.map { item ->
                 ChoiceAnswer.Table(
                     TableChoiceAnswer(
                         nameRow = item.titleText,

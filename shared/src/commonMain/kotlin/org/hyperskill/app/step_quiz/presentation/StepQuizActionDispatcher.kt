@@ -3,20 +3,16 @@ package org.hyperskill.app.step_quiz.presentation
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
-import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
-import org.hyperskill.app.profile.domain.model.isMobileGptCodeGenerationWithErrorsEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -33,8 +29,6 @@ import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
-import org.hyperskill.app.subscriptions.domain.model.orContentTrial
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class StepQuizActionDispatcher(
@@ -42,44 +36,28 @@ internal class StepQuizActionDispatcher(
     private val stepQuizInteractor: StepQuizInteractor,
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val subscriptionsInteractor: SubscriptionsInteractor,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val featuresDataSource: FeaturesDataSource,
     private val urlPathProcessor: UrlPathProcessor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
-    private val purchaseInteractor: PurchaseInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        actionScope.launch {
-            val isMobileContentTrialEnabled = currentProfileStateRepository
-                .getState()
-                .map { it.features.isMobileContentTrialEnabled }
-                .getOrDefault(false)
-            currentSubscriptionStateRepository
-                .changes
-                .map { subscription ->
-                    val canMakePayments = canMakePayments()
-                    subscription to subscription
-                        .orContentTrial(
-                            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                            canMakePayments = canMakePayments
-                        )
-                        .isProblemsLimitReached(
-                            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                            canMakePayments = canMakePayments
-                        )
-                }
-                .distinctUntilChangedBy { (_, isProblemsLimitReached) -> isProblemsLimitReached }
-                .onEach { (subscription, isProblemsLimitReached) ->
-                    onNewMessage(
-                        InternalMessage.ProblemsLimitChanged(subscription, isProblemsLimitReached)
+        subscriptionsInteractor
+            .subscribeOnSubscriptionWithLimitType()
+            .distinctUntilChangedBy { it.isProblemsLimitReached }
+            .onEach {
+                onNewMessage(
+                    InternalMessage.ProblemsLimitChanged(
+                        subscription = it.subscription,
+                        isProblemsLimitReached = it.isProblemsLimitReached
                     )
-                }
-                .launchIn(this)
-        }
+                )
+            }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -208,8 +186,6 @@ internal class StepQuizActionDispatcher(
                 when (action.modalType) {
                     StepQuizFeature.ProblemOnboardingModal.Parsons ->
                         onboardingInteractor.setParsonsOnboardingShown(isShown = true)
-                    StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
-                        onboardingInteractor.setGptCodeGenerationWithErrorsOnboardingShown(isShown = true)
                 }
             }
             is InternalAction.UpdateProblemsLimit ->
@@ -222,8 +198,6 @@ internal class StepQuizActionDispatcher(
                         onFailure = { onNewMessage(InternalMessage.CreateMagicLinkForUnsupportedQuizError) }
                     )
             }
-            is InternalAction.GenerateGptCodeWithErrors ->
-                handleGenerateGptCodeWithErrorsAction(action, ::onNewMessage)
             else -> {}
         }
     }
@@ -243,18 +217,8 @@ internal class StepQuizActionDispatcher(
                     .getState()
                     .getOrThrow()
 
-            val canMakePayments = canMakePayments()
-
-            val currentSubscription =
-                currentSubscriptionStateRepository
-                    .getState()
-                    .map { subscription ->
-                        subscription.orContentTrial(
-                            isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
-                            canMakePayments = canMakePayments
-                        )
-                    }
-                    .getOrThrow()
+            val subscriptionWithLimitType =
+                subscriptionsInteractor.getSubscriptionWithLimitType().getOrThrow()
 
             val attempt =
                 stepQuizInteractor
@@ -264,22 +228,14 @@ internal class StepQuizActionDispatcher(
                 getSubmissionState(attempt.id, action.step.id, currentProfile.id)
                     .getOrThrow()
 
-            val isMobileGptCodeGenerationWithErrorsEnabled =
-                currentProfile.features.isMobileGptCodeGenerationWithErrorsEnabled
-
             InternalMessage.FetchAttemptSuccess(
                 step = action.step,
                 attempt = attempt,
                 submissionState = submissionState,
-                subscription = currentSubscription,
+                subscription = subscriptionWithLimitType.subscription,
                 chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
-                isMobileGptCodeGenerationWithErrorsEnabled = isMobileGptCodeGenerationWithErrorsEnabled,
-                isProblemsLimitReached = currentSubscription
-                    .isProblemsLimitReached(
-                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
-                        canMakePayments = canMakePayments
-                    )
+                isProblemsLimitReached = subscriptionWithLimitType.isProblemsLimitReached
             )
         }.let(onNewMessage)
     }
@@ -303,64 +259,20 @@ internal class StepQuizActionDispatcher(
         action: InternalAction.UpdateProblemsLimit,
         onNewMessage: (Message) -> Unit
     ) {
-        val currentProfile = currentProfileStateRepository.getState().getOrElse { return }
-        if (!currentProfile.features.isFreemiumWrongSubmissionChargeLimitsEnabled) return
+        val features = featuresDataSource.getFeaturesMap()
+        if (!features.isFreemiumWrongSubmissionChargeLimitsEnabled) return
 
         subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
 
-        val canMakePayments = canMakePayments()
-
-        val currentSubscription =
-            currentSubscriptionStateRepository
-                .getState()
-                .map { subscription ->
-                    subscription.orContentTrial(
-                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
-                        canMakePayments = canMakePayments
-                    )
-                }
-                .getOrElse { return }
+        val currentSubscriptionWithLimitType =
+            subscriptionsInteractor.getSubscriptionWithLimitType().getOrElse { return }
 
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
-                subscription = currentSubscription,
-                isProblemsLimitReached = currentSubscription
-                    .isProblemsLimitReached(
-                        isMobileContentTrialEnabled = currentProfile.features.isMobileContentTrialEnabled,
-                        canMakePayments = canMakePayments
-                    ),
-                chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy
+                subscription = currentSubscriptionWithLimitType.subscription,
+                isProblemsLimitReached = currentSubscriptionWithLimitType.isProblemsLimitReached,
+                chargeLimitsStrategy = features.freemiumChargeLimitsStrategy
             )
         )
     }
-
-    private suspend fun handleGenerateGptCodeWithErrorsAction(
-        action: InternalAction.GenerateGptCodeWithErrors,
-        onNewMessage: (Message) -> Unit
-    ) {
-        sentryInteractor.withTransaction(
-            transaction = HyperskillSentryTransactionBuilder.buildStepQuizGenerateGptCodeWithErrors(
-                blockName = action.attemptLoadedState.step.block.name
-            ),
-            onError = { error ->
-                logger.e(error) { "Failed to generate GPT code with errors" }
-                InternalMessage.GenerateGptCodeWithErrorsResult(
-                    attemptLoadedState = action.attemptLoadedState,
-                    code = null
-                )
-            },
-            measureBlock = {
-                val code = stepQuizInteractor
-                    .generateGptCodeWithErrors(action.attemptLoadedState.step.id)
-                    .getOrThrow()
-                InternalMessage.GenerateGptCodeWithErrorsResult(
-                    attemptLoadedState = action.attemptLoadedState,
-                    code = code
-                )
-            }
-        ).let(onNewMessage)
-    }
-
-    private suspend fun canMakePayments(): Boolean =
-        purchaseInteractor.canMakePayments().getOrDefault(false)
 }

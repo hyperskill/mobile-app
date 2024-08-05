@@ -23,7 +23,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
     PARSONS_PROBLEM_ONBOARDING_MODAL("parsons_problem_onboarding_modal"),
-    GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL("gpt_code_generation_with_errors_onboarding_modal"),
     MODAL("modal"),
     STREAK_WIDGET("streak_widget"),
     STREAK_FREEZE_MODAL("streak_freeze_modal"),
@@ -37,7 +36,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     PROJECT_COMPLETED_MODAL("project_completed_modal"),
     FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
     CODE_EDITOR("code_editor"),
-    GPT_GENERATED_CODE_WITH_ERRORS_FIX_CODE_MISTAKES_BADGE("gpt_generated_code_with_errors_fix_code_mistakes_badge"),
     SHARE_STREAK_MODAL("share_streak_modal"),
     LEADERBOARD_DAY_TAB("leaderboard_day_tab"),
     LEADERBOARD_WEEK_TAB("leaderboard_week_tab"),
@@ -46,5 +44,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     REQUEST_REVIEW_MODAL("request_review_modal"),
     USERS_INTERVIEW_WIDGET("users_interview_widget"),
     UNSUPPORTED_QUIZ_PLACEHOLDER("unsupported_quiz_placeholder"),
-    CODE_BLANKS("code_blanks")
+    CODE_BLANKS("code_blanks"),
+    STEP_QUIZ_FEEDBACK("step_quiz_feedback")
 }

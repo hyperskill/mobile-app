@@ -16,7 +16,7 @@ struct StepQuizTableViewData {
         }
     }
 
-    struct Column: Identifiable {
+    struct Column: Identifiable, Equatable {
         let id: Int
         let text: String
 

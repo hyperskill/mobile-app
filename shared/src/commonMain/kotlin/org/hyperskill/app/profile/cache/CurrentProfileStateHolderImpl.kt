@@ -2,17 +2,23 @@ package org.hyperskill.app.profile.cache
 
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.json.Json
+import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.profile.data.source.CurrentProfileStateHolder
+import org.hyperskill.app.profile.domain.model.FeatureValues
+import org.hyperskill.app.profile.domain.model.FeaturesMap
 import org.hyperskill.app.profile.domain.model.Profile
 
 class CurrentProfileStateHolderImpl(
     private val json: Json,
     private val settings: Settings
-) : CurrentProfileStateHolder {
+) : CurrentProfileStateHolder, FeaturesDataSource {
 
     private var cachedProfile: Profile? = null
 
-    override suspend fun getState(): Profile? {
+    override suspend fun getState(): Profile? =
+        getStateInternal()
+
+    private fun getStateInternal(): Profile? {
         if (cachedProfile == null) {
             cachedProfile = readProfileFromSettings()
         }
@@ -55,4 +61,10 @@ class CurrentProfileStateHolderImpl(
         settings.remove(ProfileCacheKeyValues.GUEST_PROFILE)
         settings.remove(ProfileCacheKeyValues.CURRENT_PROFILE)
     }
+
+    override fun getFeaturesMap(): FeaturesMap =
+        getStateInternal()?.features ?: FeaturesMap(emptyMap())
+
+    override fun getFeatureValues(): FeatureValues =
+        getStateInternal()?.featureValues ?: FeatureValues()
 }

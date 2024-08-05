@@ -4,24 +4,29 @@ import SwiftUI
 struct StageImplementView: View {
     @StateObject var viewModel: StageImplementViewModel
 
-    @ObservedObject var stackRouter: SwiftUIStackRouter
+    let stackRouter: StackRouter
+    let panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: {
+                    viewModel.onViewAction = handleViewAction(_:)
+                    viewModel.startListening()
+
+                    viewModel.doLoadStageImplement()
+                    viewModel.logViewedEvent()
+                },
+                onViewWillDisappear: {
+                    viewModel.onViewAction = nil
+                    viewModel.stopListening()
+                }
+            )
 
             buildBody()
         }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            viewModel.startListening()
-            viewModel.onViewAction = handleViewAction(_:)
-        }
-        .onDisappear {
-            viewModel.stopListening()
-            viewModel.onViewAction = nil
-        }
     }
 
     // MARK: Private API
@@ -86,7 +91,7 @@ private extension StageImplementView {
             award: Int(viewAction.stageAward),
             delegate: viewModel
         )
-        stackRouter.rootViewController?.presentIfPanModalWithCustomModalPresentationStyle(viewController)
+        panModalPresenter.presentPanModal(viewController)
     }
 
     func handleShowProjectCompletedModalViewAction(
@@ -97,7 +102,7 @@ private extension StageImplementView {
             projectAward: Int(viewAction.projectAward),
             delegate: viewModel
         )
-        stackRouter.rootViewController?.presentIfPanModalWithCustomModalPresentationStyle(viewController)
+        panModalPresenter.presentPanModal(viewController)
     }
 }
 

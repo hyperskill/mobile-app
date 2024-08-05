@@ -45,31 +45,3 @@ final class StepQuizPyCharmAssembly: StepQuizChildQuizAssembly {
         return StepQuizPyCharmView(viewModel: viewModel)
     }
 }
-
-#if DEBUG
-extension StepQuizPyCharmAssembly {
-    static func makePlaceholder() -> StepQuizPyCharmAssembly {
-        StepQuizPyCharmAssembly(
-            step: .init(
-                block: .init(
-                    name: "pycharm",
-                    text: "",
-                    options: .init(language: "kotlin")
-                )
-            ),
-            dataset: .init(),
-            reply: .init(
-                solution: [
-                    .init(
-                        name: "src/Zookeeper.kt",
-                        isVisible: true,
-                        text: "fun main() {\n    // write your code here\n}"
-                    )
-                ]
-            ),
-            provideModuleInputCallback: { _ in },
-            moduleOutput: nil
-        )
-    }
-}
-#endif

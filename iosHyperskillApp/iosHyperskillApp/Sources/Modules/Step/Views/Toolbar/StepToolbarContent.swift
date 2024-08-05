@@ -36,6 +36,7 @@ extension View {
                     StepMenuActionsToolbarItem(
                         actions: state.stepMenuSecondaryActions,
                         disabled: isMenuActionsDisabled,
+                        onCommentButtonTap: onCommentButtonTap,
                         onShareButtonTap: onShareButtonTap,
                         onReportButtonTap: onReportButtonTap,
                         onSkipButtonTap: onSkipButtonTap,
@@ -47,6 +48,7 @@ extension View {
                     StepMenuActionsToolbarItem(
                         actions: state.stepMenuSecondaryActions,
                         disabled: isMenuActionsDisabled,
+                        onCommentButtonTap: onCommentButtonTap,
                         onShareButtonTap: onShareButtonTap,
                         onReportButtonTap: onReportButtonTap,
                         onSkipButtonTap: onSkipButtonTap,
@@ -81,6 +83,7 @@ private struct StepToolbarContent: ToolbarContent {
         StepMenuActionsToolbarItem(
             actions: menuActions,
             disabled: isMenuActionsDisabled,
+            onCommentButtonTap: onCommentButtonTap,
             onShareButtonTap: onShareButtonTap,
             onReportButtonTap: onReportButtonTap,
             onSkipButtonTap: onSkipButtonTap,
@@ -105,6 +108,7 @@ private struct StepMenuActionsToolbarItem: ToolbarContent {
     let actions: Set<StepMenuSecondaryAction>
     let disabled: Bool
 
+    let onCommentButtonTap: () -> Void
     let onShareButtonTap: () -> Void
     let onReportButtonTap: () -> Void
     let onSkipButtonTap: () -> Void
@@ -113,6 +117,12 @@ private struct StepMenuActionsToolbarItem: ToolbarContent {
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
+                if actions.contains(.comments) {
+                    Button(action: onCommentButtonTap) {
+                        Label("Comments", systemImage: "message")
+                    }
+                }
+
                 if actions.contains(.share) {
                     Button(action: onShareButtonTap) {
                         Label("Share", systemImage: "square.and.arrow.up")

@@ -24,7 +24,7 @@ struct StepQuizCodeBlanksView: View {
 
                 codeBlocksView(
                     codeBlocks: contentState.codeBlocks,
-                    isDeleteButtonVisible: contentState.isDeleteButtonVisible
+                    isDeleteButtonEnabled: contentState.isDeleteButtonEnabled
                 )
                 Divider()
 
@@ -52,7 +52,7 @@ struct StepQuizCodeBlanksView: View {
     @MainActor
     private func codeBlocksView(
         codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItem],
-        isDeleteButtonVisible: Bool
+        isDeleteButtonEnabled: Bool
     ) -> some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             ForEach(codeBlocks, id: \.id_) { codeBlock in
@@ -77,25 +77,17 @@ struct StepQuizCodeBlanksView: View {
                 }
             }
 
-            HStack {
+            HStack(spacing: LayoutInsets.defaultInset) {
                 Spacer()
-                Button(
-                    action: viewModel.doDeleteMainAction,
-                    label: {
-                        Image(systemName: "delete.left")
-                            .imageScale(.large)
-                            .padding(.vertical, LayoutInsets.smallInset / 2)
-                            .padding(.horizontal, LayoutInsets.smallInset)
-                            .background(Color(ColorPalette.primary))
-                            .foregroundColor(Color(ColorPalette.onPrimary))
-                            .cornerRadius(8)
-                    }
-                )
-                .buttonStyle(BounceButtonStyle())
-                .disabled(!isDeleteButtonVisible)
+
+                StepQuizCodeBlanksActionButton
+                    .delete(action: viewModel.doDeleteAction)
+                    .disabled(!isDeleteButtonEnabled)
+
+                StepQuizCodeBlanksActionButton
+                    .enter(action: viewModel.doEnterAction)
             }
             .padding(.horizontal)
-            .conditionalOpacity(isEnabled: isDeleteButtonVisible, opacityDisabled: 0)
         }
         .padding(.vertical, LayoutInsets.defaultInset)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -117,7 +109,7 @@ extension StepQuizCodeBlanksView: Equatable {
                 StepQuizCodeBlanksViewStateContent(
                     codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItemBlank(id: 0, isActive: true)],
                     suggestions: [Suggestion.Print()],
-                    isDeleteButtonVisible: true
+                    isDeleteButtonEnabled: true
                 )
             ),
             viewModel: StepQuizCodeBlanksViewModel()
@@ -138,7 +130,7 @@ extension StepQuizCodeBlanksView: Equatable {
                         Suggestion.ConstantString(text: "There is a cat on the keyboard, it is true"),
                         Suggestion.ConstantString(text: "Typing messages out of the blue")
                     ],
-                    isDeleteButtonVisible: false
+                    isDeleteButtonEnabled: false
                 )
             ),
             viewModel: StepQuizCodeBlanksViewModel()
@@ -170,7 +162,7 @@ extension StepQuizCodeBlanksView: Equatable {
                         Suggestion.ConstantString(text: "There is a cat on the keyboard, it is true"),
                         Suggestion.ConstantString(text: "Typing messages out of the blue")
                     ],
-                    isDeleteButtonVisible: false
+                    isDeleteButtonEnabled: false
                 )
             ),
             viewModel: StepQuizCodeBlanksViewModel()

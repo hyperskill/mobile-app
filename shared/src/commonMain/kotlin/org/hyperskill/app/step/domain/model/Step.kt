@@ -5,6 +5,7 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
+import org.hyperskill.app.comments.domain.model.CommentThread
 
 @Serializable
 data class Step(
@@ -36,8 +37,6 @@ data class Step(
     val checkProfile: String = "",
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?,
-    @SerialName("success_rate")
-    private val successRate: Float?,
     @SerialName("last_completed_at")
     val lastCompletedAt: Instant? = null
 ) {
@@ -51,9 +50,6 @@ data class Step(
 
     val millisSinceLastCompleted: Long?
         get() = lastCompletedAt?.let { (Clock.System.now() - it).inWholeMilliseconds }
-
-    val hasEasyDifficultyLevel: Boolean
-        get() = successRate != null && successRate >= 0.66
 }
 
 /**
@@ -81,3 +77,9 @@ fun Step.pycharmCode(): String? =
  */
 fun Step.isSupported(): Boolean =
     BlockName.supportedBlocksNames.contains(block.name)
+
+val Step.areCommentsAvailable: Boolean
+    get() = commentsStatistics.any { it.thread == CommentThread.COMMENT && it.totalCount > 0 }
+
+val Step.commentThreadStatistic: CommentStatisticsEntry?
+    get() = commentsStatistics.firstOrNull { it.thread == CommentThread.COMMENT }

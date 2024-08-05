@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_quiz.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.data.repository.AttemptRepositoryImpl
 import org.hyperskill.app.step_quiz.data.source.AttemptRemoteDataSource
@@ -9,6 +10,7 @@ import org.hyperskill.app.step_quiz.domain.repository.AttemptRepository
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.remote.AttemptRemoteDataSourceImpl
+import org.hyperskill.app.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz_code_blanks.injection.StepQuizCodeBlanksComponent
@@ -20,17 +22,23 @@ internal class StepQuizComponentImpl(
     private val appGraph: AppGraph,
     private val stepRoute: StepRoute
 ) : StepQuizComponent {
+
+    private val resourceProvider: ResourceProvider = appGraph.commonComponent.resourceProvider
+
     private val stepQuizReplyValidator: StepQuizReplyValidator =
-        StepQuizReplyValidator(appGraph.commonComponent.resourceProvider)
+        StepQuizReplyValidator(resourceProvider)
 
     override val stepQuizStatsTextMapper: StepQuizStatsTextMapper
         get() = StepQuizStatsTextMapper(
-            appGraph.commonComponent.resourceProvider,
+            resourceProvider,
             appGraph.commonComponent.dateFormatter
         )
 
     override val stepQuizTitleMapper: StepQuizTitleMapper
-        get() = StepQuizTitleMapper(appGraph.commonComponent.resourceProvider)
+        get() = StepQuizTitleMapper(resourceProvider)
+
+    override val stepQuizFeedbackMapper: StepQuizFeedbackMapper
+        get() = StepQuizFeedbackMapper(resourceProvider)
 
     private val attemptRemoteDataSource: AttemptRemoteDataSource =
         AttemptRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
@@ -64,8 +72,7 @@ internal class StepQuizComponentImpl(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
-            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
-            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
+            featuresDataSource = appGraph.profileDataComponent.featuresDataSource,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             stepQuizHintsActionDispatcher = stepQuizHintsComponent.stepQuizHintsActionDispatcher,

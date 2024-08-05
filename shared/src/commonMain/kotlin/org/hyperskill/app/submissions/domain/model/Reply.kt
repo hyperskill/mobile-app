@@ -40,14 +40,16 @@ data class Reply(
     @SerialName("lines")
     val lines: List<ParsonsLine>? = null,
     @SerialName("prompt")
-    val prompt: String? = null
+    val prompt: String? = null,
+    @SerialName("lint_profile")
+    val lintProfile: String? = ""
 ) {
 
     companion object {
         internal const val PROMPT_MANUALLY_CONFIRMED_SCORE: Float = 1F
 
-        fun code(code: String?, language: String?): Reply =
-            Reply(code = code, language = language)
+        fun code(code: String?, language: String?, lintProfile: String? = null): Reply =
+            Reply(code = code, language = language, lintProfile = lintProfile)
 
         fun sql(sqlCode: String?): Reply =
             Reply(solveSql = sqlCode)
@@ -77,11 +79,26 @@ data class Reply(
                 score = if (markedAsCorrect) ReplyScore.Float(PROMPT_MANUALLY_CONFIRMED_SCORE) else null
             )
 
-        fun table(answers: List<ChoiceAnswer>): Reply =
-            Reply(choices = answers)
+        fun table(choices: List<ChoiceAnswer.Table>): Reply =
+            Reply(choices = choices)
+
+        fun choice(choices: List<ChoiceAnswer.Choice>): Reply =
+            Reply(choices = choices)
 
         fun matching(ordering: List<Int?>): Reply =
             Reply(ordering = ordering)
+
+        fun sorting(ordering: List<Int>): Reply =
+            Reply(ordering = ordering)
+
+        fun string(text: String): Reply =
+            Reply(text = text, files = emptyList())
+
+        fun number(number: String): Reply =
+            Reply(number = number)
+
+        fun math(formula: String): Reply =
+            Reply(formula = formula)
     }
 }
 

@@ -52,7 +52,7 @@ extension StepQuizSQLAssembly {
         StepQuizSQLAssembly(
             step: .init(),
             dataset: .init(),
-            reply: .init(solveSql: "DROP TABLE students;"),
+            reply: Reply.Companion.shared.sql(sqlCode: "DROP TABLE students;"),
             provideModuleInputCallback: { _ in },
             moduleOutput: nil
         )

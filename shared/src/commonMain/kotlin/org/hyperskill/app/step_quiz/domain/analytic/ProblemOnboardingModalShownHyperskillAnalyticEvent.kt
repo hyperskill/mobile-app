@@ -26,15 +26,13 @@ class ProblemOnboardingModalShownHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     modalType: StepQuizFeature.ProblemOnboardingModal
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.MODAL,
-    modalType.hyperskillAnalyticTarget
+    route = route,
+    action = HyperskillAnalyticAction.SHOWN,
+    part = HyperskillAnalyticPart.MODAL,
+    target = modalType.hyperskillAnalyticTarget
 )
 
 internal val StepQuizFeature.ProblemOnboardingModal.hyperskillAnalyticTarget: HyperskillAnalyticTarget
     get() = when (this) {
         StepQuizFeature.ProblemOnboardingModal.Parsons -> HyperskillAnalyticTarget.PARSONS_PROBLEM_ONBOARDING_MODAL
-        StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
-            HyperskillAnalyticTarget.GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL
     }

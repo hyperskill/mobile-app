@@ -37,7 +37,9 @@ class AnalyticComponentImpl(
         AnalyticInteractor(
             analyticEngines = analyticEngines,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
-            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            currentSubscriptionStateRepositoryProvider = {
+                appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
+            },
             notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor,
             eventMonitor = BatchAnalyticEventMonitor(listOfNotNull(sentryInteractor, loggableAnalyticEventMonitor)),
             platform = appGraph.commonComponent.platform

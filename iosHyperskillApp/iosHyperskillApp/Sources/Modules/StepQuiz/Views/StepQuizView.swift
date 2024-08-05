@@ -17,25 +17,27 @@ struct StepQuizView: View {
     @EnvironmentObject private var stackRouter: SwiftUIStackRouter
     @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
-    @Namespace private var actionButtonID
-    @State private var scrollToCallToActionButtonTrigger = false
+    @State private var scrollPosition: ScrollPosition?
 
     var body: some View {
+        UIViewControllerEventsWrapper(
+            onViewDidAppear: {
+                viewModel.onViewAction = handleViewAction(_:)
+                viewModel.startListening()
+
+                viewModel.doProvideModuleInput()
+                viewModel.doLoadAttempt()
+            },
+            onViewWillDisappear: {
+                viewModel.onViewAction = nil
+                viewModel.stopListening()
+            }
+        )
+
         let viewData = viewModel.makeViewData()
 
         buildBody(viewData: viewData)
             .animation(.default, value: viewModel.state)
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                viewModel.startListening()
-                viewModel.onViewAction = handleViewAction(_:)
-
-                viewModel.doProvideModuleInput()
-            }
-            .onDisappear {
-                viewModel.stopListening()
-                viewModel.onViewAction = nil
-            }
             .if(viewData.navigationTitle != nil) {
                 $0.navigationTitle(viewData.navigationTitle.require())
             }
@@ -64,13 +66,13 @@ struct StepQuizView: View {
                         } else {
                             if viewModel.stepRoute is StepRouteStageImplement {
                                 LatexView(
-                                    text: viewData.stepText,
+                                    text: viewData.stepText.require(),
                                     configuration: .stepText()
                                 )
                             } else {
                                 StepExpandableStepTextView(
-                                    title: viewData.stepTextHeaderTitle,
-                                    text: viewData.stepText,
+                                    title: viewData.stepTextHeaderTitle.require(),
+                                    text: viewData.stepText.require(),
                                     isExpanded: true,
                                     onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
                                 )
@@ -84,6 +86,7 @@ struct StepQuizView: View {
                                     }
                                 )
                                 .equatable()
+                                .id(ScrollPosition.hints)
                             }
 
                             buildQuizContent(
@@ -92,7 +95,7 @@ struct StepQuizView: View {
                                 quizName: viewData.quizName,
                                 quizType: viewData.quizType,
                                 formattedStats: viewData.formattedStats,
-                                feedbackHintText: viewData.feedbackHintText
+                                stepQuizFeedbackState: viewData.stepQuizFeedbackState.require()
                             )
                         }
                     }
@@ -104,10 +107,16 @@ struct StepQuizView: View {
                     onLimitsButtonTap: viewModel.doLimitsToolbarAction,
                     onTheoryButtonTap: viewModel.doTheoryToolbarAction
                 )
-                .onChange(of: scrollToCallToActionButtonTrigger) { _ in
-                    withAnimation {
-                        scrollViewProxy.scrollTo(actionButtonID, anchor: .bottom)
+                .onChange(of: scrollPosition) { newScrollPosition in
+                    guard let newScrollPosition else {
+                        return
                     }
+
+                    withAnimation {
+                        scrollViewProxy.scrollTo(newScrollPosition, anchor: .bottom)
+                    }
+
+                    scrollPosition = nil
                 }
             }
         }
@@ -121,28 +130,31 @@ struct StepQuizView: View {
         quizName: String?,
         quizType: StepQuizChildQuizType,
         formattedStats: String?,
-        feedbackHintText: String?
+        stepQuizFeedbackState: StepQuizFeedbackStateKs
     ) -> some View {
         if let quizName {
             StepQuizNameView(text: quizName)
                 .padding(.top)
         }
 
-        if let attemptLoadedState = StepQuizStateExtentionsKt.attemptLoadedState(state.stepQuizState) {
+        if let attemptLoadedState = StepQuizStateExtensionsKt.attemptLoadedState(state.stepQuizState) {
             buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
 
             if let formattedStats {
                 StepQuizStatsView(text: formattedStats)
             }
 
-            buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)
-
-            if let feedbackHintText {
-                StepQuizFeedbackView(text: feedbackHintText)
+            if state.stepQuizState is StepQuizFeatureStepQuizStateAttemptLoading {
+                StepQuizFeedbackStatusView(state: .loading)
+            } else {
+                StepQuizFeedbackView(
+                    stepQuizFeedbackState: stepQuizFeedbackState,
+                    onAction: viewModel.doFeedbackAction(actionType:)
+                )
             }
 
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
-                .id(actionButtonID)
+                .id(ScrollPosition.callToActionButton)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
                 .padding(.top)
@@ -177,23 +189,6 @@ struct StepQuizView: View {
                 moduleOutput: viewModel
             )
             .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
-            .environment(\.isFixCodeMistakesBadgeVisible, attemptLoadedState.isFixGptCodeGenerationMistakesBadgeVisible)
-        }
-    }
-
-    @ViewBuilder
-    private func buildQuizStatusView(
-        state: StepQuizFeatureStepQuizState,
-        attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
-    ) -> some View {
-        if state is StepQuizFeatureStepQuizStateAttemptLoading {
-            StepQuizStatusView(state: .loading)
-        } else if let submissionState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
-            if let replyValidationError = submissionState.replyValidation as? ReplyValidationResultError {
-                StepQuizStatusView(state: .invalidReply(message: replyValidationError.message))
-            } else if let submissionStatus = submissionState.submission.status {
-                StepQuizStatusView.build(submissionStatus: submissionStatus)
-            }
         }
     }
 
@@ -264,6 +259,13 @@ struct StepQuizView: View {
             }
         }
     }
+
+    // MARK: - Inner Types -
+
+    enum ScrollPosition: Hashable {
+        case hints
+        case callToActionButton
+    }
 }
 
 // MARK: - StepQuizView (ViewAction) -
@@ -304,10 +306,12 @@ private extension StepQuizView {
             handleStepQuizToolbarViewAction(viewAction: stepQuizToolbarViewAction.viewAction)
         case .hapticFeedback(let hapticFeedbackViewAction):
             handleHapticFeedbackViewAction(hapticFeedbackViewAction)
-        case .scrollToCallToActionButton:
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.33) {
-                self.scrollToCallToActionButtonTrigger.toggle()
-            }
+        case .scrollTo(let scrollToViewAction):
+            handleScrollToViewAction(scrollToViewAction)
+        case .requestShowComments:
+            viewModel.doRequestShowComments()
+        case .requestSkipStep:
+            viewModel.doRequestSkipStep()
         case .stepQuizCodeBlanksViewAction(let stepQuizCodeBlanksViewAction):
             assertionFailure(
                 "StepQuizView :: did receive unexpected StepQuizCodeBlanksViewAction: \(stepQuizCodeBlanksViewAction)"
@@ -396,15 +400,28 @@ private extension StepQuizView {
 
     func handleHapticFeedbackViewAction(_ viewAction: StepQuizFeatureActionViewActionHapticFeedback) {
         let feedbackType: FeedbackGenerator.FeedbackType =
-        switch StepQuizFeatureActionViewActionHapticFeedbackKs(viewAction) {
-        case .replyValidationError:
-            .notification(.warning)
-        case .correctSubmission:
-            .notification(.success)
-        case .wrongSubmission:
-            .notification(.error)
-        }
-
+            switch StepQuizFeatureActionViewActionHapticFeedbackKs(viewAction) {
+            case .replyValidationError:
+                .notification(.warning)
+            case .correctSubmission:
+                .notification(.success)
+            case .wrongSubmission:
+                .notification(.error)
+            }
         FeedbackGenerator(feedbackType: feedbackType).triggerFeedback()
+    }
+
+    func handleScrollToViewAction(_ viewAction: StepQuizFeatureActionViewActionScrollTo) {
+        let targetScrollPosition =
+            switch StepQuizFeatureActionViewActionScrollToKs(viewAction) {
+            case .hints:
+                ScrollPosition.hints
+            case .callToActionButton:
+                ScrollPosition.callToActionButton
+            }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.33) {
+            self.scrollPosition = targetScrollPosition
+        }
     }
 }

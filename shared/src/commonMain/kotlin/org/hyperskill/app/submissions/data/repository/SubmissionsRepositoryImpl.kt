@@ -28,9 +28,6 @@ internal class SubmissionsRepositoryImpl(
     ): Result<Submission> =
         submissionsRemoteDataSource.createSubmission(attemptId, reply, solvingContext)
 
-    override suspend fun generateCodeWithErrors(stepId: Long): Result<String> =
-        submissionsRemoteDataSource.generateCodeWithErrors(stepId)
-
     override fun incrementSolvedStepsCount() {
         submissionsCacheDataSource.incrementSolvedStepsCount()
     }

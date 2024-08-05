@@ -20,8 +20,14 @@ final class StepQuizCodeBlanksViewModel {
     }
 
     @MainActor
-    func doDeleteMainAction() {
+    func doDeleteAction() {
         impactFeedbackGenerator.triggerFeedback()
         moduleOutput?.handleStepQuizCodeBlanksDidTapDelete()
+    }
+
+    @MainActor
+    func doEnterAction() {
+        impactFeedbackGenerator.triggerFeedback()
+        moduleOutput?.handleStepQuizCodeBlanksDidTapEnter()
     }
 }

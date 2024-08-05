@@ -19,14 +19,14 @@ class StepQuizCodeBlanksViewStateMapperTest {
     }
 
     @Test
-    fun `Content with print suggestion and delete button hidden when active code block is Blank`() {
+    fun `Content with print suggestion and disabled delete button when active code block is Blank`() {
         val state = stubState(
             codeBlocks = listOf(CodeBlock.Blank(isActive = true))
         )
         val expectedViewState = StepQuizCodeBlanksViewState.Content(
             codeBlocks = listOf(StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = 0, isActive = true)),
             suggestions = listOf(Suggestion.Print),
-            isDeleteButtonVisible = false
+            isDeleteButtonEnabled = false
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -35,7 +35,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
     }
 
     @Test
-    fun `Content with suggestions and not visible delete button when active code block is Print`() {
+    fun `Content with suggestions and enabled delete button when active code block is Print`() {
         val suggestions = listOf(
             Suggestion.ConstantString("1"),
             Suggestion.ConstantString("2")
@@ -54,7 +54,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 StepQuizCodeBlanksViewState.CodeBlockItem.Print(id = 0, isActive = true, output = null)
             ),
             suggestions = suggestions,
-            isDeleteButtonVisible = false
+            isDeleteButtonEnabled = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -88,7 +88,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = 1, isActive = true)
             ),
             suggestions = listOf(Suggestion.Print),
-            isDeleteButtonVisible = false
+            isDeleteButtonEnabled = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -126,7 +126,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 StepQuizCodeBlanksViewState.CodeBlockItem.Print(id = 1, isActive = true, output = null)
             ),
             suggestions = printSuggestions,
-            isDeleteButtonVisible = true
+            isDeleteButtonEnabled = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)

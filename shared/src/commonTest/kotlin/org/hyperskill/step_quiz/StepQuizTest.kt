@@ -5,6 +5,8 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
+import org.hyperskill.app.comments.domain.model.CommentThread
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
@@ -81,7 +83,6 @@ class StepQuizTest {
                     subscription = limitReachedSubscription,
                     chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                     problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                    isMobileGptCodeGenerationWithErrorsEnabled = false,
                     isProblemsLimitReached = true
                 )
             )
@@ -129,7 +130,6 @@ class StepQuizTest {
                 subscription = limitReachedSubscription,
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false,
                 isProblemsLimitReached = true
             )
         )
@@ -175,7 +175,8 @@ class StepQuizTest {
                     Submission.stub(status = SubmissionStatus.WRONG)
                 ),
                 isProblemsLimitReached = false,
-                isTheoryAvailable = false
+                isTheoryAvailable = false,
+                wrongSubmissionsCount = 1
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
             stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
@@ -224,11 +225,12 @@ class StepQuizTest {
                     Submission.stub(status = SubmissionStatus.WRONG)
                 ),
                 isProblemsLimitReached = false,
-                isTheoryAvailable = false
+                isTheoryAvailable = false,
+                wrongSubmissionsCount = 1
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
             stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
-            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState(),
         )
 
         assertEquals(expectedState, actualState)
@@ -393,7 +395,6 @@ class StepQuizTest {
                 subscription = Subscription.stub(),
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false,
                 isProblemsLimitReached = false
             )
         )
@@ -458,7 +459,6 @@ class StepQuizTest {
                 subscription = Subscription.stub(),
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false,
                 isProblemsLimitReached = false
             )
         )
@@ -615,7 +615,7 @@ class StepQuizTest {
                 )
             )
 
-            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
+            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton)
         }
     }
 
@@ -652,7 +652,7 @@ class StepQuizTest {
                 )
             )
 
-            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
+            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton)
         }
     }
 
@@ -704,8 +704,7 @@ class StepQuizTest {
                 subscription = Subscription.stub(),
                 isProblemsLimitReached = false,
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
-                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub()
             )
         )
 
@@ -753,8 +752,7 @@ class StepQuizTest {
                 subscription = Subscription.stub(),
                 isProblemsLimitReached = false,
                 chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
-                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
-                isMobileGptCodeGenerationWithErrorsEnabled = false
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub()
             )
         )
 
@@ -769,5 +767,201 @@ class StepQuizTest {
                     it is StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction
             }
         }
+    }
+
+    @Test
+    fun `Wrong and rejected submissions should increment wrongSubmissionsCount on CreateSubmissionSuccess`() {
+        val step = Step.stub(id = 1)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Loaded(
+            Submission.stub(status = SubmissionStatus.EVALUATION)
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val expectedWrongSubmissionsCount = 1
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        listOf(
+            SubmissionStatus.WRONG,
+            SubmissionStatus.REJECTED
+        ).forEach { submissionStatus ->
+            val (state, _) = reducer.reduce(
+                StepQuizFeature.State(
+                    stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                        step = step,
+                        attempt = attempt,
+                        submissionState = submissionState,
+                        isProblemsLimitReached = false,
+                        isTheoryAvailable = false,
+                        wrongSubmissionsCount = 0
+                    ),
+                    stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                    stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+                ),
+                StepQuizFeature.Message.CreateSubmissionSuccess(
+                    submission = Submission.stub(status = submissionStatus)
+                )
+            )
+
+            assertEquals(
+                expectedWrongSubmissionsCount,
+                (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.wrongSubmissionsCount
+            )
+        }
+    }
+
+    @Test
+    fun `WrongSubmissionsCount submissions should be kept on CreateAttemptSuccess`() {
+        val step = Step.stub(id = 1)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Loaded(
+            Submission.stub(status = SubmissionStatus.EVALUATION)
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val expectedWrongSubmissionsCount = 1
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val (state, _) = reducer.reduce(
+            StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.AttemptLoading(
+                    StepQuizFeature.StepQuizState.AttemptLoaded(
+                        step = step,
+                        attempt = attempt,
+                        submissionState = submissionState,
+                        isProblemsLimitReached = false,
+                        isTheoryAvailable = false,
+                        wrongSubmissionsCount = expectedWrongSubmissionsCount
+                    )
+                ),
+                stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+            ),
+            StepQuizFeature.Message.CreateAttemptSuccess(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false
+            )
+        )
+
+        assertEquals(
+            expectedWrongSubmissionsCount,
+            (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.wrongSubmissionsCount
+        )
+    }
+
+    @Test
+    fun `Non-error submissions should not increment wrongSubmissionsCount`() {
+        val step = Step.stub(id = 1)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Loaded(
+            Submission.stub(status = SubmissionStatus.EVALUATION)
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val expectedWrongSubmissionsCount = 0
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        listOf(
+            SubmissionStatus.LOCAL,
+            SubmissionStatus.EVALUATION,
+            SubmissionStatus.CORRECT
+        ).forEach { submissionStatus ->
+            val (state, _) = reducer.reduce(
+                StepQuizFeature.State(
+                    stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                        step = step,
+                        attempt = attempt,
+                        submissionState = submissionState,
+                        isProblemsLimitReached = false,
+                        isTheoryAvailable = false,
+                        wrongSubmissionsCount = 0
+                    ),
+                    stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                    stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+                ),
+                StepQuizFeature.Message.CreateSubmissionSuccess(
+                    submission = Submission.stub(status = submissionStatus)
+                )
+            )
+
+            assertEquals(
+                expectedWrongSubmissionsCount,
+                (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.wrongSubmissionsCount
+            )
+        }
+    }
+
+    @Test
+    fun `Clicking on the SeeHint button in the feedback should trigger hint loading`() {
+        val step = Step.stub(
+            id = 1,
+            commentsStatistics = listOf(
+                CommentStatisticsEntry(CommentThread.HINT, totalCount = 1)
+            )
+        )
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Loaded(
+            Submission.stub(status = SubmissionStatus.EVALUATION)
+        )
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val expectedNextHintId = 2L
+
+        val (_, actions) = reducer.reduce(
+            StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                    step = step,
+                    attempt = attempt,
+                    submissionState = submissionState,
+                    isProblemsLimitReached = false,
+                    isTheoryAvailable = false,
+                    wrongSubmissionsCount = 0
+                ),
+                stepQuizHintsState = StepQuizHintsFeature.State.Content(
+                    hintsIds = listOf(0, 1, expectedNextHintId),
+                    currentHint = null,
+                    hintHasReaction = false,
+                    areHintsLimited = false,
+                    stepId = step.id
+                ),
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+                stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+            ),
+            StepQuizFeature.Message.SeeHintClicked
+        )
+
+        assertContains(
+            actions,
+            StepQuizFeature.Action.StepQuizHintsAction(
+                StepQuizHintsFeature.Action.FetchNextHint(
+                    nextHintId = expectedNextHintId,
+                    remainingHintsIds = listOf(0, 1),
+                    areHintsLimited = false,
+                    stepId = step.id
+                )
+            )
+        )
     }
 }

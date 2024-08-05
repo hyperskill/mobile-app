@@ -22,9 +22,8 @@ internal class StepQuizToolbarComponentImpl(
     private val mainStepQuizToolbarActionDispatcher: MainStepQuizToolbarActionDispatcher
         get() = MainStepQuizToolbarActionDispatcher(
             config = ActionDispatcherOptions(),
-            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
-            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
-            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
+            subscriptionsInteractor = appGraph.subscriptionDataComponent.subscriptionsInteractor,
+            featuresDataSource = appGraph.profileDataComponent.featuresDataSource,
             logger = appGraph.loggerComponent.logger.withTag(LOG_TAG)
         )
 

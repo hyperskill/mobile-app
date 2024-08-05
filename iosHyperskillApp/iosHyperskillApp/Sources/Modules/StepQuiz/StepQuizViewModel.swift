@@ -36,8 +36,6 @@ final class StepQuizViewModel: FeatureViewModel<
         self.stepQuizViewDataMapper = viewDataMapper
 
         super.init(feature: feature)
-
-        onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: false))
     }
 
     override func shouldNotifyStateDidChange(
@@ -63,6 +61,12 @@ final class StepQuizViewModel: FeatureViewModel<
 
     func doProvideModuleInput() {
         provideModuleInputCallback(self)
+    }
+
+    func doLoadAttempt() {
+        if state.stepQuizState is StepQuizFeatureStepQuizStateIdle {
+            onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: false))
+        }
     }
 
     func doRetryLoadAttempt() {
@@ -103,7 +107,31 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func doQuizContinueAction() {
+        assert(moduleOutput != nil)
         moduleOutput?.stepQuizDidRequestContinue()
+    }
+
+    func doFeedbackAction(actionType: StepQuizFeedbackStateWrong.Action) {
+        switch actionType {
+        case .seeHint:
+            onNewMessage(StepQuizFeatureMessageSeeHintClicked())
+        case .readComments:
+            onNewMessage(StepQuizFeatureMessageReadCommentsClicked())
+        case .skipProblem:
+            onNewMessage(StepQuizFeatureMessageSkipClicked())
+        default:
+            assertionFailure("StepQuizViewModel: unknown action type \(actionType)")
+        }
+    }
+
+    func doRequestShowComments() {
+        assert(moduleOutput != nil)
+        moduleOutput?.stepQuizDidRequestShowComments()
+    }
+
+    func doRequestSkipStep() {
+        assert(moduleOutput != nil)
+        moduleOutput?.stepQuizDidRequestSkipStep()
     }
 
     func doUnsupportedQuizSolveOnTheWebAction() {
@@ -115,7 +143,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func makeViewData() -> StepQuizViewData {
-        stepQuizViewDataMapper.mapStepDataToViewData(step: step, stepRoute: stepRoute, state: stepQuizStateKs)
+        stepQuizViewDataMapper.mapStepDataToViewData(step: step, stepRoute: stepRoute, state: state)
     }
 
     private func updateChildQuiz() {
@@ -224,6 +252,14 @@ extension StepQuizViewModel: StepQuizCodeBlanksOutputProtocol {
         onNewMessage(
             StepQuizFeatureMessageStepQuizCodeBlanksMessage(
                 message: StepQuizCodeBlanksFeatureMessageDeleteButtonClicked()
+            )
+        )
+    }
+
+    func handleStepQuizCodeBlanksDidTapEnter() {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizCodeBlanksMessage(
+                message: StepQuizCodeBlanksFeatureMessageEnterButtonClicked()
             )
         )
     }

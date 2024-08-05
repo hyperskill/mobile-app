@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -106,7 +107,13 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
         mapSelection(selected)
         // This is necessary to avoid java.lang.IllegalArgumentException: parameter must be a descendant of this view
         viewBinding.tableNested.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
-        viewBinding.confirmColumnsAction.setOnClickListener { dismiss() }
+
+        with(viewBinding.confirmColumnsAction) {
+            isVisible = isCheckBox
+            if (isCheckBox) {
+                setOnClickListener { dismiss() }
+            }
+        }
     }
 
     override fun onPause() {
@@ -128,8 +135,10 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
 
     private fun handleColumnSelectionClick(cell: TableChoiceItem) {
         when (selectionHelper) {
-            is SingleChoiceSelectionHelper ->
+            is SingleChoiceSelectionHelper -> {
                 selectionHelper.select(columnsAdapter.items.indexOf(cell))
+                dismiss()
+            }
 
             is MultipleChoiceSelectionHelper ->
                 selectionHelper.toggle(columnsAdapter.items.indexOf(cell))

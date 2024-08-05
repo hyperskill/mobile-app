@@ -10,11 +10,9 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
-import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
-import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.request_review.domain.interactor.RequestReviewInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -37,9 +35,6 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Mes
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
-import org.hyperskill.app.subscriptions.domain.model.getSubscriptionLimitType
-import org.hyperskill.app.subscriptions.domain.model.orContentTrial
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -60,9 +55,7 @@ internal class MainStepCompletionActionDispatcher(
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
     private val dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val topicCompletedFlow: TopicCompletedFlow,
-    private val topicProgressFlow: TopicProgressFlow,
-    private val purchaseInteractor: PurchaseInteractor,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
+    private val topicProgressFlow: TopicProgressFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -168,7 +161,6 @@ internal class MainStepCompletionActionDispatcher(
 
                         val isTopicsLimitReached = isTopicsLimitReached(
                             trackId = trackId,
-                            isMobileContentTrialEnabled = profile.features.isMobileContentTrialEnabled,
                             mobileContentTrialFreeTopics = profile.featureValues.mobileContentTrialFreeTopics
                         )
 
@@ -197,21 +189,11 @@ internal class MainStepCompletionActionDispatcher(
 
     private suspend fun isTopicsLimitReached(
         trackId: Long,
-        isMobileContentTrialEnabled: Boolean,
         mobileContentTrialFreeTopics: Int
     ): Boolean =
         coroutineScope {
-            val canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
-
-            val subscriptionDeferred = async {
-                currentSubscriptionStateRepository
-                    .getState(forceUpdate = true)
-                    .map { subscription ->
-                        subscription.orContentTrial(
-                            isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                            canMakePayments = canMakePayments
-                        )
-                    }
+            val subscriptionWithLimitTypeDeferred = async {
+                subscriptionsInteractor.getSubscriptionLimitType(forceUpdate = true)
             }
             val trackProgressDeferred = async {
                 progressesInteractor
@@ -221,13 +203,8 @@ internal class MainStepCompletionActionDispatcher(
                     )
             }
 
-            val subscription = subscriptionDeferred.await().getOrThrow()
+            val subscriptionLimitType = subscriptionWithLimitTypeDeferred.await().getOrThrow()
             val trackProgress = requireNotNull(trackProgressDeferred.await().getOrThrow())
-
-            val subscriptionLimitType = subscription.getSubscriptionLimitType(
-                isMobileContentTrialEnabled = isMobileContentTrialEnabled,
-                canMakePayments = canMakePayments
-            )
 
             subscriptionLimitType == SubscriptionLimitType.TOPICS &&
                 trackProgress.learnedTopicsCount >= mobileContentTrialFreeTopics

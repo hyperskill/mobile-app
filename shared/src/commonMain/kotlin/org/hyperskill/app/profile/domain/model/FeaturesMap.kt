@@ -1,5 +1,7 @@
 package org.hyperskill.app.profile.domain.model
 
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+
 data class FeaturesMap(internal val origin: Map<String, Boolean>) : Map<String, Boolean> by origin
 
 val FeaturesMap.isRecommendationsJavaProjectsFeatureEnabled: Boolean
@@ -17,6 +19,13 @@ val FeaturesMap.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled: Boolean
 val FeaturesMap.isFreemiumWrongSubmissionChargeLimitsEnabled: Boolean
     get() = get(FeatureKeys.FREEMIUM_WRONG_SUBMISSION_CHARGE_LIMITS) ?: false
 
+internal val FeaturesMap.freemiumChargeLimitsStrategy: FreemiumChargeLimitsStrategy
+    get() = if (isFreemiumWrongSubmissionChargeLimitsEnabled) {
+        FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION
+    } else {
+        FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION
+    }
+
 val FeaturesMap.isLearningPathDividedTrackTopicsEnabled: Boolean
     get() = get(FeatureKeys.LEARNING_PATH_DIVIDED_TRACK_TOPICS) ?: false
 
@@ -28,9 +37,6 @@ val FeaturesMap.isMobileOnlySubscriptionEnabled: Boolean
 
 val FeaturesMap.isMobileUsersInterviewWidgetEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_USERS_INTERVIEW_WIDGET) ?: false
-
-val FeaturesMap.isMobileGptCodeGenerationWithErrorsEnabled: Boolean
-    get() = get(FeatureKeys.MOBILE_GPT_CODE_GENERATION_WITH_ERRORS_FORCED_ONBOARDING) ?: false
 
 val FeaturesMap.isMobileContentTrialEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_CONTENT_TRIAL) ?: false

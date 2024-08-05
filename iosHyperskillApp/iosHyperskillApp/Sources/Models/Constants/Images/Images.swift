@@ -34,7 +34,6 @@ enum Images {
 
     enum StepQuiz {
         static let checkmark = "step-quiz-checkmark"
-        static let discussions = "step-quiz-discussions"
         static let info = "step-quiz-info"
         static let lightning = "step-quiz-lightning"
 

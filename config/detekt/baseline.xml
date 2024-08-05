@@ -17,6 +17,7 @@
     <ID>ComposableParamOrder:LinearProgressIndicator.kt$LinearProgressIndicator</ID>
     <ID>ComposableParamOrder:ServerSwitcher.kt$EndpointSwitcher</ID>
     <ID>CyclomaticComplexMethod:AuthCredentialsReducer.kt$AuthCredentialsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:CodeAnalyzer.kt$CodeAnalyzer$fun onTextInserted(start: Int, count: Int, codeEditor: CodeEditor)</ID>
     <ID>CyclomaticComplexMethod:DebugReducer.kt$DebugReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
     <ID>CyclomaticComplexMethod:DefaultStepQuizFragment.kt$DefaultStepQuizFragment$override fun onAction(action: StepQuizFeature.Action.ViewAction)</ID>
     <ID>CyclomaticComplexMethod:HomeReducer.kt$HomeReducer$override fun reduce(state: State, message: Message): HomeReducerResult</ID>
@@ -25,7 +26,7 @@
     <ID>CyclomaticComplexMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
     <ID>CyclomaticComplexMethod:ProfileReducer.kt$ProfileReducer$override fun reduce(state: State, message: Message): ReducerResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
-    <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): StepQuizHintsReducerResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizReducer.kt$StepQuizReducer$override fun reduce(state: State, message: Message): StepQuizReducerResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(dataset: Dataset?, reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
     <ID>CyclomaticComplexMethod:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
@@ -63,7 +64,6 @@
     <ID>LongMethod:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$fun render( dateFormatter: SharedDateFormatter, binding: LayoutProblemOfTheDayCardBinding, state: HomeFeature.ProblemOfDayState, areProblemsLimited: Boolean )</ID>
     <ID>LongMethod:ProfileBadges.kt$@Composable fun ProfileBadges( viewState: BadgesViewState, windowWidthSizeClass: WindowWidthSizeClass, onBadgeClick: (BadgeKind) -&gt; Unit, onExpandButtonClick: (ProfileFeature.Message.BadgesVisibilityButton) -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
-    <ID>LongMethod:StepQuizReducer.kt$StepQuizReducer$private fun handleFetchAttemptSuccess( state: State, message: InternalMessage.FetchAttemptSuccess ): StepQuizReducerResult</ID>
     <ID>LongMethod:StreakFreezeDialogFragment.kt$StreakFreezeDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
     <ID>LongMethod:TrackProgressContent.kt$@Composable fun TrackProgressContent( viewState: ProgressScreenViewState.TrackProgressViewState.Content, onNewMessage: (ProgressScreenFeature.Message) -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongParameterList:AppInteractor.kt$AppInteractor$( private val appRepository: AppRepository, private val authInteractor: AuthInteractor, private val currentProfileStateRepository: CurrentProfileStateRepository, private val userStorageInteractor: UserStorageInteractor, private val analyticInteractor: AnalyticInteractor, private val progressesRepository: ProgressesRepository, private val trackRepository: TrackRepository, private val providersRepository: ProvidersRepository, private val projectsRepository: ProjectsRepository, private val shareStreakRepository: ShareStreakRepository, private val pushNotificationsInteractor: PushNotificationsInteractor )</ID>
@@ -198,7 +198,6 @@
     <ID>ModifierReused:LeaderboardPlaceInfo.kt$Row( modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween ) { Text( text = placeNumber.toString(), style = MaterialTheme.typography.body2, color = colorResource(id = R.color.color_on_surface_alpha_60), modifier = Modifier.align(Alignment.CenterVertically) ) if (placeNumber in 1..3) { Image( painter = painterResource( id = when (placeNumber) { 1 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_first_place 2 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_second_place 3 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_third_place else -&gt; error("Place icon should not be visible for the place number $placeNumber") } ), contentDescription = null, modifier = modifier .requiredSize(24.dp) .align(Alignment.CenterVertically) ) } }</ID>
     <ID>ModifierWithoutDefault:BadgeImage.kt$modifier</ID>
     <ID>NestedBlockDepth:AuthSocialWebViewClient.kt$AuthSocialWebViewClient$override fun shouldOverrideUrlLoading( view: WebView?, request: WebResourceRequest? ): Boolean</ID>
-    <ID>NestedBlockDepth:StepQuizReducer.kt$StepQuizReducer$private fun handleFetchAttemptSuccess( state: State, message: InternalMessage.FetchAttemptSuccess ): StepQuizReducerResult</ID>
     <ID>PreviewPublic:BadgeCard.kt$BadgeCardPreview</ID>
     <ID>PreviewPublic:BadgeCard.kt$LastLevelBadgeCardPreview</ID>
     <ID>PreviewPublic:BadgeGrid.kt$PhoneBadgeGridPreview</ID>
@@ -243,13 +242,10 @@
     <ID>ReturnCount:SearchReducer.kt$SearchReducer$private fun handleSearchResultsItemClickedMessage( state: State, message: Message.SearchResultsItemClicked ): SearchReducerResult?</ID>
     <ID>ReturnCount:SharedDateFormatter.kt$SharedDateFormatter$fun formatTimeDistance(millis: Long): String</ID>
     <ID>ReturnCount:StateExtentions.kt$internal fun ChallengeWidgetFeature.State.Content.setCurrentChallengeIntervalProgressAsCompleted(): Challenge?</ID>
-    <ID>ReturnCount:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$private suspend fun handleUpdateProblemsLimitAction( action: InternalAction.UpdateProblemsLimit, onNewMessage: (Message) -&gt; Unit )</ID>
-    <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleCodeBlockClicked( state: State, message: Message.CodeBlockClicked ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleDeleteButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSuggestionClicked( state: State, message: Message.SuggestionClicked ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getLastSeenHint(stepId: Long): Comment?</ID>
     <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getNotSeenHintsIds(stepId: Long): List&lt;Long&gt;</ID>
-    <ID>ReturnCount:StepQuizReducer.kt$StepQuizReducer$private fun handleGenerateGptCodeWithErrorsResult( state: State, message: InternalMessage.GenerateGptCodeWithErrorsResult ): StepQuizReducerResult</ID>
     <ID>ReturnCount:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(dataset: Dataset?, reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
     <ID>ReturnCount:StepQuizResolver.kt$StepQuizResolver$fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean</ID>
     <ID>ReturnCount:StepQuizResolver.kt$StepQuizResolver$fun shouldSyncReply(state: StepQuizFeature.StepQuizState): Boolean</ID>
@@ -281,9 +277,11 @@
     <ID>TooManyFunctions:MainActivity.kt$MainActivity : AppCompatActivityAppNavigationContainerReduxView</ID>
     <ID>TooManyFunctions:NotificationInteractor.kt$NotificationInteractor</ID>
     <ID>TooManyFunctions:ProfileFragment.kt$ProfileFragment : FragmentReduxViewCallbackCallback</ID>
+    <ID>TooManyFunctions:Reply.kt$Reply$Companion</ID>
     <ID>TooManyFunctions:SharedDateFormatter.kt$SharedDateFormatter</ID>
     <ID>TooManyFunctions:StepActionDispatcher.kt$StepActionDispatcher : CoroutineActionDispatcher</ID>
     <ID>TooManyFunctions:StudyPlanWidgetDelegate.kt$StudyPlanWidgetDelegate</ID>
+    <ID>TooManyFunctions:SubscriptionsInteractor.kt$SubscriptionsInteractor</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val dailyReminderId = "dailyReminderChannel"</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val otherId = "otherChannel"</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val regularLearningRemindersId = "regularLearningRemindersChannel"</ID>
