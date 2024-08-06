@@ -11,7 +11,7 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class CompletableActionDispatcherTest {
+class CompletableCoroutineActionDispatcherTest {
 
     @Test
     fun `Action handling should not be cancelled if the feature is cancelled`() {
