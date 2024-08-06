@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.terrakok.cicerone.Router
 import dev.chrisbanes.insetter.applyInsetter
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -16,6 +17,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.stage_implementation.dialog.ProjectCompletedBottomSheet
 import org.hyperskill.app.android.stage_implementation.dialog.StageCompletedBottomSheet
+import org.hyperskill.app.android.step.view.navigation.StepNavigationContainer
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
 import org.hyperskill.app.stage_implementation.presentation.StageImplementationViewModel
@@ -30,7 +32,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
  */
 class StageImplementationFragment :
     Fragment(R.layout.fragment_stage_implementation),
-    ReduxView<StageImplementFeature.ViewState, StageImplementFeature.Action.ViewAction> {
+    ReduxView<StageImplementFeature.ViewState, StageImplementFeature.Action.ViewAction>,
+    StepNavigationContainer {
 
     companion object {
         private const val STEP_TAG = "StageImplementationStepTag"
@@ -61,6 +64,9 @@ class StageImplementationFragment :
 
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+
+    override val router: Router
+        get() = TODO("Not yet implemented")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
