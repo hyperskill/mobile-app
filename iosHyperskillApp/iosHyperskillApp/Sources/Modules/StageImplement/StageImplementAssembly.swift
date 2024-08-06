@@ -22,11 +22,13 @@ final class StageImplementAssembly: UIKitAssembly {
             feature: stageImplementComponent.stageImplementFeature
         )
 
-        let stackRouter = SwiftUIStackRouter()
+        let stackRouter = StackRouter()
+        let panModalPresenter = PanModalPresenter()
 
         let stageImplementView = StageImplementView(
             viewModel: stageImplementViewModel,
-            stackRouter: stackRouter
+            stackRouter: stackRouter,
+            panModalPresenter: panModalPresenter
         )
 
         let hostingController = StyledHostingController(
@@ -37,6 +39,7 @@ final class StageImplementAssembly: UIKitAssembly {
         hostingController.navigationItem.largeTitleDisplayMode = .never
 
         stackRouter.rootViewController = hostingController
+        panModalPresenter.rootViewController = hostingController
 
         return hostingController
     }

@@ -20,20 +20,24 @@ struct StepQuizView: View {
     @State private var scrollPosition: ScrollPosition?
 
     var body: some View {
-        let viewData = viewModel.makeViewData()
-
-        buildBody(viewData: viewData)
-            .animation(.default, value: viewModel.state)
-            .onAppear {
+        UIViewControllerEventsWrapper(
+            onViewDidAppear: {
                 viewModel.onViewAction = handleViewAction(_:)
                 viewModel.startListening()
 
                 viewModel.doProvideModuleInput()
-            }
-            .onDisappear {
+                viewModel.doLoadAttempt()
+            },
+            onViewWillDisappear: {
                 viewModel.onViewAction = nil
                 viewModel.stopListening()
             }
+        )
+
+        let viewData = viewModel.makeViewData()
+
+        buildBody(viewData: viewData)
+            .animation(.default, value: viewModel.state)
             .if(viewData.navigationTitle != nil) {
                 $0.navigationTitle(viewData.navigationTitle.require())
             }
