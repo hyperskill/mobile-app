@@ -37,7 +37,7 @@ jobs:
           token: ${{ secrets.GH_PAT }}
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.175.1
+        uses: ruby/setup-ruby@v1.190.0
         with:
           ruby-version: "3.3.0"
           bundler-cache: true
