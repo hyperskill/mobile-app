@@ -30,7 +30,9 @@ data class Block(
         @SerialName("files")
         val files: List<File>? = null,
         @SerialName("code_blanks_strings")
-        val codeBlanksStrings: List<String>? = null
+        val codeBlanksStrings: List<String>? = null,
+        @SerialName("code_blanks_enabled")
+        val codeBlanksEnabled: Boolean? = null
     ) {
         @Serializable
         data class File(

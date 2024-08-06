@@ -8,7 +8,7 @@ import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksVie
 
 object StepQuizCodeBlanksFeature {
     internal fun isCodeBlanksFeatureAvailable(step: Step): Boolean =
-        step.block.options.codeBlanksStrings.isNullOrEmpty().not()
+        step.block.options.codeBlanksEnabled == true
 
     internal fun initialState(): State = State.Idle
 
