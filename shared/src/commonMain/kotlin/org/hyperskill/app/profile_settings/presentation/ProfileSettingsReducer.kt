@@ -189,8 +189,8 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
         state: State
     ): ReducerResult =
         if (state is State.Content) {
-            state to when (state.subscription?.type) {
-                SubscriptionType.MOBILE_ONLY ->
+            state to when {
+                state.subscription?.type == SubscriptionType.MOBILE_ONLY ->
                     setOf(
                         Action.LogAnalyticEvent(
                             ProfileSettingsClickedHyperskillAnalyticEvent(
@@ -199,7 +199,7 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         ),
                         Action.ViewAction.NavigateTo.SubscriptionManagement
                     )
-                SubscriptionType.FREEMIUM ->
+                state.subscription?.type?.canUpgradeToMobileOnly == true ->
                     setOf(
                         Action.LogAnalyticEvent(
                             ProfileSettingsClickedHyperskillAnalyticEvent(
