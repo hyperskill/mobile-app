@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 
 interface AnalyticHyperskillCacheDataSource {
     suspend fun logEvent(event: AnalyticEvent)
+    suspend fun logEvents(events: List<AnalyticEvent>)
     suspend fun getEvents(): List<AnalyticEvent>
     suspend fun clearEvents()
 }
