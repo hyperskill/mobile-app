@@ -66,7 +66,7 @@ class StageImplementationFragment :
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     override val router: Router
-        get() = TODO("Not yet implemented")
+        get() = requireRouter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
