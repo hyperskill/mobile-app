@@ -248,6 +248,20 @@ extension StepQuizViewModel: StepQuizCodeBlanksOutputProtocol {
         )
     }
 
+    func handleStepQuizCodeBlanksDidTapOnCodeBlockChild(
+        codeBlock: StepQuizCodeBlanksViewStateCodeBlockItem,
+        codeBlockChild: StepQuizCodeBlanksViewStateCodeBlockChildItem
+    ) {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizCodeBlanksMessage(
+                message: StepQuizCodeBlanksFeatureMessageCodeBlockChildClicked(
+                    codeBlockItem: codeBlock,
+                    codeBlockChildItem: codeBlockChild
+                )
+            )
+        )
+    }
+
     func handleStepQuizCodeBlanksDidTapDelete() {
         onNewMessage(
             StepQuizFeatureMessageStepQuizCodeBlanksMessage(

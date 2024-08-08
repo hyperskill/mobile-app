@@ -11,31 +11,21 @@ extension Block.Options {
         codeTemplates: [String: String]? = nil,
         samples: [[String]]? = nil,
         files: [Block.OptionsFile]? = nil,
-        codeBlanksStrings: [String]? = nil
+        codeBlanksStrings: [String]? = nil,
+        codeBlanksVariables: [String]? = nil,
+        codeBlanksEnabled: Bool? = nil
     ) {
-        let isMultipleChoice: KotlinBoolean? = {
-            if let isMultipleChoice {
-                return KotlinBoolean(value: isMultipleChoice)
-            }
-            return nil
-        }()
-
-        let isCheckbox: KotlinBoolean? = {
-            if let isCheckbox {
-                return KotlinBoolean(value: isCheckbox)
-            }
-            return nil
-        }()
-
         self.init(
-            isMultipleChoice: isMultipleChoice,
+            isMultipleChoice: isMultipleChoice.flatMap(KotlinBoolean.init(value:)),
             language: language,
-            isCheckbox: isCheckbox,
+            isCheckbox: isCheckbox.flatMap(KotlinBoolean.init(value:)),
             limits: limits,
             codeTemplates: codeTemplates,
             samples: samples,
             files: files,
-            codeBlanksStrings: codeBlanksStrings
+            codeBlanksStrings: codeBlanksStrings,
+            codeBlanksVariables: codeBlanksVariables,
+            codeBlanksEnabled: codeBlanksEnabled.flatMap(KotlinBoolean.init(value:))
         )
     }
     // swiftlint:enable discouraged_optional_boolean

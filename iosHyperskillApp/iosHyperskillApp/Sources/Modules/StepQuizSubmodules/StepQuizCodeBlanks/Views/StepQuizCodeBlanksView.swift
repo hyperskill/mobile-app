@@ -74,6 +74,19 @@ struct StepQuizCodeBlanksView: View {
                     .onTapGesture {
                         viewModel.doCodeBlockMainAction(codeBlock)
                     }
+                case .variable(let variableItem):
+                    StepQuizCodeBlanksVariableInstructionView(
+                        variableItem: variableItem,
+                        onChildTap: { codeBlockChild in
+                            viewModel.doCodeBlockChildMainAction(
+                                codeBlock: codeBlock,
+                                codeBlockChild: codeBlockChild
+                            )
+                        }
+                    )
+                    .onTapGesture {
+                        viewModel.doCodeBlockMainAction(codeBlock)
+                    }
                 }
             }
 
@@ -125,7 +138,14 @@ extension StepQuizCodeBlanksView: Equatable {
         StepQuizCodeBlanksView(
             viewStateKs: .content(
                 StepQuizCodeBlanksViewStateContent(
-                    codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItemPrint(id: 0, isActive: true, output: nil)],
+                    codeBlocks: [
+                        StepQuizCodeBlanksViewStateCodeBlockItemPrint(
+                            id: 0,
+                            children: [
+                                StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: nil)
+                            ]
+                        )
+                    ],
                     suggestions: [
                         Suggestion.ConstantString(text: "There is a cat on the keyboard, it is true"),
                         Suggestion.ConstantString(text: "Typing messages out of the blue")
@@ -149,13 +169,19 @@ extension StepQuizCodeBlanksView: Equatable {
                     codeBlocks: [
                         StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                             id: 0,
-                            isActive: false,
-                            output: "There is a cat on the keyboard, it is true"
+                            children: [
+                                StepQuizCodeBlanksViewStateCodeBlockChildItem(
+                                    id: 0,
+                                    isActive: false,
+                                    value: "There is a cat on the keyboard, it is true"
+                                )
+                            ]
                         ),
                         StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                             id: 1,
-                            isActive: true,
-                            output: nil
+                            children: [
+                                StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: nil)
+                            ]
                         )
                     ],
                     suggestions: [

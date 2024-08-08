@@ -5,35 +5,72 @@ sealed class CodeBlock {
 
     abstract val suggestions: List<Suggestion>
 
+    abstract val children: List<CodeBlockChild>
+
     internal abstract val analyticRepresentation: String
 
-    data class Blank(
-        override val isActive: Boolean
-    ) : CodeBlock() {
-        override val suggestions: List<Suggestion>
-            get() = listOf(Suggestion.Print)
+    internal fun activeChild(): CodeBlockChild? =
+        children.firstOrNull { it.isActive }
 
-        override fun toString(): String = ""
+    internal fun activeChildIndex(): Int? =
+        children.indexOfFirst { it.isActive }.takeIf { it != -1 }
+
+    data class Blank(
+        override val isActive: Boolean,
+        override val suggestions: List<Suggestion>
+    ) : CodeBlock() {
+        override val children: List<CodeBlockChild> = emptyList()
 
         override val analyticRepresentation: String
             get() = "Blank(isActive=$isActive, suggestions=$suggestions)"
+
+        override fun toString(): String = ""
     }
 
     data class Print(
-        override val isActive: Boolean,
-        override val suggestions: List<Suggestion.ConstantString>,
-        val selectedSuggestion: Suggestion.ConstantString?
+        override val children: List<CodeBlockChild.SelectSuggestion>
     ) : CodeBlock() {
+        internal val select: CodeBlockChild.SelectSuggestion?
+            get() = children.firstOrNull()
+
+        override val isActive: Boolean = false
+
+        override val suggestions: List<Suggestion> = emptyList()
+
+        override val analyticRepresentation: String =
+            "Print(children=$children, isActive=$isActive, suggestions=$suggestions)"
+
         override fun toString(): String =
             buildString {
                 append("print(")
-                if (selectedSuggestion != null) {
-                    append(selectedSuggestion.text)
-                }
+                append(
+                    children.joinToString(separator = ", ") { it.toString() }
+                )
                 append(")")
             }
+    }
+
+    data class Variable(
+        override val children: List<CodeBlockChild.SelectSuggestion>
+    ) : CodeBlock() {
+        internal val name: CodeBlockChild.SelectSuggestion?
+            get() = children.firstOrNull()
+
+        internal val value: CodeBlockChild.SelectSuggestion?
+            get() = children.lastOrNull()
+
+        override val isActive: Boolean = false
+
+        override val suggestions: List<Suggestion> = emptyList()
 
         override val analyticRepresentation: String
-            get() = "Print(isActive=$isActive, suggestions=$suggestions, selectedSuggestion=$selectedSuggestion)"
+            get() = "Variable(children=$children, isActive=$isActive, suggestions=$suggestions)"
+
+        override fun toString(): String =
+            buildString {
+                append(name?.toString() ?: "")
+                append(" = ")
+                append(value?.toString() ?: "")
+            }
     }
 }
