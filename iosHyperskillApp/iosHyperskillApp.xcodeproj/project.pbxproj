@@ -166,6 +166,7 @@
 		2C370439288BE57A008043BF /* StepQuizCodeFullScreenCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C370438288BE57A008043BF /* StepQuizCodeFullScreenCodeView.swift */; };
 		2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C37960E2876F36F00C197E2 /* ProfileViewData.swift */; };
 		2C3796122877001700C197E2 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3796112877001700C197E2 /* ProfileHeaderView.swift */; };
+		2C3B84E82C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B84E72C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift */; };
 		2C3CE3962C1073990011BECA /* StepToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CE3952C1073990011BECA /* StepToolbarContent.swift */; };
 		2C3E656D2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E656C2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift */; };
 		2C3E65702A127F2300BC8DC0 /* BrandLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E656F2A127F2300BC8DC0 /* BrandLinearGradient.swift */; };
@@ -957,6 +958,7 @@
 		2C370438288BE57A008043BF /* StepQuizCodeFullScreenCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenCodeView.swift; sourceTree = "<group>"; };
 		2C37960E2876F36F00C197E2 /* ProfileViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewData.swift; sourceTree = "<group>"; };
 		2C3796112877001700C197E2 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		2C3B84E72C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeBlanksVariableInstructionView.swift; sourceTree = "<group>"; };
 		2C3CE3952C1073990011BECA /* StepToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepToolbarContent.swift; sourceTree = "<group>"; };
 		2C3E656C2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListHeaderView.swift; sourceTree = "<group>"; };
 		2C3E656F2A127F2300BC8DC0 /* BrandLinearGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandLinearGradient.swift; sourceTree = "<group>"; };
@@ -3714,6 +3716,7 @@
 				2CD67CA22C452DED00240C17 /* StepQuizCodeBlanksOptionView.swift */,
 				2CB3BC552C46171000F5354F /* StepQuizCodeBlanksPrintInstructionView.swift */,
 				2C677D012C4A3F860019AF03 /* StepQuizCodeBlanksSuggestionsView.swift */,
+				2C3B84E72C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift */,
 				2C84E70B2C47BAB6002EE787 /* StepQuizCodeBlanksView.swift */,
 			);
 			path = Views;
@@ -5127,6 +5130,7 @@
 				2CD48D872858639500CFCC4A /* StepQuizViewModel.swift in Sources */,
 				2C7CB6862ADFF389006F78DA /* FillBlanksQuizView.swift in Sources */,
 				E94D238D28057F440003273F /* AuthCredentialsView.swift in Sources */,
+				2C3B84E82C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift in Sources */,
 				2CEEE03728917F1100282849 /* TimeIntervalExtensions.swift in Sources */,
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
 				2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */,

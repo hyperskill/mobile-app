@@ -20,6 +20,18 @@ final class StepQuizCodeBlanksViewModel {
     }
 
     @MainActor
+    func doCodeBlockChildMainAction(
+        codeBlock: StepQuizCodeBlanksViewStateCodeBlockItem,
+        codeBlockChild: StepQuizCodeBlanksViewStateCodeBlockChildItem
+    ) {
+        selectionFeedbackGenerator.triggerFeedback()
+        moduleOutput?.handleStepQuizCodeBlanksDidTapOnCodeBlockChild(
+            codeBlock: codeBlock,
+            codeBlockChild: codeBlockChild
+        )
+    }
+
+    @MainActor
     func doDeleteAction() {
         impactFeedbackGenerator.triggerFeedback()
         moduleOutput?.handleStepQuizCodeBlanksDidTapDelete()
