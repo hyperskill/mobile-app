@@ -88,6 +88,50 @@ class StepQuizCodeBlanksStateExtensionsTest {
     }
 
     @Test
+    fun `createReply should return correct Reply with Variable code block`() {
+        val codeBlocks = listOf(
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("a")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("1")
+                    )
+                )
+            ),
+            CodeBlock.Print(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("a")
+                    )
+                )
+            ),
+        )
+        val step = Step.stub(id = 1).copy(
+            block = Block.stub(
+                options = Block.Options(
+                    codeTemplates = mapOf("python3" to "# put your python code here")
+                )
+            )
+        )
+        val state = stubContentState(
+            step = step,
+            codeBlocks = codeBlocks
+        )
+
+        val expectedReply = Reply.code(code = "a = 1\nprint(a)", language = "python3")
+
+        assertEquals(expectedReply, state.createReply())
+    }
+
+    @Test
     fun `isVariableSuggestionsAvailable should return true if variable suggestions are available`() {
         val step = Step.stub(
             id = 1,

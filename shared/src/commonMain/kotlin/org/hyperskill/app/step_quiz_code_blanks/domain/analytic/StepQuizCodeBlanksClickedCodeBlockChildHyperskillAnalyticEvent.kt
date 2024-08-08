@@ -40,6 +40,6 @@ class StepQuizCodeBlanksClickedCodeBlockChildHyperskillAnalyticEvent(
     target = HyperskillAnalyticTarget.CODE_BLOCK_CHILD,
     context = mapOfNotNull(
         StepQuizCodeBlanksAnalyticParams.PARAM_CODE_BLOCK to codeBlock?.analyticRepresentation,
-        StepQuizCodeBlanksAnalyticParams.PARAM_CODE_BLOCK_CHILD to codeBlockChild?.analyticRepresentation
+        StepQuizCodeBlanksAnalyticParams.PARAM_CODE_BLOCK_CHILD to codeBlockChild?.toString()
     )
 )
