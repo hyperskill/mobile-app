@@ -15,6 +15,9 @@ internal val StepQuizCodeBlanksFeature.State.isVariableSuggestionsAvailable: Boo
 
 fun StepQuizCodeBlanksFeature.State.Content.createReply(): Reply =
     Reply.code(
-        code = codeBlocks.joinToString(separator = "\n") { it.toReplyString() },
+        code = buildString {
+            append("# solved with code blanks\n")
+            append(codeBlocks.joinToString(separator = "\n") { it.toReplyString() })
+        },
         language = step.block.options.codeTemplates?.keys?.firstOrNull()
     )
