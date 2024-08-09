@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz_code_blanks.presentation
 
+import org.hyperskill.app.core.utils.indexOfFirstOrNull
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockChildHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
@@ -121,6 +122,18 @@ class StepQuizCodeBlanksReducer(
                                         selectedSuggestion = message.suggestion as? Suggestion.ConstantString
                                     )
                                 )
+
+                                val nextUnselectedChildIndex = this.indexOfFirstOrNull { it.selectedSuggestion == null }
+                                if (nextUnselectedChildIndex != null) {
+                                    set(
+                                        nextUnselectedChildIndex,
+                                        this[nextUnselectedChildIndex].copy(isActive = true)
+                                    )
+                                    set(
+                                        activeChildIndex,
+                                        this[activeChildIndex].copy(isActive = false)
+                                    )
+                                }
                             }
                         )
                     } ?: activeCodeBlock

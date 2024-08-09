@@ -2,6 +2,7 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlin.math.min
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.core.utils.indexOfFirstOrNull
 import org.hyperskill.app.core.utils.mutate
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
@@ -203,10 +204,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
          */
         val visibleSections = sections.filter { it.isVisible }
         val currentSectionIndex = visibleSections
-            .indexOfFirst { studyPlanSection ->
+            .indexOfFirstOrNull { studyPlanSection ->
                 studyPlanSection.activities.intersect(learningActivitiesIds).isNotEmpty()
             }
-            .takeIf { it != -1 }
             ?: return emptyList()
         return visibleSections.slice(from = currentSectionIndex)
     }

@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_quiz_fill_blanks.presentation
 
 import org.hyperskill.app.core.utils.DotMatchesAllRegexOption
+import org.hyperskill.app.core.utils.indexOfFirstOrNull
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
 import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
@@ -191,9 +192,7 @@ class FillBlanksItemMapper(private val mode: FillBlanksMode) {
         optionIndex: Int
     ): Int? {
         val replyOption = replyBlanks?.getOrNull(optionIndex) ?: return null
-        return blankOptions
-            .indexOfFirst { it.originalText == replyOption }
-            .takeIf { it != -1 }
+        return blankOptions.indexOfFirstOrNull { it.originalText == replyOption }
     }
 
     private fun parseLanguage(langClass: String): String? =

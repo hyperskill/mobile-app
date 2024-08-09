@@ -1,5 +1,7 @@
 package org.hyperskill.app.step_quiz_code_blanks.domain.model
 
+import org.hyperskill.app.core.utils.indexOfFirstOrNull
+
 sealed class CodeBlock {
     internal abstract val isActive: Boolean
 
@@ -15,7 +17,7 @@ sealed class CodeBlock {
         children.firstOrNull { it.isActive }
 
     internal fun activeChildIndex(): Int? =
-        children.indexOfFirst { it.isActive }.takeIf { it != -1 }
+        children.indexOfFirstOrNull { it.isActive }
 
     internal data class Blank(
         override val isActive: Boolean,
