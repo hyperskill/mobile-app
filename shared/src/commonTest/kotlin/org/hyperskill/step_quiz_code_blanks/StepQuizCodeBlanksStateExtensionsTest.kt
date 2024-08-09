@@ -82,7 +82,13 @@ class StepQuizCodeBlanksStateExtensionsTest {
             codeBlocks = codeBlocks
         )
 
-        val expectedReply = Reply.code(code = "print(\"test\")\n", language = "python3")
+        val expectedReply = Reply.code(
+            code = buildString {
+                append("# solved with code blanks\n")
+                append("print(\"test\")\n")
+            },
+            language = "python3"
+        )
 
         assertEquals(expectedReply, state.createReply())
     }
@@ -126,7 +132,13 @@ class StepQuizCodeBlanksStateExtensionsTest {
             codeBlocks = codeBlocks
         )
 
-        val expectedReply = Reply.code(code = "a = 1\nprint(a)", language = "python3")
+        val expectedReply = Reply.code(
+            code = buildString {
+                append("# solved with code blanks\n")
+                append("a = 1\nprint(a)")
+            },
+            language = "python3"
+        )
 
         assertEquals(expectedReply, state.createReply())
     }
