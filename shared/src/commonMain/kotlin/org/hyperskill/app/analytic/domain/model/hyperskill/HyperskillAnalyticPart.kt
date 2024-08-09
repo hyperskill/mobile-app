@@ -45,5 +45,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     USERS_INTERVIEW_WIDGET("users_interview_widget"),
     UNSUPPORTED_QUIZ_PLACEHOLDER("unsupported_quiz_placeholder"),
     CODE_BLANKS("code_blanks"),
+    CODE_BLOCK("code_block"),
     STEP_QUIZ_FEEDBACK("step_quiz_feedback")
 }

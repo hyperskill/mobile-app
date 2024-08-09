@@ -75,6 +75,9 @@ internal class HyperskillAnalyticEngineImpl(
 
             analyticHyperskillRepository
                 .flushEvents(isAuthorized)
+                .onSuccess {
+                    logger.d { "Successfully flush events" }
+                }
                 .onFailure { logger.e(it) { "Failed to flush events" } }
         }
     }

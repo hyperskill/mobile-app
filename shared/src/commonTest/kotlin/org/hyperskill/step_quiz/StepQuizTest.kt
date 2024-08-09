@@ -661,9 +661,7 @@ class StepQuizTest {
         val step = Step.stub(
             id = 1,
             block = Block.stub(
-                options = Block.Options(
-                    codeBlanksStrings = listOf("a", "b")
-                )
+                options = Block.Options(codeBlanksEnabled = true)
             )
         )
         val attempt = Attempt.stub()
@@ -716,7 +714,12 @@ class StepQuizTest {
 
     @Test
     fun `StepQuizCodeBlanksFeature should not be initialized when isCodeBlanksFeatureAvailable returns false`() {
-        val step = Step.stub(id = 1)
+        val step = Step.stub(
+            id = 1,
+            block = Block.stub(
+                options = Block.Options(codeBlanksEnabled = false)
+            )
+        )
         val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
         val stepRoute = StepRoute.Learn.Step(step.id, null)

@@ -11,6 +11,7 @@ import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Int
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.InternalMessage
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.Message
 import org.hyperskill.app.comments.screen.presentation.CommentsScreenFeature.State
+import org.hyperskill.app.core.utils.indexOfFirstOrNull
 import org.hyperskill.app.core.utils.mutate
 import org.hyperskill.app.discussions.domain.model.getRepliesIds
 import org.hyperskill.app.discussions.remote.model.toPagedList
@@ -186,8 +187,7 @@ internal class CommentsScreenReducer : StateReducer<State, Message, Action> {
 
         val comment = discussionsState.commentsMap[message.commentId] ?: return null
         val reactionIndex = comment.reactions
-            .indexOfFirst { it.reactionType == message.reactionType }
-            .takeIf { it != -1 }
+            .indexOfFirstOrNull { it.reactionType == message.reactionType }
             ?: return null
         val reaction = comment.reactions[reactionIndex]
         val isSettingReaction = !reaction.isSet

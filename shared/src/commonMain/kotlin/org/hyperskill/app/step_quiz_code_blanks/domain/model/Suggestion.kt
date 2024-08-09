@@ -12,6 +12,13 @@ sealed class Suggestion {
             "Print(text='$text')"
     }
 
+    data object Variable : Suggestion() {
+        override val text: String = "variable"
+
+        override val analyticRepresentation: String =
+            "Variable(text='$text')"
+    }
+
     data class ConstantString(
         override val text: String
     ) : Suggestion() {

@@ -9,6 +9,7 @@ import org.hyperskill.app.android.step_quiz_table.view.adapter.TableSelectionIte
 import org.hyperskill.app.android.step_quiz_table.view.fragment.TableColumnSelectionBottomSheetDialogFragment
 import org.hyperskill.app.android.step_quiz_table.view.model.TableChoiceItem
 import org.hyperskill.app.android.step_quiz_table.view.model.TableSelectionItem
+import org.hyperskill.app.core.utils.indexOfFirstOrNull
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.submission
@@ -79,13 +80,10 @@ class MatchingStepQuizFormDelegate(
     ): List<TableSelectionItem> {
         val selectedAnswerIndex =
             answers
-                .indexOfFirst { it.answer }
-                .takeIf { it != -1 }
+                .indexOfFirstOrNull { it.answer }
                 ?: return rows
         val rowIndexToSwap =
-            rows
-                .indexOfFirst { it.tableChoices[selectedAnswerIndex].answer }
-                .takeIf { it != -1 }
+            rows.indexOfFirstOrNull { it.tableChoices[selectedAnswerIndex].answer }
         return rows.mutate {
             val currentRow = get(currentRowIndex)
             if (rowIndexToSwap != null) {

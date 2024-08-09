@@ -30,7 +30,7 @@ extension StepQuizCodeBlanksBlankView {
         fileprivate var size: CGSize {
             switch self {
             case .small:
-                CGSize(width: 100, height: 32)
+                CGSize(width: 100, height: 40)
             case .large:
                 CGSize(width: 208, height: 48)
             }

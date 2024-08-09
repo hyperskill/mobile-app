@@ -8,7 +8,10 @@ import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksVie
 
 object StepQuizCodeBlanksFeature {
     internal fun isCodeBlanksFeatureAvailable(step: Step): Boolean =
-        step.block.options.codeBlanksStrings.isNullOrEmpty().not()
+        step.block.options.codeBlanksEnabled == true
+
+    internal fun isVariableSuggestionsAvailable(step: Step): Boolean =
+        step.block.options.codeBlanksVariables?.isNotEmpty() == true
 
     internal fun initialState(): State = State.Idle
 
@@ -21,6 +24,9 @@ object StepQuizCodeBlanksFeature {
         ) : State {
             internal val codeBlanksStringsSuggestions: List<Suggestion.ConstantString> =
                 step.block.options.codeBlanksStrings.orEmpty().map(Suggestion::ConstantString)
+
+            internal val codeBlanksVariablesSuggestions: List<Suggestion.ConstantString> =
+                step.block.options.codeBlanksVariables.orEmpty().map(Suggestion::ConstantString)
         }
     }
 
@@ -28,6 +34,10 @@ object StepQuizCodeBlanksFeature {
         data class SuggestionClicked(val suggestion: Suggestion) : Message
 
         data class CodeBlockClicked(val codeBlockItem: StepQuizCodeBlanksViewState.CodeBlockItem) : Message
+        data class CodeBlockChildClicked(
+            val codeBlockItem: StepQuizCodeBlanksViewState.CodeBlockItem,
+            val codeBlockChildItem: StepQuizCodeBlanksViewState.CodeBlockChildItem
+        ) : Message
 
         data object DeleteButtonClicked : Message
         data object EnterButtonClicked : Message

@@ -8,10 +8,12 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 
 internal class AnalyticHyperskillRepositoryImpl(
-    private val mutex: Mutex,
     private val hyperskillRemoteDataSource: AnalyticHyperskillRemoteDataSource,
     private val hyperskillCacheDataSource: AnalyticHyperskillCacheDataSource
 ) : AnalyticHyperskillRepository {
+
+    private val mutex = Mutex()
+
     override suspend fun logEvent(event: AnalyticEvent) {
         mutex.withLock {
             hyperskillCacheDataSource.logEvent(event)
@@ -24,6 +26,12 @@ internal class AnalyticHyperskillRepositoryImpl(
             eventsToFlush = hyperskillCacheDataSource.getEvents()
             hyperskillCacheDataSource.clearEvents()
         }
-        return hyperskillRemoteDataSource.flushEvents(eventsToFlush, isAuthorized)
+        return hyperskillRemoteDataSource
+            .flushEvents(eventsToFlush, isAuthorized)
+            .onFailure {
+                mutex.withLock {
+                    hyperskillCacheDataSource.logEvents(eventsToFlush)
+                }
+            }
     }
 }

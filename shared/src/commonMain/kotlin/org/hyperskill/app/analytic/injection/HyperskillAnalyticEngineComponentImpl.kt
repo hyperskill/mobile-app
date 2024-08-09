@@ -1,6 +1,5 @@
 package org.hyperskill.app.analytic.injection
 
-import kotlinx.coroutines.sync.Mutex
 import org.hyperskill.app.analytic.cache.AnalyticHyperskillCacheDataSourceImpl
 import org.hyperskill.app.analytic.data.repository.AnalyticHyperskillRepositoryImpl
 import org.hyperskill.app.analytic.data.source.AnalyticHyperskillCacheDataSource
@@ -25,7 +24,6 @@ internal class HyperskillAnalyticEngineComponentImpl(appGraph: AppGraph) : Hyper
         AnalyticHyperskillCacheDataSourceImpl()
     private val hyperskillRepository: AnalyticHyperskillRepository =
         AnalyticHyperskillRepositoryImpl(
-            Mutex(),
             hyperskillRemoteDataSource,
             hyperskillCacheDataSource
         )
