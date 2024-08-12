@@ -6,5 +6,4 @@ internal object NotificationCacheKeyValues {
     const val DAILY_STUDY_REMINDERS_ENABLED = "notifications_daily_reminder_enabled"
     const val DAILY_STUDY_REMINDERS_START_HOUR = "notifications_daily_reminder_start_hour"
     const val DAILY_STUDY_REMINDERS_START_HOUR_DEFAULT = 20
-    const val DAILY_STUDY_REMINDERS_START_HOUR_ONBOARDING = 12
 }
