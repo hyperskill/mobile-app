@@ -13,17 +13,42 @@ sealed interface StepQuizCodeBlanksViewState {
 
     sealed interface CodeBlockItem {
         val id: Int
-        val isActive: Boolean
+
+        val children: List<CodeBlockChildItem>
 
         data class Blank(
             override val id: Int,
-            override val isActive: Boolean
-        ) : CodeBlockItem
+            val isActive: Boolean
+        ) : CodeBlockItem {
+            override val children: List<CodeBlockChildItem> = emptyList()
+        }
 
         data class Print(
             override val id: Int,
-            override val isActive: Boolean,
+            override val children: List<CodeBlockChildItem>
+        ) : CodeBlockItem {
+            val isActive: Boolean
+                get() = children.firstOrNull()?.isActive == true
+
             val output: String?
-        ) : CodeBlockItem
+                get() = children.firstOrNull()?.value
+        }
+
+        data class Variable(
+            override val id: Int,
+            override val children: List<CodeBlockChildItem>
+        ) : CodeBlockItem {
+            val name: CodeBlockChildItem?
+                get() = children.firstOrNull()
+
+            val value: CodeBlockChildItem?
+                get() = children.lastOrNull()
+        }
     }
+
+    data class CodeBlockChildItem(
+        val id: Int,
+        val isActive: Boolean,
+        val value: String?
+    )
 }

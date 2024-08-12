@@ -4,7 +4,6 @@ import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
-import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -27,7 +26,6 @@ internal object RequestReviewModalFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         logger: Logger,
         buildVariant: BuildVariant,
-        platform: Platform,
         resourceProvider: ResourceProvider
     ): Feature<ViewState, Message, Action> {
         val requestReviewModalReducer = RequestReviewModalReducer(
@@ -36,7 +34,6 @@ internal object RequestReviewModalFeatureBuilder {
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val requestReviewModalViewStateMapper = RequestReviewModalViewStateMapper(
-            platform = platform,
             resourceProvider = resourceProvider
         )
 

@@ -6,6 +6,7 @@ import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.presentation.CompletableCoroutineActionDispatcherConfig
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -69,6 +70,11 @@ internal object StepFeatureBuilder {
             logger = logger.withTag(LOG_TAG)
         )
 
+        val viewStepActionDispatcher = ViewStepActionDispatcher(
+            config = CompletableCoroutineActionDispatcherConfig(),
+            stepInteractor = stepInteractor
+        )
+
         val stepViewStateMapper = StepViewStateMapper(stepRoute)
 
         return ReduxFeature(StepFeature.initialState(stepRoute), stepReducer)
@@ -89,6 +95,6 @@ internal object StepFeatureBuilder {
             .wrapWithAnalyticLogger(analyticInteractor) {
                 (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
             }
-            .wrapWithActionDispatcher(ViewStepActionDispatcher(stepInteractor))
+            .wrapWithActionDispatcher(viewStepActionDispatcher)
     }
 }
