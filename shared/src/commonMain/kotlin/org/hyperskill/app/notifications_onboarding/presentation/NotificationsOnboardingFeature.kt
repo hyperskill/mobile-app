@@ -1,7 +1,9 @@
 package org.hyperskill.app.notifications_onboarding.presentation
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
 
 object NotificationsOnboardingFeature {
     internal data class State(val dailyStudyRemindersStartHour: Int)
@@ -9,29 +11,33 @@ object NotificationsOnboardingFeature {
     data class ViewState(val formattedDailyStudyRemindersInterval: String)
 
     internal fun initialState() =
-        State(dailyStudyRemindersStartHour = NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_ONBOARDING)
+        State(
+            dailyStudyRemindersStartHour = Clock.System.now()
+                .toLocalDateTime(TimeZone.currentSystemDefault())
+                .hour
+        )
 
     sealed interface Message {
-        object AllowNotificationsClicked : Message
-        object NotNowClicked : Message
+        data object AllowNotificationsClicked : Message
+        data object NotNowClicked : Message
         data class NotificationPermissionRequestResult(val isPermissionGranted: Boolean) : Message
 
-        object DailyStudyRemindsIntervalHourClicked : Message
+        data object DailyStudyRemindsIntervalHourClicked : Message
         data class DailyStudyRemindsIntervalStartHourSelected(val startHour: Int) : Message
 
         /**
          * Analytic
          */
-        object ViewedEventMessage : Message
+        data object ViewedEventMessage : Message
 
-        object DailyStudyRemindersIntervalStartHourPickerModalShownEventMessage : Message
-        object DailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage : Message
+        data object DailyStudyRemindersIntervalStartHourPickerModalShownEventMessage : Message
+        data object DailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
-            object RequestNotificationPermission : ViewAction
-            object CompleteNotificationOnboarding : ViewAction
+            data object RequestNotificationPermission : ViewAction
+            data object CompleteNotificationOnboarding : ViewAction
 
             data class ShowDailyStudyRemindersIntervalStartHourPickerModal(
                 val intervals: List<String>,
