@@ -774,7 +774,7 @@
     <string name="welcome_onboarding_lang_not_sure">I\'m not sure yet</string>
 
     <!--Welcome onboarding track details-->
-    <string name="welcome_onboarding_track_details_title">Here\'s the track for you!</string>
+    <string name="welcome_onboarding_track_details_title">Here\'s the course for you!</string>
     <string name="welcome_onboarding_track_details_change_text">You can always change this later</string>
     <string name="welcome_onboarding_track_details_continue_btn">Continue</string>
 
