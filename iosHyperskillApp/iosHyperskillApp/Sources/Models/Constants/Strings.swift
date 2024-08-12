@@ -7,7 +7,6 @@ enum Strings {
     // MARK: - Common -
 
     enum Common {
-        static let appName = sharedStrings.ios_app_name.localized()
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
         static let yes = sharedStrings.yes.localized()
@@ -53,8 +52,8 @@ enum Strings {
         // MARK: Social
 
         enum Social {
-            static let logInTitle = sharedStrings.auth_log_in_title.format(args_: [Common.appName]).localized()
-            static let signUpTitle = sharedStrings.auth_sign_up_title.format(args_: [Common.appName]).localized()
+            static let logInTitle = sharedStrings.auth_log_in_title.localized()
+            static let signUpTitle = sharedStrings.auth_sign_up_title.localized()
             static let jetBrainsAccount = sharedStrings.auth_jetbrains_account_text.localized()
             static let googleAccount = sharedStrings.auth_google_account_text.localized()
             static let gitHubAccount = sharedStrings.auth_github_account_text.localized()
@@ -484,7 +483,7 @@ enum Strings {
     // MARK: - Welcome -
 
     enum Welcome {
-        static let title = sharedStrings.ios_onboarding_title.localized()
+        static let title = sharedStrings.onboarding_title.localized()
         static let text = sharedStrings.onboarding_text.localized()
         static let primaryButton = sharedStrings.onboarding_primary_button_text.localized()
         static let secondaryButton = sharedStrings.onboarding_secondary_button_text.localized()

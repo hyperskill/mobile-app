@@ -13,11 +13,6 @@ class WelcomeQuestionnaireViewStateMapper(
     private val platform: Platform,
     private val resourceProvider: ResourceProvider
 ) {
-    private val title = resourceProvider.getString(
-        SharedResources.strings.welcome_questionnaire_title_template,
-        resourceProvider.getString(platform.appNameResource)
-    )
-
     fun mapQuestionnaireTypeToViewState(type: WelcomeQuestionnaireType): WelcomeQuestionnaireViewState =
         when (type) {
             WelcomeQuestionnaireType.HOW_DID_YOU_HEAR_ABOUT_HYPERSKILL ->
@@ -28,7 +23,7 @@ class WelcomeQuestionnaireViewStateMapper(
 
     private fun getHowDidYouHearAboutHyperskillViewState(): WelcomeQuestionnaireViewState =
         WelcomeQuestionnaireViewState(
-            title = title,
+            title = resourceProvider.getString(SharedResources.strings.welcome_questionnaire_title),
             items = listOf(
                 WelcomeQuestionnaireItem(
                     ClientSource.TIK_TOK,

@@ -17,7 +17,6 @@ internal class RequestReviewModalComponentImpl(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
-            platform = appGraph.commonComponent.platform,
             resourceProvider = appGraph.commonComponent.resourceProvider
         )
 }

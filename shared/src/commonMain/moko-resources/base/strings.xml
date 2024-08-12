@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <!-- General -->
-    <string name="ios_app_name">My Hyperskill</string>
-    <string name="android_app_name">Hyperskill</string>
+    <string name="app_name">Hyperskill</string>
 
     <string name="connection_error">Connection was lost</string>
     <string name="common_error">Sorry, something went wrong: please try again later.</string>
@@ -39,8 +38,8 @@
     <string name="user_list_home_user_name_hint">User name</string>
 
     <!-- Auth -->
-    <string name="auth_log_in_title">Sign in to %s</string>
-    <string name="auth_sign_up_title">Sign up to %s</string>
+    <string name="auth_log_in_title">Sign in to Hyperskill</string>
+    <string name="auth_sign_up_title">Sign up to Hyperskill</string>
     <string name="auth_jetbrains_account_text">JetBrains Account</string>
     <string name="auth_google_account_text">Google</string>
     <string name="auth_github_account_text">GitHub</string>
@@ -475,8 +474,7 @@
     <string name="notification14_text">Me: If the IDE knows I\'m missing a semicolon, why won\'t it just add it itself? 🤔</string>
 
     <!--  Onboarding  -->
-    <string name="ios_onboarding_title">My Hyperskill</string>
-    <string name="android_onboarding_title">Hyperskill</string>
+    <string name="onboarding_title">Hyperskill</string>
     <string name="onboarding_text">Code a little every day, wherever you are.</string>
     <string name="onboarding_primary_button_text">Start for free</string>
     <string name="onboarding_secondary_button_text">I already have an account</string>
@@ -649,7 +647,7 @@
     <string name="search_placeholder_suggestions_subtitle">Search all of Hyperskill for topic theory</string>
 
     <!-- Request review modal -->
-    <string name="request_review_modal_state_awaiting_title">Do you enjoy\n%s app?</string>
+    <string name="request_review_modal_state_awaiting_title">Do you enjoy\nHyperskill app?</string>
     <string name="request_review_modal_state_awaiting_positive_button_text">👍 Yes</string>
     <string name="request_review_modal_state_awaiting_negative_button_text">👎 No</string>
 
@@ -738,7 +736,7 @@
     <string name="welcome_onboarding_entry_point_start_btn">Start my journey</string>
 
     <!--Welcome onboarding first questionnaire-->
-    <string name="welcome_questionnaire_title_template">How did you hear about\n%s?</string>
+    <string name="welcome_questionnaire_title">How did you hear about\nHyperskill?</string>
     <string name="welcome_questionnaire_tiktok_item">TikTok</string>
     <string name="welcome_questionnaire_google_item">Google Search</string>
     <string name="welcome_questionnaire_news_item">News/article/blog</string>
