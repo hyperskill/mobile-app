@@ -22,9 +22,9 @@ object WelcomeOnboardingFeature {
     )
 
     sealed interface NextLearningActivityState {
-        object Idle : NextLearningActivityState
-        object Loading : NextLearningActivityState
-        object Error : NextLearningActivityState
+        data object Idle : NextLearningActivityState
+        data object Loading : NextLearningActivityState
+        data object Error : NextLearningActivityState
         data class Success(val nextLearningActivity: LearningActivity?) : NextLearningActivityState
     }
 
@@ -47,47 +47,50 @@ object WelcomeOnboardingFeature {
         )
 
     sealed interface Message {
-        object Initialize : Message
-        object StartJourneyClicked : Message
+        data object Initialize : Message
+        data object StartJourneyClicked : Message
         data class QuestionnaireItemClicked(
             val questionnaireType: WelcomeQuestionnaireType,
             val itemType: WelcomeQuestionnaireItemType
         ) : Message
+
         data class ProgrammingLanguageSelected(val language: WelcomeOnboardingProgrammingLanguage) : Message
         data class TrackSelected(
             val selectedTrack: WelcomeOnboardingTrack,
             val isNotificationPermissionGranted: Boolean
         ) : Message
-        object NotificationPermissionOnboardingCompleted : Message
-        object FinishClicked : Message
 
-        object StartOnboardingViewed : Message
+        data object NotificationPermissionOnboardingCompleted : Message
+        data object FinishClicked : Message
+
+        data object StartOnboardingViewed : Message
         class UserQuestionnaireViewed(val questionnaireType: WelcomeQuestionnaireType) : Message
-        object SelectProgrammingLanguageViewed : Message
-        object FinishOnboardingViewed : Message
+        data object SelectProgrammingLanguageViewed : Message
+        data object FinishOnboardingViewed : Message
     }
 
     internal sealed interface InternalMessage : Message {
         data class FetchNextLearningActivitySuccess(val nextLearningActivity: LearningActivity?) : InternalMessage
-        object FetchNextLearningActivityError : InternalMessage
+        data object FetchNextLearningActivityError : InternalMessage
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
-                object StartScreen : NavigateTo
+                data object StartScreen : NavigateTo
                 data class WelcomeOnboardingQuestionnaire(val type: WelcomeQuestionnaireType) : NavigateTo
-                object ChooseProgrammingLanguage : NavigateTo
+                data object ChooseProgrammingLanguage : NavigateTo
                 data class TrackDetails(val track: WelcomeOnboardingTrack) : NavigateTo
-                object NotificationOnboarding : NavigateTo
+                data object NotificationOnboarding : NavigateTo
                 data class OnboardingFinish(val selectedTrack: WelcomeOnboardingTrack) : NavigateTo
             }
+
             data class CompleteWelcomeOnboarding(val stepRoute: StepRoute?) : ViewAction
         }
     }
 
     internal sealed interface InternalAction : Action {
         data class LogAnalyticEvent(val event: AnalyticEvent) : InternalAction
-        object FetchNextLearningActivity : InternalAction
+        data object FetchNextLearningActivity : InternalAction
     }
 }
