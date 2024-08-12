@@ -47,6 +47,7 @@
     <string name="auth_email_text">Continue with email</string>
     <string name="auth_social_email_already_used">The email associated with this social network is already in use. Try authorizing via email</string>
     <string name="auth_social_email_not_provided_by_social">Authorization error: email is not provided by social network</string>
+    <string name="auth_more_options_btn">More options</string>
 
     <!-- Auth credentials -->
     <string name="auth_credentials_social_text">Continue with social networks</string>
