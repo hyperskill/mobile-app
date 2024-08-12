@@ -30,9 +30,8 @@ struct AuthSocialView: View {
                 .padding(horizontalSizeClass == .regular ? .bottom : .vertical, appearance.logoWidthHeight)
 
                 AuthSocialControlsView(
-                    socialAuthProviders: viewModel.availableSocialAuthProviders,
+                    isInSignUpMode: isInSignUpMode,
                     errorMessage: viewModel.authSocialErrorMessage,
-                    isContinueWithEmailAvailable: !isInSignUpMode,
                     onSocialAuthProviderClick: viewModel.signIn(with:),
                     onContinueWithEmailClick: {
                         viewModel.logClickedContinueWithEmailEvent()
