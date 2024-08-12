@@ -1,14 +1,24 @@
 import SwiftUI
 
 struct AuthSocialControlsView: View {
-    let socialAuthProviders: [SocialAuthProvider]
+    let isInSignUpMode: Bool
 
     let errorMessage: String?
 
-    let isContinueWithEmailAvailable: Bool
-
     let onSocialAuthProviderClick: ((SocialAuthProvider) -> Void)
     let onContinueWithEmailClick: (() -> Void)
+
+    @State private var isShowingMoreOptions = false
+
+    private var socialAuthProviders: [SocialAuthProvider] {
+        let providers: [SocialAuthProvider] =
+            if isInSignUpMode {
+                isShowingMoreOptions ? [.google, .apple, .jetbrains, .github] : [.google, .apple]
+            } else {
+                [.jetbrains, .google, .github, .apple]
+            }
+        return providers.filter(\.isSupported)
+    }
 
     var body: some View {
         VStack(spacing: LayoutInsets.smallInset) {
@@ -26,7 +36,19 @@ struct AuthSocialControlsView: View {
                 AuthCredentialsErrorView(message: errorMessage)
             }
 
-            if isContinueWithEmailAvailable {
+            if isInSignUpMode {
+                if !isShowingMoreOptions {
+                    Button(
+                        Strings.Auth.Social.moreOptionsButton,
+                        action: {
+                            withAnimation {
+                                isShowingMoreOptions = true
+                            }
+                        }
+                    )
+                    .padding(.top)
+                }
+            } else {
                 Button(
                     Strings.Auth.Social.emailText,
                     action: onContinueWithEmailClick
@@ -69,18 +91,16 @@ struct AuthSocialControlsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             AuthSocialControlsView(
-                socialAuthProviders: SocialAuthProvider.allCases,
+                isInSignUpMode: false,
                 errorMessage: "Error message",
-                isContinueWithEmailAvailable: true,
                 onSocialAuthProviderClick: { _ in },
                 onContinueWithEmailClick: {}
             )
             .preferredColorScheme(.light)
 
             AuthSocialControlsView(
-                socialAuthProviders: SocialAuthProvider.allCases,
+                isInSignUpMode: false,
                 errorMessage: "Error message",
-                isContinueWithEmailAvailable: true,
                 onSocialAuthProviderClick: { _ in },
                 onContinueWithEmailClick: {}
             )

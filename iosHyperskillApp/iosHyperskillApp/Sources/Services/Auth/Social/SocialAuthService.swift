@@ -87,7 +87,7 @@ final class SocialAuthService: SocialAuthServiceProtocol {
 
 // MARK: - SocialAuthProvider -
 
-enum SocialAuthProvider: String, CaseIterable {
+enum SocialAuthProvider: String {
     case jetbrains
     case google
     case github
