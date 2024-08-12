@@ -53,13 +53,11 @@ object WelcomeOnboardingFeature {
             val questionnaireType: WelcomeQuestionnaireType,
             val itemType: WelcomeQuestionnaireItemType
         ) : Message
-
         data class ProgrammingLanguageSelected(val language: WelcomeOnboardingProgrammingLanguage) : Message
         data class TrackSelected(
             val selectedTrack: WelcomeOnboardingTrack,
             val isNotificationPermissionGranted: Boolean
         ) : Message
-
         data object NotificationPermissionOnboardingCompleted : Message
         data object FinishClicked : Message
 
