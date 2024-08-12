@@ -145,15 +145,9 @@ class AuthSocialFragment :
 
         viewBinding.signInToTextView.text =
             if (isInSignUpMode) {
-                getString(
-                    SharedRes.string.auth_sign_up_title,
-                    getString(SharedRes.string.android_app_name)
-                )
+                getString(SharedRes.string.auth_sign_up_title)
             } else {
-                getString(
-                    SharedRes.string.auth_log_in_title,
-                    getString(SharedRes.string.android_app_name)
-                )
+                getString(SharedRes.string.auth_log_in_title)
             }
 
         authMaterialCardViewsAdapter.items = listOf(

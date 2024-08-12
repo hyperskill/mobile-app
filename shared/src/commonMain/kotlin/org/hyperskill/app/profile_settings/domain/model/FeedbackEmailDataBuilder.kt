@@ -2,7 +2,7 @@ package org.hyperskill.app.profile_settings.domain.model
 
 import org.hyperskill.app.core.domain.platform.Platform
 
-object FeedbackEmailDataBuilder {
+internal object FeedbackEmailDataBuilder {
     fun build(
         supportEmail: String,
         applicationName: String,

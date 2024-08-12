@@ -102,10 +102,7 @@ class AuthCredentialsFragment :
             requireRouter().backTo(AuthSocialScreen())
         }
 
-        viewBinding.signInToTextView.text = getString(
-            SharedRes.string.auth_sign_up_title,
-            getString(SharedRes.string.android_app_name)
-        )
+        viewBinding.signInToTextView.text = getString(SharedRes.string.auth_sign_up_title)
         viewBinding.root.addKeyboardVisibilityListener { isVisible ->
             if (!isAdded) return@addKeyboardVisibilityListener
             viewBinding.signInHyperskillLogoShapeableImageView.isVisible = !isVisible
