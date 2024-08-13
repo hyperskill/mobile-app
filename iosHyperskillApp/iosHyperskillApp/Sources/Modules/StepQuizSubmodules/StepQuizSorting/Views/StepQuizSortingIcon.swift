@@ -5,14 +5,14 @@ struct StepQuizSortingIcon: View {
 
     let direction: Direction
 
-    let onTap: () -> Void
+    let action: () -> Void
 
     var body: some View {
-        Button(action: onTap) {
+        Button(action: action) {
             Image(systemName: direction.systemImageName)
-                .imageScale(.large)
-                .frame(widthHeight: 24)
-                .foregroundColor(Color(isEnabled ? ColorPalette.onSurfaceAlpha38 : ColorPalette.onSurfaceAlpha12))
+                .font(.title2.bold())
+                .padding(.horizontal, LayoutInsets.smallInset / 2)
+                .foregroundColor(Color(isEnabled ? ColorPalette.primary : ColorPalette.primaryAlpha60))
         }
     }
 
@@ -32,15 +32,14 @@ struct StepQuizSortingIcon: View {
     }
 }
 
-struct StepQuizSortingIcon_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            StepQuizSortingIcon(direction: .up, onTap: {}).disabled(false)
-            StepQuizSortingIcon(direction: .up, onTap: {}).disabled(true)
-            StepQuizSortingIcon(direction: .down, onTap: {}).disabled(false)
-            StepQuizSortingIcon(direction: .down, onTap: {}).disabled(true)
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
+#if DEBUG
+#Preview {
+    VStack(spacing: 8) {
+        StepQuizSortingIcon(direction: .up, action: {}).disabled(false)
+        StepQuizSortingIcon(direction: .up, action: {}).disabled(true)
+        StepQuizSortingIcon(direction: .down, action: {}).disabled(false)
+        StepQuizSortingIcon(direction: .down, action: {}).disabled(true)
     }
+    .padding()
 }
+#endif

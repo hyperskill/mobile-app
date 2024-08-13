@@ -13,7 +13,7 @@ struct StepQuizTableView: View {
                 StepQuizTableRowView(
                     title: row.text,
                     subtitle: row.subtitle,
-                    onTap: {
+                    action: {
                         doSelectColumnsPresentation(for: row)
                     }
                 )
