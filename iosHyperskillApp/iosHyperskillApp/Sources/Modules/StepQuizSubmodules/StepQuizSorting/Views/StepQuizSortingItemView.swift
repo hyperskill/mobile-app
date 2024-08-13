@@ -25,10 +25,10 @@ struct StepQuizSortingItemView: View {
             )
 
             VStack(spacing: LayoutInsets.defaultInset) {
-                StepQuizSortingIcon(direction: .up, onTap: onMoveUp)
+                StepQuizSortingIcon(direction: .up, action: onMoveUp)
                     .disabled(!isMoveUpEnabled)
 
-                StepQuizSortingIcon(direction: .down, onTap: onMoveDown)
+                StepQuizSortingIcon(direction: .down, action: onMoveDown)
                     .disabled(!isMoveDownEnabled)
             }
         }
@@ -44,13 +44,18 @@ struct StepQuizSortingItemView_Previews: PreviewProvider {
         let thirdItem = StepQuizSortingViewData.Option(id: 2, text: "Long")
 
         return Group {
-            StepQuizSortingItemView(
-                text: firstItem.text,
-                isMoveUpEnabled: false,
-                isMoveDownEnabled: true,
-                onMoveUp: {},
-                onMoveDown: {}
-            )
+            ScrollView {
+                VStack {
+                    StepQuizSortingItemView(
+                        text: firstItem.text,
+                        isMoveUpEnabled: false,
+                        isMoveDownEnabled: true,
+                        onMoveUp: {},
+                        onMoveDown: {}
+                    )
+                    Spacer()
+                }
+            }
 
             StepQuizSortingItemView(
                 text: secondItem.text,

@@ -13,7 +13,7 @@ struct StepQuizMatchingView: View {
                 StepQuizTableRowView(
                     title: item.title.text,
                     subtitle: item.option?.text,
-                    onTap: { doSelectColumnsPresentation(for: item) }
+                    action: { doSelectColumnsPresentation(for: item) }
                 )
             }
         }
