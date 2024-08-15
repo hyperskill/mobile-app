@@ -34,4 +34,9 @@ interface PurchaseManager {
      * Returns formatted product price with currency by [productId]
      */
     suspend fun getFormattedProductPrice(productId: String): Result<String?>
+
+    /**
+     * Checks if user is eligible for trial for the product with [productId]
+     */
+    suspend fun checkTrialEligibility(productId: String): Boolean
 }

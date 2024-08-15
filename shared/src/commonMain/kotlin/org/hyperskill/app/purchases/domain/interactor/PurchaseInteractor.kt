@@ -45,4 +45,7 @@ class PurchaseInteractor(
 
     suspend fun getFormattedMobileOnlySubscriptionPrice(): Result<String?> =
         purchaseManager.getFormattedProductPrice(PlatformProductIdentifiers.MOBILE_ONLY_SUBSCRIPTION)
+
+    suspend fun checkTrialEligibilityForMobileOnlySubscription(): Boolean =
+        purchaseManager.checkTrialEligibility(PlatformProductIdentifiers.MOBILE_ONLY_SUBSCRIPTION)
 }

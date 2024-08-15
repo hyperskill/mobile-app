@@ -696,6 +696,8 @@
     <!--Paywall-->
     <string name="paywall_mobile_only_title">Unlock the full\nlearning experience</string>
     <string name="paywall_ios_mobile_only_buy_btn">Subscribe for %s / month</string>
+    <string name="paywall_ios_mobile_only_trial_buy_btn">Start with a 1 week free trial</string>
+    <string name="paywall_ios_mobile_only_trial_description">Then %s per month</string>
     <string name="paywall_android_mobile_only_buy_btn">Subscribe</string>
     <string name="paywall_placeholder_error_description">Oops! We were unable to load the subscriptions data.</string>
     <string name="paywall_screen_title">Subscription</string>

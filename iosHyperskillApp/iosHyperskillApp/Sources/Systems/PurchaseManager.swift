@@ -215,6 +215,22 @@ localizedPriceString: \(storeProduct.localizedPriceString)
         }
     }
 
+    func checkTrialOrIntroDiscountEligibility(
+        productId: String,
+        completionHandler: @escaping (KotlinBoolean?, (any Error)?) -> Void
+    ) {
+        Purchases.shared.checkTrialOrIntroDiscountEligibility(
+            productIdentifiers: [productId]
+        ) { eligibilities in
+            if let eligibility = eligibilities[productId] {
+                let isEligible = eligibility.status == .eligible
+                completionHandler(KotlinBoolean(value: isEligible), nil)
+            } else {
+                completionHandler(KotlinBoolean(value: false), nil)
+            }
+        }
+    }
+
     private func getProduct(
         id: String,
         completionHandler: @escaping (StoreProduct?) -> Void
