@@ -39,17 +39,18 @@ internal class PaywallViewStateMapper(
                         ViewStateContent.SubscriptionSyncLoading
                     } else {
                         ViewStateContent.Content(
-                            buyButtonText = resourceProvider.getString(
-                                if (platformType == PlatformType.IOS) {
-                                    SharedResources.strings.paywall_ios_mobile_only_buy_btn
-                                } else {
-                                    SharedResources.strings.paywall_android_mobile_only_buy_btn
-                                },
-                                state.formattedPrice
-                            ),
+                            buyButtonText = getBuyButtonText(state),
                             priceText = if (platformType == PlatformType.ANDROID) {
                                 resourceProvider.getString(
                                     SharedResources.strings.paywall_android_explicit_subscription_price,
+                                    state.formattedPrice
+                                )
+                            } else {
+                                null
+                            },
+                            trialText = if (platformType == PlatformType.IOS && state.isTrialEligible) {
+                                resourceProvider.getString(
+                                    SharedResources.strings.paywall_ios_mobile_only_trial_description,
                                     state.formattedPrice
                                 )
                             } else {
@@ -59,4 +60,22 @@ internal class PaywallViewStateMapper(
                     }
             }
         )
+
+    private fun getBuyButtonText(state: State.Content): String =
+        when (platformType) {
+            PlatformType.IOS ->
+                if (state.isTrialEligible) {
+                    resourceProvider.getString(SharedResources.strings.paywall_ios_mobile_only_trial_buy_btn)
+                } else {
+                    resourceProvider.getString(
+                        SharedResources.strings.paywall_ios_mobile_only_buy_btn,
+                        state.formattedPrice
+                    )
+                }
+            PlatformType.ANDROID ->
+                resourceProvider.getString(
+                    SharedResources.strings.paywall_android_mobile_only_buy_btn,
+                    state.formattedPrice
+                )
+        }
 }

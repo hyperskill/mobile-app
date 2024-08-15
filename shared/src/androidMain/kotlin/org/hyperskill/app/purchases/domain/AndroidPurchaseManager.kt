@@ -123,6 +123,8 @@ class AndroidPurchaseManager(
             fetchProduct(productId)?.price?.formatted
         }
 
+    override suspend fun checkTrialEligibility(productId: String): Boolean = false
+
     private suspend fun fetchProduct(productId: String): StoreProduct? =
         Purchases.sharedInstance
             .awaitGetProducts(listOf(productId))

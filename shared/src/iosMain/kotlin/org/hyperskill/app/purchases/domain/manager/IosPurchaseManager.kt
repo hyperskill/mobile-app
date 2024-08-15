@@ -19,4 +19,6 @@ interface IosPurchaseManager {
     suspend fun getManagementUrl(): SwiftyResult<String?, Throwable>
 
     suspend fun getFormattedProductPrice(productId: String): String?
+
+    suspend fun checkTrialOrIntroDiscountEligibility(productId: String): Boolean
 }
