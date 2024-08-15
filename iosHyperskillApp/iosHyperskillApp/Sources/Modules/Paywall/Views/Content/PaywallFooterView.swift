@@ -3,6 +3,7 @@ import SwiftUI
 extension PaywallFooterView {
     struct Appearance {
         var spacing = LayoutInsets.defaultInset
+        var interitemSpacing = LayoutInsets.smallInset
     }
 }
 
@@ -10,6 +11,7 @@ struct PaywallFooterView: View {
     private(set) var appearance = Appearance()
 
     let buyButtonText: String
+    let buyFootnoteText: String?
 
     let onBuyButtonTap: () -> Void
     let onTermsOfServiceButtonTap: () -> Void
@@ -17,7 +19,7 @@ struct PaywallFooterView: View {
     private let feedbackGenerator = FeedbackGenerator(feedbackType: .selection)
 
     var body: some View {
-        actionButtons
+        content
             .padding()
             .background(
                 TransparentBlurView()
@@ -26,17 +28,25 @@ struct PaywallFooterView: View {
             .fixedSize(horizontal: false, vertical: true)
     }
 
-    @MainActor private var actionButtons: some View {
+    @MainActor private var content: some View {
         VStack(alignment: .center, spacing: appearance.spacing) {
-            Button(
-                buyButtonText,
-                action: {
-                    feedbackGenerator.triggerFeedback()
-                    onBuyButtonTap()
+            VStack(alignment: .center, spacing: appearance.interitemSpacing) {
+                Button(
+                    buyButtonText,
+                    action: {
+                        feedbackGenerator.triggerFeedback()
+                        onBuyButtonTap()
+                    }
+                )
+                .buttonStyle(.primary)
+                .shineEffect()
+
+                if let buyFootnoteText {
+                    Text(buyFootnoteText)
+                        .font(.footnote.bold())
+                        .foregroundColor(.newSecondaryText)
                 }
-            )
-            .buttonStyle(.primary)
-            .shineEffect()
+            }
 
             Button(
                 Strings.Paywall.termsOfServiceButton,
@@ -56,12 +66,14 @@ struct PaywallFooterView: View {
     VStack {
         PaywallFooterView(
             buyButtonText: "Subscribe for $11.99/month",
+            buyFootnoteText: nil,
             onBuyButtonTap: {},
             onTermsOfServiceButtonTap: {}
         )
 
         PaywallFooterView(
             buyButtonText: "Subscribe for $11.99/month",
+            buyFootnoteText: "Then $11.99 per month",
             onBuyButtonTap: {},
             onTermsOfServiceButtonTap: {}
         )
