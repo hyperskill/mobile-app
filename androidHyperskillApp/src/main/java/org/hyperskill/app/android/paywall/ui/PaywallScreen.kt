@@ -192,14 +192,16 @@ private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
                 isToolbarVisible = true,
                 contentState = ViewStateContent.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
-                    priceText = "$11.99 / month"
+                    priceText = "$11.99 / month",
+                    trialText = null
                 )
             ),
             ViewState(
                 isToolbarVisible = false,
                 contentState = ViewStateContent.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
-                    priceText = PaywallPreviewDefaults.PRICE_TEXT
+                    priceText = PaywallPreviewDefaults.PRICE_TEXT,
+                    trialText = null
                 )
             ),
             ViewState(
