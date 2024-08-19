@@ -9,6 +9,7 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 import org.hyperskill.app.step_quiz_code_blanks.view.mapper.StepQuizCodeBlanksViewStateMapper
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
 import org.hyperskill.step.domain.model.stub
@@ -539,7 +540,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
     fun `Action buttons hidden when onboarding is available`() {
         val state = stubState(
             codeBlocks = listOf(CodeBlock.Blank(isActive = true, suggestions = emptyList())),
-            onboardingState = StepQuizCodeBlanksFeature.OnboardingState.HighlightSuggestions
+            onboardingState = OnboardingState.HighlightSuggestions
         )
         val viewState = StepQuizCodeBlanksViewStateMapper.map(state)
 
@@ -551,7 +552,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
     fun `Action buttons not hidden when onboarding is unavailable`() {
         val state = stubState(
             codeBlocks = listOf(CodeBlock.Blank(isActive = true, suggestions = emptyList())),
-            onboardingState = StepQuizCodeBlanksFeature.OnboardingState.Unavailable
+            onboardingState = OnboardingState.Unavailable
         )
         val viewState = StepQuizCodeBlanksViewStateMapper.map(state)
 
@@ -563,7 +564,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
     fun `Suggestions highlight effect is active when onboardingState is HighlightSuggestions`() {
         val state = stubState(
             codeBlocks = listOf(CodeBlock.Blank(isActive = true, suggestions = emptyList())),
-            onboardingState = StepQuizCodeBlanksFeature.OnboardingState.HighlightSuggestions
+            onboardingState = OnboardingState.HighlightSuggestions
         )
         val viewState = StepQuizCodeBlanksViewStateMapper.map(state)
 
@@ -573,7 +574,7 @@ class StepQuizCodeBlanksViewStateMapperTest {
 
     private fun stubState(
         codeBlocks: List<CodeBlock>,
-        onboardingState: StepQuizCodeBlanksFeature.OnboardingState = StepQuizCodeBlanksFeature.OnboardingState.Unavailable
+        onboardingState: OnboardingState = OnboardingState.Unavailable
     ): StepQuizCodeBlanksFeature.State.Content =
         StepQuizCodeBlanksFeature.State.Content(
             step = Step.stub(id = 0),

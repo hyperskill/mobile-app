@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction.ParentFeatureActionRequested
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
 
 object StepQuizCodeBlanksFeature {
@@ -65,5 +66,14 @@ object StepQuizCodeBlanksFeature {
 
     internal sealed interface InternalAction : Action {
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+
+        data class ParentFeatureActionRequested(val parentFeatureAction: ParentFeatureAction) : InternalAction
+    }
+
+    internal sealed interface ParentFeatureAction {
+        data object HighlightCallToActionButton : ParentFeatureAction
     }
 }
+
+internal fun Set<StepQuizCodeBlanksFeature.Action>.getRequestedParentFeatureAction(): ParentFeatureActionRequested? =
+    filterIsInstance<ParentFeatureActionRequested>().firstOrNull()

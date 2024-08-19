@@ -77,9 +77,10 @@ class StepQuizCodeBlanksReducer(
         if (activeCodeBlockIndex == null) {
             return state to actions
         }
+        val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
 
         val newCodeBlock =
-            when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
+            when (activeCodeBlock) {
                 is CodeBlock.Blank -> when (message.suggestion) {
                     Suggestion.Print ->
                         CodeBlock.Print(
@@ -147,7 +148,31 @@ class StepQuizCodeBlanksReducer(
             }
         val newCodeBlocks = state.codeBlocks.mutate { set(activeCodeBlockIndex, newCodeBlock) }
 
-        return state.copy(codeBlocks = newCodeBlocks) to actions
+        val isFulfilledOnboardingPrintCodeBlock =
+            state.onboardingState is OnboardingState.HighlightSuggestions &&
+                activeCodeBlock is CodeBlock.Print && activeCodeBlock.select?.selectedSuggestion == null &&
+                newCodeBlock is CodeBlock.Print && newCodeBlock.select?.selectedSuggestion != null
+        val onboardingState =
+            if (isFulfilledOnboardingPrintCodeBlock) {
+                OnboardingState.HighlightCallToActionButton
+            } else {
+                state.onboardingState
+            }
+        val onboardingActions =
+            if (isFulfilledOnboardingPrintCodeBlock) {
+                setOf(
+                    InternalAction.ParentFeatureActionRequested(
+                        parentFeatureAction = StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton
+                    )
+                )
+            } else {
+                emptySet()
+            }
+
+        return state.copy(
+            codeBlocks = newCodeBlocks,
+            onboardingState = onboardingState
+        ) to actions + onboardingActions
     }
 
     private fun handleCodeBlockClicked(
