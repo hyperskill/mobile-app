@@ -88,13 +88,13 @@ internal class StepQuizChildFeatureReducer(
 
         return if (requestedParentFeatureAction != null) {
             stepQuizCodeBlanksState to
-                setOf(
-                    when (requestedParentFeatureAction.parentFeatureAction) {
-                        StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton ->
-                            StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton
-                    },
-                    StepQuizFeature.Action.ViewAction.HighlightCallToActionButton
-                )
+                when (requestedParentFeatureAction.parentFeatureAction) {
+                    StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton ->
+                        setOf(
+                            StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton,
+                            StepQuizFeature.Action.ViewAction.HighlightCallToActionButton
+                        )
+                }
         } else {
             stepQuizCodeBlanksState to
                 stepQuizCodeBlanksActions

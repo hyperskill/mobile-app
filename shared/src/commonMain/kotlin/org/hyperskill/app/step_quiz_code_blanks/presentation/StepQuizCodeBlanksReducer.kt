@@ -152,21 +152,16 @@ class StepQuizCodeBlanksReducer(
             state.onboardingState is OnboardingState.HighlightSuggestions &&
                 activeCodeBlock is CodeBlock.Print && activeCodeBlock.select?.selectedSuggestion == null &&
                 newCodeBlock is CodeBlock.Print && newCodeBlock.select?.selectedSuggestion != null
-        val onboardingState =
+        val (onboardingState, onboardingActions) =
             if (isFulfilledOnboardingPrintCodeBlock) {
-                OnboardingState.HighlightCallToActionButton
-            } else {
-                state.onboardingState
-            }
-        val onboardingActions =
-            if (isFulfilledOnboardingPrintCodeBlock) {
-                setOf(
-                    InternalAction.ParentFeatureActionRequested(
-                        parentFeatureAction = StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton
+                OnboardingState.HighlightCallToActionButton to
+                    setOf(
+                        InternalAction.ParentFeatureActionRequested(
+                            StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton
+                        )
                     )
-                )
             } else {
-                emptySet()
+                state.onboardingState to emptySet()
             }
 
         return state.copy(
