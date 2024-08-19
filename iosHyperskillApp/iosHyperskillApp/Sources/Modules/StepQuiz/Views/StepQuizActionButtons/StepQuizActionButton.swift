@@ -6,6 +6,8 @@ struct StepQuizActionButton: View {
     var titleForState: ((State) -> String?)?
     var systemImageNameForState: ((State) -> String?)?
 
+    let isShineEffectActive: Bool
+
     var onTap: () -> Void
 
     private var overlayImage: RoundedRectangleButtonStyle.OverlayImage? {
@@ -28,6 +30,7 @@ struct StepQuizActionButton: View {
             ,
             alignment: .init(horizontal: .leading, vertical: .center)
         )
+        .shineEffect(isActive: isShineEffectActive && !state.isDisabled)
         .disabled(state.isDisabled)
     }
 
@@ -77,13 +80,14 @@ struct StepQuizActionButton_Previews: PreviewProvider {
         Group {
             VStack {
                 ForEach(StepQuizActionButton.State.allCases, id: \.self) { state in
-                    StepQuizActionButton(state: state, onTap: {})
+                    StepQuizActionButton(state: state, isShineEffectActive: false, onTap: {})
                 }
 
                 StepQuizActionButton(
                     state: .normal,
                     titleForState: { _ in "Run solution" },
                     systemImageNameForState: { _ in "play" },
+                    isShineEffectActive: true,
                     onTap: {}
                 )
             }

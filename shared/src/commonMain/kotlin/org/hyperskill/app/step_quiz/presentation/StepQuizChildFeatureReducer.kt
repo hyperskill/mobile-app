@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
+import org.hyperskill.app.step_quiz_code_blanks.presentation.getRequestedParentFeatureAction
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
@@ -79,18 +80,32 @@ internal class StepQuizChildFeatureReducer(
         state: StepQuizCodeBlanksFeature.State,
         message: StepQuizCodeBlanksFeature.Message
     ): Pair<StepQuizCodeBlanksFeature.State, Set<StepQuizFeature.Action>> {
-        val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) = stepQuizCodeBlanksReducer.reduce(state, message)
+        val (stepQuizCodeBlanksState, stepQuizCodeBlanksActions) =
+            stepQuizCodeBlanksReducer.reduce(state, message)
 
-        val actions = stepQuizCodeBlanksActions
-            .map {
-                if (it is StepQuizCodeBlanksFeature.Action.ViewAction) {
-                    StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction(it)
-                } else {
-                    StepQuizFeature.Action.StepQuizCodeBlanksAction(it)
+        val requestedParentFeatureAction =
+            stepQuizCodeBlanksActions.getRequestedParentFeatureAction()
+
+        return if (requestedParentFeatureAction != null) {
+            stepQuizCodeBlanksState to
+                when (requestedParentFeatureAction.parentFeatureAction) {
+                    StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton ->
+                        setOf(
+                            StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton,
+                            StepQuizFeature.Action.ViewAction.HighlightCallToActionButton
+                        )
                 }
-            }
-            .toSet()
-
-        return stepQuizCodeBlanksState to actions
+        } else {
+            stepQuizCodeBlanksState to
+                stepQuizCodeBlanksActions
+                    .map {
+                        if (it is StepQuizCodeBlanksFeature.Action.ViewAction) {
+                            StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction(it)
+                        } else {
+                            StepQuizFeature.Action.StepQuizCodeBlanksAction(it)
+                        }
+                    }
+                    .toSet()
+        }
     }
 }

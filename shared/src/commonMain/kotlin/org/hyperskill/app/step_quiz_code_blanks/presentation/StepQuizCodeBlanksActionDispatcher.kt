@@ -15,6 +15,9 @@ class StepQuizCodeBlanksActionDispatcher(
         when (action) {
             is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            else -> {
+                // no op
+            }
         }
     }
 }
