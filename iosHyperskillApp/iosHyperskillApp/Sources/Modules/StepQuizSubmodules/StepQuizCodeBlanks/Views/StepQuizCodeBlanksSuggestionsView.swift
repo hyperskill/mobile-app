@@ -4,6 +4,8 @@ import SwiftUI
 struct StepQuizCodeBlanksSuggestionsView: View {
     let suggestions: [Suggestion]
 
+    let isShineEffectActive: Bool
+
     let onSuggestionTap: (Suggestion) -> Void
 
     var body: some View {
@@ -19,7 +21,14 @@ struct StepQuizCodeBlanksSuggestionsView: View {
                         onSuggestionTap(suggestion)
                     },
                     label: {
-                        StepQuizCodeBlanksOptionView(text: suggestion.text, isActive: true)
+                        StepQuizCodeBlanksOptionView(
+                            text: suggestion.text,
+                            isActive: true
+                        )
+                        .shineEffect(
+                            isActive: isShineEffectActive,
+                            foregroundColor: Color(ColorPalette.primary)
+                        )
                     }
                 )
                 .buttonStyle(BounceButtonStyle())
@@ -29,3 +38,15 @@ struct StepQuizCodeBlanksSuggestionsView: View {
         .frame(minHeight: 72)
     }
 }
+
+#if DEBUG
+#Preview {
+    StepQuizCodeBlanksSuggestionsView(
+        suggestions: [
+            Suggestion.ConstantString(text: "Hello world")
+        ],
+        isShineEffectActive: true,
+        onSuggestionTap: { _ in }
+    )
+}
+#endif

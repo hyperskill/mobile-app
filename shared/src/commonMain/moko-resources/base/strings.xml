@@ -47,6 +47,7 @@
     <string name="auth_email_text">Continue with email</string>
     <string name="auth_social_email_already_used">The email associated with this social network is already in use. Try authorizing via email</string>
     <string name="auth_social_email_not_provided_by_social">Authorization error: email is not provided by social network</string>
+    <string name="auth_more_options_btn">More options</string>
 
     <!-- Auth credentials -->
     <string name="auth_credentials_social_text">Continue with social networks</string>
@@ -695,6 +696,8 @@
     <!--Paywall-->
     <string name="paywall_mobile_only_title">Unlock the full\nlearning experience</string>
     <string name="paywall_ios_mobile_only_buy_btn">Subscribe for %s / month</string>
+    <string name="paywall_ios_mobile_only_trial_buy_btn">Start with a 1 week free trial</string>
+    <string name="paywall_ios_mobile_only_trial_description">Then %s per month</string>
     <string name="paywall_android_mobile_only_buy_btn">Subscribe</string>
     <string name="paywall_placeholder_error_description">Oops! We were unable to load the subscriptions data.</string>
     <string name="paywall_screen_title">Subscription</string>
@@ -773,7 +776,7 @@
     <string name="welcome_onboarding_lang_not_sure">I\'m not sure yet</string>
 
     <!--Welcome onboarding track details-->
-    <string name="welcome_onboarding_track_details_title">Here\'s the track for you!</string>
+    <string name="welcome_onboarding_track_details_title">Here\'s the course for you!</string>
     <string name="welcome_onboarding_track_details_change_text">You can always change this later</string>
     <string name="welcome_onboarding_track_details_continue_btn">Continue</string>
 

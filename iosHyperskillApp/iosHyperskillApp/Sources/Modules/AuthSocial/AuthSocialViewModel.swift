@@ -12,8 +12,6 @@ final class AuthSocialViewModel: FeatureViewModel<
 
     private let authSocialErrorMapper: AuthSocialErrorMapper
 
-    let availableSocialAuthProviders = SocialAuthProvider.allCases.filter(\.isSupported)
-
     var authSocialErrorMessage: String? {
         guard let errorState = state as? AuthSocialFeatureStateError else {
             return nil

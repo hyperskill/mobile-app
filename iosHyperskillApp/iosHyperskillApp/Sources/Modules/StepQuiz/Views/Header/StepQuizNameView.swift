@@ -5,15 +5,16 @@ struct StepQuizNameView: View {
 
     var body: some View {
         Text(text)
-            .font(.caption)
-            .foregroundColor(.tertiaryText)
+            .font(.headline)
+            .foregroundColor(.primaryText)
     }
 }
 
-struct StepQuizTitleView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizNameView(text: "Select one option from the list")
-            .previewLayout(.sizeThatFits)
-            .padding()
-    }
+#if DEBUG
+#Preview {
+    StepQuizNameView(
+        text: "Select one option from the list"
+    )
+    .padding()
 }
+#endif

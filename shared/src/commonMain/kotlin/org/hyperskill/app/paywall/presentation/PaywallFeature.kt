@@ -10,11 +10,12 @@ import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
 object PaywallFeature {
     internal sealed interface State {
-        object Idle : State
-        object Loading : State
-        object Error : State
+        data object Idle : State
+        data object Loading : State
+        data object Error : State
         data class Content(
             val formattedPrice: String,
+            val isTrialEligible: Boolean,
             val isPurchaseSyncLoadingShowed: Boolean = false
         ) : State
     }
@@ -25,52 +26,56 @@ object PaywallFeature {
     )
 
     sealed interface ViewStateContent {
-        object Idle : ViewStateContent
-        object Loading : ViewStateContent
-        object Error : ViewStateContent
+        data object Idle : ViewStateContent
+        data object Loading : ViewStateContent
+        data object Error : ViewStateContent
         data class Content(
             val buyButtonText: String,
-            val priceText: String?
+            val priceText: String?,
+            val trialText: String?
         ) : ViewStateContent
 
-        object SubscriptionSyncLoading : ViewStateContent
+        data object SubscriptionSyncLoading : ViewStateContent
     }
 
     sealed interface Message {
-        object Initialize : Message
+        data object Initialize : Message
 
-        object RetryContentLoading : Message
+        data object RetryContentLoading : Message
 
-        object CloseClicked : Message
+        data object CloseClicked : Message
 
         data class BuySubscriptionClicked(
             val purchaseParams: PlatformPurchaseParams
         ) : Message
 
-        object ClickedTermsOfServiceAndPrivacyPolicy : Message
+        data object ClickedTermsOfServiceAndPrivacyPolicy : Message
 
-        object ScreenShowed : Message
-        object ScreenHidden : Message
+        data object ScreenShowed : Message
+        data object ScreenHidden : Message
 
-        object ViewedEventMessage : Message
+        data object ViewedEventMessage : Message
     }
 
     internal sealed interface InternalMessage : Message {
-        object FetchMobileOnlyPriceError : InternalMessage
-        data class FetchMobileOnlyPriceSuccess(val formattedPrice: String) : InternalMessage
+        data object FetchMobileOnlyPriceError : InternalMessage
+        data class FetchMobileOnlyPriceSuccess(
+            val formattedPrice: String,
+            val isTrialEligible: Boolean
+        ) : InternalMessage
 
-        object MobileOnlySubscriptionPurchaseError : InternalMessage
+        data object MobileOnlySubscriptionPurchaseError : InternalMessage
         data class MobileOnlySubscriptionPurchaseSuccess(
             val purchaseResult: PurchaseResult
         ) : InternalMessage
 
-        object SubscriptionSyncError : InternalMessage
+        data object SubscriptionSyncError : InternalMessage
         data class SubscriptionSyncSuccess(val subscription: Subscription) : InternalMessage
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
-            object ClosePaywall : ViewAction
+            data object ClosePaywall : ViewAction
 
             data class ShowMessage(
                 val messageKind: MessageKind
@@ -81,8 +86,8 @@ object PaywallFeature {
             data class NotifyPaywallIsShown(val isPaywallShown: Boolean) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                object Back : NavigateTo
-                object BackToProfileSettings : NavigateTo
+                data object Back : NavigateTo
+                data object BackToProfileSettings : NavigateTo
             }
         }
     }
@@ -96,13 +101,13 @@ object PaywallFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        object FetchMobileOnlyPrice : InternalAction
+        data object FetchMobileOnlyPrice : InternalAction
 
         data class StartMobileOnlySubscriptionPurchase(
             val purchaseParams: PlatformPurchaseParams
         ) : InternalAction
 
-        object SyncSubscription : InternalAction
+        data object SyncSubscription : InternalAction
 
         data class LogWrongSubscriptionTypeAfterSync(
             val expectedSubscriptionType: SubscriptionType,

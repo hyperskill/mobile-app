@@ -59,6 +59,7 @@ enum Strings {
             static let gitHubAccount = sharedStrings.auth_github_account_text.localized()
             static let appleAccount = sharedStrings.auth_apple_account_text.localized()
             static let emailText = sharedStrings.auth_email_text.localized()
+            static let moreOptionsButton = sharedStrings.auth_more_options_btn.localized()
         }
 
         // MARK: Credentials

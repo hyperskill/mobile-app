@@ -1,6 +1,8 @@
 package org.hyperskill.app.paywall.presentation
 
 import co.touchlab.kermit.Logger
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action
 import org.hyperskill.app.paywall.presentation.PaywallFeature.InternalAction
@@ -47,15 +49,26 @@ internal class PaywallActionDispatcher(
                 InternalMessage.FetchMobileOnlyPriceError
             }
         ) {
-            val price = purchaseInteractor
-                .getFormattedMobileOnlySubscriptionPrice()
-                .getOrThrow()
+            coroutineScope {
+                val priceDeferred = async {
+                    purchaseInteractor.getFormattedMobileOnlySubscriptionPrice()
+                }
+                val trialEligibilityDeferred = async {
+                    purchaseInteractor.checkTrialEligibilityForMobileOnlySubscription()
+                }
 
-            if (price != null) {
-                InternalMessage.FetchMobileOnlyPriceSuccess(price)
-            } else {
-                logger.e { "Receive null instead of formatted mobile-only subscription price" }
-                InternalMessage.FetchMobileOnlyPriceError
+                val price = priceDeferred.await().getOrThrow()
+                val isTrialEligible = trialEligibilityDeferred.await()
+
+                if (price != null) {
+                    InternalMessage.FetchMobileOnlyPriceSuccess(
+                        formattedPrice = price,
+                        isTrialEligible = isTrialEligible
+                    )
+                } else {
+                    logger.e { "Receive null instead of formatted mobile-only subscription price" }
+                    InternalMessage.FetchMobileOnlyPriceError
+                }
             }
         }.let(onNewMessage)
     }

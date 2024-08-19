@@ -4,14 +4,20 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction.ParentFeatureActionRequested
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
 
 object StepQuizCodeBlanksFeature {
+    private const val ONBOARDING_STEP_ID = 47329L
+
     internal fun isCodeBlanksFeatureAvailable(step: Step): Boolean =
         step.block.options.codeBlanksEnabled == true
 
     internal fun isVariableSuggestionsAvailable(step: Step): Boolean =
         step.block.options.codeBlanksVariables?.isNotEmpty() == true
+
+    internal fun isOnboardingAvailable(step: Step): Boolean =
+        step.id == ONBOARDING_STEP_ID
 
     internal fun initialState(): State = State.Idle
 
@@ -20,7 +26,8 @@ object StepQuizCodeBlanksFeature {
 
         data class Content(
             val step: Step,
-            val codeBlocks: List<CodeBlock>
+            val codeBlocks: List<CodeBlock>,
+            val onboardingState: OnboardingState = OnboardingState.Unavailable
         ) : State {
             internal val codeBlanksStringsSuggestions: List<Suggestion.ConstantString> =
                 step.block.options.codeBlanksStrings.orEmpty().map(Suggestion::ConstantString)
@@ -28,6 +35,12 @@ object StepQuizCodeBlanksFeature {
             internal val codeBlanksVariablesSuggestions: List<Suggestion.ConstantString> =
                 step.block.options.codeBlanksVariables.orEmpty().map(Suggestion::ConstantString)
         }
+    }
+
+    sealed interface OnboardingState {
+        data object Unavailable : OnboardingState
+        data object HighlightSuggestions : OnboardingState
+        data object HighlightCallToActionButton : OnboardingState
     }
 
     sealed interface Message {
@@ -53,5 +66,14 @@ object StepQuizCodeBlanksFeature {
 
     internal sealed interface InternalAction : Action {
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+
+        data class ParentFeatureActionRequested(val parentFeatureAction: ParentFeatureAction) : InternalAction
+    }
+
+    internal sealed interface ParentFeatureAction {
+        data object HighlightCallToActionButton : ParentFeatureAction
     }
 }
+
+internal fun Set<StepQuizCodeBlanksFeature.Action>.getRequestedParentFeatureAction(): ParentFeatureActionRequested? =
+    filterIsInstance<ParentFeatureActionRequested>().firstOrNull()

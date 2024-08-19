@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_quiz_code_blanks.view.model
 
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 
 sealed interface StepQuizCodeBlanksViewState {
     data object Idle : StepQuizCodeBlanksViewState
@@ -8,8 +9,15 @@ sealed interface StepQuizCodeBlanksViewState {
     data class Content(
         val codeBlocks: List<CodeBlockItem>,
         val suggestions: List<Suggestion>,
-        val isDeleteButtonEnabled: Boolean
-    ) : StepQuizCodeBlanksViewState
+        val isDeleteButtonEnabled: Boolean,
+        internal val onboardingState: OnboardingState = OnboardingState.Unavailable
+    ) : StepQuizCodeBlanksViewState {
+        val isActionButtonsHidden: Boolean
+            get() = onboardingState != OnboardingState.Unavailable
+
+        val isSuggestionsHighlightEffectActive: Boolean
+            get() = onboardingState == OnboardingState.HighlightSuggestions
+    }
 
     sealed interface CodeBlockItem {
         val id: Int

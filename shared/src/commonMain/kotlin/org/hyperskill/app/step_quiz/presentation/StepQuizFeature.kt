@@ -233,6 +233,14 @@ object StepQuizFeature {
             data object RequestShowComments : ViewAction
             data object RequestSkipStep : ViewAction
 
+            /**
+             * Code blanks requests to scroll to call to action button and highlight it
+             *
+             * @see StepQuizChildFeatureReducer.reduceStepQuizCodeBlanksMessage
+             */
+            data object HighlightCallToActionButton : ViewAction
+            data object UnhighlightCallToActionButton : ViewAction
+
             sealed interface ScrollTo : ViewAction {
                 data object Hints : ScrollTo
                 data object CallToActionButton : ScrollTo

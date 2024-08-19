@@ -24,12 +24,14 @@ struct StepQuizCodeBlanksView: View {
 
                 codeBlocksView(
                     codeBlocks: contentState.codeBlocks,
-                    isDeleteButtonEnabled: contentState.isDeleteButtonEnabled
+                    isDeleteButtonEnabled: contentState.isDeleteButtonEnabled,
+                    isActionButtonsHidden: contentState.isActionButtonsHidden
                 )
                 Divider()
 
                 StepQuizCodeBlanksSuggestionsView(
                     suggestions: contentState.suggestions,
+                    isShineEffectActive: contentState.isSuggestionsHighlightEffectActive,
                     onSuggestionTap: viewModel.doSuggestionMainAction(_:)
                 )
                 Divider()
@@ -52,7 +54,8 @@ struct StepQuizCodeBlanksView: View {
     @MainActor
     private func codeBlocksView(
         codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItem],
-        isDeleteButtonEnabled: Bool
+        isDeleteButtonEnabled: Bool,
+        isActionButtonsHidden: Bool
     ) -> some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             ForEach(codeBlocks, id: \.id_) { codeBlock in
@@ -90,17 +93,19 @@ struct StepQuizCodeBlanksView: View {
                 }
             }
 
-            HStack(spacing: LayoutInsets.defaultInset) {
-                Spacer()
+            if !isActionButtonsHidden {
+                HStack(spacing: LayoutInsets.defaultInset) {
+                    Spacer()
 
-                StepQuizCodeBlanksActionButton
-                    .delete(action: viewModel.doDeleteAction)
-                    .disabled(!isDeleteButtonEnabled)
+                    StepQuizCodeBlanksActionButton
+                        .delete(action: viewModel.doDeleteAction)
+                        .disabled(!isDeleteButtonEnabled)
 
-                StepQuizCodeBlanksActionButton
-                    .enter(action: viewModel.doEnterAction)
+                    StepQuizCodeBlanksActionButton
+                        .enter(action: viewModel.doEnterAction)
+                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
         }
         .padding(.vertical, LayoutInsets.defaultInset)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -122,7 +127,8 @@ extension StepQuizCodeBlanksView: Equatable {
                 StepQuizCodeBlanksViewStateContent(
                     codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItemBlank(id: 0, isActive: true)],
                     suggestions: [Suggestion.Print()],
-                    isDeleteButtonEnabled: true
+                    isDeleteButtonEnabled: true,
+                    onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),
             viewModel: StepQuizCodeBlanksViewModel()
@@ -150,7 +156,8 @@ extension StepQuizCodeBlanksView: Equatable {
                         Suggestion.ConstantString(text: "There is a cat on the keyboard, it is true"),
                         Suggestion.ConstantString(text: "Typing messages out of the blue")
                     ],
-                    isDeleteButtonEnabled: false
+                    isDeleteButtonEnabled: false,
+                    onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),
             viewModel: StepQuizCodeBlanksViewModel()
@@ -188,7 +195,8 @@ extension StepQuizCodeBlanksView: Equatable {
                         Suggestion.ConstantString(text: "There is a cat on the keyboard, it is true"),
                         Suggestion.ConstantString(text: "Typing messages out of the blue")
                     ],
-                    isDeleteButtonEnabled: false
+                    isDeleteButtonEnabled: false,
+                    onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),
             viewModel: StepQuizCodeBlanksViewModel()
