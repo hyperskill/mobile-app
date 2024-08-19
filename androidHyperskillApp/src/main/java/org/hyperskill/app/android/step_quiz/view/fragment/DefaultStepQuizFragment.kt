@@ -336,6 +336,12 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.StepQuizCodeBlanksViewAction -> {
                 // no op
             }
+            StepQuizFeature.Action.ViewAction.HighlightCallToActionButton -> {
+                // no op
+            }
+            StepQuizFeature.Action.ViewAction.UnhighlightCallToActionButton -> {
+                // no op
+            }
         }
     }
 

@@ -15,6 +15,7 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
 import org.hyperskill.step.domain.model.stub
@@ -1020,6 +1021,55 @@ class StepQuizCodeBlanksReducerTest {
         assertContainsEnterButtonClickedAnalyticEvent(actions)
     }
 
+    @Test
+    fun `Onboarding should be unavailable`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+        val (state, _) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 1))
+        )
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertTrue(state.onboardingState is OnboardingState.Unavailable)
+    }
+
+    @Test
+    fun `Onboarding should be available`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+        val (state, _) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 47329))
+        )
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertTrue(state.onboardingState is OnboardingState.HighlightSuggestions)
+    }
+
+    @Test
+    fun `Onboarding SuggestionClicked should update onboardingState to HighlightCallToActionButton`() {
+        val suggestion = Suggestion.ConstantString("suggestion")
+        val initialState = stubContentState(
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = listOf(suggestion),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            ),
+            onboardingState = OnboardingState.HighlightSuggestions
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(suggestion)
+        val (state, _) = reducer.reduce(initialState, message)
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertEquals(OnboardingState.HighlightCallToActionButton, state.onboardingState)
+    }
+
     private fun assertContainsSuggestionClickedAnalyticEvent(actions: Set<StepQuizCodeBlanksFeature.Action>) {
         assertTrue {
             actions.any {
@@ -1058,10 +1108,12 @@ class StepQuizCodeBlanksReducerTest {
 
     private fun stubContentState(
         step: Step = Step.stub(id = 1),
-        codeBlocks: List<CodeBlock>
+        codeBlocks: List<CodeBlock>,
+        onboardingState: OnboardingState = OnboardingState.Unavailable
     ): StepQuizCodeBlanksFeature.State.Content =
         StepQuizCodeBlanksFeature.State.Content(
             step = step,
-            codeBlocks = codeBlocks
+            codeBlocks = codeBlocks,
+            onboardingState = onboardingState
         )
 }

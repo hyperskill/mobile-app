@@ -105,7 +105,8 @@ internal class StepQuizReducer(
                             dataset = state.stepQuizState.attempt.dataset,
                             reply = prepareReplyForSubmission(message.step.block.name, message.reply)
                         ),
-                        InternalAction.LogAnalyticEvent(analyticEvent)
+                        InternalAction.LogAnalyticEvent(analyticEvent),
+                        Action.ViewAction.UnhighlightCallToActionButton
                     )
                 } else {
                     null

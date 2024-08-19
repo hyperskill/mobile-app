@@ -59,7 +59,8 @@ object StepQuizCodeBlanksViewStateMapper {
         return StepQuizCodeBlanksViewState.Content(
             codeBlocks = codeBlocks,
             suggestions = suggestions,
-            isDeleteButtonEnabled = isDeleteButtonEnabled
+            isDeleteButtonEnabled = isDeleteButtonEnabled,
+            onboardingState = state.onboardingState
         )
     }
 

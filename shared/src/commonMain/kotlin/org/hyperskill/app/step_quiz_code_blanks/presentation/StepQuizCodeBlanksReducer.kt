@@ -14,6 +14,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalMessage
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Message
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.State
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -45,7 +46,12 @@ class StepQuizCodeBlanksReducer(
                         step = message.step
                     )
                 )
-            )
+            ),
+            onboardingState = if (StepQuizCodeBlanksFeature.isOnboardingAvailable(message.step)) {
+                OnboardingState.HighlightSuggestions
+            } else {
+                OnboardingState.Unavailable
+            }
         ) to emptySet()
 
     private fun handleSuggestionClicked(
@@ -71,9 +77,10 @@ class StepQuizCodeBlanksReducer(
         if (activeCodeBlockIndex == null) {
             return state to actions
         }
+        val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
 
         val newCodeBlock =
-            when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
+            when (activeCodeBlock) {
                 is CodeBlock.Blank -> when (message.suggestion) {
                     Suggestion.Print ->
                         CodeBlock.Print(
@@ -141,7 +148,26 @@ class StepQuizCodeBlanksReducer(
             }
         val newCodeBlocks = state.codeBlocks.mutate { set(activeCodeBlockIndex, newCodeBlock) }
 
-        return state.copy(codeBlocks = newCodeBlocks) to actions
+        val isFulfilledOnboardingPrintCodeBlock =
+            state.onboardingState is OnboardingState.HighlightSuggestions &&
+                activeCodeBlock is CodeBlock.Print && activeCodeBlock.select?.selectedSuggestion == null &&
+                newCodeBlock is CodeBlock.Print && newCodeBlock.select?.selectedSuggestion != null
+        val (onboardingState, onboardingActions) =
+            if (isFulfilledOnboardingPrintCodeBlock) {
+                OnboardingState.HighlightCallToActionButton to
+                    setOf(
+                        InternalAction.ParentFeatureActionRequested(
+                            StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton
+                        )
+                    )
+            } else {
+                state.onboardingState to emptySet()
+            }
+
+        return state.copy(
+            codeBlocks = newCodeBlocks,
+            onboardingState = onboardingState
+        ) to actions + onboardingActions
     }
 
     private fun handleCodeBlockClicked(
