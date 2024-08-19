@@ -2,6 +2,8 @@ package org.hyperskill.step_quiz_code_blanks
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
@@ -533,9 +535,49 @@ class StepQuizCodeBlanksViewStateMapperTest {
         assertEquals(expectedViewState, actualViewState)
     }
 
-    private fun stubState(codeBlocks: List<CodeBlock>): StepQuizCodeBlanksFeature.State.Content =
+    @Test
+    fun `Action buttons hidden when onboarding is available`() {
+        val state = stubState(
+            codeBlocks = listOf(CodeBlock.Blank(isActive = true, suggestions = emptyList())),
+            onboardingState = StepQuizCodeBlanksFeature.OnboardingState.HighlightSuggestions
+        )
+        val viewState = StepQuizCodeBlanksViewStateMapper.map(state)
+
+        assertTrue(viewState is StepQuizCodeBlanksViewState.Content)
+        assertTrue(viewState.isActionButtonsHidden)
+    }
+
+    @Test
+    fun `Action buttons not hidden when onboarding is unavailable`() {
+        val state = stubState(
+            codeBlocks = listOf(CodeBlock.Blank(isActive = true, suggestions = emptyList())),
+            onboardingState = StepQuizCodeBlanksFeature.OnboardingState.Unavailable
+        )
+        val viewState = StepQuizCodeBlanksViewStateMapper.map(state)
+
+        assertTrue(viewState is StepQuizCodeBlanksViewState.Content)
+        assertFalse(viewState.isActionButtonsHidden)
+    }
+
+    @Test
+    fun `Suggestions highlight effect is active when onboardingState is HighlightSuggestions`() {
+        val state = stubState(
+            codeBlocks = listOf(CodeBlock.Blank(isActive = true, suggestions = emptyList())),
+            onboardingState = StepQuizCodeBlanksFeature.OnboardingState.HighlightSuggestions
+        )
+        val viewState = StepQuizCodeBlanksViewStateMapper.map(state)
+
+        assertTrue(viewState is StepQuizCodeBlanksViewState.Content)
+        assertTrue(viewState.isSuggestionsHighlightEffectActive)
+    }
+
+    private fun stubState(
+        codeBlocks: List<CodeBlock>,
+        onboardingState: StepQuizCodeBlanksFeature.OnboardingState = StepQuizCodeBlanksFeature.OnboardingState.Unavailable
+    ): StepQuizCodeBlanksFeature.State.Content =
         StepQuizCodeBlanksFeature.State.Content(
             step = Step.stub(id = 0),
-            codeBlocks = codeBlocks
+            codeBlocks = codeBlocks,
+            onboardingState = onboardingState
         )
 }

@@ -14,6 +14,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalMessage
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Message
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.State
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -45,7 +46,12 @@ class StepQuizCodeBlanksReducer(
                         step = message.step
                     )
                 )
-            )
+            ),
+            onboardingState = if (StepQuizCodeBlanksFeature.isOnboardingAvailable(message.step)) {
+                OnboardingState.HighlightSuggestions
+            } else {
+                OnboardingState.Unavailable
+            }
         ) to emptySet()
 
     private fun handleSuggestionClicked(

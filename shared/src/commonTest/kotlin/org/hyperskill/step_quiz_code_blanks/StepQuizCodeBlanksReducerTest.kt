@@ -1020,6 +1020,30 @@ class StepQuizCodeBlanksReducerTest {
         assertContainsEnterButtonClickedAnalyticEvent(actions)
     }
 
+    @Test
+    fun `Onboarding should be unavailable`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+        val (state, _) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 1))
+        )
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertTrue(state.onboardingState is StepQuizCodeBlanksFeature.OnboardingState.Unavailable)
+    }
+
+    @Test
+    fun `Onboarding should be available`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+        val (state, _) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 47329))
+        )
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertTrue(state.onboardingState is StepQuizCodeBlanksFeature.OnboardingState.HighlightSuggestions)
+    }
+
     private fun assertContainsSuggestionClickedAnalyticEvent(actions: Set<StepQuizCodeBlanksFeature.Action>) {
         assertTrue {
             actions.any {
