@@ -31,7 +31,7 @@ struct StepQuizCodeBlanksView: View {
 
                 StepQuizCodeBlanksSuggestionsView(
                     suggestions: contentState.suggestions,
-                    isShineEffectActive: contentState.isSuggestionsHighlightEffectActive,
+                    isAnimationEffectActive: contentState.isSuggestionsHighlightEffectActive,
                     onSuggestionTap: viewModel.doSuggestionMainAction(_:)
                 )
                 Divider()

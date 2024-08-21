@@ -18,7 +18,7 @@ struct StepQuizView: View {
     @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
     @State private var scrollPosition: ScrollPosition?
-    @State private var isActionButtonShineEffectActive = false
+    @State private var isActionButtonAnimationEffectActive = false
 
     var body: some View {
         UIViewControllerEventsWrapper(
@@ -248,14 +248,16 @@ struct StepQuizView: View {
             if quizType.isCodeRelated {
                 StepQuizActionButtons.runSolution(
                     state: .init(submissionStatus: submissionStatus),
-                    isShineEffectActive: isActionButtonShineEffectActive,
+                    isShineEffectActive: isActionButtonAnimationEffectActive,
+                    isPulseEffectActive: isActionButtonAnimationEffectActive,
                     action: viewModel.doMainQuizAction
                 )
                 .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
             } else {
                 StepQuizActionButtons.submit(
                     state: .init(submissionStatus: submissionStatus),
-                    isShineEffectActive: isActionButtonShineEffectActive,
+                    isShineEffectActive: isActionButtonAnimationEffectActive,
+                    isPulseEffectActive: isActionButtonAnimationEffectActive,
                     action: viewModel.doMainQuizAction
                 )
                 .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
@@ -320,9 +322,9 @@ private extension StepQuizView {
                 "StepQuizView :: did receive unexpected StepQuizCodeBlanksViewAction: \(stepQuizCodeBlanksViewAction)"
             )
         case .highlightCallToActionButton:
-            isActionButtonShineEffectActive = true
+            isActionButtonAnimationEffectActive = true
         case .unhighlightCallToActionButton:
-            isActionButtonShineEffectActive = false
+            isActionButtonAnimationEffectActive = false
         }
     }
 

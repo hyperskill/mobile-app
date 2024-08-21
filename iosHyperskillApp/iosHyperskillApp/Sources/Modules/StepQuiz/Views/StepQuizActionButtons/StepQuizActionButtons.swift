@@ -22,6 +22,7 @@ struct StepQuizActionButtons: View {
                 StepQuizActionButton(
                     state: continueButton.isLoading ? .correctLoading : .correct,
                     isShineEffectActive: false,
+                    isPulseEffectActive: false,
                     onTap: continueButton.action
                 )
             }
@@ -32,6 +33,7 @@ struct StepQuizActionButtons: View {
                     titleForState: primaryButton.titleForState,
                     systemImageNameForState: primaryButton.systemImageNameForState,
                     isShineEffectActive: primaryButton.isShineEffectActive,
+                    isPulseEffectActive: primaryButton.isPulseEffectActive,
                     onTap: primaryButton.action
                 )
             }
@@ -58,6 +60,7 @@ struct StepQuizActionButtons: View {
         var systemImageNameForState: ((StepQuizActionButton.State) -> String?)?
 
         var isShineEffectActive = false
+        var isPulseEffectActive = false
 
         let action: () -> Void
     }
@@ -69,16 +72,23 @@ extension StepQuizActionButtons {
     static func submit(
         state: StepQuizActionButton.State,
         isShineEffectActive: Bool = false,
+        isPulseEffectActive: Bool = false,
         action: @escaping () -> Void
     ) -> StepQuizActionButtons {
         StepQuizActionButtons(
-            primaryButton: .init(state: state, isShineEffectActive: isShineEffectActive, action: action)
+            primaryButton: .init(
+                state: state,
+                isShineEffectActive: isShineEffectActive,
+                isPulseEffectActive: isPulseEffectActive,
+                action: action
+            )
         )
     }
 
     static func runSolution(
         state: StepQuizActionButton.State,
         isShineEffectActive: Bool,
+        isPulseEffectActive: Bool,
         action: @escaping () -> Void
     ) -> StepQuizActionButtons {
         StepQuizActionButtons(
@@ -87,6 +97,7 @@ extension StepQuizActionButtons {
                 titleForState: StepQuizActionButtonCodeQuizDelegate.getTitle(for:),
                 systemImageNameForState: StepQuizActionButtonCodeQuizDelegate.getSystemImageName(for:),
                 isShineEffectActive: isShineEffectActive,
+                isPulseEffectActive: isPulseEffectActive,
                 action: action
             )
         )
@@ -143,9 +154,19 @@ extension StepQuizActionButtons {
 struct StepQuizActionButtons_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            StepQuizActionButtons.submit(state: .default, isShineEffectActive: false, action: {})
+            StepQuizActionButtons.submit(
+                state: .default,
+                isShineEffectActive: false,
+                isPulseEffectActive: false,
+                action: {}
+            )
 
-            StepQuizActionButtons.runSolution(state: .default, isShineEffectActive: true, action: {})
+            StepQuizActionButtons.runSolution(
+                state: .default,
+                isShineEffectActive: true,
+                isPulseEffectActive: true,
+                action: {}
+            )
 
             StepQuizActionButtons.retry {}
 

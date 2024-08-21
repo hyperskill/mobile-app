@@ -4,7 +4,7 @@ import SwiftUI
 struct StepQuizCodeBlanksSuggestionsView: View {
     let suggestions: [Suggestion]
 
-    let isShineEffectActive: Bool
+    let isAnimationEffectActive: Bool
 
     let onSuggestionTap: (Suggestion) -> Void
 
@@ -26,8 +26,14 @@ struct StepQuizCodeBlanksSuggestionsView: View {
                             isActive: true
                         )
                         .shineEffect(
-                            isActive: isShineEffectActive,
+                            isActive: isAnimationEffectActive,
                             foregroundColor: Color(ColorPalette.primary)
+                        )
+                        .pulseEffect(
+                            shape: RoundedRectangle(
+                                cornerRadius: StepQuizCodeBlanksOptionView.Appearance.cornerRadius
+                            ),
+                            isActive: isAnimationEffectActive
                         )
                     }
                 )
@@ -45,7 +51,7 @@ struct StepQuizCodeBlanksSuggestionsView: View {
         suggestions: [
             Suggestion.ConstantString(text: "Hello world")
         ],
-        isShineEffectActive: true,
+        isAnimationEffectActive: true,
         onSuggestionTap: { _ in }
     )
 }
