@@ -5,6 +5,7 @@ extension StepQuizCodeBlanksOptionView {
         static let insets = LayoutInsets(horizontal: 12, vertical: LayoutInsets.smallInset)
         static let minWidth: CGFloat = 48
         static let minHeight: CGFloat = 40
+        static let cornerRadius: CGFloat = 8
     }
 }
 
@@ -21,7 +22,8 @@ struct StepQuizCodeBlanksOptionView: View {
             .frame(minWidth: Appearance.minWidth, minHeight: Appearance.minHeight)
             .background(Color(ColorPalette.background))
             .addBorder(
-                color: isActive ? StepQuizCodeBlanksAppearance.activeBorderColor : .border
+                color: isActive ? StepQuizCodeBlanksAppearance.activeBorderColor : .border,
+                cornerRadius: Appearance.cornerRadius
             )
     }
 }

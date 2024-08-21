@@ -7,6 +7,7 @@ struct StepQuizActionButton: View {
     var systemImageNameForState: ((State) -> String?)?
 
     let isShineEffectActive: Bool
+    let isPulseEffectActive: Bool
 
     var onTap: () -> Void
 
@@ -18,11 +19,16 @@ struct StepQuizActionButton: View {
     }
 
     var body: some View {
+        let buttonStyle = RoundedRectangleButtonStyle(
+            style: state.style,
+            overlayImage: overlayImage
+        )
+
         Button(
             titleForState?(state) ?? state.title,
             action: onTap
         )
-        .buttonStyle(RoundedRectangleButtonStyle(style: state.style, overlayImage: overlayImage))
+        .buttonStyle(buttonStyle)
         .overlay(
             ProgressView()
                 .opacity(state.isLoading ? 1 : 0)
@@ -31,6 +37,11 @@ struct StepQuizActionButton: View {
             alignment: .init(horizontal: .leading, vertical: .center)
         )
         .shineEffect(isActive: isShineEffectActive && !state.isDisabled)
+        .pulseEffect(
+            shape: RoundedRectangle(cornerRadius: buttonStyle.cornerRadius),
+            scaleAmount: .small,
+            isActive: isPulseEffectActive && !state.isDisabled
+        )
         .disabled(state.isDisabled)
     }
 
@@ -75,12 +86,18 @@ struct StepQuizActionButton: View {
     }
 }
 
+#if DEBUG
 struct StepQuizActionButton_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             VStack {
                 ForEach(StepQuizActionButton.State.allCases, id: \.self) { state in
-                    StepQuizActionButton(state: state, isShineEffectActive: false, onTap: {})
+                    StepQuizActionButton(
+                        state: state,
+                        isShineEffectActive: false,
+                        isPulseEffectActive: false,
+                        onTap: {}
+                    )
                 }
 
                 StepQuizActionButton(
@@ -88,6 +105,7 @@ struct StepQuizActionButton_Previews: PreviewProvider {
                     titleForState: { _ in "Run solution" },
                     systemImageNameForState: { _ in "play" },
                     isShineEffectActive: true,
+                    isPulseEffectActive: true,
                     onTap: {}
                 )
             }
@@ -96,3 +114,4 @@ struct StepQuizActionButton_Previews: PreviewProvider {
         .padding()
     }
 }
+#endif
