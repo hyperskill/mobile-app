@@ -1,7 +1,10 @@
 package org.hyperskill.app.step_quiz_code_blanks.presentation
 
 import org.hyperskill.app.core.utils.indexOfFirstOrNull
+import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.codeBlanksStringsSuggestions
+import org.hyperskill.app.step.domain.model.codeBlanksVariablesSuggestions
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockChildHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
@@ -39,14 +42,7 @@ class StepQuizCodeBlanksReducer(
     ): StepQuizCodeBlanksReducerResult =
         State.Content(
             step = message.step,
-            codeBlocks = listOf(
-                createBlankCodeBlock(
-                    isActive = true,
-                    isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(
-                        step = message.step
-                    )
-                )
-            ),
+            codeBlocks = createInitialCodeBlocks(step = message.step),
             onboardingState = if (StepQuizCodeBlanksFeature.isOnboardingAvailable(message.step)) {
                 OnboardingState.HighlightSuggestions
             } else {
@@ -424,4 +420,63 @@ class StepQuizCodeBlanksReducer(
                 listOf(Suggestion.Print)
             }
         )
+
+    private fun createInitialCodeBlocks(step: Step): List<CodeBlock> =
+        if (step.id == 47580L) {
+            listOf(
+                CodeBlock.Variable(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = step.codeBlanksVariablesSuggestions(),
+                            selectedSuggestion = Suggestion.ConstantString("x")
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = step.codeBlanksStringsSuggestions(),
+                            selectedSuggestion = Suggestion.ConstantString("1000")
+                        )
+                    )
+                ),
+                CodeBlock.Variable(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = step.codeBlanksVariablesSuggestions(),
+                            selectedSuggestion = Suggestion.ConstantString("r")
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = step.codeBlanksStringsSuggestions(),
+                            selectedSuggestion = Suggestion.ConstantString("5")
+                        )
+                    )
+                ),
+                CodeBlock.Variable(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = step.codeBlanksVariablesSuggestions(),
+                            selectedSuggestion = Suggestion.ConstantString("y")
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = step.codeBlanksStringsSuggestions(),
+                            selectedSuggestion = Suggestion.ConstantString("10")
+                        )
+                    )
+                ),
+                createBlankCodeBlock(
+                    isActive = true,
+                    isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(step)
+                )
+            )
+        } else {
+            listOf(
+                createBlankCodeBlock(
+                    isActive = true,
+                    isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(step)
+                )
+            )
+        }
 }

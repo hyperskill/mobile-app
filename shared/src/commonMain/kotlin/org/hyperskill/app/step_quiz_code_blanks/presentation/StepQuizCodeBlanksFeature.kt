@@ -2,6 +2,8 @@ package org.hyperskill.app.step_quiz_code_blanks.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.codeBlanksStringsSuggestions
+import org.hyperskill.app.step.domain.model.codeBlanksVariablesSuggestions
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction.ParentFeatureActionRequested
@@ -30,10 +32,10 @@ object StepQuizCodeBlanksFeature {
             val onboardingState: OnboardingState = OnboardingState.Unavailable
         ) : State {
             internal val codeBlanksStringsSuggestions: List<Suggestion.ConstantString> =
-                step.block.options.codeBlanksStrings.orEmpty().map(Suggestion::ConstantString)
+                step.codeBlanksStringsSuggestions()
 
             internal val codeBlanksVariablesSuggestions: List<Suggestion.ConstantString> =
-                step.block.options.codeBlanksVariables.orEmpty().map(Suggestion::ConstantString)
+                step.codeBlanksVariablesSuggestions()
         }
     }
 
