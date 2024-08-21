@@ -184,6 +184,7 @@
 		2C45E7C52A0FEE7A00DFF32D /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */; };
 		2C4605B12ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */; };
 		2C4623A12B999CAF002BDDBB /* PaywallHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4623A02B999CAF002BDDBB /* PaywallHostingController.swift */; };
+		2C4677952C75E7CA000EB2EE /* PulseEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4677942C75E7CA000EB2EE /* PulseEffect.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
 		2C48232B2AC172600047999B /* LaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C48232A2AC172600047999B /* LaunchTests.swift */; };
 		2C4823322AC1768A0047999B /* LaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4823312AC1768A0047999B /* LaunchPerformanceTests.swift */; };
@@ -976,6 +977,7 @@
 		2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScrollBounceBehavior.swift"; sourceTree = "<group>"; };
 		2C4623A02B999CAF002BDDBB /* PaywallHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallHostingController.swift; sourceTree = "<group>"; };
+		2C4677942C75E7CA000EB2EE /* PulseEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseEffect.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C4823262AC172600047999B /* iosHyperskillAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C48232A2AC172600047999B /* LaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchTests.swift; sourceTree = "<group>"; };
@@ -2380,6 +2382,15 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
+		2C4677962C75E7D7000EB2EE /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				2C4677942C75E7CA000EB2EE /* PulseEffect.swift */,
+				2CAF254B2AB9C2E500595582 /* ShineEffect.swift */,
+			);
+			path = Effects;
+			sourceTree = "<group>";
+		};
 		2C46D0612807E4A600B3636E /* Wrappers */ = {
 			isa = PBXGroup;
 			children = (
@@ -3533,13 +3544,13 @@
 				2C1B71042B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
-				2CAF254B2AB9C2E500595582 /* ShineEffect.swift */,
 				E996D41129221F6200A47498 /* ShowMoreButton.swift */,
 				2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */,
 				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
 				2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */,
 				2CC95C0C2A4EBB7D0036C73E /* Avatars */,
 				2C05AC5B2A0ED7480039C7EF /* BadgeView */,
+				2C4677962C75E7D7000EB2EE /* Effects */,
 				2C3E656E2A127E6100BC8DC0 /* Gradients */,
 				2CBC97CE2A555BD00078E445 /* Hypercoins */,
 				2CF87DA029B717E20092FF83 /* Introspect */,
@@ -5230,6 +5241,7 @@
 				2C67709B2AEBDF5200E832AC /* StepQuizFillBlanksSelectOptionsOutputProtocol.swift in Sources */,
 				2C198E032AEA869300DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCell.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
+				2C4677952C75E7CA000EB2EE /* PulseEffect.swift in Sources */,
 				2CC7833E295DAE3E00A867CD /* WelcomeFeatureStateKsExtensions.swift in Sources */,
 				2C45E7C52A0FEE7A00DFF32D /* StarRatingView.swift in Sources */,
 				2C9AA3F22C245C5700F5170E /* WelcomeQuestionnaireItemType+ImageResource.swift in Sources */,
