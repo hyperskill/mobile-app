@@ -6,7 +6,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.comments.domain.model.CommentThread
-import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 
 @Serializable
 data class Step(
@@ -84,9 +83,3 @@ val Step.areCommentsAvailable: Boolean
 
 val Step.commentThreadStatistic: CommentStatisticsEntry?
     get() = commentsStatistics.firstOrNull { it.thread == CommentThread.COMMENT }
-
-internal fun Step.codeBlanksStringsSuggestions(): List<Suggestion.ConstantString> =
-    block.options.codeBlanksStrings.orEmpty().map(Suggestion::ConstantString)
-
-internal fun Step.codeBlanksVariablesSuggestions(): List<Suggestion.ConstantString> =
-    block.options.codeBlanksVariables.orEmpty().map(Suggestion::ConstantString)

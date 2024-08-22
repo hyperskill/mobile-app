@@ -3,8 +3,6 @@ package org.hyperskill.app.step_quiz_code_blanks.presentation
 import org.hyperskill.app.core.utils.indexOfFirstOrNull
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.domain.model.codeBlanksStringsSuggestions
-import org.hyperskill.app.step.domain.model.codeBlanksVariablesSuggestions
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockChildHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent

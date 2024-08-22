@@ -2,8 +2,6 @@ package org.hyperskill.app.step_quiz_code_blanks.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.codeBlanksStringsSuggestions
-import org.hyperskill.app.step.domain.model.codeBlanksVariablesSuggestions
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction.ParentFeatureActionRequested
@@ -36,6 +34,9 @@ object StepQuizCodeBlanksFeature {
 
             internal val codeBlanksVariablesSuggestions: List<Suggestion.ConstantString> =
                 step.codeBlanksVariablesSuggestions()
+
+            internal val codeBlanksOperationsSuggestions: List<Suggestion.ConstantString> =
+                step.codeBlanksOperationsSuggestions()
         }
     }
 
@@ -76,6 +77,15 @@ object StepQuizCodeBlanksFeature {
         data object HighlightCallToActionButton : ParentFeatureAction
     }
 }
+
+internal fun Step.codeBlanksStringsSuggestions(): List<Suggestion.ConstantString> =
+    block.options.codeBlanksStrings.orEmpty().map(Suggestion::ConstantString)
+
+internal fun Step.codeBlanksVariablesSuggestions(): List<Suggestion.ConstantString> =
+    block.options.codeBlanksVariables.orEmpty().map(Suggestion::ConstantString)
+
+internal fun Step.codeBlanksOperationsSuggestions(): List<Suggestion.ConstantString> =
+    block.options.codeBlanksOperations.orEmpty().map(Suggestion::ConstantString)
 
 internal fun Set<StepQuizCodeBlanksFeature.Action>.getRequestedParentFeatureAction(): ParentFeatureActionRequested? =
     filterIsInstance<ParentFeatureActionRequested>().firstOrNull()

@@ -277,6 +277,9 @@ extension StepQuizViewModel: StepQuizCodeBlanksOutputProtocol {
             )
         )
     }
+
+    func handleStepQuizCodeBlanksDidTapSpace() {
+    }
 }
 
 // MARK: - StepQuizViewModel: StepQuizProblemOnboardingModalViewControllerDelegate -

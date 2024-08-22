@@ -56,10 +56,31 @@ object StepQuizCodeBlanksViewStateMapper {
                 null -> false
             }
 
+        val isSpaceButtonHidden = if (state.codeBlanksOperationsSuggestions.isNotEmpty()) {
+            when (activeCodeBlock) {
+                is CodeBlock.Print -> {
+                    val activeChild = activeCodeBlock.activeChild() as? CodeBlockChild.SelectSuggestion
+                    activeChild?.selectedSuggestion == null
+                }
+                is CodeBlock.Variable -> {
+                    val activeChildIndex = activeCodeBlock.activeChildIndex()
+                    if (activeChildIndex != null && activeChildIndex > 0) {
+                        activeCodeBlock.children[activeChildIndex].selectedSuggestion == null
+                    } else {
+                        true
+                    }
+                }
+                else -> true
+            }
+        } else {
+            true
+        }
+
         return StepQuizCodeBlanksViewState.Content(
             codeBlocks = codeBlocks,
             suggestions = suggestions,
             isDeleteButtonEnabled = isDeleteButtonEnabled,
+            isSpaceButtonHidden = isSpaceButtonHidden,
             onboardingState = state.onboardingState
         )
     }
