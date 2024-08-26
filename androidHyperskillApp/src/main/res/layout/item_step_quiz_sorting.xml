@@ -61,8 +61,7 @@
 
             app:layout_constraintVertical_chainStyle="packed"
 
-            app:tint="?colorControlNormal"
-            app:srcCompat="@drawable/ic_arrow_top" />
+            app:srcCompat="@drawable/ic_sorting_up" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/stepQuizSortingOptionDown"
@@ -81,8 +80,7 @@
 
             app:layout_constraintVertical_chainStyle="packed"
 
-            app:tint="?colorControlNormal"
-            app:srcCompat="@drawable/ic_arrow_bottom" />
+            app:srcCompat="@drawable/ic_sorting_down" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
