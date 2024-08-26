@@ -44,9 +44,25 @@ sealed class CodeBlock {
         override fun toReplyString(): String =
             buildString {
                 append("print(")
-                append(
-                    children.joinToString(separator = ", ") { it.toReplyString() }
-                )
+
+                val childrenReplyString = buildString {
+                    children.forEachIndexed { index, child ->
+                        append(child.toReplyString())
+
+                        val nextChild = children.getOrNull(index + 1)
+
+                        val shouldAppendSpace = when {
+                            child.selectedSuggestion?.isOpeningParentheses == true -> false
+                            nextChild?.selectedSuggestion?.isClosingParentheses == true -> false
+                            else -> index < children.lastIndex
+                        }
+                        if (shouldAppendSpace) {
+                            append(" ")
+                        }
+                    }
+                }
+                append(childrenReplyString)
+
                 append(")")
             }
 
