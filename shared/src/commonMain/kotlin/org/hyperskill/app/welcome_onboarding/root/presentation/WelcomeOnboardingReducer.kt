@@ -83,9 +83,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
                 WelcomeQuestionnaireType.LEARNING_REASON ->
                     NavigateTo.WelcomeOnboardingQuestionnaire(WelcomeQuestionnaireType.CODING_EXPERIENCE)
                 WelcomeQuestionnaireType.CODING_EXPERIENCE ->
-                    // NavigateTo.ChooseProgrammingLanguage
-                    // ALTAPPS-1328: Redirect to Python track directly
-                    NavigateTo.TrackDetails(WelcomeOnboardingTrack.PYTHON)
+                    NavigateTo.ChooseProgrammingLanguage
             }
         )
 
