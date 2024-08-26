@@ -226,29 +226,41 @@ class StepQuizCodeBlanksReducer(
             )
         )
 
-        return when (targetCodeBlock) {
+        val newChildren = when (targetCodeBlock) {
+            is CodeBlock.Print,
             is CodeBlock.Variable -> {
-                val newCodeBlocks = state.codeBlocks.mutate {
-                    state.activeCodeBlockIndex()?.let {
-                        set(it, setCodeBlockIsActive(codeBlock = state.codeBlocks[it], isActive = false))
+                targetCodeBlock.children.mapIndexed { index, child ->
+                    require(child is CodeBlockChild.SelectSuggestion)
+                    if (index == message.codeBlockChildItem.id) {
+                        child.copy(isActive = true)
+                    } else {
+                        child.copy(isActive = false)
                     }
+                }
+            }
+            else -> null
+        }
+
+        val newCodeBlocks = state.codeBlocks.mutate {
+            newChildren?.let { newChildren ->
+                state.activeCodeBlockIndex()?.let {
+                    set(it, setCodeBlockIsActive(codeBlock = state.codeBlocks[it], isActive = false))
+                }
+
+                targetCodeBlock?.let { targetCodeBlock ->
                     set(
                         targetCodeBlockIndex,
-                        targetCodeBlock.copy(
-                            children = targetCodeBlock.children.mapIndexed { index, child ->
-                                if (index == message.codeBlockChildItem.id) {
-                                    child.copy(isActive = true)
-                                } else {
-                                    child.copy(isActive = false)
-                                }
-                            }
-                        )
+                        when (targetCodeBlock) {
+                            is CodeBlock.Print -> targetCodeBlock.copy(children = newChildren)
+                            is CodeBlock.Variable -> targetCodeBlock.copy(children = newChildren)
+                            else -> targetCodeBlock
+                        }
                     )
                 }
-                state.copy(codeBlocks = newCodeBlocks) to actions
             }
-            else -> state to actions
         }
+
+        return state.copy(codeBlocks = newCodeBlocks) to actions
     }
 
     private fun handleDeleteButtonClicked(

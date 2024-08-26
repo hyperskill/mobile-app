@@ -74,7 +74,13 @@ struct StepQuizCodeBlanksView: View {
                     }
                 case .print(let printItem):
                     StepQuizCodeBlanksPrintInstructionView(
-                        printItem: printItem
+                        printItem: printItem,
+                        onChildTap: { codeBlockChild in
+                            viewModel.doCodeBlockChildMainAction(
+                                codeBlock: codeBlock,
+                                codeBlockChild: codeBlockChild
+                            )
+                        }
                     )
                     .onTapGesture {
                         viewModel.doCodeBlockMainAction(codeBlock)

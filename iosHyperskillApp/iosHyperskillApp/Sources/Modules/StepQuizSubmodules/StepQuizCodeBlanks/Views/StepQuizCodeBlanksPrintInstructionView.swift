@@ -4,6 +4,8 @@ import SwiftUI
 struct StepQuizCodeBlanksPrintInstructionView: View {
     let printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint
 
+    let onChildTap: (StepQuizCodeBlanksViewStateCodeBlockChildItem) -> Void
+
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .center, spacing: LayoutInsets.smallInset) {
@@ -12,11 +14,7 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
                     .foregroundColor(StepQuizCodeBlanksAppearance.blankTextColor)
 
                 ForEach(printItem.children, id: \.id) { child in
-                    if let value = child.value, !value.isEmpty {
-                        StepQuizCodeBlanksOptionView(text: value, isActive: child.isActive)
-                    } else {
-                        StepQuizCodeBlanksBlankView(style: .small, isActive: child.isActive)
-                    }
+                    StepQuizCodeBlanksCodeBlockChildView(child: child, action: onChildTap)
                 }
 
                 Text(")")
@@ -40,25 +38,29 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
                 children: [.init(id: 0, isActive: false, value: "")]
-            )
+            ),
+            onChildTap: { _ in }
         )
         StepQuizCodeBlanksPrintInstructionView(
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
                 children: [.init(id: 0, isActive: true, value: "")]
-            )
+            ),
+            onChildTap: { _ in }
         )
         StepQuizCodeBlanksPrintInstructionView(
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
                 children: [.init(id: 0, isActive: true, value: "There is a cat on the keyboard, it is true")]
-            )
+            ),
+            onChildTap: { _ in }
         )
         StepQuizCodeBlanksPrintInstructionView(
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
                 children: [.init(id: 0, isActive: false, value: "There is a cat on the keyboard, it is true")]
-            )
+            ),
+            onChildTap: { _ in }
         )
 
         StepQuizCodeBlanksPrintInstructionView(
@@ -68,7 +70,8 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
                     .init(id: 0, isActive: false, value: "x"),
                     .init(id: 1, isActive: true, value: "")
                 ]
-            )
+            ),
+            onChildTap: { _ in }
         )
     }
     .frame(maxWidth: .infinity)
