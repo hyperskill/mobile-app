@@ -39,14 +39,18 @@ object StepQuizCodeBlanksViewStateMapper {
                 is CodeBlock.Blank -> codeBlocks.size > 1
                 is CodeBlock.Print -> true
                 is CodeBlock.Variable -> {
-                    val activeChild = activeCodeBlock.activeChild() as? CodeBlockChild.SelectSuggestion
-                    if (activeChild?.selectedSuggestion == null &&
-                        activeCodeBlock.children.any { it.selectedSuggestion != null }
-                    ) {
-                        false
-                    } else {
-                        true
-                    }
+                    activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
+                        when {
+                            activeChildIndex > 1 ->
+                                true
+
+                            activeCodeBlock.children[activeChildIndex].selectedSuggestion == null &&
+                                activeCodeBlock.children.any { it.selectedSuggestion != null } ->
+                                false
+
+                            else -> true
+                        }
+                    } ?: false
                 }
                 null -> false
             }

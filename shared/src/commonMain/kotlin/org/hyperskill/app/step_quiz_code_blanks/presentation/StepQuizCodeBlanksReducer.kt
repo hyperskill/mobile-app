@@ -318,49 +318,79 @@ class StepQuizCodeBlanksReducer(
                     val activeChildIndex = activeCodeBlock.activeChildIndex() ?: return@mutate
                     val activeChild = activeCodeBlock.children[activeChildIndex]
 
-                    if (activeChild.selectedSuggestion != null) {
-                        set(
-                            activeCodeBlockIndex,
-                            activeCodeBlock.copy(
-                                children = activeCodeBlock.children.mutate {
-                                    set(
-                                        activeChildIndex,
-                                        activeChild.copy(selectedSuggestion = null)
-                                    )
-                                }
+                    when {
+                        activeChild.selectedSuggestion != null ->
+                            set(
+                                activeCodeBlockIndex,
+                                activeCodeBlock.copy(
+                                    children = activeCodeBlock.children.mutate {
+                                        set(
+                                            activeChildIndex,
+                                            activeChild.copy(selectedSuggestion = null)
+                                        )
+                                    }
+                                )
                             )
-                        )
-                    } else if (state.codeBlocks.size > 1) {
-                        removeActiveCodeBlockAndSetNextActive()
-                    } else {
-                        replaceActiveCodeWithBlank()
+
+                        activeChildIndex > 0 ->
+                            set(
+                                activeCodeBlockIndex,
+                                activeCodeBlock.copy(
+                                    children = activeCodeBlock.children.mutate {
+                                        set(
+                                            activeChildIndex - 1,
+                                            this[activeChildIndex - 1].copy(isActive = true)
+                                        )
+                                        removeAt(activeChildIndex)
+                                    }
+                                )
+                            )
+
+                        state.codeBlocks.size > 1 ->
+                            removeActiveCodeBlockAndSetNextActive()
+
+                        else ->
+                            replaceActiveCodeWithBlank()
                     }
                 }
                 is CodeBlock.Variable -> {
                     val activeChildIndex = activeCodeBlock.activeChildIndex() ?: return@mutate
                     val activeChild = activeCodeBlock.children[activeChildIndex]
 
-                    if (activeChild.selectedSuggestion != null) {
-                        set(
-                            activeCodeBlockIndex,
-                            activeCodeBlock.copy(
-                                children = activeCodeBlock.children.mutate {
-                                    set(
-                                        activeChildIndex,
-                                        activeChild.copy(selectedSuggestion = null)
-                                    )
-                                }
+                    when {
+                        activeChild.selectedSuggestion != null ->
+                            set(
+                                activeCodeBlockIndex,
+                                activeCodeBlock.copy(
+                                    children = activeCodeBlock.children.mutate {
+                                        set(
+                                            activeChildIndex,
+                                            activeChild.copy(selectedSuggestion = null)
+                                        )
+                                    }
+                                )
                             )
-                        )
-                    } else if (
-                        activeCodeBlock.name?.selectedSuggestion == null &&
-                        activeCodeBlock.value?.selectedSuggestion == null
-                    ) {
-                        if (state.codeBlocks.size > 1) {
-                            removeActiveCodeBlockAndSetNextActive()
-                        } else {
-                            replaceActiveCodeWithBlank()
-                        }
+
+                        activeChildIndex > 1 ->
+                            set(
+                                activeCodeBlockIndex,
+                                activeCodeBlock.copy(
+                                    children = activeCodeBlock.children.mutate {
+                                        set(
+                                            activeChildIndex - 1,
+                                            this[activeChildIndex - 1].copy(isActive = true)
+                                        )
+                                        removeAt(activeChildIndex)
+                                    }
+                                )
+                            )
+
+                        activeCodeBlock.children.all { it.selectedSuggestion == null } ->
+                            if (state.codeBlocks.size > 1) {
+                                removeActiveCodeBlockAndSetNextActive()
+                            } else {
+                                replaceActiveCodeWithBlank()
+                            }
                     }
                 }
             }
@@ -489,42 +519,36 @@ class StepQuizCodeBlanksReducer(
     private fun setCodeBlockIsActive(codeBlock: CodeBlock, isActive: Boolean): CodeBlock =
         when (codeBlock) {
             is CodeBlock.Blank -> codeBlock.copy(isActive = isActive)
+            is CodeBlock.Variable,
             is CodeBlock.Print -> {
                 if (isActive) {
                     if (codeBlock.activeChild() != null) {
                         codeBlock
                     } else {
-                        codeBlock.copy(
-                            children = codeBlock.children.mapIndexed { index, child ->
-                                if (index == 0) {
-                                    child.copy(isActive = true)
-                                } else {
-                                    child.copy(isActive = false)
-                                }
+                        val newChildren = codeBlock.children.mapIndexed { index, child ->
+                            require(child is CodeBlockChild.SelectSuggestion)
+                            if (index == 0) {
+                                child.copy(isActive = true)
+                            } else {
+                                child.copy(isActive = false)
                             }
-                        )
+                        }
+                        when (codeBlock) {
+                            is CodeBlock.Print -> codeBlock.copy(children = newChildren)
+                            is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
+                            else -> codeBlock
+                        }
                     }
                 } else {
-                    codeBlock.copy(children = codeBlock.children.map { it.copy(isActive = false) })
-                }
-            }
-            is CodeBlock.Variable -> {
-                if (isActive) {
-                    if (codeBlock.activeChild() != null) {
-                        codeBlock
-                    } else {
-                        codeBlock.copy(
-                            children = codeBlock.children.mapIndexed { index, child ->
-                                if (index == 0) {
-                                    child.copy(isActive = true)
-                                } else {
-                                    child.copy(isActive = false)
-                                }
-                            }
-                        )
+                    val newChildren = codeBlock.children.map { child ->
+                        require(child is CodeBlockChild.SelectSuggestion)
+                        child.copy(isActive = false)
                     }
-                } else {
-                    codeBlock.copy(children = codeBlock.children.map { it.copy(isActive = false) })
+                    when (codeBlock) {
+                        is CodeBlock.Print -> codeBlock.copy(children = newChildren)
+                        is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
+                        else -> codeBlock
+                    }
                 }
             }
         }

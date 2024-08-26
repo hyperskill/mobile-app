@@ -144,7 +144,7 @@ class StepQuizCodeBlanksStateExtensionsTest {
     }
 
     @Test
-    fun `createReply should return correct Reply with math expressions`() {
+    fun `createReply should return correct Reply with math expressions in Print`() {
         val codeBlocks = listOf(
             CodeBlock.Variable(
                 children = listOf(
@@ -267,6 +267,152 @@ class StepQuizCodeBlanksStateExtensionsTest {
                 append("r = 5\n")
                 append("y = 10\n")
                 append("print(x * (1 + r / 100) ** y)")
+            },
+            language = "python3"
+        )
+
+        assertEquals(expectedReply, state.createReply())
+    }
+
+    @Test
+    fun `createReply should return correct Reply with math expressions in Variable`() {
+        val codeBlocks = listOf(
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("x")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("1000")
+                    )
+                )
+            ),
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("r")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("5")
+                    )
+                )
+            ),
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("y")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("10")
+                    )
+                )
+            ),
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("a")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("x")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("*")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("(")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("1")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("+")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("r")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("/")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("100")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString(")")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("**")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("y")
+                    )
+                )
+            ),
+            CodeBlock.Print(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("a")
+                    )
+                )
+            )
+        )
+        val step = Step.stub(id = 1).copy(
+            block = Block.stub(
+                options = Block.Options(
+                    codeTemplates = mapOf("python3" to "# put your python code here")
+                )
+            )
+        )
+        val state = stubContentState(
+            step = step,
+            codeBlocks = codeBlocks
+        )
+
+        val expectedReply = Reply.code(
+            code = buildString {
+                append("# solved with code blanks\n")
+                append("x = 1000\n")
+                append("r = 5\n")
+                append("y = 10\n")
+                append("a = x * (1 + r / 100) ** y\n")
+                append("print(a)")
             },
             language = "python3"
         )

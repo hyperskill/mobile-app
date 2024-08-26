@@ -3,6 +3,8 @@ package org.hyperskill.app.step_quiz_code_blanks.domain.model
 import org.hyperskill.app.core.utils.indexOfFirstOrNull
 
 sealed class CodeBlock {
+    companion object;
+
     internal abstract val isActive: Boolean
 
     internal abstract val suggestions: List<Suggestion>
@@ -44,25 +46,7 @@ sealed class CodeBlock {
         override fun toReplyString(): String =
             buildString {
                 append("print(")
-
-                val childrenReplyString = buildString {
-                    children.forEachIndexed { index, child ->
-                        append(child.toReplyString())
-
-                        val nextChild = children.getOrNull(index + 1)
-
-                        val shouldAppendSpace = when {
-                            child.selectedSuggestion?.isOpeningParentheses == true -> false
-                            nextChild?.selectedSuggestion?.isClosingParentheses == true -> false
-                            else -> index < children.lastIndex
-                        }
-                        if (shouldAppendSpace) {
-                            append(" ")
-                        }
-                    }
-                }
-                append(childrenReplyString)
-
+                append(joinChildrenToReplyString(children))
                 append(")")
             }
 
@@ -76,8 +60,8 @@ sealed class CodeBlock {
         val name: CodeBlockChild.SelectSuggestion?
             get() = children.firstOrNull()
 
-        val value: CodeBlockChild.SelectSuggestion?
-            get() = children.lastOrNull()
+        val values: List<CodeBlockChild.SelectSuggestion>
+            get() = children.drop(1)
 
         override val isActive: Boolean = false
 
@@ -90,10 +74,30 @@ sealed class CodeBlock {
             buildString {
                 append(name?.toReplyString() ?: "")
                 append(" = ")
-                append(value?.toReplyString() ?: "")
+                append(joinChildrenToReplyString(values))
             }
 
         override fun toString(): String =
             "Variable(children=$children)"
     }
 }
+
+internal fun CodeBlock.Companion.joinChildrenToReplyString(children: List<CodeBlockChild>): String =
+    buildString {
+        children.forEachIndexed { index, child ->
+            append(child.toReplyString())
+
+            val nextChild = children.getOrNull(index + 1)
+
+            val shouldAppendSpace = when {
+                (child as? CodeBlockChild.SelectSuggestion)?.selectedSuggestion?.isOpeningParentheses == true ->
+                    false
+                (nextChild as? CodeBlockChild.SelectSuggestion)?.selectedSuggestion?.isClosingParentheses == true ->
+                    false
+                else -> index < children.lastIndex
+            }
+            if (shouldAppendSpace) {
+                append(" ")
+            }
+        }
+    }
