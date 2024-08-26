@@ -1,6 +1,19 @@
 import SwiftUI
 
+extension StepQuizCodeBlanksActionButton {
+    struct Appearance {
+        var padding = LayoutInsets(
+            horizontal: LayoutInsets.smallInset,
+            vertical: LayoutInsets.smallInset / 2
+        )
+
+        let cornerRadius: CGFloat = 8
+    }
+}
+
 struct StepQuizCodeBlanksActionButton: View {
+    private(set) var appearance = Appearance()
+
     let imageSystemName: String
 
     let action: () -> Void
@@ -13,14 +26,13 @@ struct StepQuizCodeBlanksActionButton: View {
             label: {
                 Image(systemName: imageSystemName)
                     .imageScale(.large)
-                    .padding(.vertical, LayoutInsets.smallInset / 2)
-                    .padding(.horizontal, LayoutInsets.smallInset)
+                    .padding(appearance.padding.edgeInsets)
                     .background(
                         Color(ColorPalette.primary)
                             .conditionalOpacity(isEnabled: isEnabled)
                     )
                     .foregroundColor(Color(ColorPalette.onPrimary))
-                    .cornerRadius(8)
+                    .cornerRadius(appearance.cornerRadius)
             }
         )
         .buttonStyle(BounceButtonStyle())
@@ -35,6 +47,21 @@ extension StepQuizCodeBlanksActionButton {
     static func enter(action: @escaping () -> Void) -> StepQuizCodeBlanksActionButton {
         StepQuizCodeBlanksActionButton(imageSystemName: "return", action: action)
     }
+
+    static func space(
+        action: @escaping () -> Void
+    ) -> StepQuizCodeBlanksActionButton {
+        StepQuizCodeBlanksActionButton(
+            appearance: .init(
+                padding: LayoutInsets(
+                    horizontal: LayoutInsets.smallInset,
+                    vertical: 10.5
+                )
+            ),
+            imageSystemName: "space",
+            action: action
+        )
+    }
 }
 
 #if DEBUG
@@ -43,11 +70,13 @@ extension StepQuizCodeBlanksActionButton {
         HStack {
             StepQuizCodeBlanksActionButton.delete(action: {})
             StepQuizCodeBlanksActionButton.enter(action: {})
+            StepQuizCodeBlanksActionButton.space(action: {})
         }
 
         HStack {
             StepQuizCodeBlanksActionButton.delete(action: {})
             StepQuizCodeBlanksActionButton.enter(action: {})
+            StepQuizCodeBlanksActionButton.space(action: {})
         }
         .disabled(true)
     }

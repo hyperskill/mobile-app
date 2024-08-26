@@ -3,6 +3,7 @@ import SwiftUI
 
 enum StepQuizCodeBlanksAppearance {
     static let activeBorderColor = Color(ColorPalette.primary)
+    static let cornerRadius: CGFloat = 8
 
     static let blankTextColor = Color.primaryText
     static let blankFont = Font(CodeEditorThemeService().theme.font)
@@ -25,6 +26,7 @@ struct StepQuizCodeBlanksView: View {
                 codeBlocksView(
                     codeBlocks: contentState.codeBlocks,
                     isDeleteButtonEnabled: contentState.isDeleteButtonEnabled,
+                    isSpaceButtonHidden: contentState.isSpaceButtonHidden,
                     isActionButtonsHidden: contentState.isActionButtonsHidden
                 )
                 Divider()
@@ -55,6 +57,7 @@ struct StepQuizCodeBlanksView: View {
     private func codeBlocksView(
         codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItem],
         isDeleteButtonEnabled: Bool,
+        isSpaceButtonHidden: Bool,
         isActionButtonsHidden: Bool
     ) -> some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
@@ -71,8 +74,13 @@ struct StepQuizCodeBlanksView: View {
                     }
                 case .print(let printItem):
                     StepQuizCodeBlanksPrintInstructionView(
-                        isActive: printItem.isActive,
-                        output: printItem.output
+                        printItem: printItem,
+                        onChildTap: { codeBlockChild in
+                            viewModel.doCodeBlockChildMainAction(
+                                codeBlock: codeBlock,
+                                codeBlockChild: codeBlockChild
+                            )
+                        }
                     )
                     .onTapGesture {
                         viewModel.doCodeBlockMainAction(codeBlock)
@@ -96,6 +104,11 @@ struct StepQuizCodeBlanksView: View {
             if !isActionButtonsHidden {
                 HStack(spacing: LayoutInsets.defaultInset) {
                     Spacer()
+
+                    if !isSpaceButtonHidden {
+                        StepQuizCodeBlanksActionButton
+                            .space(action: viewModel.doSpaceAction)
+                    }
 
                     StepQuizCodeBlanksActionButton
                         .delete(action: viewModel.doDeleteAction)
@@ -128,6 +141,7 @@ extension StepQuizCodeBlanksView: Equatable {
                     codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItemBlank(id: 0, isActive: true)],
                     suggestions: [Suggestion.Print()],
                     isDeleteButtonEnabled: true,
+                    isSpaceButtonHidden: true,
                     onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),
@@ -157,6 +171,7 @@ extension StepQuizCodeBlanksView: Equatable {
                         Suggestion.ConstantString(text: "Typing messages out of the blue")
                     ],
                     isDeleteButtonEnabled: false,
+                    isSpaceButtonHidden: true,
                     onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),
@@ -196,6 +211,7 @@ extension StepQuizCodeBlanksView: Equatable {
                         Suggestion.ConstantString(text: "Typing messages out of the blue")
                     ],
                     isDeleteButtonEnabled: false,
+                    isSpaceButtonHidden: true,
                     onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),

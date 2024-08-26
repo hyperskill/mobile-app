@@ -20,6 +20,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CANCEL("cancel"),
     DELETE("delete"),
     ENTER("enter"),
+    SPACE("space"),
     DONE("done"),
     YES("yes"),
     NO("no"),

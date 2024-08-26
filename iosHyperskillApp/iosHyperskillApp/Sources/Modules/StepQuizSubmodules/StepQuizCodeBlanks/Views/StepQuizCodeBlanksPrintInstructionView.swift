@@ -1,9 +1,10 @@
+import shared
 import SwiftUI
 
 struct StepQuizCodeBlanksPrintInstructionView: View {
-    let isActive: Bool
+    let printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint
 
-    let output: String?
+    let onChildTap: (StepQuizCodeBlanksViewStateCodeBlockChildItem) -> Void
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -12,10 +13,8 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
                     .font(StepQuizCodeBlanksAppearance.blankFont)
                     .foregroundColor(StepQuizCodeBlanksAppearance.blankTextColor)
 
-                if let output, !output.isEmpty {
-                    StepQuizCodeBlanksOptionView(text: output, isActive: isActive)
-                } else {
-                    StepQuizCodeBlanksBlankView(style: .small, isActive: isActive)
+                ForEach(printItem.children, id: \.id) { child in
+                    StepQuizCodeBlanksCodeBlockChildView(child: child, action: onChildTap)
                 }
 
                 Text(")")
@@ -25,9 +24,7 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
             .padding(.horizontal, LayoutInsets.defaultInset)
             .padding(.vertical, LayoutInsets.smallInset)
             .background(Color(ColorPalette.violet400Alpha7))
-            .cornerRadius(8)
-            .animation(.default, value: isActive)
-            .animation(.default, value: output)
+            .cornerRadius(StepQuizCodeBlanksAppearance.cornerRadius)
             .padding(.horizontal)
         }
         .scrollBounceBehaviorBasedOnSize(axes: .horizontal)
@@ -37,10 +34,45 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
 #if DEBUG
 #Preview {
     VStack {
-        StepQuizCodeBlanksPrintInstructionView(isActive: false, output: "")
-        StepQuizCodeBlanksPrintInstructionView(isActive: true, output: "")
-        StepQuizCodeBlanksPrintInstructionView(isActive: true, output: "There is a cat on the keyboard, it is true")
-        StepQuizCodeBlanksPrintInstructionView(isActive: false, output: "There is a cat on the keyboard, it is true")
+        StepQuizCodeBlanksPrintInstructionView(
+            printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
+                id: 0,
+                children: [.init(id: 0, isActive: false, value: "")]
+            ),
+            onChildTap: { _ in }
+        )
+        StepQuizCodeBlanksPrintInstructionView(
+            printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
+                id: 0,
+                children: [.init(id: 0, isActive: true, value: "")]
+            ),
+            onChildTap: { _ in }
+        )
+        StepQuizCodeBlanksPrintInstructionView(
+            printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
+                id: 0,
+                children: [.init(id: 0, isActive: true, value: "There is a cat on the keyboard, it is true")]
+            ),
+            onChildTap: { _ in }
+        )
+        StepQuizCodeBlanksPrintInstructionView(
+            printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
+                id: 0,
+                children: [.init(id: 0, isActive: false, value: "There is a cat on the keyboard, it is true")]
+            ),
+            onChildTap: { _ in }
+        )
+
+        StepQuizCodeBlanksPrintInstructionView(
+            printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
+                id: 0,
+                children: [
+                    .init(id: 0, isActive: false, value: "x"),
+                    .init(id: 1, isActive: true, value: "")
+                ]
+            ),
+            onChildTap: { _ in }
+        )
     }
     .frame(maxWidth: .infinity)
     .padding()
