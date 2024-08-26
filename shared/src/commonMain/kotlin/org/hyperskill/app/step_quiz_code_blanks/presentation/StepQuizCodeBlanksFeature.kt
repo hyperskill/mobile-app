@@ -11,7 +11,8 @@ object StepQuizCodeBlanksFeature {
     private const val ONBOARDING_STEP_ID = 47329L
 
     internal fun isCodeBlanksFeatureAvailable(step: Step): Boolean =
-        step.block.options.codeBlanksEnabled == true
+        step.block.options.codeBlanksEnabled == true ||
+            setOf<Long>(47590, 47912, 47573, 47913, 47575, 47915, 47916, 47919, 47579, 47921, 47580).contains(step.id)
 
     internal fun isVariableSuggestionsAvailable(step: Step): Boolean =
         step.block.options.codeBlanksVariables?.isNotEmpty() == true
