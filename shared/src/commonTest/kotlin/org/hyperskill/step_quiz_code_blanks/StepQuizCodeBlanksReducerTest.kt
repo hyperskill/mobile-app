@@ -10,6 +10,7 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlan
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedEnterHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
@@ -1022,6 +1023,176 @@ class StepQuizCodeBlanksReducerTest {
     }
 
     @Test
+    fun `SpaceButtonClicked should not update state if state is not Content`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.SpaceButtonClicked)
+
+        assertEquals(initialState, state)
+        assertTrue(actions.isEmpty())
+    }
+
+    @Test
+    fun `SpaceButtonClicked should not update state if active Print block has no active child`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = emptyList(),
+                            selectedSuggestion = Suggestion.ConstantString("suggestion")
+                        )
+                    )
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.SpaceButtonClicked)
+
+        assertEquals(initialState, state)
+        assertContainsSpaceButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SpaceButtonClicked should add a new child to active Print code block`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                            selectedSuggestion = Suggestion.ConstantString("suggestion")
+                        )
+                    )
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.SpaceButtonClicked)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                            selectedSuggestion = Suggestion.ConstantString("suggestion")
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = emptyList(),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsSpaceButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SpaceButtonClicked should add a new child to active Variable code block`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(
+                CodeBlock.Variable(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = listOf(Suggestion.ConstantString("x")),
+                            selectedSuggestion = Suggestion.ConstantString("x")
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                            selectedSuggestion = Suggestion.ConstantString("suggestion")
+                        )
+                    )
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.SpaceButtonClicked)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.Variable(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = listOf(Suggestion.ConstantString("x")),
+                            selectedSuggestion = Suggestion.ConstantString("x")
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = listOf(Suggestion.ConstantString("suggestion")),
+                            selectedSuggestion = Suggestion.ConstantString("suggestion")
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = emptyList(),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsSpaceButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SpaceButtonClicked should add a new child with operations suggestions after closing parentheses`() {
+        val initialState = stubContentState(
+            step = Step.stub(
+                id = 1,
+                block = Block.stub(
+                    options = Block.Options(codeBlanksOperations = listOf("*", "+"))
+                )
+            ),
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = listOf(Suggestion.ConstantString(")")),
+                            selectedSuggestion = Suggestion.ConstantString(")")
+                        )
+                    )
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.SpaceButtonClicked)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = listOf(Suggestion.ConstantString(")")),
+                            selectedSuggestion = Suggestion.ConstantString(")")
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = initialState.codeBlanksOperationsSuggestions,
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsSpaceButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
     fun `Onboarding should be unavailable`() {
         val initialState = StepQuizCodeBlanksFeature.State.Idle
         val (state, _) = reducer.reduce(
@@ -1102,6 +1273,15 @@ class StepQuizCodeBlanksReducerTest {
             actions.any {
                 it is StepQuizCodeBlanksFeature.InternalAction.LogAnalyticEvent &&
                     it.analyticEvent is StepQuizCodeBlanksClickedEnterHyperskillAnalyticEvent
+            }
+        }
+    }
+
+    private fun assertContainsSpaceButtonClickedAnalyticEvent(actions: Set<StepQuizCodeBlanksFeature.Action>) {
+        assertTrue {
+            actions.any {
+                it is StepQuizCodeBlanksFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent
             }
         }
     }
