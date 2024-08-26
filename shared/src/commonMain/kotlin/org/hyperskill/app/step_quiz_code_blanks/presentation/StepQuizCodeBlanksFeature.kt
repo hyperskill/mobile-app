@@ -57,6 +57,7 @@ object StepQuizCodeBlanksFeature {
 
         data object DeleteButtonClicked : Message
         data object EnterButtonClicked : Message
+        data object SpaceButtonClicked : Message
     }
 
     internal sealed interface InternalMessage : Message {

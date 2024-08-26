@@ -22,12 +22,7 @@ object StepQuizCodeBlanksViewStateMapper {
         val suggestions =
             when (activeCodeBlock) {
                 is CodeBlock.Blank -> activeCodeBlock.suggestions
-                is CodeBlock.Print ->
-                    if (activeCodeBlock.select?.selectedSuggestion == null) {
-                        activeCodeBlock.select?.suggestions
-                    } else {
-                        emptyList()
-                    }
+                is CodeBlock.Print,
                 is CodeBlock.Variable ->
                     (activeCodeBlock.activeChild() as? CodeBlockChild.SelectSuggestion)?.let {
                         if (it.selectedSuggestion == null) {

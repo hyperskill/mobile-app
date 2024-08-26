@@ -20,10 +20,10 @@ struct StepQuizCodeBlanksVariableInstructionView: View {
                     .font(StepQuizCodeBlanksAppearance.blankFont)
                     .foregroundColor(StepQuizCodeBlanksAppearance.blankTextColor)
 
-                if let valueChild = variableItem.value {
-                    childView(child: valueChild)
+                ForEach(variableItem.values, id: \.id) { child in
+                    childView(child: child)
                         .onTapGesture {
-                            onChildTap(valueChild)
+                            onChildTap(child)
                         }
                 }
             }

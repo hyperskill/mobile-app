@@ -35,13 +35,7 @@ sealed interface StepQuizCodeBlanksViewState {
         data class Print(
             override val id: Int,
             override val children: List<CodeBlockChildItem>
-        ) : CodeBlockItem {
-            val isActive: Boolean
-                get() = children.firstOrNull()?.isActive == true
-
-            val output: String?
-                get() = children.firstOrNull()?.value
-        }
+        ) : CodeBlockItem
 
         data class Variable(
             override val id: Int,
@@ -50,8 +44,8 @@ sealed interface StepQuizCodeBlanksViewState {
             val name: CodeBlockChildItem?
                 get() = children.firstOrNull()
 
-            val value: CodeBlockChildItem?
-                get() = children.lastOrNull()
+            val values: List<CodeBlockChildItem>
+                get() = children.drop(1)
         }
     }
 

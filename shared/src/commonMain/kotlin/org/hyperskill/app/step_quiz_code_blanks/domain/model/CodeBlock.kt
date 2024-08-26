@@ -34,9 +34,6 @@ sealed class CodeBlock {
     internal data class Print(
         override val children: List<CodeBlockChild.SelectSuggestion>
     ) : CodeBlock() {
-        val select: CodeBlockChild.SelectSuggestion?
-            get() = children.firstOrNull()
-
         override val isActive: Boolean = false
 
         override val suggestions: List<Suggestion> = emptyList()

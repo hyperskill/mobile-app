@@ -3,6 +3,7 @@ import SwiftUI
 
 enum StepQuizCodeBlanksAppearance {
     static let activeBorderColor = Color(ColorPalette.primary)
+    static let cornerRadius: CGFloat = 8
 
     static let blankTextColor = Color.primaryText
     static let blankFont = Font(CodeEditorThemeService().theme.font)
@@ -73,8 +74,7 @@ struct StepQuizCodeBlanksView: View {
                     }
                 case .print(let printItem):
                     StepQuizCodeBlanksPrintInstructionView(
-                        isActive: printItem.isActive,
-                        output: printItem.output
+                        printItem: printItem
                     )
                     .onTapGesture {
                         viewModel.doCodeBlockMainAction(codeBlock)

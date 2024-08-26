@@ -189,7 +189,7 @@ class StepQuizCodeBlanksReducerTest {
         val (state, actions) = reducer.reduce(initialState, message)
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
-        assertEquals(suggestion, (state.codeBlocks[0] as CodeBlock.Print).select?.selectedSuggestion)
+        assertEquals(suggestion, (state.codeBlocks[0] as CodeBlock.Print).children[0].selectedSuggestion)
         assertContainsSuggestionClickedAnalyticEvent(actions)
     }
 

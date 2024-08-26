@@ -7,6 +7,7 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlan
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedEnterHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
@@ -17,6 +18,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Message
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.State
+import ru.nobird.app.core.model.cast
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -33,6 +35,7 @@ class StepQuizCodeBlanksReducer(
             is Message.CodeBlockChildClicked -> handleCodeBlockChildClicked(state, message)
             Message.DeleteButtonClicked -> handleDeleteButtonClicked(state)
             Message.EnterButtonClicked -> handleEnterButtonClicked(state)
+            Message.SpaceButtonClicked -> handleSpaceButtonClicked(state)
         } ?: (state to emptySet())
 
     private fun initialize(
@@ -105,13 +108,18 @@ class StepQuizCodeBlanksReducer(
                     else -> activeCodeBlock
                 }
                 is CodeBlock.Print -> {
-                    activeCodeBlock.copy(
-                        children = listOfNotNull(
-                            activeCodeBlock.select?.copy(
-                                selectedSuggestion = message.suggestion as? Suggestion.ConstantString
-                            )
+                    activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
+                        activeCodeBlock.copy(
+                            children = activeCodeBlock.children.mutate {
+                                set(
+                                    activeChildIndex,
+                                    activeCodeBlock.children[activeChildIndex].copy(
+                                        selectedSuggestion = message.suggestion as? Suggestion.ConstantString
+                                    )
+                                )
+                            }
                         )
-                    )
+                    } ?: activeCodeBlock
                 }
                 is CodeBlock.Variable -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
@@ -144,8 +152,8 @@ class StepQuizCodeBlanksReducer(
 
         val isFulfilledOnboardingPrintCodeBlock =
             state.onboardingState is OnboardingState.HighlightSuggestions &&
-                activeCodeBlock is CodeBlock.Print && activeCodeBlock.select?.selectedSuggestion == null &&
-                newCodeBlock is CodeBlock.Print && newCodeBlock.select?.selectedSuggestion != null
+                activeCodeBlock is CodeBlock.Print && activeCodeBlock.children.any { it.selectedSuggestion == null } &&
+                newCodeBlock is CodeBlock.Print && newCodeBlock.children.all { it.selectedSuggestion != null }
         val (onboardingState, onboardingActions) =
             if (isFulfilledOnboardingPrintCodeBlock) {
                 OnboardingState.HighlightCallToActionButton to
@@ -295,13 +303,19 @@ class StepQuizCodeBlanksReducer(
                     }
                 }
                 is CodeBlock.Print -> {
-                    if (activeCodeBlock.select?.selectedSuggestion != null) {
+                    val activeChildIndex = activeCodeBlock.activeChildIndex() ?: return@mutate
+                    val activeChild = activeCodeBlock.children[activeChildIndex]
+
+                    if (activeChild.selectedSuggestion != null) {
                         set(
                             activeCodeBlockIndex,
                             activeCodeBlock.copy(
-                                children = listOfNotNull(
-                                    activeCodeBlock.select?.copy(selectedSuggestion = null)
-                                )
+                                children = activeCodeBlock.children.mutate {
+                                    set(
+                                        activeChildIndex,
+                                        activeChild.copy(selectedSuggestion = null)
+                                    )
+                                }
                             )
                         )
                     } else if (state.codeBlocks.size > 1) {
@@ -381,10 +395,107 @@ class StepQuizCodeBlanksReducer(
         }
     }
 
+    private fun handleSpaceButtonClicked(
+        state: State
+    ): StepQuizCodeBlanksReducerResult? {
+        if (state !is State.Content) {
+            return null
+        }
+
+        val activeCodeBlockIndex = state.activeCodeBlockIndex()
+
+        val actions = setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent(
+                    route = stepRoute.analyticRoute,
+                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+                )
+            )
+        )
+
+        if (activeCodeBlockIndex == null) {
+            return state to actions
+        }
+        val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
+
+        val newChildren = when (activeCodeBlock) {
+            is CodeBlock.Print,
+            is CodeBlock.Variable -> {
+                activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
+                    val activeChild = activeCodeBlock.children[activeChildIndex] as CodeBlockChild.SelectSuggestion
+
+                    val newChildSuggestions = when {
+                        activeChild.selectedSuggestion?.isOpeningParentheses == true ->
+                            state.codeBlanksVariablesSuggestions + state.codeBlanksStringsSuggestions
+
+                        activeChild.selectedSuggestion?.isClosingParentheses == true ->
+                            state.codeBlanksOperationsSuggestions
+
+                        activeChild.selectedSuggestion in state.codeBlanksStringsSuggestions ||
+                            activeChild.selectedSuggestion in state.codeBlanksVariablesSuggestions ->
+                            state.codeBlanksOperationsSuggestions
+
+                        activeChild.selectedSuggestion in state.codeBlanksOperationsSuggestions ->
+                            state.codeBlanksVariablesSuggestions + state.codeBlanksStringsSuggestions
+
+                        else -> emptyList()
+                    }
+
+                    val newChild = CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = newChildSuggestions,
+                        selectedSuggestion = null
+                    )
+
+                    activeCodeBlock.children
+                        .mutate {
+                            set(activeChildIndex, activeChild.copy(isActive = false))
+                            add(activeChildIndex + 1, newChild)
+                        }
+                        .cast<List<CodeBlockChild.SelectSuggestion>>()
+                }
+            }
+            else -> null
+        }
+
+        val newCodeBlocks = state.codeBlocks.mutate {
+            newChildren?.let {
+                set(
+                    activeCodeBlockIndex,
+                    when (activeCodeBlock) {
+                        is CodeBlock.Print -> activeCodeBlock.copy(children = newChildren)
+                        is CodeBlock.Variable -> activeCodeBlock.copy(children = newChildren)
+                        else -> activeCodeBlock
+                    }
+                )
+            }
+        }
+
+        return state.copy(codeBlocks = newCodeBlocks) to actions
+    }
+
     private fun setCodeBlockIsActive(codeBlock: CodeBlock, isActive: Boolean): CodeBlock =
         when (codeBlock) {
             is CodeBlock.Blank -> codeBlock.copy(isActive = isActive)
-            is CodeBlock.Print -> codeBlock.copy(children = listOfNotNull(codeBlock.select?.copy(isActive = isActive)))
+            is CodeBlock.Print -> {
+                if (isActive) {
+                    if (codeBlock.activeChild() != null) {
+                        codeBlock
+                    } else {
+                        codeBlock.copy(
+                            children = codeBlock.children.mapIndexed { index, child ->
+                                if (index == 0) {
+                                    child.copy(isActive = true)
+                                } else {
+                                    child.copy(isActive = false)
+                                }
+                            }
+                        )
+                    }
+                } else {
+                    codeBlock.copy(children = codeBlock.children.map { it.copy(isActive = false) })
+                }
+            }
             is CodeBlock.Variable -> {
                 if (isActive) {
                     if (codeBlock.activeChild() != null) {
