@@ -30,10 +30,13 @@ object StepQuizCodeBlanksFeature {
             val onboardingState: OnboardingState = OnboardingState.Unavailable
         ) : State {
             internal val codeBlanksStringsSuggestions: List<Suggestion.ConstantString> =
-                step.block.options.codeBlanksStrings.orEmpty().map(Suggestion::ConstantString)
+                step.codeBlanksStringsSuggestions()
 
             internal val codeBlanksVariablesSuggestions: List<Suggestion.ConstantString> =
-                step.block.options.codeBlanksVariables.orEmpty().map(Suggestion::ConstantString)
+                step.codeBlanksVariablesSuggestions()
+
+            internal val codeBlanksOperationsSuggestions: List<Suggestion.ConstantString> =
+                step.codeBlanksOperationsSuggestions()
         }
     }
 
@@ -54,6 +57,7 @@ object StepQuizCodeBlanksFeature {
 
         data object DeleteButtonClicked : Message
         data object EnterButtonClicked : Message
+        data object SpaceButtonClicked : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -74,6 +78,15 @@ object StepQuizCodeBlanksFeature {
         data object HighlightCallToActionButton : ParentFeatureAction
     }
 }
+
+internal fun Step.codeBlanksStringsSuggestions(): List<Suggestion.ConstantString> =
+    block.options.codeBlanksStrings.orEmpty().map(Suggestion::ConstantString)
+
+internal fun Step.codeBlanksVariablesSuggestions(): List<Suggestion.ConstantString> =
+    block.options.codeBlanksVariables.orEmpty().map(Suggestion::ConstantString)
+
+internal fun Step.codeBlanksOperationsSuggestions(): List<Suggestion.ConstantString> =
+    block.options.codeBlanksOperations.orEmpty().map(Suggestion::ConstantString)
 
 internal fun Set<StepQuizCodeBlanksFeature.Action>.getRequestedParentFeatureAction(): ParentFeatureActionRequested? =
     filterIsInstance<ParentFeatureActionRequested>().firstOrNull()

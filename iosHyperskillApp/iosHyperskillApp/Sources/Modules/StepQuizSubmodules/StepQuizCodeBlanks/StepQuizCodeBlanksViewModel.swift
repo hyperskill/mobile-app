@@ -42,4 +42,10 @@ final class StepQuizCodeBlanksViewModel {
         impactFeedbackGenerator.triggerFeedback()
         moduleOutput?.handleStepQuizCodeBlanksDidTapEnter()
     }
+
+    @MainActor
+    func doSpaceAction() {
+        impactFeedbackGenerator.triggerFeedback()
+        moduleOutput?.handleStepQuizCodeBlanksDidTapSpace()
+    }
 }

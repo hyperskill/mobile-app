@@ -13,6 +13,7 @@ extension Block.Options {
         files: [Block.OptionsFile]? = nil,
         codeBlanksStrings: [String]? = nil,
         codeBlanksVariables: [String]? = nil,
+        codeBlanksOperations: [String]? = nil,
         codeBlanksEnabled: Bool? = nil
     ) {
         self.init(
@@ -25,6 +26,7 @@ extension Block.Options {
             files: files,
             codeBlanksStrings: codeBlanksStrings,
             codeBlanksVariables: codeBlanksVariables,
+            codeBlanksOperations: codeBlanksOperations,
             codeBlanksEnabled: codeBlanksEnabled.flatMap(KotlinBoolean.init(value:))
         )
     }

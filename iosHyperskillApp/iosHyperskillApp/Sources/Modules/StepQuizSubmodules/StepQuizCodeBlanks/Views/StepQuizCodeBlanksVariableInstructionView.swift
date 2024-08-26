@@ -10,21 +10,15 @@ struct StepQuizCodeBlanksVariableInstructionView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .center, spacing: LayoutInsets.smallInset) {
                 if let nameChild = variableItem.name {
-                    childView(child: nameChild)
-                        .onTapGesture {
-                            onChildTap(nameChild)
-                        }
+                    StepQuizCodeBlanksCodeBlockChildView(child: nameChild, action: onChildTap)
                 }
 
                 Text("=")
                     .font(StepQuizCodeBlanksAppearance.blankFont)
                     .foregroundColor(StepQuizCodeBlanksAppearance.blankTextColor)
 
-                if let valueChild = variableItem.value {
-                    childView(child: valueChild)
-                        .onTapGesture {
-                            onChildTap(valueChild)
-                        }
+                ForEach(variableItem.values, id: \.id) { child in
+                    StepQuizCodeBlanksCodeBlockChildView(child: child, action: onChildTap)
                 }
             }
             .padding(.horizontal, LayoutInsets.defaultInset)
@@ -35,17 +29,6 @@ struct StepQuizCodeBlanksVariableInstructionView: View {
             .padding(.horizontal)
         }
         .scrollBounceBehaviorBasedOnSize(axes: .horizontal)
-    }
-
-    @ViewBuilder
-    private func childView(
-        child: StepQuizCodeBlanksViewStateCodeBlockChildItem
-    ) -> some View {
-        if let value = child.value {
-            StepQuizCodeBlanksOptionView(text: value, isActive: child.isActive)
-        } else {
-            StepQuizCodeBlanksBlankView(style: .small, isActive: child.isActive)
-        }
     }
 }
 
