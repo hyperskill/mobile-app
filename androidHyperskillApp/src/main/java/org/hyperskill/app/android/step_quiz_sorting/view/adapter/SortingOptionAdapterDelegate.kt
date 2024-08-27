@@ -17,6 +17,10 @@ class SortingOptionAdapterDelegate(
     private val onMoveItemClicked: (position: Int, direction: SortingDirection) -> Unit
 ) : AdapterDelegate<SortingOption, DelegateViewHolder<SortingOption>>() {
 
+    companion object {
+        private const val INACTIVE_ARROW_ALPHA = .38f
+    }
+
     override fun isForViewType(position: Int, data: SortingOption): Boolean =
         true
 
@@ -47,10 +51,10 @@ class SortingOptionAdapterDelegate(
             stepQuizSortingOption.setText(data.option)
 
             stepQuizSortingOptionUp.isEnabled = data.isEnabled && adapterPosition != 0
-            stepQuizSortingOptionUp.alpha = if (stepQuizSortingOptionUp.isEnabled) 1f else 0.2f
+            stepQuizSortingOptionUp.alpha = if (stepQuizSortingOptionUp.isEnabled) 1f else INACTIVE_ARROW_ALPHA
 
             stepQuizSortingOptionDown.isEnabled = data.isEnabled && adapterPosition + 1 != adapter.items.size
-            stepQuizSortingOptionDown.alpha = if (stepQuizSortingOptionDown.isEnabled) 1f else 0.2f
+            stepQuizSortingOptionDown.alpha = if (stepQuizSortingOptionDown.isEnabled) 1f else INACTIVE_ARROW_ALPHA
 
             val elevation =
                 if (data.isEnabled) context.resources.getDimension(R.dimen.step_quiz_sorting_item_elevation) else 0f

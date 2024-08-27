@@ -74,8 +74,7 @@
 
         app:layout_constraintVertical_chainStyle="packed"
 
-        app:srcCompat="@drawable/ic_chevron_forward"
-        app:tint="?colorControlNormal" />
+        app:srcCompat="@drawable/ic_table_arrow" />
 
     <View
         android:id="@+id/viewOverlay"
