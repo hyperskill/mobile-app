@@ -119,7 +119,6 @@
     <ID>MagicNumber:LeaderboardSkeletonItem.kt$5</ID>
     <ID>MagicNumber:LinearProgressIndicator.kt$2</ID>
     <ID>MagicNumber:LoadingView.kt$LoadingView$2</ID>
-    <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$0.2f</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$10</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$11</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$12</ID>
@@ -152,7 +151,6 @@
     <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$3</ID>
     <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$60</ID>
     <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$9</ID>
-    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$0.2f</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$10</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$100</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$25</ID>
@@ -172,7 +170,6 @@
     <ID>MagicNumber:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$47580L</ID>
     <ID>MagicNumber:StudyPlanActivityAdapterDelegate.kt$StudyPlanActivityAdapterDelegate.ViewHolder$100f</ID>
     <ID>MagicNumber:SubscriptionSyncLoading.kt$0.5f</ID>
-    <ID>MagicNumber:TableSelectionItemAdapterDelegate.kt$TableSelectionItemAdapterDelegate.ViewHolder$0.2f</ID>
     <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$50f</ID>
     <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$24</ID>
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$2</ID>
