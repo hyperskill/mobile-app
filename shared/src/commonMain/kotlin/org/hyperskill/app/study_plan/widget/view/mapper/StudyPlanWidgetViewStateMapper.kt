@@ -85,7 +85,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         emptyActivitiesState = SectionContent.Loading
                     )
                 }
-                SectionContentStatus.PAGE_LOADED,
+                SectionContentStatus.FIRST_PAGE_LOADED,
                 SectionContentStatus.ALL_PAGES_LOADED -> {
                     getContent(
                         state = state,
@@ -114,7 +114,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                 activities = loadedActivities,
                 currentActivityId = currentActivityId,
                 unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionId),
-                isLoadAllTopicsButtonVisible = sectionInfo.sectionContentStatus == SectionContentStatus.PAGE_LOADED,
+                isLoadAllTopicsButtonVisible = sectionInfo.sectionContentStatus == SectionContentStatus.FIRST_PAGE_LOADED,
                 isNextPageLoadingShowed = sectionInfo.sectionContentStatus == SectionContentStatus.NEXT_PAGE_LOADING
             )
         }

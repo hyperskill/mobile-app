@@ -164,7 +164,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 studyPlanSection = studyPlanSection,
                 isExpanded = studyPlanSection.id == currentSectionId,
                 sectionContentStatus = if (studyPlanSection.id == currentSectionId) {
-                    SectionContentStatus.PAGE_LOADED
+                    SectionContentStatus.FIRST_PAGE_LOADED
                 } else {
                     SectionContentStatus.IDLE
                 }
@@ -245,29 +245,41 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         sectionId: Long,
         activities: List<LearningActivity>
     ): StudyPlanWidgetReducerResult {
-        val nextState = state.copy(
-            // ALTAPPS-786: We should hide sections without available activities to avoid blocking study plan
-            studyPlanSections = if (activities.isEmpty()) {
-                state.studyPlanSections.mutate {
-                    remove(sectionId)
+        val sectionContentStatus = state.studyPlanSections[sectionId]?.sectionContentStatus
+        val nextState =
+            when {
+                // ALTAPPS-786: We should hide sections without available activities to avoid blocking study plan
+                activities.isEmpty() && sectionContentStatus == SectionContentStatus.FIRST_PAGE_LOADING -> {
+                    state.copy(
+                        studyPlanSections = state.studyPlanSections.mutate {
+                            remove(sectionId)
+                        }
+                    )
                 }
-            } else {
-                state.studyPlanSections.update(sectionId) { sectionInfo ->
-                    val canLoadMoreActivities =
-                        sectionInfo
-                            .studyPlanSection
-                            .getActivitiesToBeLoaded(state.activities.values)
-                            .isNotEmpty()
-                    sectionInfo.copy(
-                        sectionContentStatus = if (canLoadMoreActivities) {
-                            SectionContentStatus.PAGE_LOADED
-                        } else {
-                            SectionContentStatus.ALL_PAGES_LOADED
+                else -> {
+                    state.copy(
+                        studyPlanSections = state.studyPlanSections.update(sectionId) { sectionInfo ->
+                            sectionInfo.copy(
+                                sectionContentStatus = when (sectionContentStatus) {
+                                    SectionContentStatus.FIRST_PAGE_LOADED -> {
+                                        val canLoadMoreActivities =
+                                            sectionInfo
+                                                .studyPlanSection
+                                                .getActivitiesToBeLoaded(state.activities.values)
+                                                .isNotEmpty()
+                                        if (canLoadMoreActivities) {
+                                            SectionContentStatus.FIRST_PAGE_LOADED
+                                        } else {
+                                            SectionContentStatus.ALL_PAGES_LOADED
+                                        }
+                                    }
+                                    else -> SectionContentStatus.ALL_PAGES_LOADED
+                                }
+                            )
                         }
                     )
                 }
             }
-        )
 
         val isFetchedActivitiesForCurrentSection = sectionId == state.getCurrentSection()?.id
 
@@ -313,8 +325,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                         SectionContentStatus.ERROR,
                         SectionContentStatus.FIRST_PAGE_LOADING -> SectionContentStatus.ERROR
                         SectionContentStatus.NEXT_PAGE_LOADING,
-                        SectionContentStatus.PAGE_LOADED,
-                        SectionContentStatus.ALL_PAGES_LOADED -> SectionContentStatus.PAGE_LOADED
+                        SectionContentStatus.FIRST_PAGE_LOADED,
+                        SectionContentStatus.ALL_PAGES_LOADED -> SectionContentStatus.FIRST_PAGE_LOADED
                     }
                 )
             }
@@ -408,7 +420,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 // activities are loading at the moment or already loaded
                 SectionContentStatus.FIRST_PAGE_LOADING,
                 SectionContentStatus.NEXT_PAGE_LOADING,
-                SectionContentStatus.PAGE_LOADED,
+                SectionContentStatus.FIRST_PAGE_LOADED,
                 SectionContentStatus.ALL_PAGES_LOADED -> {
                     updateSectionState(contentStatus) to setOfNotNull(logAnalyticEventAction)
                 }

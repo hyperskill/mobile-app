@@ -65,8 +65,8 @@ object StudyPlanWidgetFeature {
         ERROR,
 
         FIRST_PAGE_LOADING,
+        FIRST_PAGE_LOADED,
         NEXT_PAGE_LOADING,
-        PAGE_LOADED,
         ALL_PAGES_LOADED
     }
 
