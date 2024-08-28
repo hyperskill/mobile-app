@@ -17,8 +17,8 @@ import org.hyperskill.app.submissions.domain.model.formattedText
 class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
 
     companion object {
-        private const val SEE_HINT_SUGGESTION_THRESHOLD = 2
-        private const val SKIP_SUGGESTION_THRESHOLD = 4
+        private const val SEE_HINT_SUGGESTION_THRESHOLD = 1
+        private const val SKIP_SUGGESTION_THRESHOLD = 2
     }
 
     fun map(state: StepQuizFeature.State): StepQuizFeedbackState =
