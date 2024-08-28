@@ -53,7 +53,7 @@ struct CommentsReactionsView: View {
                             action(commentReaction)
                         },
                         label: {
-                            Text(commentReaction.emoji)
+                            Text(commentReaction.menuItemText)
                         }
                     )
                 }
@@ -85,7 +85,22 @@ private extension ReactionType {
         default: ""
         }
     }
+
+    var emojiText: String {
+        switch self {
+        case .smile: "Haha"
+        case .plus: "Like"
+        case .minus: "Dislike"
+        case .confused: "Confused"
+        case .thinking: "Hmm"
+        case .fire: "Awesome"
+        case .clap: "Applause"
+        default: ""
+        }
+    }
     // swiftlint:enable switch_case_on_newline
+
+    var menuItemText: String { "\(emoji) \(emojiText)" }
 }
 
 private extension CommentReaction {
