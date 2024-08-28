@@ -352,7 +352,10 @@ class StudyPlanWidgetTest {
         val (state, _) =
             reducer.reduce(
                 initialState,
-                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = notCurrentSectionId, emptyList())
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
+                    sectionId = notCurrentSectionId,
+                    activities = emptyList()
+                )
             )
         assertTrue(state.studyPlanSections.containsKey(notCurrentSectionId).not())
     }
