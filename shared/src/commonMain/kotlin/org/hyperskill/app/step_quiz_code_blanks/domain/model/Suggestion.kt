@@ -24,5 +24,11 @@ sealed class Suggestion {
     ) : Suggestion() {
         override val analyticRepresentation: String
             get() = "ConstantString(text='$text')"
+
+        internal val isOpeningParentheses: Boolean
+            get() = text == "("
+
+        internal val isClosingParentheses: Boolean
+            get() = text == ")"
     }
 }

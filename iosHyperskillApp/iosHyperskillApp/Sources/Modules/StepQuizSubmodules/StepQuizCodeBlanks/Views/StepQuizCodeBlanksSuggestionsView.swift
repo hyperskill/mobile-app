@@ -39,20 +39,34 @@ struct StepQuizCodeBlanksSuggestionsView: View {
                 )
                 .buttonStyle(BounceButtonStyle())
             }
+
+            // Preserve height to avoid layout jumps
+            if suggestions.isEmpty {
+                StepQuizCodeBlanksOptionView(text: "", isActive: false)
+                    .hidden()
+            }
         }
         .padding(LayoutInsets.defaultInset)
-        .frame(minHeight: 72)
     }
 }
 
 #if DEBUG
 #Preview {
-    StepQuizCodeBlanksSuggestionsView(
-        suggestions: [
-            Suggestion.ConstantString(text: "Hello world")
-        ],
-        isAnimationEffectActive: true,
-        onSuggestionTap: { _ in }
-    )
+    VStack {
+        StepQuizCodeBlanksSuggestionsView(
+            suggestions: [
+                Suggestion.ConstantString(text: "128"),
+                Suggestion.ConstantString(text: "5")
+            ],
+            isAnimationEffectActive: true,
+            onSuggestionTap: { _ in }
+        )
+
+        StepQuizCodeBlanksSuggestionsView(
+            suggestions: [],
+            isAnimationEffectActive: true,
+            onSuggestionTap: { _ in }
+        )
+    }
 }
 #endif
