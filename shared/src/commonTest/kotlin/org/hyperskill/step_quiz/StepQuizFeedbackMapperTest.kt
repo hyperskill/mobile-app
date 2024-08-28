@@ -164,14 +164,14 @@ class StepQuizFeedbackMapperTest {
     }
 
     @Test
-    fun `Second wrong submission should trigger Wrong viewState with SEE_HINT actionType when hint is not opened`() {
+    fun `First wrong submission should trigger Wrong viewState with SEE_HINT actionType when hint is not opened`() {
         val stepId = 0L
         val state = getAttemptLoadedSubmissionState(
             step = Step.stub(id = stepId),
             submission = Submission.stub(
                 status = SubmissionStatus.WRONG,
             ),
-            wrongSubmissionCount = 2,
+            wrongSubmissionCount = 1,
             stepQuizHintsState = StepQuizHintsFeature.State.Content(
                 hintsIds = listOf(0, 1, 2),
                 currentHint = null,
@@ -189,7 +189,7 @@ class StepQuizFeedbackMapperTest {
 
     /*ktlint-disable*/
     @Test
-    fun `Second wrong submission should trigger Wrong viewState with READ_COMMENTS actionType when hint is opened and there are comments`() {
+    fun `First wrong submission should trigger Wrong viewState with READ_COMMENTS actionType when hint is opened and there are comments`() {
         val stepId = 0L
         val state = getAttemptLoadedSubmissionState(
             step = Step.stub(
@@ -204,7 +204,7 @@ class StepQuizFeedbackMapperTest {
             submission = Submission.stub(
                 status = SubmissionStatus.WRONG,
             ),
-            wrongSubmissionCount = 2,
+            wrongSubmissionCount = 1,
             stepQuizHintsState = StepQuizHintsFeature.State.Content(
                 hintsIds = listOf(0, 1, 2),
                 currentHint = Comment.stub(id = 0),
@@ -222,7 +222,7 @@ class StepQuizFeedbackMapperTest {
 
     /*ktlint-disable*/
     @Test
-    fun `Second wrong submission should trigger Wrong viewState with null actionType when hint is opened and no comments available`() {
+    fun `First wrong submission should trigger Wrong viewState with null actionType when hint is opened and no comments available`() {
         val stepId = 0L
         val state = getAttemptLoadedSubmissionState(
             step = Step.stub(
@@ -232,7 +232,7 @@ class StepQuizFeedbackMapperTest {
             submission = Submission.stub(
                 status = SubmissionStatus.WRONG,
             ),
-            wrongSubmissionCount = 2,
+            wrongSubmissionCount = 1,
             stepQuizHintsState = StepQuizHintsFeature.State.Content(
                 hintsIds = listOf(0, 1, 2),
                 currentHint = Comment.stub(id = 0),
@@ -249,14 +249,14 @@ class StepQuizFeedbackMapperTest {
     }
 
     @Test
-    fun `4th wrong submission should trigger Wrong viewState with SKIP_PROBLEM action type`() {
+    fun `Second wrong submission should trigger Wrong viewState with SKIP_PROBLEM action type`() {
         val stepId = 0L
         val state = getAttemptLoadedSubmissionState(
             step = Step.stub(id = stepId),
             submission = Submission.stub(
                 status = SubmissionStatus.WRONG,
             ),
-            wrongSubmissionCount = 4
+            wrongSubmissionCount = 2
         )
 
         val viewState = mapper.map(state)
