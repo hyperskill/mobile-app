@@ -33,6 +33,8 @@ data class Block(
         val codeBlanksStrings: List<String>? = null,
         @SerialName("code_blanks_variables")
         val codeBlanksVariables: List<String>? = null,
+        @SerialName("code_blanks_operations")
+        val codeBlanksOperations: List<String>? = null,
         @SerialName("code_blanks_enabled")
         val codeBlanksEnabled: Boolean? = null
     ) {

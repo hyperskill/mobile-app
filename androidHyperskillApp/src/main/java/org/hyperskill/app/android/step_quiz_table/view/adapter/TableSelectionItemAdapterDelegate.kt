@@ -17,6 +17,7 @@ class TableSelectionItemAdapterDelegate(
 ) : AdapterDelegate<TableSelectionItem, DelegateViewHolder<TableSelectionItem>>() {
     companion object {
         private const val SEPARATOR = ", "
+        private const val INACTIVE_ARROW_ALPHA = .38f
     }
 
     override fun isForViewType(position: Int, data: TableSelectionItem): Boolean =
@@ -50,7 +51,7 @@ class TableSelectionItemAdapterDelegate(
 
         override fun onBind(data: TableSelectionItem) {
             viewOverlay.isEnabled = data.isEnabled
-            stepQuizTableChevron.alpha = if (data.isEnabled) 1f else 0.2f
+            stepQuizTableChevron.alpha = if (data.isEnabled) 1f else INACTIVE_ARROW_ALPHA
             stepQuizTableTitle.setText(data.titleText)
             val selectedChoices = data.tableChoices.filter { it.answer }
 
