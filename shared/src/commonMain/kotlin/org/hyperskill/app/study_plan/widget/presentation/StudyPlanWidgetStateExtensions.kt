@@ -58,7 +58,7 @@ internal fun StudyPlanWidgetFeature.State.getLoadedSectionActivities(sectionId: 
  * starting from next to the last loaded activity for ROOT_TOPICS section
  * and ending with the last ROOT_TOPICS section activity.
  */
-internal fun StudyPlanWidgetFeature.State.getRootTopicsActivitiesToBeLoaded(sectionId: Long): List<Long> {
+internal fun StudyPlanWidgetFeature.State.getNextRootTopicsActivitiesToBeLoaded(sectionId: Long): List<Long> {
     val sectionInfo = studyPlanSections[sectionId] ?: return emptyList()
     val studyPlanSection = sectionInfo.studyPlanSection
     return if (studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS) {
@@ -69,6 +69,28 @@ internal fun StudyPlanWidgetFeature.State.getRootTopicsActivitiesToBeLoaded(sect
             0
         }
         studyPlanSection.activities.slice(from = lastLoadedActivityIndex)
+    } else {
+        emptyList()
+    }
+}
+
+/**
+ * @param sectionId target section id
+ * @return A list of activities to be loaded before first loaded activity for current section.
+ * If section with [sectionId] is not current, then returns empty list.
+ */
+internal fun StudyPlanWidgetFeature.State.getActivitiesBeforeCurrentActivityToBeLoaded(sectionId: Long): List<Long> {
+    val currentSection = getCurrentSection()
+    return if (currentSection?.id == sectionId) {
+        val sectionInfo = studyPlanSections[sectionId] ?: return emptyList()
+        val studyPlanSection = sectionInfo.studyPlanSection
+        val firstLoadedActivityId = getLoadedSectionActivities(sectionId).firstOrNull()?.id
+        val firstLoadedActivityIndex = if (firstLoadedActivityId != null) {
+            max(0, studyPlanSection.activities.indexOf(firstLoadedActivityId))
+        } else {
+            0
+        }
+        studyPlanSection.activities.slice(from = 0, to = firstLoadedActivityIndex)
     } else {
         emptyList()
     }
