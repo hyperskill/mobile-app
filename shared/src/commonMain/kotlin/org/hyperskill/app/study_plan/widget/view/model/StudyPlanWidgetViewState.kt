@@ -34,9 +34,15 @@ sealed interface StudyPlanWidgetViewState {
 
         data class Content(
             val sectionItems: List<SectionItem>,
-            val isNextPageLoadingShowed: Boolean,
-            val isLoadAllTopicsButtonShown: Boolean
+            val nextPageLoadingState: SectionContentPageLoadingState,
+            val completedPageLoadingState: SectionContentPageLoadingState
         ) : SectionContent
+    }
+
+    enum class SectionContentPageLoadingState {
+        IDLE,
+        LOAD_MORE,
+        LOADING
     }
 
     data class SectionItem(

@@ -119,8 +119,15 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                 activities = loadedActivities,
                 currentActivityId = currentActivityId,
                 unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionId),
-                isLoadAllTopicsButtonVisible = sectionInfo.sectionContentStatus == FIRST_PAGE_LOADED,
-                isNextPageLoadingShowed = sectionInfo.sectionContentStatus == NEXT_PAGE_LOADING
+                nextPageLoadingState = when (sectionInfo.sectionContentStatus) {
+                    IDLE,
+                    ERROR,
+                    FIRST_PAGE_LOADING,
+                    ALL_PAGES_LOADED -> StudyPlanWidgetViewState.SectionContentPageLoadingState.IDLE
+                    FIRST_PAGE_LOADED -> StudyPlanWidgetViewState.SectionContentPageLoadingState.LOAD_MORE
+                    NEXT_PAGE_LOADING -> StudyPlanWidgetViewState.SectionContentPageLoadingState.LOADING
+                },
+                completedPageLoadingState = StudyPlanWidgetViewState.SectionContentPageLoadingState.LOAD_MORE
             )
         }
     }
@@ -129,38 +136,48 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         activities: List<LearningActivity>,
         currentActivityId: Long?,
         unlockedActivitiesCount: Int?,
-        isLoadAllTopicsButtonVisible: Boolean,
-        isNextPageLoadingShowed: Boolean
+        nextPageLoadingState: StudyPlanWidgetViewState.SectionContentPageLoadingState,
+        completedPageLoadingState: StudyPlanWidgetViewState.SectionContentPageLoadingState
     ): SectionContent.Content =
         SectionContent.Content(
             sectionItems = activities.mapIndexed { index, activity ->
-                val isLocked = unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount
-                StudyPlanWidgetViewState.SectionItem(
-                    id = activity.id,
-                    title = LearningActivityTextsMapper.mapLearningActivityToTitle(activity),
-                    subtitle = LearningActivityTextsMapper.mapLearningActivityToSubtitle(activity),
-                    state = if (isLocked) {
-                        StudyPlanWidgetViewState.SectionItemState.LOCKED
-                    } else {
-                        when (activity.state) {
-                            LearningActivityState.TODO -> if (activity.id == currentActivityId) {
-                                StudyPlanWidgetViewState.SectionItemState.NEXT
-                            } else {
-                                StudyPlanWidgetViewState.SectionItemState.IDLE
-                            }
-                            LearningActivityState.SKIPPED -> StudyPlanWidgetViewState.SectionItemState.SKIPPED
-                            LearningActivityState.COMPLETED -> StudyPlanWidgetViewState.SectionItemState.COMPLETED
-                            null -> StudyPlanWidgetViewState.SectionItemState.IDLE
-                        }
-                    },
-                    isIdeRequired = activity.isIdeRequired,
-                    progress = activity.progressPercentage,
-                    formattedProgress = LearningActivityTextsMapper.mapLearningActivityToProgressString(activity),
-                    hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
+                mapSectionItem(
+                    activity = activity,
+                    currentActivityId = currentActivityId,
+                    isLocked = unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount
                 )
             },
-            isLoadAllTopicsButtonShown = isLoadAllTopicsButtonVisible,
-            isNextPageLoadingShowed = isNextPageLoadingShowed
+            nextPageLoadingState = nextPageLoadingState,
+            completedPageLoadingState = completedPageLoadingState
+        )
+
+    private fun mapSectionItem(
+        activity: LearningActivity,
+        currentActivityId: Long?,
+        isLocked: Boolean
+    ): StudyPlanWidgetViewState.SectionItem =
+        StudyPlanWidgetViewState.SectionItem(
+            id = activity.id,
+            title = LearningActivityTextsMapper.mapLearningActivityToTitle(activity),
+            subtitle = LearningActivityTextsMapper.mapLearningActivityToSubtitle(activity),
+            state = if (isLocked) {
+                StudyPlanWidgetViewState.SectionItemState.LOCKED
+            } else {
+                when (activity.state) {
+                    LearningActivityState.TODO -> if (activity.id == currentActivityId) {
+                        StudyPlanWidgetViewState.SectionItemState.NEXT
+                    } else {
+                        StudyPlanWidgetViewState.SectionItemState.IDLE
+                    }
+                    LearningActivityState.SKIPPED -> StudyPlanWidgetViewState.SectionItemState.SKIPPED
+                    LearningActivityState.COMPLETED -> StudyPlanWidgetViewState.SectionItemState.COMPLETED
+                    null -> StudyPlanWidgetViewState.SectionItemState.IDLE
+                }
+            },
+            isIdeRequired = activity.isIdeRequired,
+            progress = activity.progressPercentage,
+            formattedProgress = LearningActivityTextsMapper.mapLearningActivityToProgressString(activity),
+            hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
         )
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =

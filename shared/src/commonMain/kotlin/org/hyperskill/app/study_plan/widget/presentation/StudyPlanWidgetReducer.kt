@@ -13,6 +13,7 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyp
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSubscribeHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanExpandCompletedActivitiesClickedHSAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
@@ -64,6 +65,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                     }
                 ) to getContentFetchActions(forceUpdate = true)
             }
+            is Message.ExpandCompletedActivitiesClicked ->
+                handleExpandCompletedActivitiesClicked(state, message)
             is Message.PullToRefresh ->
                 if (!state.isRefreshing) {
                     state.copy(isRefreshing = true) to getContentFetchActions(forceUpdate = true)
@@ -264,7 +267,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                                     SectionContentStatus.FIRST_PAGE_LOADED -> {
                                         val canLoadMoreActivities =
                                             state
-                                                .getRootTopicsActivitiesToBeLoaded(sectionId)
+                                                .getNextRootTopicsActivitiesToBeLoaded(sectionId)
                                                 .isNotEmpty()
                                         if (canLoadMoreActivities) {
                                             SectionContentStatus.FIRST_PAGE_LOADED
@@ -368,7 +371,22 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             InternalAction.LogAnalyticEvent(StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent(message.sectionId)),
             InternalAction.FetchLearningActivities(
                 sectionId = message.sectionId,
-                activitiesIds = state.getRootTopicsActivitiesToBeLoaded(message.sectionId),
+                activitiesIds = state.getNextRootTopicsActivitiesToBeLoaded(message.sectionId),
+                sentryTransaction = getFetchLearningActivitiesSentryTransaction(state, message.sectionId)
+            )
+        )
+
+    private fun handleExpandCompletedActivitiesClicked(
+        state: State,
+        message: Message.ExpandCompletedActivitiesClicked
+    ): StudyPlanWidgetReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                StudyPlanExpandCompletedActivitiesClickedHSAnalyticEvent(message.sectionId)
+            ),
+            InternalAction.FetchLearningActivities(
+                sectionId = message.sectionId,
+                activitiesIds = state.getActivitiesBeforeCurrentActivityToBeLoaded(message.sectionId),
                 sentryTransaction = getFetchLearningActivitiesSentryTransaction(state, message.sectionId)
             )
         )

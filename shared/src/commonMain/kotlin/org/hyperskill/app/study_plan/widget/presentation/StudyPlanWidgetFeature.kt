@@ -89,6 +89,8 @@ object StudyPlanWidgetFeature {
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
 
+        data class ExpandCompletedActivitiesClicked(val sectionId: Long) : Message
+
         data object PullToRefresh : Message
 
         data object SubscribeClicked : Message
