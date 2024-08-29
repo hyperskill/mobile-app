@@ -310,7 +310,7 @@ class StudyPlanWidgetTest {
             studyPlanSections = mapOf(
                 currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(currentSectionId),
-                    sectionContentStatus = SectionContentStatus.NEXT_PAGE_LOADING,
+                    sectionContentStatus = SectionContentStatus.FIRST_PAGE_LOADING,
                     isExpanded = true
                 ),
                 nextSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
@@ -334,7 +334,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Not current section should be removed if no available activities loaded`() {
         val currentSectionId = 0L
-        val notCurrent = 1L
+        val notCurrentSectionId = 1L
         val initialState = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
@@ -342,9 +342,9 @@ class StudyPlanWidgetTest {
                     sectionContentStatus = SectionContentStatus.ALL_PAGES_LOADED,
                     isExpanded = true
                 ),
-                notCurrent to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    studyPlanSection = studyPlanSectionStub(notCurrent),
-                    sectionContentStatus = SectionContentStatus.NEXT_PAGE_LOADING,
+                notCurrentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(notCurrentSectionId),
+                    sectionContentStatus = SectionContentStatus.FIRST_PAGE_LOADING,
                     isExpanded = false
                 )
             )
@@ -352,9 +352,12 @@ class StudyPlanWidgetTest {
         val (state, _) =
             reducer.reduce(
                 initialState,
-                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = notCurrent, emptyList())
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
+                    sectionId = notCurrentSectionId,
+                    activities = emptyList()
+                )
             )
-        assertTrue(state.studyPlanSections.containsKey(notCurrent).not())
+        assertTrue(state.studyPlanSections.containsKey(notCurrentSectionId).not())
     }
 
     @Test
