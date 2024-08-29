@@ -45,7 +45,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success ->
                 handleLearningActivitiesWithSectionsFetchSuccess(state, message)
             StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Failed -> {
-                state.copy(sectionsStatus = StudyPlanWidgetFeature.SectionStatus.ERROR) to emptySet()
+                state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.ERROR) to emptySet()
             }
             is Message.RetryActivitiesLoading ->
                 handleRetryActivitiesLoading(state, message)
@@ -123,10 +123,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         } ?: (state to emptySet())
 
     private fun coldContentFetch(state: State, message: InternalMessage.Initialize): StudyPlanWidgetReducerResult =
-        if (state.sectionsStatus == StudyPlanWidgetFeature.SectionStatus.IDLE ||
-            state.sectionsStatus == StudyPlanWidgetFeature.SectionStatus.ERROR && message.forceUpdate
+        if (state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.IDLE ||
+            state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
         ) {
-            State(sectionsStatus = StudyPlanWidgetFeature.SectionStatus.LOADING) to
+            State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
                 getContentFetchActions(forceUpdate = message.forceUpdate)
         } else {
             state to emptySet()
@@ -147,7 +147,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val visibleSections = getVisibleSections(message.studyPlanSections, learningActivitiesIds)
         val currentSectionId = visibleSections.firstOrNull()?.id ?: return state.copy(
             studyPlanSections = emptyMap(),
-            sectionsStatus = StudyPlanWidgetFeature.SectionStatus.LOADED,
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
             isRefreshing = false,
             subscriptionLimitType = message.subscriptionLimitType
         ) to emptySet()
@@ -176,7 +176,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
         val loadedSectionsState = state.copy(
             studyPlanSections = studyPlanSections,
-            sectionsStatus = StudyPlanWidgetFeature.SectionStatus.LOADED,
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
             isRefreshing = false,
             learnedTopicsCount = message.learnedTopicsCount,
             activities = message.learningActivities.associateBy { it.id },

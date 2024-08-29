@@ -24,7 +24,7 @@ object StudyPlanWidgetFeature {
         /**
          * Describes status of sections loading
          */
-        val sectionsStatus: SectionStatus = SectionStatus.IDLE,
+        val sectionsStatus: ContentStatus = ContentStatus.IDLE,
 
         /**
          * Map of activity ids to activities
@@ -53,7 +53,7 @@ object StudyPlanWidgetFeature {
             get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
     }
 
-    enum class SectionStatus {
+    enum class ContentStatus {
         IDLE,
         LOADING,
         ERROR,

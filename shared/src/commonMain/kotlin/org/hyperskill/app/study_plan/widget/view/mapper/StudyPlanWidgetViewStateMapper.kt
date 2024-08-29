@@ -6,13 +6,13 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.ContentStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.ALL_PAGES_LOADED
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.ERROR
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.FIRST_PAGE_LOADED
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.FIRST_PAGE_LOADING
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.IDLE
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.NEXT_PAGE_LOADING
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionStatus
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getLoadedSectionActivities
@@ -24,10 +24,10 @@ import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.
 class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
         when (state.sectionsStatus) {
-            SectionStatus.IDLE -> StudyPlanWidgetViewState.Idle
-            SectionStatus.LOADING -> StudyPlanWidgetViewState.Loading
-            SectionStatus.ERROR -> StudyPlanWidgetViewState.Error
-            SectionStatus.LOADED -> getLoadedWidgetContent(state)
+            ContentStatus.IDLE -> StudyPlanWidgetViewState.Idle
+            ContentStatus.LOADING -> StudyPlanWidgetViewState.Loading
+            ContentStatus.ERROR -> StudyPlanWidgetViewState.Error
+            ContentStatus.LOADED -> getLoadedWidgetContent(state)
         }
 
     private fun getLoadedWidgetContent(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState.Content {

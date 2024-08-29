@@ -23,8 +23,8 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityToTopicProgressMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.ContentStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
@@ -52,7 +52,7 @@ class StudyPlanWidgetTest {
         val initialState = StudyPlanWidgetFeature.State()
         val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.InternalMessage.Initialize())
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchLearningActivitiesWithSections())
-        assertEquals(state.sectionsStatus, SectionStatus.LOADING)
+        assertEquals(state.sectionsStatus, ContentStatus.LOADING)
     }
 
     @Test
@@ -67,7 +67,7 @@ class StudyPlanWidgetTest {
                 learnedTopicsCount = 0
             )
         )
-        assertEquals(SectionStatus.LOADED, state.sectionsStatus)
+        assertEquals(ContentStatus.LOADED, state.sectionsStatus)
     }
 
     @Test
@@ -174,7 +174,7 @@ class StudyPlanWidgetTest {
     fun `Study plan sections should be empty if loaded sections does not contains current section`() {
         val expectedState = StudyPlanWidgetFeature.State(
             studyPlanSections = emptyMap(),
-            sectionsStatus = SectionStatus.LOADED,
+            sectionsStatus = ContentStatus.LOADED,
             isRefreshing = false
         )
 
@@ -546,7 +546,7 @@ class StudyPlanWidgetTest {
         listOf(collapsedSection, idleSection).forEach { givenSection ->
             val state = StudyPlanWidgetFeature.State(
                 studyPlanSections = mapOf(sectionId to givenSection),
-                sectionsStatus = SectionStatus.LOADED
+                sectionsStatus = ContentStatus.LOADED
             )
 
             val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -577,7 +577,7 @@ class StudyPlanWidgetTest {
         )
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(sectionId to section),
-            sectionsStatus = SectionStatus.LOADED,
+            sectionsStatus = ContentStatus.LOADED,
             activities = mapOf(activityId to stubLearningActivity(activityId))
         )
 
@@ -618,7 +618,7 @@ class StudyPlanWidgetTest {
         )
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(sectionId to section),
-            sectionsStatus = SectionStatus.LOADED,
+            sectionsStatus = ContentStatus.LOADED,
             activities = mapOf(activityId to stubLearningActivity(activityId))
         )
 
@@ -664,7 +664,7 @@ class StudyPlanWidgetTest {
         )
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(sectionId to section),
-            sectionsStatus = SectionStatus.LOADED
+            sectionsStatus = ContentStatus.LOADED
         )
 
         val (newState, actions) =
@@ -711,7 +711,7 @@ class StudyPlanWidgetTest {
             activities = mapOf(
                 0L to stubLearningActivity(id = 0, title = "Activity 1")
             ),
-            sectionsStatus = SectionStatus.LOADED
+            sectionsStatus = ContentStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -750,7 +750,7 @@ class StudyPlanWidgetTest {
                 )
             ),
             activities = mapOf(0L to stubLearningActivity(id = 0, title = "")),
-            sectionsStatus = SectionStatus.LOADED
+            sectionsStatus = ContentStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -796,7 +796,7 @@ class StudyPlanWidgetTest {
                     description = "Work on project. Stage: 1/6"
                 )
             ),
-            sectionsStatus = SectionStatus.LOADED
+            sectionsStatus = ContentStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -818,7 +818,7 @@ class StudyPlanWidgetTest {
                         sectionContentStatus = SectionContentStatus.IDLE
                     )
                 ),
-                sectionsStatus = SectionStatus.LOADED
+                sectionsStatus = ContentStatus.LOADED
             )
 
         val expectedViewState = StudyPlanWidgetViewState.Content(
@@ -898,7 +898,7 @@ class StudyPlanWidgetTest {
                 0L to stubLearningActivity(id = 0),
                 1L to stubLearningActivity(id = 1)
             ),
-            sectionsStatus = SectionStatus.LOADED
+            sectionsStatus = ContentStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -1332,7 +1332,7 @@ class StudyPlanWidgetTest {
                 notNextActivityId to stubLearningActivity(notNextActivityId),
                 nextActivityId to stubLearningActivity(nextActivityId)
             ),
-            sectionsStatus = SectionStatus.LOADED
+            sectionsStatus = ContentStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
@@ -1375,7 +1375,7 @@ class StudyPlanWidgetTest {
                 firstActivityId to stubLearningActivity(firstActivityId),
                 secondActivityId to stubLearningActivity(secondActivityId)
             ),
-            sectionsStatus = SectionStatus.LOADED
+            sectionsStatus = ContentStatus.LOADED
         )
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
