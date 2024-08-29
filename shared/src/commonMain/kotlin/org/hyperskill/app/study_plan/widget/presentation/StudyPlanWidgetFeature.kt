@@ -165,7 +165,11 @@ object StudyPlanWidgetFeature {
             val sectionId: Long,
             val activitiesIds: List<Long>,
             val types: Set<LearningActivityType> = LearningActivityType.supportedTypes(),
-            val states: Set<LearningActivityState> = setOf(LearningActivityState.TODO),
+            val states: Set<LearningActivityState> = setOf(
+                LearningActivityState.TODO,
+                LearningActivityState.COMPLETED,
+                LearningActivityState.SKIPPED
+            ),
             val sentryTransaction: HyperskillSentryTransaction
         ) : InternalAction
 
