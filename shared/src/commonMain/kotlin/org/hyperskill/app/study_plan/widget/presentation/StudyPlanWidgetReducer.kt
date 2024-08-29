@@ -263,9 +263,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                                 sectionContentStatus = when (sectionContentStatus) {
                                     SectionContentStatus.FIRST_PAGE_LOADED -> {
                                         val canLoadMoreActivities =
-                                            sectionInfo
-                                                .studyPlanSection
-                                                .getActivitiesToBeLoaded(state.activities.values)
+                                            state
+                                                .getRootTopicsActivitiesToBeLoaded(sectionId)
                                                 .isNotEmpty()
                                         if (canLoadMoreActivities) {
                                             SectionContentStatus.FIRST_PAGE_LOADED
@@ -369,7 +368,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             InternalAction.LogAnalyticEvent(StudyPlanLoadMoreActivitiesClickedHSAnalyticEvent(message.sectionId)),
             InternalAction.FetchLearningActivities(
                 sectionId = message.sectionId,
-                activitiesIds = state.getActivitiesToBeLoaded(message.sectionId).toList(),
+                activitiesIds = state.getRootTopicsActivitiesToBeLoaded(message.sectionId),
                 sentryTransaction = getFetchLearningActivitiesSentryTransaction(state, message.sectionId)
             )
         )

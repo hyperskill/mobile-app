@@ -13,10 +13,10 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.presentation.getActivitiesToBeLoaded
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getLoadedSectionActivities
+import org.hyperskill.app.study_plan.widget.presentation.getRootTopicsActivitiesToBeLoaded
 import org.hyperskill.app.study_plan.widget.presentation.getUnlockedActivitiesCount
 import org.hyperskill.app.study_plan.widget.presentation.isActivityLocked
 import org.hyperskill.app.study_plan.widget.presentation.isPaywallShown
@@ -116,40 +116,111 @@ class StudyPlanWidgetStateExtensionsTest {
     }
 
     @Test
-    fun `getActivitiesToBeLoaded should return activities to be loaded for ROOT_TOPICS section`() {
+    fun `getActivitiesToBeLoaded should return all the section activities for ROOT_TOPICS section`() {
         val sectionId = 1L
-        val activities = listOf(1L, 2L).map { LearningActivity.stub(id = it) }
+        val sectionActivitiesIds = List(2) { it.toLong() }
         val section = StudyPlanSection.stub(
             id = sectionId,
             type = StudyPlanSectionType.ROOT_TOPICS,
-            activities = activities.map { it.id }
+            activities = sectionActivitiesIds
         )
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
-                    true,
-                    StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    studyPlanSection = section,
+                    isExpanded = true,
+                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
                 )
             ),
             activities = emptyMap()
         )
 
-        val activitiesToBeLoaded = state.getActivitiesToBeLoaded(sectionId)
-        assertEquals(section.activities.toSet(), activitiesToBeLoaded)
+        val activitiesToBeLoaded = state.getRootTopicsActivitiesToBeLoaded(sectionId)
+        assertEquals(section.activities, activitiesToBeLoaded)
     }
 
     @Test
-    fun `StudyPlanSection getActivitiesToBeLoaded should return activities to be loaded for a given section`() {
+    fun `getActivitiesToBeLoaded should return all activities after last loaded activity for ROOT_TOPICS section`() {
+        val sectionId = 1L
+        val sectionActivitiesIds = List(10) { it.toLong() }
         val section = StudyPlanSection.stub(
-            id = 1,
+            id = sectionId,
             type = StudyPlanSectionType.ROOT_TOPICS,
-            activities = listOf(1L, 2L, 3L)
+            activities = sectionActivitiesIds
         )
-        val loadedActivities = listOf(LearningActivity.stub(id = 1))
+        val loadedActivitiesIds = sectionActivitiesIds.take(5)
+        val state = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = section,
+                    isExpanded = true,
+                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                )
+            ),
+            activities = loadedActivitiesIds.associateWith { id -> LearningActivity.stub(id = id) }
+        )
 
-        val activitiesToBeLoaded = section.getActivitiesToBeLoaded(loadedActivities)
-        assertEquals(setOf(2L, 3L), activitiesToBeLoaded)
+        val expectedActivitiesToBeLoaded = sectionActivitiesIds.subtract(loadedActivitiesIds.toSet())
+        val actualActivitiesToBeLoaded = state.getRootTopicsActivitiesToBeLoaded(sectionId)
+        assertEquals(expectedActivitiesToBeLoaded.toList(), actualActivitiesToBeLoaded)
+    }
+
+    @Test
+    fun `getActivitiesToBeLoaded should return empty list if all ROOT_TOPICS section activities are loaded`() {
+        val sectionId = 1L
+        val sectionActivitiesIds = List(10) { it.toLong() }
+        val section = StudyPlanSection.stub(
+            id = sectionId,
+            type = StudyPlanSectionType.ROOT_TOPICS,
+            activities = sectionActivitiesIds
+        )
+        val state = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = section,
+                    isExpanded = true,
+                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                )
+            ),
+            activities = sectionActivitiesIds.associateWith { id -> LearningActivity.stub(id = id) }
+        )
+
+        val actualActivitiesToBeLoaded = state.getRootTopicsActivitiesToBeLoaded(sectionId)
+        assertEquals(
+            expected = emptyList(),
+            actual = actualActivitiesToBeLoaded
+        )
+    }
+
+    @Test
+    fun `getActivitiesToBeLoaded should return empty list for ROOT_TOPICS sections`() {
+        val nonRootSectionTypes =
+            StudyPlanSectionType.entries - StudyPlanSectionType.ROOT_TOPICS
+        nonRootSectionTypes.forEach { sectionType ->
+            val sectionId = 1L
+            val sectionActivitiesIds = List(2) { it.toLong() }
+            val section = StudyPlanSection.stub(
+                id = sectionId,
+                type = sectionType,
+                activities = sectionActivitiesIds
+            )
+            val state = StudyPlanWidgetFeature.State(
+                studyPlanSections = mapOf(
+                    section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                        studyPlanSection = section,
+                        isExpanded = true,
+                        sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    )
+                ),
+                activities = emptyMap()
+            )
+
+            val activitiesToBeLoaded = state.getRootTopicsActivitiesToBeLoaded(sectionId)
+            assertEquals(
+                expected = emptyList(),
+                actual = activitiesToBeLoaded
+            )
+        }
     }
 
     @Test
