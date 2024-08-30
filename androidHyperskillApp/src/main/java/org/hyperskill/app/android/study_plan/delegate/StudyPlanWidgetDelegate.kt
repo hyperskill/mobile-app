@@ -17,6 +17,7 @@ import org.hyperskill.app.android.study_plan.adapter.StudyPlanSectionAdapterDele
 import org.hyperskill.app.android.study_plan.model.StudyPlanRecyclerItem
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.SectionContentPageLoadingState
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -46,6 +47,7 @@ class StudyPlanWidgetDelegate(
         )
         addDelegate(sectionsLoadingAdapterDelegate())
         addDelegate(loadAllTopicsButtonDelegate())
+        addDelegate(expandCompletedActivitiesButtonDelegate())
         addDelegate(paywallAdapterDelegate())
         addDelegate(ActivityLoadingAdapterDelegate())
         addDelegate(
@@ -138,7 +140,8 @@ class StudyPlanWidgetDelegate(
             is StudyPlanRecyclerItem.ActivityLoading,
             is StudyPlanRecyclerItem.Activity,
             is StudyPlanRecyclerItem.ActivitiesError,
-            is StudyPlanRecyclerItem.LoadAllTopicsButton -> activityTopMargin
+            is StudyPlanRecyclerItem.LoadAllTopicsButton,
+            is StudyPlanRecyclerItem.ExpandCompletedActivitiesButton -> activityTopMargin
             else -> 0
         }
 
@@ -183,6 +186,20 @@ class StudyPlanWidgetDelegate(
                 if (sectionId != null) {
                     onNewMessage(
                         StudyPlanWidgetFeature.Message.LoadMoreActivitiesClicked(sectionId)
+                    )
+                }
+            }
+        }
+
+    private fun expandCompletedActivitiesButtonDelegate() =
+        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ExpandCompletedActivitiesButton>(
+            R.layout.item_study_plan_expand_completed_button
+        ) {
+            itemView.setOnClickListener {
+                val sectionId = item?.sectionId
+                if (sectionId != null) {
+                    onNewMessage(
+                        StudyPlanWidgetFeature.Message.ExpandCompletedActivitiesClicked(sectionId)
                     )
                 }
             }

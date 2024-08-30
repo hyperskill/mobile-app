@@ -28,6 +28,12 @@ interface StudyPlanRecyclerItem {
         override val id: String = "study-plan-$sectionId-load-all-topics"
     }
 
+    data class ExpandCompletedActivitiesButton(
+        val sectionId: Long
+    ) : StudyPlanRecyclerItem, Identifiable<String> {
+        override val id: String = "study-plan-$sectionId-expand-completed-activities"
+    }
+
     object PaywallBanner : StudyPlanRecyclerItem, Identifiable<String> {
         override val id: String = "study-plan-paywall-banner"
     }
