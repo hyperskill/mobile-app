@@ -137,7 +137,7 @@ class StudyPlanLoadMoreActivitiesTest {
 
     /*ktlint-disable*/
     @Test
-    fun `Azfter successfully fetch completed activities page status should become LOADED even if not all activities are loaded`() {
+    fun `After successfully fetch completed activities page status should become LOADED even if not all activities are loaded`() {
         val allActivities = List(10) { it.toLong() }
         val mainPageActivities = listOf(5L, 6L, 7L, 8L, 9L)
         val loadedCompletedPageActivities = listOf(/*0L,*/ 1L, /*2L, 3L,*/ 4L)
