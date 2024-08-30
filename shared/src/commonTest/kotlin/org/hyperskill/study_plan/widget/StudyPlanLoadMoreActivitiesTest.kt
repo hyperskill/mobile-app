@@ -43,7 +43,7 @@ class StudyPlanLoadMoreActivitiesTest {
         assertEquals(section.activities, activitiesToBeLoaded)
     }
 
-    // ktlint-disable
+    /*ktlint-disable*/
     @Test
     fun `getNextRootTopicsActivitiesToBeLoaded should return all activities after last loaded activity for ROOT_TOPICS section`() {
         val sectionId = 1L
