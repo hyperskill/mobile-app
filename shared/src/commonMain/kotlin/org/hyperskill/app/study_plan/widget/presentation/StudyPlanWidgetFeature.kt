@@ -60,16 +60,6 @@ object StudyPlanWidgetFeature {
         LOADED
     }
 
-    enum class SectionContentStatus {
-        IDLE,
-        ERROR,
-
-        FIRST_PAGE_LOADING,
-        FIRST_PAGE_LOADED,
-        NEXT_PAGE_LOADING,
-        ALL_PAGES_LOADED
-    }
-
     enum class PageContentStatus {
         IDLE,
         AWAIT_LOADING,
@@ -87,7 +77,6 @@ object StudyPlanWidgetFeature {
     data class StudyPlanSectionInfo(
         val studyPlanSection: StudyPlanSection,
         val isExpanded: Boolean,
-
 
         val mainPageContentStatus: ContentStatus,
         val nextPageContentStatus: PageContentStatus,
