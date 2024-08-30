@@ -205,12 +205,28 @@ class StudyPlanWidgetDelegate(
                         addAll(getActivitiesLoadingItems(section.id))
                     }
                     is StudyPlanWidgetViewState.SectionContent.Content -> {
-                        addAll(mapSectionItemsToActivityItems(section.id, sectionContent.sectionItems))
-                        if (sectionContent.isLoadAllTopicsButtonShown) {
-                            add(StudyPlanRecyclerItem.LoadAllTopicsButton(section.id))
+                        when (sectionContent.completedPageLoadingState) {
+                            SectionContentPageLoadingState.HIDDEN -> {
+                                // no op
+                            }
+                            SectionContentPageLoadingState.LOAD_MORE -> {
+                                add(StudyPlanRecyclerItem.ExpandCompletedActivitiesButton(section.id))
+                            }
+                            SectionContentPageLoadingState.LOADING -> {
+                                addAll(getActivitiesLoadingItems(section.id))
+                            }
                         }
-                        if (sectionContent.isNextPageLoadingShowed) {
-                            addAll(getActivitiesLoadingItems(section.id))
+                        addAll(mapSectionItemsToActivityItems(section.id, sectionContent.sectionItems))
+                        when (sectionContent.nextPageLoadingState) {
+                            SectionContentPageLoadingState.HIDDEN -> {
+                                // no op
+                            }
+                            SectionContentPageLoadingState.LOAD_MORE -> {
+                                add(StudyPlanRecyclerItem.LoadAllTopicsButton(section.id))
+                            }
+                            SectionContentPageLoadingState.LOADING -> {
+                                addAll(getActivitiesLoadingItems(section.id))
+                            }
                         }
                     }
                     StudyPlanWidgetViewState.SectionContent.Error -> {

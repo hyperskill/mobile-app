@@ -40,7 +40,7 @@ sealed interface StudyPlanWidgetViewState {
     }
 
     enum class SectionContentPageLoadingState {
-        IDLE,
+        HIDDEN,
         LOAD_MORE,
         LOADING
     }

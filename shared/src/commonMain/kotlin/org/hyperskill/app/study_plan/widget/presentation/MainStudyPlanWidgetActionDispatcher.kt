@@ -143,7 +143,12 @@ internal class MainStudyPlanWidgetActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             action.sentryTransaction,
-            onError = { StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed(action.sectionId) }
+            onError = {
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed(
+                    sectionId = action.sectionId,
+                    targetPage = action.targetPage
+                )
+            }
         ) {
             learningActivitiesRepository
                 .getLearningActivities(
@@ -155,7 +160,8 @@ internal class MainStudyPlanWidgetActionDispatcher(
                 .let { learningActivities ->
                     StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
                         sectionId = action.sectionId,
-                        activities = learningActivities
+                        activities = learningActivities,
+                        targetPage = action.targetPage
                     )
                 }
         }.let(onNewMessage)

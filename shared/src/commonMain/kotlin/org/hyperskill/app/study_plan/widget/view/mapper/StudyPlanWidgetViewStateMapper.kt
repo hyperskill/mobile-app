@@ -7,12 +7,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.ContentStatus
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.ALL_PAGES_LOADED
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.ERROR
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.FIRST_PAGE_LOADED
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.FIRST_PAGE_LOADING
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.IDLE
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.SectionContentStatus.NEXT_PAGE_LOADING
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.PageContentStatus
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getLoadedSectionActivities
@@ -20,6 +15,7 @@ import org.hyperskill.app.study_plan.widget.presentation.getUnlockedActivitiesCo
 import org.hyperskill.app.study_plan.widget.presentation.isPaywallShown
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.SectionContent
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.SectionContentPageLoadingState
 
 class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
@@ -78,27 +74,21 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         currentActivityId: Long?
     ): SectionContent =
         if (sectionInfo.isExpanded) {
-            when (sectionInfo.sectionContentStatus) {
-                IDLE -> SectionContent.Collapsed
-                ERROR -> SectionContent.Error
-                FIRST_PAGE_LOADING,
-                NEXT_PAGE_LOADING -> {
-                    getContent(
-                        state = state,
-                        sectionInfo = sectionInfo,
-                        currentActivityId = currentActivityId,
-                        emptyActivitiesState = SectionContent.Loading
-                    )
-                }
-                FIRST_PAGE_LOADED,
-                ALL_PAGES_LOADED -> {
-                    getContent(
-                        state = state,
-                        sectionInfo = sectionInfo,
-                        currentActivityId = currentActivityId,
-                        emptyActivitiesState = SectionContent.Error
-                    )
-                }
+            when (sectionInfo.mainPageContentStatus) {
+                ContentStatus.IDLE -> SectionContent.Collapsed
+                ContentStatus.ERROR -> SectionContent.Error
+                ContentStatus.LOADING -> getContent(
+                    state = state,
+                    sectionInfo = sectionInfo,
+                    currentActivityId = currentActivityId,
+                    emptyActivitiesState = SectionContent.Loading
+                )
+                ContentStatus.LOADED -> getContent(
+                    state = state,
+                    sectionInfo = sectionInfo,
+                    currentActivityId = currentActivityId,
+                    emptyActivitiesState = SectionContent.Error
+                )
             }
         } else {
             SectionContent.Collapsed
@@ -115,41 +105,29 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         return if (loadedActivities.isEmpty()) {
             emptyActivitiesState
         } else {
-            getContent(
-                activities = loadedActivities,
-                currentActivityId = currentActivityId,
-                unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionId),
-                nextPageLoadingState = when (sectionInfo.sectionContentStatus) {
-                    IDLE,
-                    ERROR,
-                    FIRST_PAGE_LOADING,
-                    ALL_PAGES_LOADED -> StudyPlanWidgetViewState.SectionContentPageLoadingState.IDLE
-                    FIRST_PAGE_LOADED -> StudyPlanWidgetViewState.SectionContentPageLoadingState.LOAD_MORE
-                    NEXT_PAGE_LOADING -> StudyPlanWidgetViewState.SectionContentPageLoadingState.LOADING
+            val unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionId)
+            SectionContent.Content(
+                sectionItems = loadedActivities.mapIndexed { index, activity ->
+                    mapSectionItem(
+                        activity = activity,
+                        currentActivityId = currentActivityId,
+                        isLocked = unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount
+                    )
                 },
-                completedPageLoadingState = StudyPlanWidgetViewState.SectionContentPageLoadingState.LOAD_MORE
+                nextPageLoadingState = mapPageContentStatusToViewState(sectionInfo.nextPageContentStatus),
+                completedPageLoadingState = mapPageContentStatusToViewState(sectionInfo.completedPageContentStatus)
             )
         }
     }
 
-    private fun getContent(
-        activities: List<LearningActivity>,
-        currentActivityId: Long?,
-        unlockedActivitiesCount: Int?,
-        nextPageLoadingState: StudyPlanWidgetViewState.SectionContentPageLoadingState,
-        completedPageLoadingState: StudyPlanWidgetViewState.SectionContentPageLoadingState
-    ): SectionContent.Content =
-        SectionContent.Content(
-            sectionItems = activities.mapIndexed { index, activity ->
-                mapSectionItem(
-                    activity = activity,
-                    currentActivityId = currentActivityId,
-                    isLocked = unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount
-                )
-            },
-            nextPageLoadingState = nextPageLoadingState,
-            completedPageLoadingState = completedPageLoadingState
-        )
+    private fun mapPageContentStatusToViewState(pageContentStatus: PageContentStatus): SectionContentPageLoadingState =
+        when (pageContentStatus) {
+            PageContentStatus.IDLE,
+            PageContentStatus.ERROR,
+            PageContentStatus.LOADED -> SectionContentPageLoadingState.HIDDEN
+            PageContentStatus.AWAIT_LOADING -> SectionContentPageLoadingState.LOAD_MORE
+            PageContentStatus.LOADING -> SectionContentPageLoadingState.LOADING
+        }
 
     private fun mapSectionItem(
         activity: LearningActivity,

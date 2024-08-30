@@ -70,14 +70,28 @@ object StudyPlanWidgetFeature {
         ALL_PAGES_LOADED
     }
 
+    enum class PageContentStatus {
+        IDLE,
+        AWAIT_LOADING,
+        LOADING,
+        ERROR,
+        LOADED
+    }
+
+    enum class SectionPage {
+        MAIN,
+        NEXT,
+        COMPLETED
+    }
+
     data class StudyPlanSectionInfo(
         val studyPlanSection: StudyPlanSection,
         val isExpanded: Boolean,
 
-        /**
-         * Describes status of section's activities loading
-         * */
-        val sectionContentStatus: SectionContentStatus
+
+        val mainPageContentStatus: ContentStatus,
+        val nextPageContentStatus: PageContentStatus,
+        val completedPageContentStatus: PageContentStatus
     )
 
     sealed interface Message {
@@ -134,10 +148,14 @@ object StudyPlanWidgetFeature {
     internal sealed interface LearningActivitiesFetchResult : Message {
         data class Success(
             val sectionId: Long,
-            val activities: List<LearningActivity>
+            val activities: List<LearningActivity>,
+            val targetPage: SectionPage
         ) : LearningActivitiesFetchResult
 
-        data class Failed(val sectionId: Long) : LearningActivitiesFetchResult
+        data class Failed(
+            val sectionId: Long,
+            val targetPage: SectionPage
+        ) : LearningActivitiesFetchResult
     }
 
     internal sealed interface ProfileFetchResult : Message {
@@ -172,7 +190,8 @@ object StudyPlanWidgetFeature {
                 LearningActivityState.COMPLETED,
                 LearningActivityState.SKIPPED
             ),
-            val sentryTransaction: HyperskillSentryTransaction
+            val sentryTransaction: HyperskillSentryTransaction,
+            val targetPage: SectionPage
         ) : InternalAction
 
         data object FetchProfile : InternalAction

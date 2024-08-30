@@ -1,6 +1,7 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlin.math.max
+import org.hyperskill.app.core.utils.mutate
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
@@ -157,3 +158,10 @@ internal fun StudyPlanWidgetFeature.State.isPaywallShown(): Boolean {
         false
     }
 }
+
+internal fun StudyPlanWidgetFeature.State.hideSection(sectionId: Long): StudyPlanWidgetFeature.State =
+    copy(
+        studyPlanSections = studyPlanSections.mutate {
+            remove(sectionId)
+        }
+    )

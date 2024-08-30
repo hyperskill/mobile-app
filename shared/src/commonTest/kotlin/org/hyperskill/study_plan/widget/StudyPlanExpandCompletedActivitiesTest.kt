@@ -26,7 +26,9 @@ class StudyPlanExpandCompletedActivitiesTest {
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = section,
                     isExpanded = true,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = loadedActivitiesIds.associateWith { id -> LearningActivity.stub(id = id) }
@@ -65,12 +67,16 @@ class StudyPlanExpandCompletedActivitiesTest {
                 currentSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = currentSection,
                     isExpanded = true,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.ALL_PAGES_LOADED
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 ),
                 nextSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = nextSection,
                     isExpanded = true,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.ALL_PAGES_LOADED
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = allActivities.associateWith { id -> LearningActivity.stub(id = id) }

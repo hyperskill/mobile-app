@@ -25,7 +25,9 @@ class StudyPlanLoadMoreActivitiesTest {
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = section,
                     isExpanded = true,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = emptyMap()
@@ -51,7 +53,9 @@ class StudyPlanLoadMoreActivitiesTest {
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = section,
                     isExpanded = true,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = loadedActivitiesIds.associateWith { id -> LearningActivity.stub(id = id) }
@@ -77,7 +81,9 @@ class StudyPlanLoadMoreActivitiesTest {
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = section,
                     isExpanded = true,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = sectionActivitiesIds.associateWith { id -> LearningActivity.stub(id = id) }
@@ -107,7 +113,9 @@ class StudyPlanLoadMoreActivitiesTest {
                     section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                         studyPlanSection = section,
                         isExpanded = true,
-                        sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                        mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                        nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                        completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                     )
                 ),
                 activities = emptyMap()
