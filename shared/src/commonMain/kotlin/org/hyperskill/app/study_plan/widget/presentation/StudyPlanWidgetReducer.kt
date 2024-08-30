@@ -418,7 +418,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: Message.ExpandCompletedActivitiesClicked
     ): StudyPlanWidgetReducerResult {
-        val activitiesToBeLoaded =  state.getActivitiesBeforeCurrentActivityToBeLoaded(message.sectionId)
+        val activitiesToBeLoaded = state.getActivitiesBeforeCurrentActivityToBeLoaded(message.sectionId)
         return if (activitiesToBeLoaded.isNotEmpty()) {
             state.copy(
                 studyPlanSections = state.studyPlanSections.update(message.sectionId) { sectionInfo ->

@@ -72,7 +72,7 @@ class StudyPlanLoadMoreActivitiesTest {
         assertEquals(expectedActivitiesToBeLoaded.toList(), actualActivitiesToBeLoaded)
     }
 
-    // ktlint-disable
+    /*ktlint-disable*/
     @Test
     fun `getNextRootTopicsActivitiesToBeLoaded should return empty list if all ROOT_TOPICS section activities are loaded`() {
         val sectionId = 1L
@@ -135,7 +135,7 @@ class StudyPlanLoadMoreActivitiesTest {
         }
     }
 
-    // ktlint-disable
+    /*ktlint-disable*/
     @Test
     fun `Azfter successfully fetch completed activities page status should become LOADED even if not all activities are loaded`() {
         val allActivities = List(10) { it.toLong() }
