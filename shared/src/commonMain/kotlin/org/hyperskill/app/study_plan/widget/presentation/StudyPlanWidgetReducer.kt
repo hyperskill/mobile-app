@@ -317,7 +317,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                                 PageContentStatus.LOADED
                             }
                         }
-                        SectionPage.NEXT -> PageContentStatus.IDLE
+                        SectionPage.NEXT -> PageContentStatus.LOADED
                         SectionPage.COMPLETED -> sectionInfo.nextPageContentStatus
                     },
                     completedPageContentStatus = when (targetPage) {
@@ -332,7 +332,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                                 PageContentStatus.LOADED
                             }
                         }
-                        SectionPage.COMPLETED -> PageContentStatus.IDLE
+                        SectionPage.COMPLETED -> PageContentStatus.LOADED
                         SectionPage.NEXT -> section.completedPageContentStatus
                     }
                 )
