@@ -558,7 +558,8 @@ class StudyPlanWidgetTest {
             StudyPlanWidgetFeature.InternalAction.FetchLearningActivities(
                 sectionId = section.id,
                 activitiesIds = activities,
-                sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(true),
+                sentryTransaction = HyperskillSentryTransactionBuilder
+                    .buildStudyPlanWidgetFetchLearningActivities(true),
                 targetPage = SectionPage.MAIN
             )
         )
