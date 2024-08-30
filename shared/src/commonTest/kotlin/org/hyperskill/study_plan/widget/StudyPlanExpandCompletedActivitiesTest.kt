@@ -94,7 +94,7 @@ class StudyPlanExpandCompletedActivitiesTest {
         )
     }
 
-    // ktlint-disable
+    /* ktlint-disable*/
     @Test
     fun `Azfter successfully fetch completed activities page status should become LOADED even if not all activities are loaded`() {
         val allActivities = List(10) { it.toLong() }
