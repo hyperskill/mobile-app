@@ -75,7 +75,7 @@ struct StudyPlanSectionView: View {
 #Preview {
     StudyPlanSectionView(
         section: StudyPlanWidgetViewStateSection.makePlaceholder(
-            isNextPageLoadingShowed: true
+            nextPageLoadingState: StudyPlanWidgetViewStateSectionContentPageLoadingState.loading
         ),
         onSectionTap: { _ in },
         onActivityTap: { _, _  in },
@@ -89,7 +89,7 @@ struct StudyPlanSectionView: View {
 #Preview {
     StudyPlanSectionView(
         section: StudyPlanWidgetViewStateSection.makePlaceholder(
-            isLoadAllTopicsButtonShown: true
+            nextPageLoadingState: StudyPlanWidgetViewStateSectionContentPageLoadingState.loadMore
         ),
         onSectionTap: { _ in },
         onActivityTap: { _, _  in },
@@ -102,8 +102,9 @@ struct StudyPlanSectionView: View {
 
 extension StudyPlanWidgetViewStateSection {
     static func makePlaceholder(
-        isNextPageLoadingShowed: Bool = false,
-        isLoadAllTopicsButtonShown: Bool = false
+        nextPageLoadingState: StudyPlanWidgetViewStateSectionContentPageLoadingState = StudyPlanWidgetViewStateSectionContentPageLoadingState.hidden,
+        completedPageLoadingState: StudyPlanWidgetViewStateSectionContentPageLoadingState =
+            StudyPlanWidgetViewStateSectionContentPageLoadingState.hidden
     ) -> StudyPlanWidgetViewStateSection {
         StudyPlanWidgetViewStateSection(
             id: 1,
@@ -119,8 +120,8 @@ extension StudyPlanWidgetViewStateSection {
                     .makePlaceholder(state: .completed),
                     .makePlaceholder(state: .next)
                 ],
-                isNextPageLoadingShowed: isNextPageLoadingShowed,
-                isLoadAllTopicsButtonShown: isLoadAllTopicsButtonShown
+                nextPageLoadingState: nextPageLoadingState,
+                completedPageLoadingState: completedPageLoadingState
             )
         )
     }
