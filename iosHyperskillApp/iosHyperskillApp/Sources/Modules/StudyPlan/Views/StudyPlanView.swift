@@ -110,7 +110,8 @@ struct StudyPlanView: View {
                             onSectionTap: viewModel.doSectionToggle(sectionId:),
                             onActivityTap: viewModel.doActivityPresentation(activityID:sectionID:),
                             onRetryActivitiesLoadingTap: viewModel.doRetryActivitiesLoading(sectionId:),
-                            onLoadMoreActivitiesTap: viewModel.doLoadMoreActivities(sectionID:)
+                            onLoadMoreActivitiesTap: viewModel.doLoadMoreActivities(sectionID:),
+                            onExpandCompletedActivitiesTap: viewModel.doExpandCompletedActivities(sectionID:)
                         )
                     }
                 }
@@ -233,16 +234,6 @@ private extension StudyPlanView {
                 showUsersInterviewViewAction.url,
                 controllerType: .inAppSafari
             )
-        }
-    }
-}
-
-// MARK: - StudyPlanView_Previews: PreviewProvider -
-
-struct StudyPlanView_Previews: PreviewProvider {
-    static var previews: some View {
-        UIKitViewControllerPreview {
-            StudyPlanAssembly().makeModule()
         }
     }
 }

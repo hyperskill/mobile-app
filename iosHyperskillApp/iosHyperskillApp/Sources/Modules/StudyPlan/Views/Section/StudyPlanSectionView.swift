@@ -16,6 +16,7 @@ struct StudyPlanSectionView: View {
     let onActivityTap: (Int64, Int64) -> Void
     let onRetryActivitiesLoadingTap: (Int64) -> Void
     let onLoadMoreActivitiesTap: (Int64) -> Void
+    let onExpandCompletedActivitiesTap: (Int64) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
@@ -35,6 +36,12 @@ struct StudyPlanSectionView: View {
                 SkeletonRoundedView()
                     .frame(height: appearance.skeletonHeight)
             case .content(let content):
+                StudyPlanSectionCompletedPageLoadingStateView(
+                    appearance: .init(skeletonHeight: appearance.skeletonHeight),
+                    completedPageLoadingState: content.completedPageLoadingState,
+                    action: { onExpandCompletedActivitiesTap(section.id) }
+                )
+
                 StudyPlanSectionActivitiesList(
                     sectionItems: content.sectionItems,
                     onTap: { activityID in
@@ -42,18 +49,11 @@ struct StudyPlanSectionView: View {
                     }
                 )
 
-                if content.isLoadAllTopicsButtonShown {
-                    Button(
-                        Strings.StudyPlan.loadMoreButton,
-                        action: { onLoadMoreActivitiesTap(section.id) }
-                    )
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.vertical)
-                }
-                if content.isNextPageLoadingShowed {
-                    SkeletonRoundedView()
-                        .frame(height: appearance.skeletonHeight)
-                }
+                StudyPlanSectionNextPageLoadingStateView(
+                    appearance: .init(skeletonHeight: appearance.skeletonHeight),
+                    nextPageLoadingState: content.nextPageLoadingState,
+                    action: { onLoadMoreActivitiesTap(section.id) }
+                )
             }
         }
     }
@@ -66,7 +66,8 @@ struct StudyPlanSectionView: View {
         onSectionTap: { _ in },
         onActivityTap: { _, _  in },
         onRetryActivitiesLoadingTap: { _ in },
-        onLoadMoreActivitiesTap: { _ in }
+        onLoadMoreActivitiesTap: { _ in },
+        onExpandCompletedActivitiesTap: { _ in }
     )
     .padding()
     .background(Color(ColorPalette.background))
@@ -80,7 +81,8 @@ struct StudyPlanSectionView: View {
         onSectionTap: { _ in },
         onActivityTap: { _, _  in },
         onRetryActivitiesLoadingTap: { _ in },
-        onLoadMoreActivitiesTap: { _ in }
+        onLoadMoreActivitiesTap: { _ in },
+        onExpandCompletedActivitiesTap: { _ in }
     )
     .padding()
     .background(Color(ColorPalette.background))
@@ -94,7 +96,8 @@ struct StudyPlanSectionView: View {
         onSectionTap: { _ in },
         onActivityTap: { _, _  in },
         onRetryActivitiesLoadingTap: { _ in },
-        onLoadMoreActivitiesTap: { _ in }
+        onLoadMoreActivitiesTap: { _ in },
+        onExpandCompletedActivitiesTap: { _ in }
     )
     .padding()
     .background(Color(ColorPalette.background))
@@ -102,7 +105,8 @@ struct StudyPlanSectionView: View {
 
 extension StudyPlanWidgetViewStateSection {
     static func makePlaceholder(
-        nextPageLoadingState: StudyPlanWidgetViewStateSectionContentPageLoadingState = StudyPlanWidgetViewStateSectionContentPageLoadingState.hidden,
+        nextPageLoadingState: StudyPlanWidgetViewStateSectionContentPageLoadingState =
+            StudyPlanWidgetViewStateSectionContentPageLoadingState.hidden,
         completedPageLoadingState: StudyPlanWidgetViewStateSectionContentPageLoadingState =
             StudyPlanWidgetViewStateSectionContentPageLoadingState.hidden
     ) -> StudyPlanWidgetViewStateSection {
