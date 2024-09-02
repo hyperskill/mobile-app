@@ -1,8 +1,6 @@
 package org.hyperskill.app.android.study_plan.delegate
 
 import android.content.Context
-import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
@@ -14,6 +12,7 @@ import org.hyperskill.app.android.study_plan.adapter.ActivityLoadingAdapterDeleg
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanActivityAdapterDelegate
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanItemAnimator
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanSectionAdapterDelegate
+import org.hyperskill.app.android.study_plan.mapper.StudyPlanWidgetUIStateMapper
 import org.hyperskill.app.android.study_plan.model.StudyPlanRecyclerItem
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
@@ -26,11 +25,6 @@ class StudyPlanWidgetDelegate(
     private val onRetryContentLoadingClicked: () -> Unit,
     private val onNewMessage: (StudyPlanWidgetFeature.Message) -> Unit
 ) {
-
-    companion object {
-        private const val SECTIONS_LOADING_ITEMS_COUNT = 4
-        private const val ACTIVITIES_LOADING_ITEMS_COUNT = 3
-    }
 
     private val studyPlanAdapter = DefaultDelegateAdapter<StudyPlanRecyclerItem>().apply {
         addDelegate(StudyPlanSectionAdapterDelegate(onNewMessage))
@@ -46,6 +40,7 @@ class StudyPlanWidgetDelegate(
         )
         addDelegate(sectionsLoadingAdapterDelegate())
         addDelegate(loadAllTopicsButtonDelegate())
+        addDelegate(expandCompletedActivitiesButtonDelegate())
         addDelegate(paywallAdapterDelegate())
         addDelegate(ActivityLoadingAdapterDelegate())
         addDelegate(
@@ -55,38 +50,14 @@ class StudyPlanWidgetDelegate(
         )
     }
 
-    @ColorInt private val inactiveSectionTextColor: Int =
-        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_60)
-
-    @ColorInt private val activeSectionTextColor: Int =
-        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface)
-
-    @ColorInt private val activeActivityTextColor: Int =
-        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_87)
-
-    @ColorInt private val inactiveActivityTextColor: Int =
-        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_60)
+    private val uiStateMapper: StudyPlanWidgetUIStateMapper = StudyPlanWidgetUIStateMapper(context)
 
     private val sectionTopMargin =
         context.resources.getDimensionPixelOffset(R.dimen.study_plan_section_top_margin)
     private val activityTopMargin =
         context.resources.getDimensionPixelOffset(R.dimen.study_plan_activity_top_margin)
 
-    private val activeIcon =
-        ContextCompat.getDrawable(context, R.drawable.ic_home_screen_arrow_button)
-    private val skippedIcon =
-        ContextCompat.getDrawable(context, R.drawable.ic_topic_skipped)
-    private val completedIcon =
-        ContextCompat.getDrawable(context, R.drawable.ic_topic_completed)
-    private val lockedIcon =
-        ContextCompat.getDrawable(context, R.drawable.ic_activity_locked)
-
     private var studyPlanViewStateDelegate: ViewStateDelegate<StudyPlanWidgetViewState>? = null
-
-    private val sectionsLoadingItems: List<StudyPlanRecyclerItem.SectionLoading> =
-        List(SECTIONS_LOADING_ITEMS_COUNT) { index ->
-            StudyPlanRecyclerItem.SectionLoading(index)
-        }
 
     fun setup(recyclerView: RecyclerView, errorViewBinding: ErrorNoConnectionWithButtonBinding) {
         studyPlanViewStateDelegate = ViewStateDelegate<StudyPlanWidgetViewState>().apply {
@@ -138,7 +109,8 @@ class StudyPlanWidgetDelegate(
             is StudyPlanRecyclerItem.ActivityLoading,
             is StudyPlanRecyclerItem.Activity,
             is StudyPlanRecyclerItem.ActivitiesError,
-            is StudyPlanRecyclerItem.LoadAllTopicsButton -> activityTopMargin
+            is StudyPlanRecyclerItem.LoadAllTopicsButton,
+            is StudyPlanRecyclerItem.ExpandCompletedActivitiesButton -> activityTopMargin
             else -> 0
         }
 
@@ -148,17 +120,7 @@ class StudyPlanWidgetDelegate(
 
     fun render(state: StudyPlanWidgetViewState) {
         studyPlanViewStateDelegate?.switchState(state)
-        when (state) {
-            StudyPlanWidgetViewState.Loading -> {
-                studyPlanAdapter.items = sectionsLoadingItems
-            }
-            is StudyPlanWidgetViewState.Content -> {
-                studyPlanAdapter.items = mapContentToRecyclerItems(state)
-            }
-            else -> {
-                // no op
-            }
-        }
+        studyPlanAdapter.items = uiStateMapper.map(state)
     }
 
     private fun sectionsLoadingAdapterDelegate() =
@@ -188,87 +150,17 @@ class StudyPlanWidgetDelegate(
             }
         }
 
-    private fun mapContentToRecyclerItems(
-        studyPlanContent: StudyPlanWidgetViewState.Content
-    ): List<StudyPlanRecyclerItem> =
-        buildList {
-            if (studyPlanContent.isPaywallBannerShown) {
-                add(StudyPlanRecyclerItem.PaywallBanner)
-            }
-            studyPlanContent.sections.forEachIndexed { sectionIndex, section ->
-                add(mapSectionToRecyclerItem(sectionIndex, section))
-                when (val sectionContent = section.content) {
-                    StudyPlanWidgetViewState.SectionContent.Collapsed -> {
-                        // no op
-                    }
-                    StudyPlanWidgetViewState.SectionContent.Loading -> {
-                        addAll(getActivitiesLoadingItems(section.id))
-                    }
-                    is StudyPlanWidgetViewState.SectionContent.Content -> {
-                        addAll(mapSectionItemsToActivityItems(section.id, sectionContent.sectionItems))
-                        if (sectionContent.isLoadAllTopicsButtonShown) {
-                            add(StudyPlanRecyclerItem.LoadAllTopicsButton(section.id))
-                        }
-                        if (sectionContent.isNextPageLoadingShowed) {
-                            addAll(getActivitiesLoadingItems(section.id))
-                        }
-                    }
-                    StudyPlanWidgetViewState.SectionContent.Error -> {
-                        add(StudyPlanRecyclerItem.ActivitiesError(section.id))
-                    }
+    private fun expandCompletedActivitiesButtonDelegate() =
+        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ExpandCompletedActivitiesButton>(
+            R.layout.item_study_plan_expand_completed_button
+        ) {
+            itemView.setOnClickListener {
+                val sectionId = item?.sectionId
+                if (sectionId != null) {
+                    onNewMessage(
+                        StudyPlanWidgetFeature.Message.ExpandCompletedActivitiesClicked(sectionId)
+                    )
                 }
             }
-        }
-
-    private fun mapSectionToRecyclerItem(
-        index: Int,
-        section: StudyPlanWidgetViewState.Section
-    ): StudyPlanRecyclerItem.Section =
-        StudyPlanRecyclerItem.Section(
-            id = section.id,
-            title = section.title,
-            titleTextColor = if (index == 0) {
-                activeSectionTextColor
-            } else {
-                inactiveSectionTextColor
-            },
-            subtitle = section.subtitle,
-            formattedTopicsCount = section.formattedTopicsCount,
-            formattedTimeToComplete = section.formattedTimeToComplete,
-            isExpanded = section.content !is StudyPlanWidgetViewState.SectionContent.Collapsed,
-            isCurrentBadgeShown = section.isCurrentBadgeShown
-        )
-
-    private fun mapSectionItemsToActivityItems(
-        sectionId: Long,
-        sectionItems: List<StudyPlanWidgetViewState.SectionItem>
-    ): List<StudyPlanRecyclerItem.Activity> =
-        sectionItems.map { item ->
-            StudyPlanRecyclerItem.Activity(
-                id = item.id,
-                sectionId = sectionId,
-                title = item.title,
-                subtitle = item.subtitle,
-                titleTextColor = if (item.state == StudyPlanWidgetViewState.SectionItemState.NEXT) {
-                    activeActivityTextColor
-                } else {
-                    inactiveActivityTextColor
-                },
-                progress = item.progress,
-                formattedProgress = item.formattedProgress,
-                endIcon = when (item.state) {
-                    StudyPlanWidgetViewState.SectionItemState.IDLE -> null
-                    StudyPlanWidgetViewState.SectionItemState.NEXT -> activeIcon
-                    StudyPlanWidgetViewState.SectionItemState.SKIPPED -> skippedIcon
-                    StudyPlanWidgetViewState.SectionItemState.COMPLETED -> completedIcon
-                    StudyPlanWidgetViewState.SectionItemState.LOCKED -> lockedIcon
-                },
-                isIdeRequired = item.isIdeRequired
-            )
-        }
-
-    private fun getActivitiesLoadingItems(sectionId: Long) =
-        List(ACTIVITIES_LOADING_ITEMS_COUNT) { index ->
-            StudyPlanRecyclerItem.ActivityLoading(sectionId, index)
         }
 }

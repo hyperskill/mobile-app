@@ -1,11 +1,13 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
+import kotlin.math.max
+import org.hyperskill.app.core.utils.mutate
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
-import org.hyperskill.app.study_plan.domain.model.rootTopicsActivitiesToBeLoaded
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
+import ru.nobird.app.core.model.slice
 
 /**
  * @return current [StudyPlanSection].
@@ -39,7 +41,7 @@ internal fun StudyPlanWidgetFeature.State.getCurrentActivity(): LearningActivity
 
 /**
  * @param sectionId target section id.
- * @return a sequence of [LearningActivity] for the given section with [sectionId]
+ * @return A sequence of [LearningActivity] for the given section with [sectionId]
  * filtered by availability in [StudyPlanWidgetFeature.State.activities]
  */
 internal fun StudyPlanWidgetFeature.State.getLoadedSectionActivities(sectionId: Long): Sequence<LearningActivity> =
@@ -50,24 +52,50 @@ internal fun StudyPlanWidgetFeature.State.getLoadedSectionActivities(sectionId: 
         ?.mapNotNull { id -> activities[id] }
         ?: emptySequence()
 
-internal fun StudyPlanWidgetFeature.State.getActivitiesToBeLoaded(sectionId: Long): Set<Long> {
-    val sectionInfo = studyPlanSections[sectionId] ?: return emptySet()
+/**
+ * @param sectionId target section id
+ * @return A list of activities to be loaded for ROOT_TOPICS section.
+ * Activities to be loaded are activities
+ * starting from next to the last loaded activity for ROOT_TOPICS section
+ * and ending with the last ROOT_TOPICS section activity.
+ */
+internal fun StudyPlanWidgetFeature.State.getNextRootTopicsActivitiesToBeLoaded(sectionId: Long): List<Long> {
+    val sectionInfo = studyPlanSections[sectionId] ?: return emptyList()
     val studyPlanSection = sectionInfo.studyPlanSection
     return if (studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS) {
-        val sectionLoadedActivity = getLoadedSectionActivities(sectionId).map { it.id }.toSet()
-        studyPlanSection.rootTopicsActivitiesToBeLoaded.subtract(sectionLoadedActivity)
+        val lastLoadedActivityId = getLoadedSectionActivities(sectionId).lastOrNull()?.id
+        val lastLoadedActivityIndex = if (lastLoadedActivityId != null) {
+            max(0, studyPlanSection.activities.indexOf(lastLoadedActivityId) + 1)
+        } else {
+            0
+        }
+        studyPlanSection.activities.slice(from = lastLoadedActivityIndex)
     } else {
-        emptySet()
+        emptyList()
     }
 }
 
-internal fun StudyPlanSection.getActivitiesToBeLoaded(allLoadedActivities: Collection<LearningActivity>): Set<Long> =
-    if (type == StudyPlanSectionType.ROOT_TOPICS) {
-        val sectionActivities = activities.intersect(allLoadedActivities.map { it.id }.toSet())
-        rootTopicsActivitiesToBeLoaded.subtract(sectionActivities)
+/**
+ * @param sectionId target section id
+ * @return A list of activities to be loaded before first loaded activity for current section.
+ * If section with [sectionId] is not current, then returns empty list.
+ */
+internal fun StudyPlanWidgetFeature.State.getActivitiesBeforeCurrentActivityToBeLoaded(sectionId: Long): List<Long> {
+    val currentSection = getCurrentSection()
+    return if (currentSection?.id == sectionId) {
+        val sectionInfo = studyPlanSections[sectionId] ?: return emptyList()
+        val studyPlanSection = sectionInfo.studyPlanSection
+        val firstLoadedActivityId = getLoadedSectionActivities(sectionId).firstOrNull()?.id
+        val firstLoadedActivityIndex = if (firstLoadedActivityId != null) {
+            max(0, studyPlanSection.activities.indexOf(firstLoadedActivityId))
+        } else {
+            0
+        }
+        studyPlanSection.activities.slice(from = 0, to = firstLoadedActivityIndex)
     } else {
-        emptySet()
+        emptyList()
     }
+}
 
 /**
  * @param sectionId target section id.
@@ -130,3 +158,10 @@ internal fun StudyPlanWidgetFeature.State.isPaywallShown(): Boolean {
         false
     }
 }
+
+internal fun StudyPlanWidgetFeature.State.hideSection(sectionId: Long): StudyPlanWidgetFeature.State =
+    copy(
+        studyPlanSections = studyPlanSections.mutate {
+            remove(sectionId)
+        }
+    )

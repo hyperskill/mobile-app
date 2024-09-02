@@ -24,7 +24,7 @@ object StudyPlanWidgetFeature {
         /**
          * Describes status of sections loading
          */
-        val sectionsStatus: SectionStatus = SectionStatus.IDLE,
+        val sectionsStatus: ContentStatus = ContentStatus.IDLE,
 
         /**
          * Map of activity ids to activities
@@ -53,31 +53,34 @@ object StudyPlanWidgetFeature {
             get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
     }
 
-    enum class SectionStatus {
+    enum class ContentStatus {
         IDLE,
         LOADING,
         ERROR,
         LOADED
     }
 
-    enum class SectionContentStatus {
+    enum class PageContentStatus {
         IDLE,
+        AWAIT_LOADING,
+        LOADING,
         ERROR,
+        LOADED
+    }
 
-        FIRST_PAGE_LOADING,
-        FIRST_PAGE_LOADED,
-        NEXT_PAGE_LOADING,
-        ALL_PAGES_LOADED
+    enum class SectionPage {
+        MAIN,
+        NEXT,
+        COMPLETED
     }
 
     data class StudyPlanSectionInfo(
         val studyPlanSection: StudyPlanSection,
         val isExpanded: Boolean,
 
-        /**
-         * Describes status of section's activities loading
-         * */
-        val sectionContentStatus: SectionContentStatus
+        val mainPageContentStatus: ContentStatus,
+        val nextPageContentStatus: PageContentStatus,
+        val completedPageContentStatus: PageContentStatus
     )
 
     sealed interface Message {
@@ -88,6 +91,8 @@ object StudyPlanWidgetFeature {
         data class LoadMoreActivitiesClicked(val sectionId: Long) : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
+
+        data class ExpandCompletedActivitiesClicked(val sectionId: Long) : Message
 
         data object PullToRefresh : Message
 
@@ -132,10 +137,14 @@ object StudyPlanWidgetFeature {
     internal sealed interface LearningActivitiesFetchResult : Message {
         data class Success(
             val sectionId: Long,
-            val activities: List<LearningActivity>
+            val activities: List<LearningActivity>,
+            val targetPage: SectionPage
         ) : LearningActivitiesFetchResult
 
-        data class Failed(val sectionId: Long) : LearningActivitiesFetchResult
+        data class Failed(
+            val sectionId: Long,
+            val targetPage: SectionPage
+        ) : LearningActivitiesFetchResult
     }
 
     internal sealed interface ProfileFetchResult : Message {
@@ -165,8 +174,13 @@ object StudyPlanWidgetFeature {
             val sectionId: Long,
             val activitiesIds: List<Long>,
             val types: Set<LearningActivityType> = LearningActivityType.supportedTypes(),
-            val states: Set<LearningActivityState> = setOf(LearningActivityState.TODO),
-            val sentryTransaction: HyperskillSentryTransaction
+            val states: Set<LearningActivityState> = setOf(
+                LearningActivityState.TODO,
+                LearningActivityState.COMPLETED,
+                LearningActivityState.SKIPPED
+            ),
+            val sentryTransaction: HyperskillSentryTransaction,
+            val targetPage: SectionPage
         ) : InternalAction
 
         data object FetchProfile : InternalAction
