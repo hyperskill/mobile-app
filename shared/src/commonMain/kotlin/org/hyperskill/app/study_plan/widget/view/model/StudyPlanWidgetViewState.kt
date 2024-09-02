@@ -36,17 +36,7 @@ sealed interface StudyPlanWidgetViewState {
             val sectionItems: List<SectionItem>,
             val nextPageLoadingState: SectionContentPageLoadingState,
             val completedPageLoadingState: SectionContentPageLoadingState
-        ) : SectionContent {
-            // TODO: ALTAPPS-1334 remove this property and use nextPageLoadingState directly
-            @Deprecated("Is used only for iOS compatibility")
-            val isLoadAllTopicsButtonShown: Boolean
-                get() = nextPageLoadingState == SectionContentPageLoadingState.LOAD_MORE
-
-            // TODO: ALTAPPS-1334 remove this property and use completedPageLoadingState directly
-            @Deprecated("Is used only for iOS compatibility")
-            val isNextPageLoadingShowed: Boolean
-                get() = nextPageLoadingState == SectionContentPageLoadingState.LOADING
-        }
+        ) : SectionContent
     }
 
     enum class SectionContentPageLoadingState {
