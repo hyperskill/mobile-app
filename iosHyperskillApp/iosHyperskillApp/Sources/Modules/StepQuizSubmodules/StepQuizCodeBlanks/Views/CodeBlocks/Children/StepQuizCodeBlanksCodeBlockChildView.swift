@@ -18,9 +18,9 @@ struct StepQuizCodeBlanksCodeBlockChildView: View {
         child: StepQuizCodeBlanksViewStateCodeBlockChildItem
     ) -> some View {
         if let value = child.value {
-            StepQuizCodeBlanksOptionView(text: value, isActive: child.isActive)
+            StepQuizCodeBlanksCodeBlockChildTextView(text: value, isActive: child.isActive)
         } else {
-            StepQuizCodeBlanksBlankView(style: .small, isActive: child.isActive)
+            StepQuizCodeBlanksCodeBlockChildBlankView(style: .small, isActive: child.isActive)
         }
     }
 }

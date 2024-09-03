@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct StepQuizCodeBlanksBlankView: View {
+struct StepQuizCodeBlanksCodeBlockChildBlankView: View {
     var width: CGFloat = 208
     var height: CGFloat = 48
 
@@ -17,7 +17,7 @@ struct StepQuizCodeBlanksBlankView: View {
     }
 }
 
-extension StepQuizCodeBlanksBlankView {
+extension StepQuizCodeBlanksCodeBlockChildBlankView {
     init(style: Style, isActive: Bool) {
         let size = style.size
         self.init(width: size.width, height: size.height, isActive: isActive)
@@ -41,8 +41,8 @@ extension StepQuizCodeBlanksBlankView {
 #if DEBUG
 #Preview {
     VStack {
-        StepQuizCodeBlanksBlankView(style: .small, isActive: true)
-        StepQuizCodeBlanksBlankView(style: .large, isActive: false)
+        StepQuizCodeBlanksCodeBlockChildBlankView(style: .small, isActive: true)
+        StepQuizCodeBlanksCodeBlockChildBlankView(style: .large, isActive: false)
     }
 }
 #endif

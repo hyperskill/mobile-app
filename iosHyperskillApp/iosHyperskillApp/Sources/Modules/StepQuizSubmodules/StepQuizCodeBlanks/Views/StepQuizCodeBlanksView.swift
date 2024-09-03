@@ -23,12 +23,15 @@ struct StepQuizCodeBlanksView: View {
                 titleView
                 Divider()
 
-                codeBlocksView(
-                    codeBlocks: contentState.codeBlocks,
-                    isDeleteButtonEnabled: contentState.isDeleteButtonEnabled,
-                    isSpaceButtonHidden: contentState.isSpaceButtonHidden,
-                    isActionButtonsHidden: contentState.isActionButtonsHidden
+                StepQuizCodeBlanksCodeBlocksView(
+                    state: contentState,
+                    onCodeBlockTap: viewModel.doCodeBlockMainAction(_:),
+                    onCodeBlockChildTap: viewModel.doCodeBlockChildMainAction(codeBlock:codeBlockChild:),
+                    onSpaceTap: viewModel.doSpaceAction,
+                    onDeleteTap: viewModel.doDeleteAction,
+                    onEnterTap: viewModel.doEnterAction
                 )
+                .equatable()
                 Divider()
 
                 StepQuizCodeBlanksSuggestionsView(
@@ -36,6 +39,7 @@ struct StepQuizCodeBlanksView: View {
                     isAnimationEffectActive: contentState.isSuggestionsHighlightEffectActive,
                     onSuggestionTap: viewModel.doSuggestionMainAction(_:)
                 )
+                .equatable()
                 Divider()
             }
             .padding(.horizontal, -LayoutInsets.defaultInset)
@@ -51,78 +55,6 @@ struct StepQuizCodeBlanksView: View {
             .padding(.vertical, LayoutInsets.smallInset)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(BackgroundView())
-    }
-
-    @MainActor
-    private func codeBlocksView(
-        codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItem],
-        isDeleteButtonEnabled: Bool,
-        isSpaceButtonHidden: Bool,
-        isActionButtonsHidden: Bool
-    ) -> some View {
-        VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-            ForEach(codeBlocks, id: \.id_) { codeBlock in
-                switch StepQuizCodeBlanksViewStateCodeBlockItemKs(codeBlock) {
-                case .blank(let blankItem):
-                    StepQuizCodeBlanksBlankView(
-                        style: .large,
-                        isActive: blankItem.isActive
-                    )
-                    .padding(.horizontal)
-                    .onTapGesture {
-                        viewModel.doCodeBlockMainAction(codeBlock)
-                    }
-                case .print(let printItem):
-                    StepQuizCodeBlanksPrintInstructionView(
-                        printItem: printItem,
-                        onChildTap: { codeBlockChild in
-                            viewModel.doCodeBlockChildMainAction(
-                                codeBlock: codeBlock,
-                                codeBlockChild: codeBlockChild
-                            )
-                        }
-                    )
-                    .onTapGesture {
-                        viewModel.doCodeBlockMainAction(codeBlock)
-                    }
-                case .variable(let variableItem):
-                    StepQuizCodeBlanksVariableInstructionView(
-                        variableItem: variableItem,
-                        onChildTap: { codeBlockChild in
-                            viewModel.doCodeBlockChildMainAction(
-                                codeBlock: codeBlock,
-                                codeBlockChild: codeBlockChild
-                            )
-                        }
-                    )
-                    .onTapGesture {
-                        viewModel.doCodeBlockMainAction(codeBlock)
-                    }
-                }
-            }
-
-            if !isActionButtonsHidden {
-                HStack(spacing: LayoutInsets.defaultInset) {
-                    Spacer()
-
-                    if !isSpaceButtonHidden {
-                        StepQuizCodeBlanksActionButton
-                            .space(action: viewModel.doSpaceAction)
-                    }
-
-                    StepQuizCodeBlanksActionButton
-                        .delete(action: viewModel.doDeleteAction)
-                        .disabled(!isDeleteButtonEnabled)
-
-                    StepQuizCodeBlanksActionButton
-                        .enter(action: viewModel.doEnterAction)
-                }
-                .padding(.horizontal)
-            }
-        }
-        .padding(.vertical, LayoutInsets.defaultInset)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(BackgroundView())
     }
 }
 
