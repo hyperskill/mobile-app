@@ -121,6 +121,7 @@
     <dimen name="study_plan_bottom_margin">20dp</dimen>
     <dimen name="study_plan_section_top_margin">16dp</dimen>
     <dimen name="study_plan_activity_top_margin">8dp</dimen>
+    <dimen name="study_plan_activity_padding">16dp</dimen>
 
     <!--Gamification toolbar-->
     <dimen name="gamification_toolbar_default_height">80dp</dimen>

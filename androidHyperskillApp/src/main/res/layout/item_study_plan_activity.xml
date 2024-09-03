@@ -15,28 +15,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp"/>
+            app:layout_constraintGuide_begin="@dimen/study_plan_activity_padding"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/endGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="16dp"/>
+            app:layout_constraintGuide_end="@dimen/study_plan_activity_padding"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/topGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="16dp"/>
+            app:layout_constraintGuide_begin="@dimen/study_plan_activity_padding"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/bottomGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="16dp"/>
+            app:layout_constraintGuide_end="@dimen/study_plan_activity_padding"/>
 
         <LinearLayout
             android:id="@+id/activityTextGroup"

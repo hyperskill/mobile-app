@@ -13,7 +13,6 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.presentation.getActivitiesToBeLoaded
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getLoadedSectionActivities
@@ -33,14 +32,18 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section1.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section1,
-                    true,
-                    StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    studyPlanSection = section1,
+                    isExpanded = true,
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 ),
                 section2.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section2,
-                    true,
-                    StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    studyPlanSection = section2,
+                    isExpanded = true,
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             )
         )
@@ -62,9 +65,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
-                    true,
-                    StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    studyPlanSection = section,
+                    isExpanded = true,
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = mapOf(activity.id to activity)
@@ -83,9 +88,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
+                    studyPlanSection = section,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = mapOf(activity1.id to activity1, activity2.id to activity2)
@@ -103,9 +110,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
-                    true,
-                    StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    studyPlanSection = section,
+                    isExpanded = true,
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = activities.associateBy { it.id }
@@ -113,43 +122,6 @@ class StudyPlanWidgetStateExtensionsTest {
 
         val loadedActivities = state.getLoadedSectionActivities(sectionId).toList()
         assertEquals(activities, loadedActivities)
-    }
-
-    @Test
-    fun `getActivitiesToBeLoaded should return activities to be loaded for ROOT_TOPICS section`() {
-        val sectionId = 1L
-        val activities = listOf(1L, 2L).map { LearningActivity.stub(id = it) }
-        val section = StudyPlanSection.stub(
-            id = sectionId,
-            type = StudyPlanSectionType.ROOT_TOPICS,
-            activities = activities.map { it.id }
-        )
-        val state = StudyPlanWidgetFeature.State(
-            studyPlanSections = mapOf(
-                section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
-                    true,
-                    StudyPlanWidgetFeature.SectionContentStatus.IDLE
-                )
-            ),
-            activities = emptyMap()
-        )
-
-        val activitiesToBeLoaded = state.getActivitiesToBeLoaded(sectionId)
-        assertEquals(section.activities.toSet(), activitiesToBeLoaded)
-    }
-
-    @Test
-    fun `StudyPlanSection getActivitiesToBeLoaded should return activities to be loaded for a given section`() {
-        val section = StudyPlanSection.stub(
-            id = 1,
-            type = StudyPlanSectionType.ROOT_TOPICS,
-            activities = listOf(1L, 2L, 3L)
-        )
-        val loadedActivities = listOf(LearningActivity.stub(id = 1))
-
-        val activitiesToBeLoaded = section.getActivitiesToBeLoaded(loadedActivities)
-        assertEquals(setOf(2L, 3L), activitiesToBeLoaded)
     }
 
     @Test
@@ -162,9 +134,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
+                    studyPlanSection = section,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             activities = mapOf(1L to LearningActivity.stub(id = 1)),
@@ -187,9 +161,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
+                    studyPlanSection = section,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             profile = Profile.stub(
@@ -214,9 +190,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
+                    studyPlanSection = section,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             profile = Profile.stub(
@@ -241,9 +219,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
+                    studyPlanSection = section,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             profile = Profile.stub(
@@ -268,9 +248,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
+                    studyPlanSection = section,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             profile = Profile.stub(
@@ -301,14 +283,18 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section1.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section1,
+                    studyPlanSection = section1,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 ),
                 section2.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section2,
+                    studyPlanSection = section2,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             profile = Profile.stub(
@@ -333,9 +319,11 @@ class StudyPlanWidgetStateExtensionsTest {
         val state = StudyPlanWidgetFeature.State(
             studyPlanSections = mapOf(
                 section.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    section,
+                    studyPlanSection = section,
                     isExpanded = false,
-                    sectionContentStatus = StudyPlanWidgetFeature.SectionContentStatus.IDLE
+                    mainPageContentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    nextPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE,
+                    completedPageContentStatus = StudyPlanWidgetFeature.PageContentStatus.IDLE
                 )
             ),
             profile = Profile.stub(

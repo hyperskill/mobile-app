@@ -287,7 +287,6 @@
     <ID>TooManyFunctions:Reply.kt$Reply$Companion</ID>
     <ID>TooManyFunctions:SharedDateFormatter.kt$SharedDateFormatter</ID>
     <ID>TooManyFunctions:StepActionDispatcher.kt$StepActionDispatcher : CoroutineActionDispatcher</ID>
-    <ID>TooManyFunctions:StudyPlanWidgetDelegate.kt$StudyPlanWidgetDelegate</ID>
     <ID>TooManyFunctions:SubscriptionsInteractor.kt$SubscriptionsInteractor</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val dailyReminderId = "dailyReminderChannel"</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val otherId = "otherChannel"</ID>
