@@ -41,7 +41,7 @@ object StepQuizCodeBlanksViewStateMapper {
                 is CodeBlock.Variable -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
                         when {
-                            activeChildIndex > 1 ->
+                            activeChildIndex == 0 || activeChildIndex > 1 ->
                                 true
 
                             activeCodeBlock.children[activeChildIndex].selectedSuggestion == null &&

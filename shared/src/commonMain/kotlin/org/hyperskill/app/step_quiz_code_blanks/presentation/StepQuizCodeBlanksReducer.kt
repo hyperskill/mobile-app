@@ -385,7 +385,7 @@ class StepQuizCodeBlanksReducer(
                                 )
                             )
 
-                        activeCodeBlock.children.all { it.selectedSuggestion == null } ->
+                        activeChildIndex == 0 || activeCodeBlock.children.all { it.selectedSuggestion == null } ->
                             if (state.codeBlocks.size > 1) {
                                 removeActiveCodeBlockAndSetNextActive()
                             } else {

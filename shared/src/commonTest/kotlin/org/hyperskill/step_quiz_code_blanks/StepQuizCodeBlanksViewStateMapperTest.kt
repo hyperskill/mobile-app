@@ -197,14 +197,14 @@ class StepQuizCodeBlanksViewStateMapperTest {
                 CodeBlock.Variable(
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
-                            isActive = true,
-                            suggestions = suggestions,
-                            selectedSuggestion = null
-                        ),
-                        CodeBlockChild.SelectSuggestion(
                             isActive = false,
                             suggestions = suggestions,
                             selectedSuggestion = suggestions[0]
+                        ),
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = suggestions,
+                            selectedSuggestion = null
                         )
                     )
                 )
@@ -217,13 +217,13 @@ class StepQuizCodeBlanksViewStateMapperTest {
                     children = listOf(
                         StepQuizCodeBlanksViewState.CodeBlockChildItem(
                             id = 0,
-                            isActive = true,
-                            value = null
+                            isActive = false,
+                            value = suggestions[0].text
                         ),
                         StepQuizCodeBlanksViewState.CodeBlockChildItem(
                             id = 1,
-                            isActive = false,
-                            value = suggestions[0].text
+                            isActive = true,
+                            value = null
                         )
                     )
                 )
