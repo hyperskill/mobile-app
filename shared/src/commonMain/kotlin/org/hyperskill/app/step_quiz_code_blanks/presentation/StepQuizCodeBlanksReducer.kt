@@ -560,7 +560,7 @@ class StepQuizCodeBlanksReducer(
         CodeBlock.Blank(
             isActive = isActive,
             suggestions = if (isVariableSuggestionAvailable) {
-                listOf(Suggestion.Print, Suggestion.Variable)
+                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.IfStatement)
             } else {
                 listOf(Suggestion.Print)
             }

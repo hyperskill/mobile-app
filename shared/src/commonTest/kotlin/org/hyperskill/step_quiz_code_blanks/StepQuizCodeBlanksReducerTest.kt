@@ -25,7 +25,7 @@ class StepQuizCodeBlanksReducerTest {
     private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
 
     @Test
-    fun `Initialize should return Content state with active Blank and Print and Variable suggestions`() {
+    fun `Initialize should return Content state with active Blank and Print and Variable and If suggestions`() {
         val step = Step.stub(
             id = 1,
             block = Block.stub(options = Block.Options(codeBlanksVariables = listOf("a", "b")))
@@ -39,7 +39,7 @@ class StepQuizCodeBlanksReducerTest {
             codeBlocks = listOf(
                 CodeBlock.Blank(
                     isActive = true,
-                    suggestions = listOf(Suggestion.Print, Suggestion.Variable)
+                    suggestions = listOf(Suggestion.Print, Suggestion.Variable, Suggestion.IfStatement)
                 )
             )
         )
