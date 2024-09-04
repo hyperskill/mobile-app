@@ -105,20 +105,39 @@ class StepQuizCodeBlanksReducer(
                                 )
                             )
                         )
+                    Suggestion.IfStatement ->
+                        CodeBlock.IfStatement(
+                            children = listOf(
+                                CodeBlockChild.SelectSuggestion(
+                                    isActive = true,
+                                    suggestions = state.codeBlanksVariablesSuggestions +
+                                        state.codeBlanksStringsSuggestions,
+                                    selectedSuggestion = null
+                                )
+                            )
+                        )
                     else -> activeCodeBlock
                 }
-                is CodeBlock.Print -> {
+                is CodeBlock.Print,
+                is CodeBlock.IfStatement -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
-                        activeCodeBlock.copy(
-                            children = activeCodeBlock.children.mutate {
+                        val activeChild = activeCodeBlock.children[activeChildIndex] as CodeBlockChild.SelectSuggestion
+                        val newChildren = activeCodeBlock.children
+                            .mutate {
                                 set(
                                     activeChildIndex,
-                                    activeCodeBlock.children[activeChildIndex].copy(
+                                    activeChild.copy(
                                         selectedSuggestion = message.suggestion as? Suggestion.ConstantString
                                     )
                                 )
                             }
-                        )
+                            .cast<List<CodeBlockChild.SelectSuggestion>>()
+
+                        when (activeCodeBlock) {
+                            is CodeBlock.Print -> activeCodeBlock.copy(children = newChildren)
+                            is CodeBlock.IfStatement -> activeCodeBlock.copy(children = newChildren)
+                            else -> activeCodeBlock
+                        }
                     } ?: activeCodeBlock
                 }
                 is CodeBlock.Variable -> {
@@ -393,6 +412,7 @@ class StepQuizCodeBlanksReducer(
                             }
                     }
                 }
+                is CodeBlock.IfStatement -> TODO()
             }
         }
 
@@ -519,8 +539,9 @@ class StepQuizCodeBlanksReducer(
     private fun setCodeBlockIsActive(codeBlock: CodeBlock, isActive: Boolean): CodeBlock =
         when (codeBlock) {
             is CodeBlock.Blank -> codeBlock.copy(isActive = isActive)
+            is CodeBlock.Print,
             is CodeBlock.Variable,
-            is CodeBlock.Print -> {
+            is CodeBlock.IfStatement -> {
                 if (isActive) {
                     if (codeBlock.activeChild() != null) {
                         codeBlock
@@ -536,6 +557,7 @@ class StepQuizCodeBlanksReducer(
                         when (codeBlock) {
                             is CodeBlock.Print -> codeBlock.copy(children = newChildren)
                             is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
+                            is CodeBlock.IfStatement -> codeBlock.copy(children = newChildren)
                             else -> codeBlock
                         }
                     }
@@ -547,6 +569,7 @@ class StepQuizCodeBlanksReducer(
                     when (codeBlock) {
                         is CodeBlock.Print -> codeBlock.copy(children = newChildren)
                         is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
+                        is CodeBlock.IfStatement -> codeBlock.copy(children = newChildren)
                         else -> codeBlock
                     }
                 }

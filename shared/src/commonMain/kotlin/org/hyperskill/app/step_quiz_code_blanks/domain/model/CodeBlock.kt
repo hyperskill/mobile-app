@@ -80,6 +80,27 @@ sealed class CodeBlock {
         override fun toString(): String =
             "Variable(children=$children)"
     }
+
+    internal data class IfStatement(
+        override val children: List<CodeBlockChild.SelectSuggestion>
+    ) : CodeBlock() {
+        override val isActive: Boolean = false
+
+        override val suggestions: List<Suggestion> = emptyList()
+
+        override val analyticRepresentation: String
+            get() = "IfStatement(children=$children)"
+
+        override fun toReplyString(): String =
+            buildString {
+                append("if ")
+                append(joinChildrenToReplyString(children))
+                append(":")
+            }
+
+        override fun toString(): String =
+            "IfStatement(children=$children)"
+    }
 }
 
 internal fun CodeBlock.Companion.joinChildrenToReplyString(children: List<CodeBlockChild>): String =

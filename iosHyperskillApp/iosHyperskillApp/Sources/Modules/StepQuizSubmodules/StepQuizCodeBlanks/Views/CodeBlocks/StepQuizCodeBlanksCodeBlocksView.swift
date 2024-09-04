@@ -47,6 +47,16 @@ struct StepQuizCodeBlanksCodeBlocksView: View {
                     .onTapGesture {
                         onCodeBlockTap(codeBlock)
                     }
+                case .ifStatement(let ifStatementItem):
+                    StepQuizCodeBlanksIfStatementView(
+                        ifStatementItem: ifStatementItem,
+                        onChildTap: { codeBlockChild in
+                            onCodeBlockChildTap(codeBlock, codeBlockChild)
+                        }
+                    )
+                    .onTapGesture {
+                        onCodeBlockTap(codeBlock)
+                    }
                 }
             }
 

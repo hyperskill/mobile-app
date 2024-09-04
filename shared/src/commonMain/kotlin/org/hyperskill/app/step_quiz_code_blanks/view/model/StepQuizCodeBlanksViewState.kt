@@ -47,6 +47,11 @@ sealed interface StepQuizCodeBlanksViewState {
             val values: List<CodeBlockChildItem>
                 get() = children.drop(1)
         }
+
+        data class IfStatement(
+            override val id: Int,
+            override val children: List<CodeBlockChildItem>
+        ) : CodeBlockItem
     }
 
     data class CodeBlockChildItem(

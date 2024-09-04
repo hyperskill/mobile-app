@@ -23,7 +23,8 @@ object StepQuizCodeBlanksViewStateMapper {
             when (activeCodeBlock) {
                 is CodeBlock.Blank -> activeCodeBlock.suggestions
                 is CodeBlock.Print,
-                is CodeBlock.Variable ->
+                is CodeBlock.Variable,
+                is CodeBlock.IfStatement ->
                     (activeCodeBlock.activeChild() as? CodeBlockChild.SelectSuggestion)?.let {
                         if (it.selectedSuggestion == null) {
                             it.suggestions
@@ -37,7 +38,8 @@ object StepQuizCodeBlanksViewStateMapper {
         val isDeleteButtonEnabled =
             when (activeCodeBlock) {
                 is CodeBlock.Blank -> codeBlocks.size > 1
-                is CodeBlock.Print -> true
+                is CodeBlock.Print,
+                is CodeBlock.IfStatement -> true
                 is CodeBlock.Variable -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
                         when {
@@ -57,7 +59,8 @@ object StepQuizCodeBlanksViewStateMapper {
 
         val isSpaceButtonHidden = if (state.codeBlanksOperationsSuggestions.isNotEmpty()) {
             when (activeCodeBlock) {
-                is CodeBlock.Print -> {
+                is CodeBlock.Print,
+                is CodeBlock.IfStatement -> {
                     val activeChild = activeCodeBlock.activeChild() as? CodeBlockChild.SelectSuggestion
                     activeChild?.selectedSuggestion == null
                 }
@@ -98,6 +101,11 @@ object StepQuizCodeBlanksViewStateMapper {
                 )
             is CodeBlock.Variable ->
                 StepQuizCodeBlanksViewState.CodeBlockItem.Variable(
+                    id = index,
+                    children = codeBlock.children.mapIndexed(::mapCodeBlockChild)
+                )
+            is CodeBlock.IfStatement ->
+                StepQuizCodeBlanksViewState.CodeBlockItem.IfStatement(
                     id = index,
                     children = codeBlock.children.mapIndexed(::mapCodeBlockChild)
                 )

@@ -2,7 +2,7 @@ import shared
 import SwiftUI
 
 struct StepQuizCodeBlanksIfStatementView: View {
-    let children: [StepQuizCodeBlanksViewStateCodeBlockChildItem]
+    let ifStatementItem: StepQuizCodeBlanksViewStateCodeBlockItemIfStatement
 
     let onChildTap: (StepQuizCodeBlanksViewStateCodeBlockChildItem) -> Void
 
@@ -13,7 +13,7 @@ struct StepQuizCodeBlanksIfStatementView: View {
                     .font(StepQuizCodeBlanksAppearance.blankFont)
                     .foregroundColor(StepQuizCodeBlanksAppearance.blankTextColor)
 
-                ForEach(children, id: \.id) { child in
+                ForEach(ifStatementItem.children, id: \.id) { child in
                     StepQuizCodeBlanksCodeBlockChildView(child: child, action: onChildTap)
                 }
 
@@ -35,24 +35,33 @@ struct StepQuizCodeBlanksIfStatementView: View {
 #Preview {
     VStack {
         StepQuizCodeBlanksIfStatementView(
-            children: [
-                StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: nil)
-            ],
+            ifStatementItem: StepQuizCodeBlanksViewStateCodeBlockItemIfStatement(
+                id: 0,
+                children: [
+                    StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: nil)
+                ]
+            ),
             onChildTap: { _ in }
         )
 
         StepQuizCodeBlanksIfStatementView(
-            children: [
-                StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: "x")
-            ],
+            ifStatementItem: StepQuizCodeBlanksViewStateCodeBlockItemIfStatement(
+                id: 0,
+                children: [
+                    StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: "x")
+                ]
+            ),
             onChildTap: { _ in }
         )
 
         StepQuizCodeBlanksIfStatementView(
-            children: [
-                StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: false, value: "x"),
-                StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 1, isActive: true, value: nil)
-            ],
+            ifStatementItem: StepQuizCodeBlanksViewStateCodeBlockItemIfStatement(
+                id: 0,
+                children: [
+                    StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: false, value: "x"),
+                    StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 1, isActive: true, value: nil)
+                ]
+            ),
             onChildTap: { _ in }
         )
     }
