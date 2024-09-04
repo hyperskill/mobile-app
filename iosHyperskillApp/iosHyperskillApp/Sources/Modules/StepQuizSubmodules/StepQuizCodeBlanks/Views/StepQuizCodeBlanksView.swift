@@ -70,7 +70,9 @@ extension StepQuizCodeBlanksView: Equatable {
         StepQuizCodeBlanksView(
             viewStateKs: .content(
                 StepQuizCodeBlanksViewStateContent(
-                    codeBlocks: [StepQuizCodeBlanksViewStateCodeBlockItemBlank(id: 0, isActive: true)],
+                    codeBlocks: [
+                        StepQuizCodeBlanksViewStateCodeBlockItemBlank(id: 0, indentLevel: 0, isActive: true)
+                    ],
                     suggestions: [Suggestion.Print()],
                     isDeleteButtonEnabled: true,
                     isSpaceButtonHidden: true,
@@ -93,6 +95,7 @@ extension StepQuizCodeBlanksView: Equatable {
                     codeBlocks: [
                         StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                             id: 0,
+                            indentLevel: 0,
                             children: [
                                 StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: nil)
                             ]
@@ -123,6 +126,7 @@ extension StepQuizCodeBlanksView: Equatable {
                     codeBlocks: [
                         StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                             id: 0,
+                            indentLevel: 0,
                             children: [
                                 StepQuizCodeBlanksViewStateCodeBlockChildItem(
                                     id: 0,
@@ -133,6 +137,7 @@ extension StepQuizCodeBlanksView: Equatable {
                         ),
                         StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                             id: 1,
+                            indentLevel: 0,
                             children: [
                                 StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: nil)
                             ]

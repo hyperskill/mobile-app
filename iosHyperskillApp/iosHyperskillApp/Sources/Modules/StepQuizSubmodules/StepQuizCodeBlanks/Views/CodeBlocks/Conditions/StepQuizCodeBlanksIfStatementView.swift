@@ -37,6 +37,7 @@ struct StepQuizCodeBlanksIfStatementView: View {
         StepQuizCodeBlanksIfStatementView(
             ifStatementItem: StepQuizCodeBlanksViewStateCodeBlockItemIfStatement(
                 id: 0,
+                indentLevel: 0,
                 children: [
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: nil)
                 ]
@@ -47,6 +48,7 @@ struct StepQuizCodeBlanksIfStatementView: View {
         StepQuizCodeBlanksIfStatementView(
             ifStatementItem: StepQuizCodeBlanksViewStateCodeBlockItemIfStatement(
                 id: 0,
+                indentLevel: 0,
                 children: [
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: "x")
                 ]
@@ -57,6 +59,7 @@ struct StepQuizCodeBlanksIfStatementView: View {
         StepQuizCodeBlanksIfStatementView(
             ifStatementItem: StepQuizCodeBlanksViewStateCodeBlockItemIfStatement(
                 id: 0,
+                indentLevel: 0,
                 children: [
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: false, value: "x"),
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 1, isActive: true, value: nil)

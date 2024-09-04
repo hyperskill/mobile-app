@@ -17,39 +17,12 @@ struct StepQuizCodeBlanksCodeBlocksView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
             ForEach(state.codeBlocks, id: \.id_) { codeBlock in
-                switch StepQuizCodeBlanksViewStateCodeBlockItemKs(codeBlock) {
-                case .blank(let blankItem):
-                    StepQuizCodeBlanksCodeBlockChildBlankView(
-                        style: .large,
-                        isActive: blankItem.isActive
-                    )
-                    .padding(.horizontal)
-                    .onTapGesture {
-                        onCodeBlockTap(codeBlock)
-                    }
-                case .print(let printItem):
-                    StepQuizCodeBlanksPrintInstructionView(
-                        printItem: printItem,
-                        onChildTap: { codeBlockChild in
-                            onCodeBlockChildTap(codeBlock, codeBlockChild)
-                        }
-                    )
-                    .onTapGesture {
-                        onCodeBlockTap(codeBlock)
-                    }
-                case .variable(let variableItem):
-                    StepQuizCodeBlanksVariableInstructionView(
-                        variableItem: variableItem,
-                        onChildTap: { codeBlockChild in
-                            onCodeBlockChildTap(codeBlock, codeBlockChild)
-                        }
-                    )
-                    .onTapGesture {
-                        onCodeBlockTap(codeBlock)
-                    }
-                case .ifStatement(let ifStatementItem):
-                    StepQuizCodeBlanksIfStatementView(
-                        ifStatementItem: ifStatementItem,
+                HStack(spacing: 0) {
+                    Spacer()
+                        .frame(width: LayoutInsets.defaultInset * CGFloat(codeBlock.indentLevel))
+
+                    buildCodeBlockView(
+                        codeBlock: codeBlock,
                         onChildTap: { codeBlockChild in
                             onCodeBlockChildTap(codeBlock, codeBlockChild)
                         }
@@ -73,6 +46,36 @@ struct StepQuizCodeBlanksCodeBlocksView: View {
         .padding(.vertical, LayoutInsets.defaultInset)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(BackgroundView())
+    }
+
+    @ViewBuilder
+    private func buildCodeBlockView(
+        codeBlock: StepQuizCodeBlanksViewStateCodeBlockItem,
+        onChildTap: @escaping (StepQuizCodeBlanksViewStateCodeBlockChildItem) -> Void
+    ) -> some View {
+        switch StepQuizCodeBlanksViewStateCodeBlockItemKs(codeBlock) {
+        case .blank(let blankItem):
+            StepQuizCodeBlanksCodeBlockChildBlankView(
+                style: .large,
+                isActive: blankItem.isActive
+            )
+            .padding(.horizontal)
+        case .print(let printItem):
+            StepQuizCodeBlanksPrintInstructionView(
+                printItem: printItem,
+                onChildTap: onChildTap
+            )
+        case .variable(let variableItem):
+            StepQuizCodeBlanksVariableInstructionView(
+                variableItem: variableItem,
+                onChildTap: onChildTap
+            )
+        case .ifStatement(let ifStatementItem):
+            StepQuizCodeBlanksIfStatementView(
+                ifStatementItem: ifStatementItem,
+                onChildTap: onChildTap
+            )
+        }
     }
 }
 

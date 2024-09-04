@@ -7,6 +7,8 @@ sealed class CodeBlock {
 
     internal abstract val isActive: Boolean
 
+    internal abstract val indentLevel: Int
+
     internal abstract val suggestions: List<Suggestion>
 
     internal abstract val children: List<CodeBlockChild>
@@ -23,6 +25,7 @@ sealed class CodeBlock {
 
     internal data class Blank(
         override val isActive: Boolean,
+        override val indentLevel: Int,
         override val suggestions: List<Suggestion>
     ) : CodeBlock() {
         override val children: List<CodeBlockChild> = emptyList()
@@ -34,6 +37,7 @@ sealed class CodeBlock {
     }
 
     internal data class Print(
+        override val indentLevel: Int,
         override val children: List<CodeBlockChild.SelectSuggestion>
     ) : CodeBlock() {
         override val isActive: Boolean = false
@@ -55,6 +59,7 @@ sealed class CodeBlock {
     }
 
     internal data class Variable(
+        override val indentLevel: Int,
         override val children: List<CodeBlockChild.SelectSuggestion>
     ) : CodeBlock() {
         val name: CodeBlockChild.SelectSuggestion?
@@ -82,6 +87,7 @@ sealed class CodeBlock {
     }
 
     internal data class IfStatement(
+        override val indentLevel: Int,
         override val children: List<CodeBlockChild.SelectSuggestion>
     ) : CodeBlock() {
         override val isActive: Boolean = false

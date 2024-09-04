@@ -93,20 +93,27 @@ object StepQuizCodeBlanksViewStateMapper {
     ): StepQuizCodeBlanksViewState.CodeBlockItem =
         when (codeBlock) {
             is CodeBlock.Blank ->
-                StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = index, isActive = codeBlock.isActive)
+                StepQuizCodeBlanksViewState.CodeBlockItem.Blank(
+                    id = index,
+                    indentLevel = codeBlock.indentLevel,
+                    isActive = codeBlock.isActive
+                )
             is CodeBlock.Print ->
                 StepQuizCodeBlanksViewState.CodeBlockItem.Print(
                     id = index,
+                    indentLevel = codeBlock.indentLevel,
                     children = codeBlock.children.mapIndexed(::mapCodeBlockChild)
                 )
             is CodeBlock.Variable ->
                 StepQuizCodeBlanksViewState.CodeBlockItem.Variable(
                     id = index,
+                    indentLevel = codeBlock.indentLevel,
                     children = codeBlock.children.mapIndexed(::mapCodeBlockChild)
                 )
             is CodeBlock.IfStatement ->
                 StepQuizCodeBlanksViewState.CodeBlockItem.IfStatement(
                     id = index,
+                    indentLevel = codeBlock.indentLevel,
                     children = codeBlock.children.mapIndexed(::mapCodeBlockChild)
                 )
         }
