@@ -29,7 +29,8 @@ struct StepQuizCodeBlanksView: View {
                     onCodeBlockChildTap: viewModel.doCodeBlockChildMainAction(codeBlock:codeBlockChild:),
                     onSpaceTap: viewModel.doSpaceAction,
                     onDeleteTap: viewModel.doDeleteAction,
-                    onEnterTap: viewModel.doEnterAction
+                    onEnterTap: viewModel.doEnterAction,
+                    onDecreaseIndentLevelTap: viewModel.doDecreaseIndentLevelAction
                 )
                 .equatable()
                 Divider()
@@ -76,6 +77,7 @@ extension StepQuizCodeBlanksView: Equatable {
                     suggestions: [Suggestion.Print()],
                     isDeleteButtonEnabled: true,
                     isSpaceButtonHidden: true,
+                    isDecreaseIndentLevelButtonHidden: true,
                     onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),
@@ -107,6 +109,7 @@ extension StepQuizCodeBlanksView: Equatable {
                     ],
                     isDeleteButtonEnabled: false,
                     isSpaceButtonHidden: true,
+                    isDecreaseIndentLevelButtonHidden: true,
                     onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),
@@ -149,6 +152,7 @@ extension StepQuizCodeBlanksView: Equatable {
                     ],
                     isDeleteButtonEnabled: false,
                     isSpaceButtonHidden: true,
+                    isDecreaseIndentLevelButtonHidden: true,
                     onboardingState: StepQuizCodeBlanksFeatureOnboardingStateUnavailable()
                 )
             ),

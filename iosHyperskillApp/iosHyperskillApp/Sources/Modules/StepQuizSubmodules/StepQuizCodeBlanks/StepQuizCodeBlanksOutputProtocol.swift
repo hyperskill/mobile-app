@@ -11,4 +11,5 @@ protocol StepQuizCodeBlanksOutputProtocol: AnyObject {
     func handleStepQuizCodeBlanksDidTapDelete()
     func handleStepQuizCodeBlanksDidTapEnter()
     func handleStepQuizCodeBlanksDidTapSpace()
+    func handleStepQuizCodeBlanksDidTapDecreaseIndentLevel()
 }

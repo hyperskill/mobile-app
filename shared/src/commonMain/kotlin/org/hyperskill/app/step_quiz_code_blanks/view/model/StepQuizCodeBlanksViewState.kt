@@ -11,6 +11,7 @@ sealed interface StepQuizCodeBlanksViewState {
         val suggestions: List<Suggestion>,
         val isDeleteButtonEnabled: Boolean,
         val isSpaceButtonHidden: Boolean,
+        val isDecreaseIndentLevelButtonHidden: Boolean,
         internal val onboardingState: OnboardingState = OnboardingState.Unavailable
     ) : StepQuizCodeBlanksViewState {
         val isActionButtonsHidden: Boolean

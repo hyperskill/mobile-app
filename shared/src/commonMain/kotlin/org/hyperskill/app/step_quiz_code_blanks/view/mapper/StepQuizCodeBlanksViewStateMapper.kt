@@ -17,7 +17,9 @@ object StepQuizCodeBlanksViewStateMapper {
         state: StepQuizCodeBlanksFeature.State.Content
     ): StepQuizCodeBlanksViewState.Content {
         val codeBlocks = state.codeBlocks.mapIndexed(::mapCodeBlock)
-        val activeCodeBlock = state.activeCodeBlockIndex()?.let { state.codeBlocks[it] }
+
+        val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val suggestions =
             when (activeCodeBlock) {
@@ -78,11 +80,20 @@ object StepQuizCodeBlanksViewStateMapper {
             true
         }
 
+        val isDecreaseIndentLevelButtonHidden =
+            when {
+                activeCodeBlock == null -> true
+                activeCodeBlock.indentLevel < 1 -> true
+                state.codeBlocks.getOrNull(activeCodeBlockIndex - 1) is CodeBlock.IfStatement -> true
+                else -> false
+            }
+
         return StepQuizCodeBlanksViewState.Content(
             codeBlocks = codeBlocks,
             suggestions = suggestions,
             isDeleteButtonEnabled = isDeleteButtonEnabled,
             isSpaceButtonHidden = isSpaceButtonHidden,
+            isDecreaseIndentLevelButtonHidden = isDecreaseIndentLevelButtonHidden,
             onboardingState = state.onboardingState
         )
     }

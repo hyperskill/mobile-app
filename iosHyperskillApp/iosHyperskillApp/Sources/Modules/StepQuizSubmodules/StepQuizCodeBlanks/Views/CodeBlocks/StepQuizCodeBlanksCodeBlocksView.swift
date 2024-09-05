@@ -13,6 +13,7 @@ struct StepQuizCodeBlanksCodeBlocksView: View {
     let onSpaceTap: () -> Void
     let onDeleteTap: () -> Void
     let onEnterTap: () -> Void
+    let onDecreaseIndentLevelTap: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
@@ -37,9 +38,11 @@ struct StepQuizCodeBlanksCodeBlocksView: View {
                 StepQuizCodeBlanksActionButtonsView(
                     isDeleteButtonEnabled: state.isDeleteButtonEnabled,
                     isSpaceButtonHidden: state.isSpaceButtonHidden,
+                    isDecreaseIndentLevelButtonHidden: state.isDecreaseIndentLevelButtonHidden,
                     onSpaceTap: onSpaceTap,
                     onDeleteTap: onDeleteTap,
-                    onEnterTap: onEnterTap
+                    onEnterTap: onEnterTap,
+                    onDecreaseIndentLevelTap: onDecreaseIndentLevelTap
                 )
             }
         }
