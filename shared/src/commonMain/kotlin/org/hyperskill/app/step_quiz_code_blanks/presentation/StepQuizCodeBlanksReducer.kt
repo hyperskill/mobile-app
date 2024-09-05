@@ -5,6 +5,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockChildHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDecreaseIndentLevelHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedEnterHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent
@@ -36,6 +37,7 @@ class StepQuizCodeBlanksReducer(
             Message.DeleteButtonClicked -> handleDeleteButtonClicked(state)
             Message.EnterButtonClicked -> handleEnterButtonClicked(state)
             Message.SpaceButtonClicked -> handleSpaceButtonClicked(state)
+            Message.DecreaseIndentLevelButtonClicked -> handleDecreaseIndentLevelButtonClicked(state)
         } ?: (state to emptySet())
 
     private fun initialize(
@@ -60,21 +62,21 @@ class StepQuizCodeBlanksReducer(
         }
 
         val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
-                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] },
+                    codeBlock = activeCodeBlock,
                     suggestion = message.suggestion
                 )
             )
         )
 
-        if (activeCodeBlockIndex == null) {
+        if (activeCodeBlock == null) {
             return state to actions
         }
-        val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
 
         val newCodeBlock =
             when (activeCodeBlock) {
@@ -295,20 +297,20 @@ class StepQuizCodeBlanksReducer(
         }
 
         val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
-                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+                    codeBlock = activeCodeBlock
                 )
             )
         )
 
-        if (activeCodeBlockIndex == null) {
+        if (activeCodeBlock == null) {
             return state to actions
         }
-        val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
 
         val newCodeBlocks = state.codeBlocks.mutate {
             val removeActiveCodeBlockAndSetNextActive = {
@@ -466,19 +468,20 @@ class StepQuizCodeBlanksReducer(
         }
 
         val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedEnterHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
-                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+                    codeBlock = activeCodeBlock
                 )
             )
         )
 
-        return if (activeCodeBlockIndex != null) {
+        return if (activeCodeBlock != null) {
             val indentLevel =
-                when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
+                when (activeCodeBlock) {
                     is CodeBlock.IfStatement -> activeCodeBlock.indentLevel + 1
                     else -> activeCodeBlock.indentLevel
                 }
@@ -511,20 +514,20 @@ class StepQuizCodeBlanksReducer(
         }
 
         val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
-                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+                    codeBlock = activeCodeBlock
                 )
             )
         )
 
-        if (activeCodeBlockIndex == null) {
+        if (activeCodeBlock == null) {
             return state to actions
         }
-        val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
 
         val newChildren = when (activeCodeBlock) {
             is CodeBlock.Print,
@@ -582,6 +585,45 @@ class StepQuizCodeBlanksReducer(
         }
 
         return state.copy(codeBlocks = newCodeBlocks) to actions
+    }
+
+    private fun handleDecreaseIndentLevelButtonClicked(
+        state: State
+    ): StepQuizCodeBlanksReducerResult? {
+        if (state !is State.Content) {
+            return null
+        }
+
+        val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+
+        val actions = setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizCodeBlanksClickedDecreaseIndentLevelHyperskillAnalyticEvent(
+                    route = stepRoute.analyticRoute,
+                    codeBlock = activeCodeBlock
+                )
+            )
+        )
+
+        if (activeCodeBlock == null || activeCodeBlock.indentLevel < 1) {
+            return state to actions
+        }
+        val newIndentLevel = activeCodeBlock.indentLevel - 1
+
+        return state.copy(
+            codeBlocks = state.codeBlocks.mutate {
+                set(
+                    activeCodeBlockIndex,
+                    when (activeCodeBlock) {
+                        is CodeBlock.Blank -> activeCodeBlock.copy(indentLevel = newIndentLevel)
+                        is CodeBlock.Print -> activeCodeBlock.copy(indentLevel = newIndentLevel)
+                        is CodeBlock.Variable -> activeCodeBlock.copy(indentLevel = newIndentLevel)
+                        is CodeBlock.IfStatement -> activeCodeBlock.copy(indentLevel = newIndentLevel)
+                    }
+                )
+            }
+        ) to actions
     }
 
     private fun setCodeBlockIsActive(codeBlock: CodeBlock, isActive: Boolean): CodeBlock =

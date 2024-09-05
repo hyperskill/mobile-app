@@ -285,6 +285,14 @@ extension StepQuizViewModel: StepQuizCodeBlanksOutputProtocol {
             )
         )
     }
+
+    func handleStepQuizCodeBlanksDidTapDecreaseIndentLevel() {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizCodeBlanksMessage(
+                message: StepQuizCodeBlanksFeatureMessageDecreaseIndentLevelButtonClicked()
+            )
+        )
+    }
 }
 
 // MARK: - StepQuizViewModel: StepQuizProblemOnboardingModalViewControllerDelegate -
