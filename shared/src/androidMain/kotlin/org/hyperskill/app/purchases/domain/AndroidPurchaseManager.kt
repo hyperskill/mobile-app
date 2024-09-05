@@ -1,17 +1,16 @@
 package org.hyperskill.app.purchases.domain
 
-import android.app.Activity
 import android.app.Application
 import com.revenuecat.purchases.LogLevel
 import com.revenuecat.purchases.PurchaseParams
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import com.revenuecat.purchases.PurchasesErrorCode
-import com.revenuecat.purchases.PurchasesException
 import com.revenuecat.purchases.PurchasesTransactionException
 import com.revenuecat.purchases.awaitCustomerInfo
 import com.revenuecat.purchases.awaitGetProducts
 import com.revenuecat.purchases.awaitLogIn
+import com.revenuecat.purchases.awaitOfferings
 import com.revenuecat.purchases.awaitPurchase
 import com.revenuecat.purchases.models.StoreProduct
 import kotlin.coroutines.resume
@@ -21,6 +20,9 @@ import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
+import org.hyperskill.app.purchases.domain.model.SubscriptionOption
+import org.hyperskill.app.purchases.domain.model.SubscriptionPeriod
+import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 
 class AndroidPurchaseManager(
     private val application: Application,
@@ -63,37 +65,22 @@ class AndroidPurchaseManager(
         }
 
     override suspend fun purchase(
-        productId: String,
+        subscriptionOption: SubscriptionOption,
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult> =
         runCatching {
-            val product = try {
-                fetchProduct(productId) ?: return@runCatching PurchaseResult.Error.NoProductFound(productId)
-            } catch (e: PurchasesException) {
-                return@runCatching mapProductFetchException(productId, e)
-            }
             val activity = platformPurchaseParams.activity
-            purchase(activity, product)
-        }
-
-    private fun mapProductFetchException(productId: String, e: PurchasesException): PurchaseResult =
-        PurchaseResult.Error.ErrorWhileFetchingProduct(
-            productId = productId,
-            originMessage = e.message,
-            underlyingErrorMessage = e.error.underlyingErrorMessage
-        )
-
-    private suspend fun purchase(activity: Activity, product: StoreProduct): PurchaseResult =
-        try {
-            val purchaseResult = Purchases.sharedInstance.awaitPurchase(
-                PurchaseParams.Builder(activity, product).build()
-            )
-            PurchaseResult.Succeed(
-                orderId = purchaseResult.storeTransaction.orderId,
-                productIds = purchaseResult.storeTransaction.productIds
-            )
-        } catch (e: PurchasesTransactionException) {
-            mapException(e)
+            try {
+                val purchaseResult = Purchases.sharedInstance.awaitPurchase(
+                    PurchaseParams.Builder(activity, subscriptionOption.revenueCatSubscriptionOption).build()
+                )
+                PurchaseResult.Succeed(
+                    orderId = purchaseResult.storeTransaction.orderId,
+                    productIds = purchaseResult.storeTransaction.productIds
+                )
+            } catch (e: PurchasesTransactionException) {
+                mapException(e)
+            }
         }
 
     private fun mapException(e: PurchasesTransactionException): PurchaseResult {
@@ -120,13 +107,34 @@ class AndroidPurchaseManager(
 
     override suspend fun getFormattedProductPrice(productId: String): Result<String?> =
         kotlin.runCatching {
-            fetchProduct(productId)?.price?.formatted
+            fetchProduct(listOf(productId)).firstOrNull()?.price?.formatted
+        }
+
+    override suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>> =
+        kotlin.runCatching {
+            val currentOffering = Purchases.sharedInstance.awaitOfferings().current
+                ?: return@runCatching emptyList()
+            currentOffering.availablePackages.mapNotNull {
+                val product = it.product
+                SubscriptionProduct(
+                    id = product.id,
+                    period = when (product.period?.unit) {
+                        com.revenuecat.purchases.models.Period.Unit.MONTH -> SubscriptionPeriod.MONTH
+                        com.revenuecat.purchases.models.Period.Unit.YEAR -> SubscriptionPeriod.YEAR
+                        else -> return@mapNotNull null
+                    },
+                    formattedPrice = product.price.formatted,
+                    formattedPricePerMonth = product.formattedPricePerMonth() ?: return@mapNotNull null,
+                    isTrialEligible = false,
+                    subscriptionOption = SubscriptionOption(
+                        requireNotNull(product.subscriptionOptions).first()
+                    )
+                )
+            }
         }
 
     override suspend fun checkTrialEligibility(productId: String): Boolean = false
 
-    private suspend fun fetchProduct(productId: String): StoreProduct? =
-        Purchases.sharedInstance
-            .awaitGetProducts(listOf(productId))
-            .firstOrNull()
+    private suspend fun fetchProduct(productIds: List<String>): List<StoreProduct> =
+        Purchases.sharedInstance.awaitGetProducts(productIds)
 }

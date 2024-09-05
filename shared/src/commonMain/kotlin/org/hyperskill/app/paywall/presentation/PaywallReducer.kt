@@ -36,12 +36,14 @@ internal class PaywallReducer(
                         )
                     )
                 )
-            is InternalMessage.FetchMobileOnlyPriceSuccess ->
+            is InternalMessage.FetchSubscriptionProductsSuccess ->
                 handleFetchMobileOnlyPriceSuccess(message)
-            InternalMessage.FetchMobileOnlyPriceError ->
+            InternalMessage.FetchSubscriptionProductsError ->
                 handleFetchMobileOnlyPriceError()
             Message.CloseClicked ->
                 handleCloseClicked(state)
+            is Message.ProductClicked ->
+                handleProductClicked(state, message)
             is Message.BuySubscriptionClicked ->
                 handleBuySubscriptionClicked(state, message)
             is InternalMessage.MobileOnlySubscriptionPurchaseSuccess ->
@@ -66,11 +68,11 @@ internal class PaywallReducer(
         State.Loading to setOf(InternalAction.FetchMobileOnlyPrice) + actions
 
     private fun handleFetchMobileOnlyPriceSuccess(
-        message: InternalMessage.FetchMobileOnlyPriceSuccess
+        message: InternalMessage.FetchSubscriptionProductsSuccess
     ): ReducerResult =
         State.Content(
-            formattedPrice = message.formattedPrice,
-            isTrialEligible = message.isTrialEligible
+            subscriptionProducts = message.subscriptionProducts,
+            selectedProductId = message.subscriptionProducts.first().id
         ) to emptySet()
 
     private fun handleFetchMobileOnlyPriceError(): ReducerResult =
@@ -88,18 +90,39 @@ internal class PaywallReducer(
             getTargetScreenNavigationAction(paywallTransitionSource)
         )
 
+    private fun handleProductClicked(
+        state: State,
+        message: Message.ProductClicked
+    ): ReducerResult =
+        if (state is State.Content) {
+            state.copy(
+                selectedProductId = message.productId
+            ) to emptySet()
+        } else {
+            state to emptySet()
+        }
+
     private fun handleBuySubscriptionClicked(
         state: State,
         message: Message.BuySubscriptionClicked
     ): ReducerResult =
-        state to setOf(
-            InternalAction.LogAnalyticEvent(
-                PaywallClickedBuySubscriptionHyperskillAnalyticEvent(
-                    paywallTransitionSource
+        if (state is State.Content) {
+            state to setOf(
+                InternalAction.LogAnalyticEvent(
+                    PaywallClickedBuySubscriptionHyperskillAnalyticEvent(
+                        paywallTransitionSource
+                    )
+                ),
+                InternalAction.StartSubscriptionProductPurchase(
+                    subscriptionOption = state.subscriptionProducts.first {
+                        it.id == state.selectedProductId
+                    }.subscriptionOption,
+                    purchaseParams = message.purchaseParams
                 )
-            ),
-            InternalAction.StartMobileOnlySubscriptionPurchase(message.purchaseParams)
-        )
+            )
+        } else {
+            state to emptySet()
+        }
 
     private fun handleMobileOnlySubscriptionPurchaseSuccess(
         state: State,

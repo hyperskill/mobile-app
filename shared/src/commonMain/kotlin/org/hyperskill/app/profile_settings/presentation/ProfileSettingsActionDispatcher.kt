@@ -21,6 +21,7 @@ import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailDataBuilder
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
+import org.hyperskill.app.purchases.domain.model.SubscriptionPeriod
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -118,7 +119,7 @@ internal class ProfileSettingsActionDispatcher(
                 currentSubscriptionStateRepository.getState(forceUpdate = true)
             }
             val priceDeferred = async {
-                purchaseInteractor.getFormattedMobileOnlySubscriptionPrice()
+                purchaseInteractor.getFormattedMobileOnlySubscriptionPrice(SubscriptionPeriod.MONTH)
             }
             Message.ProfileSettingsSuccess(
                 profileSettings = profileSettingsInteractor.getProfileSettings(),

@@ -16,6 +16,12 @@ class PaywallViewModel(
         onNewMessage(Message.Initialize)
     }
 
+    fun onOptionClick(productId: String) {
+        onNewMessage(
+            Message.ProductClicked(productId)
+        )
+    }
+
     fun onBuySubscriptionClick(activity: Activity) {
         onNewMessage(
             Message.BuySubscriptionClicked(

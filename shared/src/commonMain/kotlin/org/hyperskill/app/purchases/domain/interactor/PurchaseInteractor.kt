@@ -6,6 +6,10 @@ import org.hyperskill.app.purchases.domain.model.PlatformProductIdentifiers
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
+import org.hyperskill.app.purchases.domain.model.SubscriptionOption
+import org.hyperskill.app.purchases.domain.model.SubscriptionPeriod
+import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
+import org.hyperskill.app.purchases.domain.model.toProductIdentifier
 
 class PurchaseInteractor(
     private val purchaseManager: PurchaseManager,
@@ -35,17 +39,26 @@ class PurchaseInteractor(
     suspend fun canMakePayments(): Result<Boolean> =
         purchaseManager.canMakePayments()
 
-    suspend fun purchaseMobileOnlySubscription(
+    suspend fun purchaseSubscriptionProduct(
+        subscriptionOption: SubscriptionOption,
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult> =
-        purchaseManager.purchase(PlatformProductIdentifiers.MOBILE_ONLY_MONTHLY_SUBSCRIPTION, platformPurchaseParams)
+        purchaseManager.purchase(
+            subscriptionOption = subscriptionOption,
+            platformPurchaseParams = platformPurchaseParams
+        )
 
-    suspend fun getManagementUrl(): Result<String?> =
-        purchaseManager.getManagementUrl()
+    suspend fun getFormattedMobileOnlySubscriptionPrice(
+        subscriptionPeriod: SubscriptionPeriod
+    ): Result<String?> =
+        purchaseManager.getFormattedProductPrice(subscriptionPeriod.toProductIdentifier())
 
-    suspend fun getFormattedMobileOnlySubscriptionPrice(): Result<String?> =
-        purchaseManager.getFormattedProductPrice(PlatformProductIdentifiers.MOBILE_ONLY_MONTHLY_SUBSCRIPTION)
+    suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>> =
+        purchaseManager.getSubscriptionProducts()
 
     suspend fun checkTrialEligibilityForMobileOnlySubscription(): Boolean =
         purchaseManager.checkTrialEligibility(PlatformProductIdentifiers.MOBILE_ONLY_MONTHLY_SUBSCRIPTION)
+
+    suspend fun getManagementUrl(): Result<String?> =
+        purchaseManager.getManagementUrl()
 }

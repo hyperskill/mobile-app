@@ -5,6 +5,8 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
+import org.hyperskill.app.purchases.domain.model.SubscriptionOption
+import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
@@ -14,8 +16,8 @@ object PaywallFeature {
         data object Loading : State
         data object Error : State
         data class Content(
-            val formattedPrice: String,
-            val isTrialEligible: Boolean,
+            val subscriptionProducts: List<SubscriptionProduct>,
+            val selectedProductId: String,
             val isPurchaseSyncLoadingShowed: Boolean = false
         ) : State
     }
@@ -30,12 +32,20 @@ object PaywallFeature {
         data object Loading : ViewStateContent
         data object Error : ViewStateContent
         data class Content(
+            val subscriptionProducts: List<SubscriptionProduct>,
             val buyButtonText: String,
-            val priceText: String?,
-            val trialText: String?
+            val trialText: String? = null
         ) : ViewStateContent
 
         data object SubscriptionSyncLoading : ViewStateContent
+
+        data class SubscriptionProduct(
+            val productId: String,
+            val title: String,
+            val subtitle: String,
+            val isBestValue: Boolean,
+            val isSelected: Boolean
+        )
     }
 
     sealed interface Message {
@@ -44,6 +54,8 @@ object PaywallFeature {
         data object RetryContentLoading : Message
 
         data object CloseClicked : Message
+
+        data class ProductClicked(val productId: String) : Message
 
         data class BuySubscriptionClicked(
             val purchaseParams: PlatformPurchaseParams
@@ -58,10 +70,9 @@ object PaywallFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        data object FetchMobileOnlyPriceError : InternalMessage
-        data class FetchMobileOnlyPriceSuccess(
-            val formattedPrice: String,
-            val isTrialEligible: Boolean
+        data object FetchSubscriptionProductsError : InternalMessage
+        data class FetchSubscriptionProductsSuccess(
+            val subscriptionProducts: List<SubscriptionProduct>
         ) : InternalMessage
 
         data object MobileOnlySubscriptionPurchaseError : InternalMessage
@@ -103,7 +114,8 @@ object PaywallFeature {
     internal sealed interface InternalAction : Action {
         data object FetchMobileOnlyPrice : InternalAction
 
-        data class StartMobileOnlySubscriptionPurchase(
+        data class StartSubscriptionProductPurchase(
+            val subscriptionOption: SubscriptionOption,
             val purchaseParams: PlatformPurchaseParams
         ) : InternalAction
 
