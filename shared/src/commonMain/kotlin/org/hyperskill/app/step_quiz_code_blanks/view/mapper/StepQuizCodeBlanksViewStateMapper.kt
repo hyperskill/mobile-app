@@ -55,10 +55,21 @@ object StepQuizCodeBlanksViewStateMapper {
                         }
                     } ?: false
                 }
-                is CodeBlock.IfStatement ->
-                    codeBlocks.getOrNull(activeCodeBlockIndex + 1)?.let {
-                        it.indentLevel == activeCodeBlock.indentLevel
-                    } ?: true
+                is CodeBlock.IfStatement -> {
+                    activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
+                        when {
+                            activeChildIndex > 0 ->
+                                true
+
+                            activeCodeBlock.children[activeChildIndex].selectedSuggestion != null ->
+                                true
+
+                            else ->
+                                codeBlocks.getOrNull(activeCodeBlockIndex + 1)
+                                    ?.let { it.indentLevel == activeCodeBlock.indentLevel } ?: true
+                        }
+                    } ?: false
+                }
                 null -> false
             }
 

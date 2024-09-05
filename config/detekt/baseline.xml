@@ -206,6 +206,7 @@
     <ID>ModifierWithoutDefault:BadgeImage.kt$modifier</ID>
     <ID>NestedBlockDepth:AuthSocialWebViewClient.kt$AuthSocialWebViewClient$override fun shouldOverrideUrlLoading( view: WebView?, request: WebResourceRequest? ): Boolean</ID>
     <ID>NestedBlockDepth:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun setCodeBlockIsActive(codeBlock: CodeBlock, isActive: Boolean): CodeBlock</ID>
+    <ID>NestedBlockDepth:StepQuizCodeBlanksViewStateMapper.kt$StepQuizCodeBlanksViewStateMapper$private fun mapContentState( state: StepQuizCodeBlanksFeature.State.Content ): StepQuizCodeBlanksViewState.Content</ID>
     <ID>PreviewPublic:BadgeCard.kt$BadgeCardPreview</ID>
     <ID>PreviewPublic:BadgeCard.kt$LastLevelBadgeCardPreview</ID>
     <ID>PreviewPublic:BadgeGrid.kt$PhoneBadgeGridPreview</ID>
