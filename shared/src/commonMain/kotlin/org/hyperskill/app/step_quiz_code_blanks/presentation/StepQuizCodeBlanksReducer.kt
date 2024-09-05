@@ -413,7 +413,7 @@ class StepQuizCodeBlanksReducer(
                                 )
                             )
 
-                        activeChildIndex == 0 || activeCodeBlock.children.all { it.selectedSuggestion == null } ->
+                        activeChildIndex == 0 || activeCodeBlock.areAllChildrenUnselected() ->
                             if (state.codeBlocks.size > 1) {
                                 removeActiveCodeBlockAndSetNextActive()
                             } else {
@@ -424,6 +424,8 @@ class StepQuizCodeBlanksReducer(
                 is CodeBlock.IfStatement -> {
                     val activeChildIndex = activeCodeBlock.activeChildIndex() ?: return@mutate
                     val activeChild = activeCodeBlock.children[activeChildIndex]
+
+                    val nextCodeBlock = state.codeBlocks.getOrNull(activeCodeBlockIndex + 1)
 
                     when {
                         activeChild.selectedSuggestion != null ->
@@ -452,6 +454,14 @@ class StepQuizCodeBlanksReducer(
                                     }
                                 )
                             )
+
+                        (activeChildIndex == 0 || activeCodeBlock.areAllChildrenUnselected()) &&
+                            (nextCodeBlock?.let { it.indentLevel == activeCodeBlock.indentLevel } ?: true) ->
+                            if (state.codeBlocks.size > 1) {
+                                removeActiveCodeBlockAndSetNextActive()
+                            } else {
+                                replaceActiveCodeWithBlank()
+                            }
                     }
                 }
             }

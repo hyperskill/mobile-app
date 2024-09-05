@@ -40,8 +40,7 @@ object StepQuizCodeBlanksViewStateMapper {
         val isDeleteButtonEnabled =
             when (activeCodeBlock) {
                 is CodeBlock.Blank -> codeBlocks.size > 1
-                is CodeBlock.Print,
-                is CodeBlock.IfStatement -> true
+                is CodeBlock.Print -> true
                 is CodeBlock.Variable -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
                         when {
@@ -49,13 +48,17 @@ object StepQuizCodeBlanksViewStateMapper {
                                 true
 
                             activeCodeBlock.children[activeChildIndex].selectedSuggestion == null &&
-                                activeCodeBlock.children.any { it.selectedSuggestion != null } ->
+                                activeCodeBlock.hasAnySelectedChild() ->
                                 false
 
                             else -> true
                         }
                     } ?: false
                 }
+                is CodeBlock.IfStatement ->
+                    codeBlocks.getOrNull(activeCodeBlockIndex + 1)?.let {
+                        it.indentLevel == activeCodeBlock.indentLevel
+                    } ?: true
                 null -> false
             }
 

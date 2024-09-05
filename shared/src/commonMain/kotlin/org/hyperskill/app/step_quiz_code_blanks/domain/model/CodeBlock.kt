@@ -23,6 +23,12 @@ sealed class CodeBlock {
     internal fun activeChildIndex(): Int? =
         children.indexOfFirstOrNull { it.isActive }
 
+    internal fun areAllChildrenUnselected(): Boolean =
+        children.all { it is CodeBlockChild.SelectSuggestion && it.selectedSuggestion == null }
+
+    internal fun hasAnySelectedChild(): Boolean =
+        children.any { it is CodeBlockChild.SelectSuggestion && it.selectedSuggestion != null }
+
     internal data class Blank(
         override val isActive: Boolean,
         override val indentLevel: Int,
