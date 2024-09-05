@@ -31,7 +31,7 @@ sealed class CodeBlock {
 
     internal data class Blank(
         override val isActive: Boolean,
-        override val indentLevel: Int,
+        override val indentLevel: Int = 0,
         override val suggestions: List<Suggestion>
     ) : CodeBlock() {
         override val children: List<CodeBlockChild> = emptyList()
@@ -43,7 +43,7 @@ sealed class CodeBlock {
     }
 
     internal data class Print(
-        override val indentLevel: Int,
+        override val indentLevel: Int = 0,
         override val children: List<CodeBlockChild.SelectSuggestion>
     ) : CodeBlock() {
         override val isActive: Boolean = false
@@ -65,7 +65,7 @@ sealed class CodeBlock {
     }
 
     internal data class Variable(
-        override val indentLevel: Int,
+        override val indentLevel: Int = 0,
         override val children: List<CodeBlockChild.SelectSuggestion>
     ) : CodeBlock() {
         val name: CodeBlockChild.SelectSuggestion?
@@ -93,7 +93,7 @@ sealed class CodeBlock {
     }
 
     internal data class IfStatement(
-        override val indentLevel: Int,
+        override val indentLevel: Int = 0,
         override val children: List<CodeBlockChild.SelectSuggestion>
     ) : CodeBlock() {
         override val isActive: Boolean = false

@@ -30,7 +30,7 @@ sealed interface StepQuizCodeBlanksViewState {
 
         data class Blank(
             override val id: Int,
-            override val indentLevel: Int,
+            override val indentLevel: Int = 0,
             val isActive: Boolean
         ) : CodeBlockItem {
             override val children: List<CodeBlockChildItem> = emptyList()
@@ -38,13 +38,13 @@ sealed interface StepQuizCodeBlanksViewState {
 
         data class Print(
             override val id: Int,
-            override val indentLevel: Int,
+            override val indentLevel: Int = 0,
             override val children: List<CodeBlockChildItem>
         ) : CodeBlockItem
 
         data class Variable(
             override val id: Int,
-            override val indentLevel: Int,
+            override val indentLevel: Int = 0,
             override val children: List<CodeBlockChildItem>
         ) : CodeBlockItem {
             val name: CodeBlockChildItem?
@@ -56,7 +56,7 @@ sealed interface StepQuizCodeBlanksViewState {
 
         data class IfStatement(
             override val id: Int,
-            override val indentLevel: Int,
+            override val indentLevel: Int = 0,
             override val children: List<CodeBlockChildItem>
         ) : CodeBlockItem
     }

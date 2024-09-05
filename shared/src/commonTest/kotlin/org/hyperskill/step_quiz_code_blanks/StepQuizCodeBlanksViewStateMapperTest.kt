@@ -31,7 +31,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             codeBlocks = listOf(StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = 0, isActive = true)),
             suggestions = listOf(Suggestion.Print),
             isDeleteButtonEnabled = false,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -73,7 +74,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = suggestions,
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -117,7 +119,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = listOf(Suggestion.Print),
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -178,7 +181,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = printSuggestions,
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -230,7 +234,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = suggestions,
             isDeleteButtonEnabled = false,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -282,7 +287,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = suggestions,
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -334,7 +340,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = emptyList(),
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -352,7 +359,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             codeBlocks = listOf(StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = 0, isActive = true)),
             suggestions = suggestions,
             isDeleteButtonEnabled = false,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -394,7 +402,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = suggestions,
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -436,7 +445,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = emptyList(),
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -488,7 +498,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = suggestions,
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
@@ -540,7 +551,8 @@ class StepQuizCodeBlanksViewStateMapperTest {
             ),
             suggestions = emptyList(),
             isDeleteButtonEnabled = true,
-            isSpaceButtonHidden = true
+            isSpaceButtonHidden = true,
+            isDecreaseIndentLevelButtonHidden = true
         )
 
         val actualViewState = StepQuizCodeBlanksViewStateMapper.map(state)
