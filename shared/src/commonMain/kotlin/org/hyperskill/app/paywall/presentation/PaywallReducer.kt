@@ -114,9 +114,9 @@ internal class PaywallReducer(
                     )
                 ),
                 InternalAction.StartSubscriptionProductPurchase(
-                    subscriptionOption = state.subscriptionProducts.first {
+                    storeProduct = state.subscriptionProducts.first {
                         it.id == state.selectedProductId
-                    }.subscriptionOption,
+                    }.storeProduct,
                     purchaseParams = message.purchaseParams
                 )
             )

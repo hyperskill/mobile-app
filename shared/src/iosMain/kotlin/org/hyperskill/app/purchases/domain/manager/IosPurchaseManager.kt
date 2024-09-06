@@ -1,5 +1,6 @@
 package org.hyperskill.app.purchases.domain.manager
 
+import cocoapods.RevenueCat.RCStoreProduct
 import org.hyperskill.app.core.domain.model.SwiftyResult
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
@@ -12,7 +13,7 @@ interface IosPurchaseManager {
     suspend fun login(userId: Long): SwiftyResult<Unit, Throwable>
 
     suspend fun purchase(
-        productId: String,
+        storeProduct: RCStoreProduct,
         platformPurchaseParams: PlatformPurchaseParams
     ): SwiftyResult<PurchaseResult, Throwable>
 

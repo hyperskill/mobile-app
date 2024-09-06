@@ -1,3 +1,5 @@
 package org.hyperskill.app.purchases.domain.model
 
-actual class SubscriptionOption
+import cocoapods.RevenueCat.RCStoreProduct
+
+actual class HyperskillStoreProduct(val rcStoreProduct: RCStoreProduct)

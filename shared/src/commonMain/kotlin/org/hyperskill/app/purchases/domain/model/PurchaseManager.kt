@@ -24,7 +24,7 @@ interface PurchaseManager {
      * Makes purchase of the product with [productId].
      */
     suspend fun purchase(
-        subscriptionOption: SubscriptionOption,
+        storeProduct: HyperskillStoreProduct,
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult>
 

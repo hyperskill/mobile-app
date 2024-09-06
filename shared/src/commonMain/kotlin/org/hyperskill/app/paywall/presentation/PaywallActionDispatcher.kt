@@ -79,7 +79,7 @@ internal class PaywallActionDispatcher(
         ) {
             val purchaseResult = purchaseInteractor
                 .purchaseSubscriptionProduct(
-                    subscriptionOption = action.subscriptionOption,
+                    storeProduct = action.storeProduct,
                     platformPurchaseParams = action.purchaseParams
                 )
                 .getOrThrow()

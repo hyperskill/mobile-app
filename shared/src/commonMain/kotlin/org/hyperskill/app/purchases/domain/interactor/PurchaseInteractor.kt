@@ -2,11 +2,11 @@ package org.hyperskill.app.purchases.domain.interactor
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.model.AnalyticKeys
+import org.hyperskill.app.purchases.domain.model.HyperskillStoreProduct
 import org.hyperskill.app.purchases.domain.model.PlatformProductIdentifiers
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
-import org.hyperskill.app.purchases.domain.model.SubscriptionOption
 import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 
 class PurchaseInteractor(
@@ -38,11 +38,11 @@ class PurchaseInteractor(
         purchaseManager.canMakePayments()
 
     suspend fun purchaseSubscriptionProduct(
-        subscriptionOption: SubscriptionOption,
+        storeProduct: HyperskillStoreProduct,
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult> =
         purchaseManager.purchase(
-            subscriptionOption = subscriptionOption,
+            storeProduct = storeProduct,
             platformPurchaseParams = platformPurchaseParams
         )
 

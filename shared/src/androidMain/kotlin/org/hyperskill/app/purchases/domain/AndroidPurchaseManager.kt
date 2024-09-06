@@ -15,10 +15,10 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 import org.hyperskill.app.BuildConfig
+import org.hyperskill.app.purchases.domain.model.HyperskillStoreProduct
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
-import org.hyperskill.app.purchases.domain.model.SubscriptionOption
 import org.hyperskill.app.purchases.domain.model.SubscriptionPeriod
 import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 
@@ -63,14 +63,14 @@ class AndroidPurchaseManager(
         }
 
     override suspend fun purchase(
-        subscriptionOption: SubscriptionOption,
+        storeProduct: HyperskillStoreProduct,
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult> =
         runCatching {
             val activity = platformPurchaseParams.activity
             try {
                 val purchaseResult = Purchases.sharedInstance.awaitPurchase(
-                    PurchaseParams.Builder(activity, subscriptionOption.revenueCatSubscriptionOption).build()
+                    PurchaseParams.Builder(activity, storeProduct.revenueCatSubscriptionOption).build()
                 )
                 PurchaseResult.Succeed(
                     orderId = purchaseResult.storeTransaction.orderId,
@@ -119,7 +119,7 @@ class AndroidPurchaseManager(
                     formattedPrice = product.price.formatted,
                     formattedPricePerMonth = product.formattedPricePerMonth() ?: return@mapNotNull null,
                     isTrialEligible = false,
-                    subscriptionOption = SubscriptionOption(
+                    storeProduct = HyperskillStoreProduct(
                         requireNotNull(product.subscriptionOptions).first()
                     )
                 )

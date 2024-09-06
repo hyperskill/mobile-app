@@ -3,9 +3,9 @@ package org.hyperskill.app.paywall.presentation
 import dev.icerock.moko.resources.StringResource
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.purchases.domain.model.HyperskillStoreProduct
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
-import org.hyperskill.app.purchases.domain.model.SubscriptionOption
 import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
@@ -115,7 +115,7 @@ object PaywallFeature {
         data object FetchMobileOnlyPrice : InternalAction
 
         data class StartSubscriptionProductPurchase(
-            val subscriptionOption: SubscriptionOption,
+            val storeProduct: HyperskillStoreProduct,
             val purchaseParams: PlatformPurchaseParams
         ) : InternalAction
 
