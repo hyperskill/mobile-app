@@ -47,7 +47,7 @@ internal class PaywallViewStateMapper(
 
     private fun getContentViewState(state: State.Content): ViewStateContent.Content =
         ViewStateContent.Content(
-            buyButtonText = getBuyButtonText(state),
+            buyButtonText = resourceProvider.getString(SharedResources.strings.paywall_subscription_start_btn),
             subscriptionProducts = state.subscriptionProducts.mapIndexed { i, product ->
                 mapSubscriptionProductToSubscriptionOption(
                     index = i,
@@ -89,15 +89,15 @@ internal class PaywallViewStateMapper(
             isSelected = isSelected
         )
 
-    private fun getBuyButtonText(state: State.Content): String =
+    /*private fun getBuyButtonText(state: State.Content): String =
         when (platformType) {
             PlatformType.IOS ->
-                if (false/*state.isTrialEligible*/) {
+                if (state.isTrialEligible) {
                     resourceProvider.getString(SharedResources.strings.paywall_ios_mobile_only_trial_buy_btn)
                 } else {
                     resourceProvider.getString(SharedResources.strings.paywall_ios_mobile_only_buy_btn)
                 }
             PlatformType.ANDROID ->
                 resourceProvider.getString(SharedResources.strings.paywall_subscription_start_btn)
-        }
+        }*/
 }
