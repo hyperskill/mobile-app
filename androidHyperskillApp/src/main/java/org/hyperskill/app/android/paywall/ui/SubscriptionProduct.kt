@@ -23,6 +23,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalView
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.view.HapticFeedbackConstantsCompat
 import org.hyperskill.app.android.R
@@ -104,6 +106,29 @@ fun SubscriptionProduct(
         ),
         label = "Text color"
     )
+    SubscriptionProduct(
+        title = title,
+        subtitle = subtitle,
+        borderColor = borderColor,
+        borderWidth = borderWidth,
+        verticalPadding = verticalPadding,
+        textColor = textColor,
+        modifier = modifier,
+        onClick = onClick
+    )
+}
+
+@Composable
+fun SubscriptionProduct(
+    title: String,
+    subtitle: String,
+    borderColor: Color,
+    borderWidth: Dp,
+    verticalPadding: Dp,
+    textColor: Color,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius)))
@@ -209,7 +234,6 @@ private class SubscriptionProductPreviewProvider :
                 isSelected = false
             )
         )
-
 }
 
 @Preview(showBackground = true)

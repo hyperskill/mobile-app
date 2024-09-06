@@ -66,6 +66,7 @@ internal class IosPurchaseManagerImpl(
             }
         }
 
+    @Suppress("VariableNaming")
     private fun mapOfferingsToSubscriptionProducts(rcOfferings: RCOfferings): List<SubscriptionProduct> {
         val currentOffering = rcOfferings.current() ?: return emptyList()
         return currentOffering

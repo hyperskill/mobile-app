@@ -1,7 +1,6 @@
 package org.hyperskill.app.paywall.view
 
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.APP_BECOMES_ACTIVE
@@ -17,8 +16,8 @@ import org.hyperskill.app.purchases.domain.model.SubscriptionPeriod
 import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 
 internal class PaywallViewStateMapper(
-    private val resourceProvider: ResourceProvider,
-    private val platformType: PlatformType
+    private val resourceProvider: ResourceProvider/*,
+    private val platformType: PlatformType*/
 ) {
     fun map(
         state: State,
