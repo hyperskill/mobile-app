@@ -88,8 +88,7 @@ class StepQuizCodeBlanksReducer(
                             children = listOf(
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = true,
-                                    suggestions = state.codeBlanksVariablesSuggestions +
-                                        state.codeBlanksStringsSuggestions,
+                                    suggestions = state.codeBlanksVariablesAndStringsSuggestions,
                                     selectedSuggestion = null
                                 )
                             )
@@ -116,16 +115,33 @@ class StepQuizCodeBlanksReducer(
                             children = listOf(
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = true,
-                                    suggestions = state.codeBlanksVariablesSuggestions +
-                                        state.codeBlanksStringsSuggestions,
+                                    suggestions = state.codeBlanksVariablesAndStringsSuggestions,
                                     selectedSuggestion = null
                                 )
                             )
                         )
-                    else -> activeCodeBlock
+                    Suggestion.ElifStatement ->
+                        CodeBlock.ElifStatement(
+                            indentLevel = activeCodeBlock.indentLevel,
+                            children = listOf(
+                                CodeBlockChild.SelectSuggestion(
+                                    isActive = true,
+                                    suggestions = state.codeBlanksVariablesAndStringsSuggestions,
+                                    selectedSuggestion = null
+                                )
+                            )
+                        )
+                    Suggestion.ElseStatement ->
+                        CodeBlock.ElseStatement(
+                            isActive = false,
+                            indentLevel = activeCodeBlock.indentLevel
+                        )
+                    is Suggestion.ConstantString -> activeCodeBlock
                 }
+
                 is CodeBlock.Print,
-                is CodeBlock.IfStatement -> {
+                is CodeBlock.IfStatement,
+                is CodeBlock.ElifStatement -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
                         val activeChild = activeCodeBlock.children[activeChildIndex] as CodeBlockChild.SelectSuggestion
                         val newChildren = activeCodeBlock.children
@@ -142,10 +158,12 @@ class StepQuizCodeBlanksReducer(
                         when (activeCodeBlock) {
                             is CodeBlock.Print -> activeCodeBlock.copy(children = newChildren)
                             is CodeBlock.IfStatement -> activeCodeBlock.copy(children = newChildren)
+                            is CodeBlock.ElifStatement -> activeCodeBlock.copy(children = newChildren)
                             else -> activeCodeBlock
                         }
                     } ?: activeCodeBlock
                 }
+
                 is CodeBlock.Variable -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
                         activeCodeBlock.copy(
@@ -172,13 +190,35 @@ class StepQuizCodeBlanksReducer(
                         )
                     } ?: activeCodeBlock
                 }
+
+                is CodeBlock.ElseStatement -> activeCodeBlock
             }
-        val newCodeBlocks = state.codeBlocks.mutate { set(activeCodeBlockIndex, newCodeBlock) }
+        val newCodeBlocks = state.codeBlocks.mutate {
+            set(activeCodeBlockIndex, newCodeBlock)
+
+            if (newCodeBlock is CodeBlock.ElseStatement) {
+                val blankInsertIndex = activeCodeBlockIndex + 1
+                val blankIndentLevel = newCodeBlock.indentLevel + 1
+                add(
+                    blankInsertIndex,
+                    createBlankCodeBlock(
+                        isActive = true,
+                        indentLevel = blankIndentLevel,
+                        suggestions = getSuggestionsForBlankCodeBlock(
+                            index = blankInsertIndex,
+                            indentLevel = blankIndentLevel,
+                            codeBlocks = this,
+                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                        )
+                    )
+                )
+            }
+        }
 
         val isFulfilledOnboardingPrintCodeBlock =
             state.onboardingState is OnboardingState.HighlightSuggestions &&
-                activeCodeBlock is CodeBlock.Print && activeCodeBlock.children.any { it.selectedSuggestion == null } &&
-                newCodeBlock is CodeBlock.Print && newCodeBlock.children.all { it.selectedSuggestion != null }
+                activeCodeBlock is CodeBlock.Print && activeCodeBlock.hasAnyUnselectedChild() &&
+                newCodeBlock is CodeBlock.Print && newCodeBlock.areAllChildrenSelected()
         val (onboardingState, onboardingActions) =
             if (isFulfilledOnboardingPrintCodeBlock) {
                 OnboardingState.HighlightCallToActionButton to
@@ -254,7 +294,8 @@ class StepQuizCodeBlanksReducer(
         val newChildren = when (targetCodeBlock) {
             is CodeBlock.Print,
             is CodeBlock.Variable,
-            is CodeBlock.IfStatement -> {
+            is CodeBlock.IfStatement,
+            is CodeBlock.ElifStatement -> {
                 targetCodeBlock.children.mapIndexed { index, child ->
                     require(child is CodeBlockChild.SelectSuggestion)
                     if (index == message.codeBlockChildItem.id) {
@@ -264,7 +305,9 @@ class StepQuizCodeBlanksReducer(
                     }
                 }
             }
-            else -> null
+            null,
+            is CodeBlock.Blank,
+            is CodeBlock.ElseStatement -> null
         }
 
         val newCodeBlocks = state.codeBlocks.mutate {
@@ -280,7 +323,9 @@ class StepQuizCodeBlanksReducer(
                             is CodeBlock.Print -> targetCodeBlock.copy(children = newChildren)
                             is CodeBlock.Variable -> targetCodeBlock.copy(children = newChildren)
                             is CodeBlock.IfStatement -> targetCodeBlock.copy(children = newChildren)
-                            else -> targetCodeBlock
+                            is CodeBlock.ElifStatement -> targetCodeBlock.copy(children = newChildren)
+                            is CodeBlock.Blank,
+                            is CodeBlock.ElseStatement -> targetCodeBlock
                         }
                     )
                 }
@@ -341,6 +386,11 @@ class StepQuizCodeBlanksReducer(
                     )
                 )
             }
+
+            val isNextCodeBlockHasSameIndentLevelOrTrue = state.codeBlocks
+                .getOrNull(activeCodeBlockIndex + 1)
+                ?.let { it.indentLevel == activeCodeBlock.indentLevel }
+                ?: true
 
             when (activeCodeBlock) {
                 is CodeBlock.Blank -> {
@@ -427,47 +477,67 @@ class StepQuizCodeBlanksReducer(
                             }
                     }
                 }
-                is CodeBlock.IfStatement -> {
+                is CodeBlock.IfStatement,
+                is CodeBlock.ElifStatement -> {
                     val activeChildIndex = activeCodeBlock.activeChildIndex() ?: return@mutate
-                    val activeChild = activeCodeBlock.children[activeChildIndex]
-
-                    val nextCodeBlock = state.codeBlocks.getOrNull(activeCodeBlockIndex + 1)
+                    val activeChild = activeCodeBlock.children[activeChildIndex] as CodeBlockChild.SelectSuggestion
 
                     when {
-                        activeChild.selectedSuggestion != null ->
+                        activeChild.selectedSuggestion != null -> {
+                            val newChildren = activeCodeBlock.children.mutate {
+                                set(
+                                    activeChildIndex,
+                                    activeChild.copy(selectedSuggestion = null)
+                                )
+                            }.cast<List<CodeBlockChild.SelectSuggestion>>()
                             set(
                                 activeCodeBlockIndex,
-                                activeCodeBlock.copy(
-                                    children = activeCodeBlock.children.mutate {
-                                        set(
-                                            activeChildIndex,
-                                            activeChild.copy(selectedSuggestion = null)
-                                        )
-                                    }
-                                )
+                                when (activeCodeBlock) {
+                                    is CodeBlock.IfStatement -> activeCodeBlock.copy(children = newChildren)
+                                    is CodeBlock.ElifStatement -> activeCodeBlock.copy(children = newChildren)
+                                    else -> activeCodeBlock
+                                }
                             )
+                        }
 
-                        activeChildIndex > 0 ->
+                        activeChildIndex > 0 -> {
+                            val newChildren = activeCodeBlock.children.mutate {
+                                val previousChildIndex = activeChildIndex - 1
+                                val previousChild = this[previousChildIndex] as CodeBlockChild.SelectSuggestion
+                                set(
+                                    previousChildIndex,
+                                    previousChild.copy(isActive = true)
+                                )
+
+                                removeAt(activeChildIndex)
+                            }.cast<List<CodeBlockChild.SelectSuggestion>>()
                             set(
                                 activeCodeBlockIndex,
-                                activeCodeBlock.copy(
-                                    children = activeCodeBlock.children.mutate {
-                                        set(
-                                            activeChildIndex - 1,
-                                            this[activeChildIndex - 1].copy(isActive = true)
-                                        )
-                                        removeAt(activeChildIndex)
-                                    }
-                                )
+                                when (activeCodeBlock) {
+                                    is CodeBlock.IfStatement -> activeCodeBlock.copy(children = newChildren)
+                                    is CodeBlock.ElifStatement -> activeCodeBlock.copy(children = newChildren)
+                                    else -> activeCodeBlock
+                                }
                             )
+                        }
 
                         (activeChildIndex == 0 || activeCodeBlock.areAllChildrenUnselected()) &&
-                            (nextCodeBlock?.let { it.indentLevel == activeCodeBlock.indentLevel } ?: true) ->
+                            isNextCodeBlockHasSameIndentLevelOrTrue -> {
                             if (state.codeBlocks.size > 1) {
                                 removeActiveCodeBlockAndSetNextActive()
                             } else {
                                 replaceActiveCodeBlockWithBlank()
                             }
+                        }
+                    }
+                }
+                is CodeBlock.ElseStatement -> {
+                    if (isNextCodeBlockHasSameIndentLevelOrTrue) {
+                        if (state.codeBlocks.size > 1) {
+                            removeActiveCodeBlockAndSetNextActive()
+                        } else {
+                            replaceActiveCodeBlockWithBlank()
+                        }
                     }
                 }
             }
@@ -498,7 +568,9 @@ class StepQuizCodeBlanksReducer(
         return if (activeCodeBlock != null) {
             val indentLevel =
                 when (activeCodeBlock) {
-                    is CodeBlock.IfStatement -> activeCodeBlock.indentLevel + 1
+                    is CodeBlock.IfStatement,
+                    is CodeBlock.ElifStatement,
+                    is CodeBlock.ElseStatement -> activeCodeBlock.indentLevel + 1
                     else -> activeCodeBlock.indentLevel
                 }
 
@@ -556,7 +628,8 @@ class StepQuizCodeBlanksReducer(
         val newChildren = when (activeCodeBlock) {
             is CodeBlock.Print,
             is CodeBlock.Variable,
-            is CodeBlock.IfStatement -> {
+            is CodeBlock.IfStatement,
+            is CodeBlock.ElifStatement -> {
                 activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
                     val activeChild = activeCodeBlock.children[activeChildIndex] as CodeBlockChild.SelectSuggestion
 
@@ -591,7 +664,8 @@ class StepQuizCodeBlanksReducer(
                         .cast<List<CodeBlockChild.SelectSuggestion>>()
                 }
             }
-            else -> null
+            is CodeBlock.Blank,
+            is CodeBlock.ElseStatement -> null
         }
 
         val newCodeBlocks = state.codeBlocks.mutate {
@@ -602,6 +676,7 @@ class StepQuizCodeBlanksReducer(
                         is CodeBlock.Print -> activeCodeBlock.copy(children = newChildren)
                         is CodeBlock.Variable -> activeCodeBlock.copy(children = newChildren)
                         is CodeBlock.IfStatement -> activeCodeBlock.copy(children = newChildren)
+                        is CodeBlock.ElifStatement -> activeCodeBlock.copy(children = newChildren)
                         else -> activeCodeBlock
                     }
                 )
@@ -652,6 +727,8 @@ class StepQuizCodeBlanksReducer(
                         is CodeBlock.Print -> activeCodeBlock.copy(indentLevel = newIndentLevel)
                         is CodeBlock.Variable -> activeCodeBlock.copy(indentLevel = newIndentLevel)
                         is CodeBlock.IfStatement -> activeCodeBlock.copy(indentLevel = newIndentLevel)
+                        is CodeBlock.ElifStatement -> activeCodeBlock.copy(indentLevel = newIndentLevel)
+                        is CodeBlock.ElseStatement -> activeCodeBlock.copy(indentLevel = newIndentLevel)
                     }
                 )
             }
@@ -661,9 +738,11 @@ class StepQuizCodeBlanksReducer(
     private fun setCodeBlockIsActive(codeBlock: CodeBlock, isActive: Boolean): CodeBlock =
         when (codeBlock) {
             is CodeBlock.Blank -> codeBlock.copy(isActive = isActive)
+            is CodeBlock.ElseStatement -> codeBlock.copy(isActive = isActive)
             is CodeBlock.Print,
             is CodeBlock.Variable,
-            is CodeBlock.IfStatement -> {
+            is CodeBlock.IfStatement,
+            is CodeBlock.ElifStatement -> {
                 if (isActive) {
                     if (codeBlock.activeChild() != null) {
                         codeBlock
@@ -680,6 +759,7 @@ class StepQuizCodeBlanksReducer(
                             is CodeBlock.Print -> codeBlock.copy(children = newChildren)
                             is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
                             is CodeBlock.IfStatement -> codeBlock.copy(children = newChildren)
+                            is CodeBlock.ElifStatement -> codeBlock.copy(children = newChildren)
                             else -> codeBlock
                         }
                     }
@@ -692,6 +772,7 @@ class StepQuizCodeBlanksReducer(
                         is CodeBlock.Print -> codeBlock.copy(children = newChildren)
                         is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
                         is CodeBlock.IfStatement -> codeBlock.copy(children = newChildren)
+                        is CodeBlock.ElifStatement -> codeBlock.copy(children = newChildren)
                         else -> codeBlock
                     }
                 }
@@ -741,7 +822,8 @@ class StepQuizCodeBlanksReducer(
             .firstOrNull { it.indentLevel == indentLevel }
 
         return when (previousCodeBlock) {
-            is CodeBlock.IfStatement -> true
+            is CodeBlock.IfStatement,
+            is CodeBlock.ElifStatement -> true
             else -> false
         }
     }

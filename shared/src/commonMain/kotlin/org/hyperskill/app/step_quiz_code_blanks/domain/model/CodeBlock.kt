@@ -26,8 +26,14 @@ sealed class CodeBlock {
     internal fun areAllChildrenUnselected(): Boolean =
         children.all { it is CodeBlockChild.SelectSuggestion && it.selectedSuggestion == null }
 
+    internal fun areAllChildrenSelected(): Boolean =
+        children.all { it is CodeBlockChild.SelectSuggestion && it.selectedSuggestion != null }
+
     internal fun hasAnySelectedChild(): Boolean =
         children.any { it is CodeBlockChild.SelectSuggestion && it.selectedSuggestion != null }
+
+    internal fun hasAnyUnselectedChild(): Boolean =
+        children.any { it is CodeBlockChild.SelectSuggestion && it.selectedSuggestion == null }
 
     internal data class Blank(
         override val isActive: Boolean,

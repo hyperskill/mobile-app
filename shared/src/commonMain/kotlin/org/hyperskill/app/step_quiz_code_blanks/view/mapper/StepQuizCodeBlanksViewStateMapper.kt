@@ -23,10 +23,13 @@ object StepQuizCodeBlanksViewStateMapper {
 
         val suggestions =
             when (activeCodeBlock) {
-                is CodeBlock.Blank -> activeCodeBlock.suggestions
+                is CodeBlock.Blank ->
+                    activeCodeBlock.suggestions
+
                 is CodeBlock.Print,
                 is CodeBlock.Variable,
-                is CodeBlock.IfStatement ->
+                is CodeBlock.IfStatement,
+                is CodeBlock.ElifStatement ->
                     (activeCodeBlock.activeChild() as? CodeBlockChild.SelectSuggestion)?.let {
                         if (it.selectedSuggestion == null) {
                             it.suggestions
@@ -34,7 +37,9 @@ object StepQuizCodeBlanksViewStateMapper {
                             emptyList()
                         }
                     }
-                null -> emptyList()
+
+                null,
+                is CodeBlock.ElseStatement -> emptyList()
             } ?: emptyList()
 
         val isDeleteButtonEnabled =
@@ -55,13 +60,16 @@ object StepQuizCodeBlanksViewStateMapper {
                         }
                     } ?: false
                 }
-                is CodeBlock.IfStatement -> {
+                is CodeBlock.IfStatement,
+                is CodeBlock.ElifStatement -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
+                        val activeChild = activeCodeBlock.children[activeChildIndex] as CodeBlockChild.SelectSuggestion
+
                         when {
                             activeChildIndex > 0 ->
                                 true
 
-                            activeCodeBlock.children[activeChildIndex].selectedSuggestion != null ->
+                            activeChild.selectedSuggestion != null ->
                                 true
 
                             else ->
@@ -70,13 +78,17 @@ object StepQuizCodeBlanksViewStateMapper {
                         }
                     } ?: false
                 }
+                is CodeBlock.ElseStatement ->
+                    codeBlocks.getOrNull(activeCodeBlockIndex + 1)
+                        ?.let { it.indentLevel == activeCodeBlock.indentLevel } ?: true
                 null -> false
             }
 
         val isSpaceButtonHidden = if (state.codeBlanksOperationsSuggestions.isNotEmpty()) {
             when (activeCodeBlock) {
                 is CodeBlock.Print,
-                is CodeBlock.IfStatement -> {
+                is CodeBlock.IfStatement,
+                is CodeBlock.ElifStatement -> {
                     val activeChild = activeCodeBlock.activeChild() as? CodeBlockChild.SelectSuggestion
                     activeChild?.selectedSuggestion == null
                 }
@@ -88,17 +100,26 @@ object StepQuizCodeBlanksViewStateMapper {
                         true
                     }
                 }
-                else -> true
+                null,
+                is CodeBlock.Blank,
+                is CodeBlock.ElseStatement -> true
             }
         } else {
             true
         }
 
+        val isPreviousCodeBlockCondition =
+            when (activeCodeBlockIndex?.let { state.codeBlocks.getOrNull(it - 1) }) {
+                is CodeBlock.IfStatement,
+                is CodeBlock.ElifStatement,
+                is CodeBlock.ElseStatement -> true
+                else -> false
+            }
         val isDecreaseIndentLevelButtonHidden =
             when {
                 activeCodeBlock == null -> true
                 activeCodeBlock.indentLevel < 1 -> true
-                state.codeBlocks.getOrNull(activeCodeBlockIndex - 1) is CodeBlock.IfStatement -> true
+                isPreviousCodeBlockCondition -> true
                 else -> false
             }
 
@@ -140,6 +161,18 @@ object StepQuizCodeBlanksViewStateMapper {
                     id = index,
                     indentLevel = codeBlock.indentLevel,
                     children = codeBlock.children.mapIndexed(::mapCodeBlockChild)
+                )
+            is CodeBlock.ElifStatement ->
+                StepQuizCodeBlanksViewState.CodeBlockItem.ElifStatement(
+                    id = index,
+                    indentLevel = codeBlock.indentLevel,
+                    children = codeBlock.children.mapIndexed(::mapCodeBlockChild)
+                )
+            is CodeBlock.ElseStatement ->
+                StepQuizCodeBlanksViewState.CodeBlockItem.ElseStatement(
+                    id = index,
+                    indentLevel = codeBlock.indentLevel,
+                    isActive = codeBlock.isActive
                 )
         }
 
