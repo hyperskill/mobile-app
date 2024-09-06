@@ -21,6 +21,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.State
 import ru.nobird.app.core.model.cast
 import ru.nobird.app.core.model.mutate
+import ru.nobird.app.core.model.slice
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias StepQuizCodeBlanksReducerResult = Pair<State, Set<Action>>
@@ -325,13 +326,18 @@ class StepQuizCodeBlanksReducer(
                 }
                 removeAt(activeCodeBlockIndex)
             }
-            val replaceActiveCodeWithBlank = {
+            val replaceActiveCodeBlockWithBlank = {
                 set(
                     activeCodeBlockIndex,
                     createBlankCodeBlock(
                         isActive = true,
                         indentLevel = activeCodeBlock.indentLevel,
-                        isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                        suggestions = getSuggestionsForBlankCodeBlock(
+                            index = activeCodeBlockIndex,
+                            indentLevel = activeCodeBlock.indentLevel,
+                            codeBlocks = this,
+                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                        )
                     )
                 )
             }
@@ -378,7 +384,7 @@ class StepQuizCodeBlanksReducer(
                             removeActiveCodeBlockAndSetNextActive()
 
                         else ->
-                            replaceActiveCodeWithBlank()
+                            replaceActiveCodeBlockWithBlank()
                     }
                 }
                 is CodeBlock.Variable -> {
@@ -417,7 +423,7 @@ class StepQuizCodeBlanksReducer(
                             if (state.codeBlocks.size > 1) {
                                 removeActiveCodeBlockAndSetNextActive()
                             } else {
-                                replaceActiveCodeWithBlank()
+                                replaceActiveCodeBlockWithBlank()
                             }
                     }
                 }
@@ -460,7 +466,7 @@ class StepQuizCodeBlanksReducer(
                             if (state.codeBlocks.size > 1) {
                                 removeActiveCodeBlockAndSetNextActive()
                             } else {
-                                replaceActiveCodeWithBlank()
+                                replaceActiveCodeBlockWithBlank()
                             }
                     }
                 }
@@ -501,15 +507,23 @@ class StepQuizCodeBlanksReducer(
                     activeCodeBlockIndex,
                     setCodeBlockIsActive(codeBlock = state.codeBlocks[activeCodeBlockIndex], isActive = false)
                 )
+
+                val insertIndex = activeCodeBlockIndex + 1
                 add(
-                    activeCodeBlockIndex + 1,
+                    insertIndex,
                     createBlankCodeBlock(
                         isActive = true,
                         indentLevel = indentLevel,
-                        isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                        suggestions = getSuggestionsForBlankCodeBlock(
+                            index = insertIndex,
+                            indentLevel = indentLevel,
+                            codeBlocks = this,
+                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                        )
                     )
                 )
             }
+
             state.copy(codeBlocks = newCodeBlocks) to actions
         } else {
             state to actions
@@ -626,7 +640,15 @@ class StepQuizCodeBlanksReducer(
                 set(
                     activeCodeBlockIndex,
                     when (activeCodeBlock) {
-                        is CodeBlock.Blank -> activeCodeBlock.copy(indentLevel = newIndentLevel)
+                        is CodeBlock.Blank -> activeCodeBlock.copy(
+                            indentLevel = newIndentLevel,
+                            suggestions = getSuggestionsForBlankCodeBlock(
+                                index = activeCodeBlockIndex,
+                                indentLevel = newIndentLevel,
+                                codeBlocks = this,
+                                isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                            )
+                        )
                         is CodeBlock.Print -> activeCodeBlock.copy(indentLevel = newIndentLevel)
                         is CodeBlock.Variable -> activeCodeBlock.copy(indentLevel = newIndentLevel)
                         is CodeBlock.IfStatement -> activeCodeBlock.copy(indentLevel = newIndentLevel)
@@ -679,17 +701,50 @@ class StepQuizCodeBlanksReducer(
     private fun createBlankCodeBlock(
         isActive: Boolean,
         indentLevel: Int,
-        isVariableSuggestionAvailable: Boolean
+        suggestions: List<Suggestion>
     ): CodeBlock.Blank =
         CodeBlock.Blank(
             isActive = isActive,
             indentLevel = indentLevel,
-            suggestions = if (isVariableSuggestionAvailable) {
-                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.IfStatement)
-            } else {
-                listOf(Suggestion.Print)
-            }
+            suggestions = suggestions
         )
+
+    private fun getSuggestionsForBlankCodeBlock(
+        index: Int = -1,
+        indentLevel: Int = 0,
+        codeBlocks: List<CodeBlock> = emptyList(),
+        isVariableSuggestionAvailable: Boolean
+    ): List<Suggestion> =
+        when {
+            areElifAndElseStatementsSuggestionsAvailable(index, indentLevel, codeBlocks) ->
+                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.ElifStatement, Suggestion.ElseStatement)
+
+            isVariableSuggestionAvailable ->
+                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.IfStatement)
+
+            else ->
+                listOf(Suggestion.Print)
+        }
+
+    internal fun areElifAndElseStatementsSuggestionsAvailable(
+        index: Int,
+        indentLevel: Int,
+        codeBlocks: List<CodeBlock>
+    ): Boolean {
+        if (index < 2 || codeBlocks.isEmpty()) {
+            return false
+        }
+
+        val previousCodeBlock = codeBlocks
+            .slice(to = index)
+            .reversed()
+            .firstOrNull { it.indentLevel == indentLevel }
+
+        return when (previousCodeBlock) {
+            is CodeBlock.IfStatement -> true
+            else -> false
+        }
+    }
 
     private fun createInitialCodeBlocks(step: Step): List<CodeBlock> =
         if (step.id == 47580L) {
@@ -742,7 +797,9 @@ class StepQuizCodeBlanksReducer(
                 createBlankCodeBlock(
                     isActive = true,
                     indentLevel = 0,
-                    isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(step)
+                    suggestions = getSuggestionsForBlankCodeBlock(
+                        isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(step)
+                    )
                 )
             )
         } else {
@@ -750,7 +807,9 @@ class StepQuizCodeBlanksReducer(
                 createBlankCodeBlock(
                     isActive = true,
                     indentLevel = 0,
-                    isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(step)
+                    suggestions = getSuggestionsForBlankCodeBlock(
+                        isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(step)
+                    )
                 )
             )
         }
