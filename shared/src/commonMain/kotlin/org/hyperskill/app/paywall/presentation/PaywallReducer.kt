@@ -4,6 +4,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedBuySubscriptionHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedCloseButtonHyperskillAnalyticEvent
+import org.hyperskill.app.paywall.domain.analytic.PaywallClickedProductHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedTermsOfServiceAndPrivacyPolicyHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallSubscriptionPurchasedAmplitudeAnalyticEvent
@@ -97,7 +98,14 @@ internal class PaywallReducer(
         if (state is State.Content) {
             state.copy(
                 selectedProductId = message.productId
-            ) to emptySet()
+            ) to setOf(
+                InternalAction.LogAnalyticEvent(
+                    PaywallClickedProductHyperskillAnalyticEvent(
+                        productId = message.productId,
+                        paywallTransitionSource = paywallTransitionSource
+                    )
+                )
+            )
         } else {
             state to emptySet()
         }
@@ -109,9 +117,7 @@ internal class PaywallReducer(
         if (state is State.Content) {
             state to setOf(
                 InternalAction.LogAnalyticEvent(
-                    PaywallClickedBuySubscriptionHyperskillAnalyticEvent(
-                        paywallTransitionSource
-                    )
+                    PaywallClickedBuySubscriptionHyperskillAnalyticEvent(paywallTransitionSource)
                 ),
                 InternalAction.StartSubscriptionProductPurchase(
                     storeProduct = state.subscriptionProducts.first {
