@@ -59,6 +59,20 @@ sealed interface StepQuizCodeBlanksViewState {
             override val indentLevel: Int = 0,
             override val children: List<CodeBlockChildItem>
         ) : CodeBlockItem
+
+        data class ElifStatement(
+            override val id: Int,
+            override val indentLevel: Int = 0,
+            override val children: List<CodeBlockChildItem>
+        ) : CodeBlockItem
+
+        data class ElseStatement(
+            override val id: Int,
+            override val indentLevel: Int = 0,
+            val isActive: Boolean
+        ) : CodeBlockItem {
+            override val children: List<CodeBlockChildItem> = emptyList()
+        }
     }
 
     data class CodeBlockChildItem(

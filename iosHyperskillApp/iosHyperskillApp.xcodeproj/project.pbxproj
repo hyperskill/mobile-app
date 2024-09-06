@@ -584,6 +584,8 @@
 		2CEEE03328916A3D00282849 /* ProblemOfDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03228916A3D00282849 /* ProblemOfDayViewModel.swift */; };
 		2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */; };
 		2CEEE03728917F1100282849 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */; };
+		2CEFEBE22C8AD43F0069567E /* StepQuizCodeBlanksElifStatementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEFEBE12C8AD43F0069567E /* StepQuizCodeBlanksElifStatementView.swift */; };
+		2CEFEBE42C8AD5280069567E /* StepQuizCodeBlanksElseStatementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEFEBE32C8AD5280069567E /* StepQuizCodeBlanksElseStatementView.swift */; };
 		2CF0B4E629F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
 		2CF34F912C2E8EAE0054477E /* CommentsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF34F902C2E8EAE0054477E /* CommentsContentView.swift */; };
@@ -1390,6 +1392,8 @@
 		2CEEE03228916A3D00282849 /* ProblemOfDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayViewModel.swift; sourceTree = "<group>"; };
 		2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayOutputProtocol.swift; sourceTree = "<group>"; };
 		2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
+		2CEFEBE12C8AD43F0069567E /* StepQuizCodeBlanksElifStatementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeBlanksElifStatementView.swift; sourceTree = "<group>"; };
+		2CEFEBE32C8AD5280069567E /* StepQuizCodeBlanksElseStatementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeBlanksElseStatementView.swift; sourceTree = "<group>"; };
 		2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionActivitiesList.swift; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		2CF34F902C2E8EAE0054477E /* CommentsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsContentView.swift; sourceTree = "<group>"; };
@@ -3639,6 +3643,8 @@
 		2CBEE4C52C87003A004486E8 /* Conditions */ = {
 			isa = PBXGroup;
 			children = (
+				2CEFEBE12C8AD43F0069567E /* StepQuizCodeBlanksElifStatementView.swift */,
+				2CEFEBE32C8AD5280069567E /* StepQuizCodeBlanksElseStatementView.swift */,
 				2CBEE4C62C870059004486E8 /* StepQuizCodeBlanksIfStatementView.swift */,
 			);
 			path = Conditions;
@@ -5235,6 +5241,7 @@
 				2C0DB90728644F2C001EA35E /* CodeEditorView.swift in Sources */,
 				2CDA98452944590800ADE539 /* ProfileStatisticsView.swift in Sources */,
 				2C8DD40E2AFB907000FD5359 /* ShareStreakAction.swift in Sources */,
+				2CEFEBE22C8AD43F0069567E /* StepQuizCodeBlanksElifStatementView.swift in Sources */,
 				2C7CB6822ADFDB45006F78DA /* UIFont+SizeOfString.swift in Sources */,
 				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
@@ -5583,6 +5590,7 @@
 				2C93AF2529B34FE6004639E0 /* StepQuizPyCharmAssembly.swift in Sources */,
 				2CDA98412944512D00ADE539 /* ProfileSkeletonView.swift in Sources */,
 				2CEDE70729965B4D0032D399 /* RestartApplicationLocalNotification.swift in Sources */,
+				2CEFEBE42C8AD5280069567E /* StepQuizCodeBlanksElseStatementView.swift in Sources */,
 				2CACBCBC2B7A12F1006D3AB2 /* UsersInterviewWidgetView.swift in Sources */,
 				2CDA98432944524D00ADE539 /* HomeSkeletonView.swift in Sources */,
 				2C9D493D29F07015000599AB /* StudyPlanSectionErrorView.swift in Sources */,

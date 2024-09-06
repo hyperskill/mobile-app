@@ -37,7 +37,7 @@ sealed class CodeBlock {
         override val children: List<CodeBlockChild> = emptyList()
 
         override val analyticRepresentation: String
-            get() = "Blank(isActive=$isActive, suggestions=$suggestions)"
+            get() = "Blank(isActive=$isActive, indentLevel=$indentLevel, suggestions=$suggestions)"
 
         override fun toReplyString(): String = ""
     }
@@ -51,7 +51,7 @@ sealed class CodeBlock {
         override val suggestions: List<Suggestion> = emptyList()
 
         override val analyticRepresentation: String =
-            "Print(children=$children)"
+            "Print(indentLevel=$indentLevel, children=$children)"
 
         override fun toReplyString(): String =
             buildString {
@@ -61,7 +61,7 @@ sealed class CodeBlock {
             }
 
         override fun toString(): String =
-            "Print(children=$children)"
+            "Print(indentLevel=$indentLevel, children=$children)"
     }
 
     internal data class Variable(
@@ -79,7 +79,7 @@ sealed class CodeBlock {
         override val suggestions: List<Suggestion> = emptyList()
 
         override val analyticRepresentation: String
-            get() = "Variable(children=$children)"
+            get() = "Variable(indentLevel=$indentLevel, children=$children)"
 
         override fun toReplyString(): String =
             buildString {
@@ -89,7 +89,7 @@ sealed class CodeBlock {
             }
 
         override fun toString(): String =
-            "Variable(children=$children)"
+            "Variable(indentLevel=$indentLevel, children=$children)"
     }
 
     internal data class IfStatement(
@@ -101,7 +101,7 @@ sealed class CodeBlock {
         override val suggestions: List<Suggestion> = emptyList()
 
         override val analyticRepresentation: String
-            get() = "IfStatement(children=$children)"
+            get() = "IfStatement(indentLevel=$indentLevel, children=$children)"
 
         override fun toReplyString(): String =
             buildString {
@@ -111,7 +111,46 @@ sealed class CodeBlock {
             }
 
         override fun toString(): String =
-            "IfStatement(children=$children)"
+            "IfStatement(indentLevel=$indentLevel, children=$children)"
+    }
+
+    internal data class ElifStatement(
+        override val indentLevel: Int = 0,
+        override val children: List<CodeBlockChild.SelectSuggestion>
+    ) : CodeBlock() {
+        override val isActive: Boolean = false
+
+        override val suggestions: List<Suggestion> = emptyList()
+
+        override val analyticRepresentation: String
+            get() = "ElifStatement(indentLevel=$indentLevel, children=$children)"
+
+        override fun toReplyString(): String =
+            buildString {
+                append("elif ")
+                append(joinChildrenToReplyString(children))
+                append(":")
+            }
+
+        override fun toString(): String =
+            "ElifStatement(indentLevel=$indentLevel, children=$children)"
+    }
+
+    internal data class ElseStatement(
+        override val isActive: Boolean,
+        override val indentLevel: Int = 0
+    ) : CodeBlock() {
+        override val suggestions: List<Suggestion> = emptyList()
+
+        override val children: List<CodeBlockChild> = emptyList()
+
+        override val analyticRepresentation: String
+            get() = "ElseStatement(isActive=$isActive, indentLevel=$indentLevel)"
+
+        override fun toReplyString(): String = "else:"
+
+        override fun toString(): String =
+            "ElseStatement(isActive=$isActive, indentLevel=$indentLevel)"
     }
 }
 

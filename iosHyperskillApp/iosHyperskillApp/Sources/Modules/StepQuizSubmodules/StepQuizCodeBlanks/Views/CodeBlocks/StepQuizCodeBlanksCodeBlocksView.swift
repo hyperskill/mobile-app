@@ -78,6 +78,15 @@ struct StepQuizCodeBlanksCodeBlocksView: View {
                 ifStatementItem: ifStatementItem,
                 onChildTap: onChildTap
             )
+        case .elifStatement(let elifStatementItem):
+            StepQuizCodeBlanksElifStatementView(
+                elifStatementItem: elifStatementItem,
+                onChildTap: onChildTap
+            )
+        case .elseStatement(let elseStatementItem):
+            StepQuizCodeBlanksElseStatementView(
+                elseStatementItem: elseStatementItem
+            )
         }
     }
 }

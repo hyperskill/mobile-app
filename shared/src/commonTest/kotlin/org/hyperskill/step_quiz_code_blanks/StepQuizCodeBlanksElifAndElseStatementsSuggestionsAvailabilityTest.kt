@@ -58,4 +58,17 @@ class StepQuizCodeBlanksElifAndElseStatementsSuggestionsAvailabilityTest {
             reducer.areElifAndElseStatementsSuggestionsAvailable(index = 4, indentLevel = 1, codeBlocks = codeBlocks)
         assertTrue(result)
     }
+
+    @Test
+    fun `Should return true if previous code block is ElifStatement at same indent level`() {
+        val codeBlocks = listOf(
+            CodeBlock.IfStatement(indentLevel = 0, children = emptyList()),
+            CodeBlock.Print(indentLevel = 1, children = emptyList()),
+            CodeBlock.ElifStatement(indentLevel = 0, children = emptyList()),
+            CodeBlock.Print(indentLevel = 1, children = emptyList())
+        )
+        val result =
+            reducer.areElifAndElseStatementsSuggestionsAvailable(index = 4, indentLevel = 0, codeBlocks = codeBlocks)
+        assertTrue(result)
+    }
 }
