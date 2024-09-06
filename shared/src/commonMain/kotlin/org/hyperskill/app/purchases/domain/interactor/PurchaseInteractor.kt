@@ -7,9 +7,7 @@ import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
 import org.hyperskill.app.purchases.domain.model.SubscriptionOption
-import org.hyperskill.app.purchases.domain.model.SubscriptionPeriod
 import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
-import org.hyperskill.app.purchases.domain.model.toProductIdentifier
 
 class PurchaseInteractor(
     private val purchaseManager: PurchaseManager,
@@ -47,11 +45,6 @@ class PurchaseInteractor(
             subscriptionOption = subscriptionOption,
             platformPurchaseParams = platformPurchaseParams
         )
-
-    suspend fun getFormattedMobileOnlySubscriptionPrice(
-        subscriptionPeriod: SubscriptionPeriod
-    ): Result<String?> =
-        purchaseManager.getFormattedProductPrice(subscriptionPeriod.toProductIdentifier())
 
     suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>> =
         purchaseManager.getSubscriptionProducts()

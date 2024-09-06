@@ -37,9 +37,6 @@ internal class IosPurchaseManagerImpl(
             .toKotlinResult()
             .map { if (it?.isEmpty() == true) null else it }
 
-    override suspend fun getFormattedProductPrice(productId: String): Result<String?> =
-        Result.success(purchases.getFormattedProductPrice(productId))
-
     override suspend fun checkTrialEligibility(productId: String): Boolean =
         purchases.checkTrialOrIntroDiscountEligibility(productId)
 }

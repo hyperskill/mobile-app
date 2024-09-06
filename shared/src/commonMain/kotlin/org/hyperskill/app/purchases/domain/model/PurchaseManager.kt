@@ -30,11 +30,6 @@ interface PurchaseManager {
 
     suspend fun getManagementUrl(): Result<String?>
 
-    /**
-     * Returns formatted product price with currency by [productIds]
-     */
-    suspend fun getFormattedProductPrice(productId: String): Result<String?>
-
     suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>>
 
     /**

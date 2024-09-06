@@ -8,11 +8,9 @@ import com.revenuecat.purchases.PurchasesConfiguration
 import com.revenuecat.purchases.PurchasesErrorCode
 import com.revenuecat.purchases.PurchasesTransactionException
 import com.revenuecat.purchases.awaitCustomerInfo
-import com.revenuecat.purchases.awaitGetProducts
 import com.revenuecat.purchases.awaitLogIn
 import com.revenuecat.purchases.awaitOfferings
 import com.revenuecat.purchases.awaitPurchase
-import com.revenuecat.purchases.models.StoreProduct
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -105,11 +103,6 @@ class AndroidPurchaseManager(
             Purchases.sharedInstance.awaitCustomerInfo().managementURL?.toString()
         }
 
-    override suspend fun getFormattedProductPrice(productId: String): Result<String?> =
-        kotlin.runCatching {
-            fetchProduct(listOf(productId)).firstOrNull()?.price?.formatted
-        }
-
     override suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>> =
         kotlin.runCatching {
             val currentOffering = Purchases.sharedInstance.awaitOfferings().current
@@ -134,7 +127,4 @@ class AndroidPurchaseManager(
         }
 
     override suspend fun checkTrialEligibility(productId: String): Boolean = false
-
-    private suspend fun fetchProduct(productIds: List<String>): List<StoreProduct> =
-        Purchases.sharedInstance.awaitGetProducts(productIds)
 }
