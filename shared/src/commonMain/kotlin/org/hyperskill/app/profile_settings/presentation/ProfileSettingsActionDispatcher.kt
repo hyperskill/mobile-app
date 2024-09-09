@@ -121,7 +121,7 @@ internal class ProfileSettingsActionDispatcher(
                 purchaseInteractor
                     .getSubscriptionProducts()
                     .map { subscriptionProducts ->
-                        subscriptionProducts.firstOrNull()?.formattedPrice
+                        subscriptionProducts.firstOrNull()?.formattedPricePerMonth
                     }
             }
             Message.ProfileSettingsSuccess(

@@ -337,7 +337,7 @@
     <string name="settings_rate_in_app_store_url">https://apps.apple.com/app/id1637230833?action=write-review</string>
     <string name="settings_subscription">Subscription</string>
     <string name="settings_subscription_mobile_only">Mobile only</string>
-    <string name="settings_subscription_mobile_only_suggestion">Try Mobile only plan for %s</string>
+    <string name="settings_subscription_mobile_only_suggestion">Try Mobile only plan for %s / month</string>
     <string name="settings_subscription_details">Details</string>
     <string name="settings_rate_in_google_play">Rate us on the Play Store</string>
     <string name="settings_rate_in_google_play_url">https://play.google.com/store/apps/details?id=org.hyperskill.app.android</string>
