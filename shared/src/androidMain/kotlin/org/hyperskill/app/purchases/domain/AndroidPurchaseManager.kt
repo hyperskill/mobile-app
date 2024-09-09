@@ -118,7 +118,6 @@ class AndroidPurchaseManager(
                     },
                     formattedPrice = product.price.formatted,
                     formattedPricePerMonth = product.formattedPricePerMonth() ?: return@mapNotNull null,
-                    isTrialEligible = false,
                     storeProduct = HyperskillStoreProduct(
                         requireNotNull(product.subscriptionOptions).first()
                     )

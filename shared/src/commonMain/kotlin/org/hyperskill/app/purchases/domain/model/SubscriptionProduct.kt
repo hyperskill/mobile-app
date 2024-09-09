@@ -5,6 +5,5 @@ data class SubscriptionProduct(
     val period: SubscriptionPeriod,
     val formattedPrice: String,
     val formattedPricePerMonth: String,
-    val isTrialEligible: Boolean,
     val storeProduct: HyperskillStoreProduct
 )

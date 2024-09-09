@@ -175,32 +175,6 @@ PurchaseManager: get management URL succeeded, managementURL: \(String(describin
         }
     }
 
-    func getFormattedProductPrice(
-        productId: String,
-        completionHandler: @escaping (String?, Error?) -> Void
-    ) {
-        #if DEBUG
-        print("PurchaseManager: get formatted product price for \(productId)...")
-        #endif
-
-        getProduct(id: productId) { storeProduct in
-            if let storeProduct {
-                #if DEBUG
-                print("""
-PurchaseManager: get formatted product price for \(productId) succeeded, \
-localizedPriceString: \(storeProduct.localizedPriceString)
-""")
-                #endif
-                completionHandler(storeProduct.localizedPriceString, nil)
-            } else {
-                #if DEBUG
-                print("PurchaseManager: get formatted product price for \(productId) failed")
-                #endif
-                completionHandler(nil, nil)
-            }
-        }
-    }
-
     func checkTrialOrIntroDiscountEligibility(
         productId: String,
         completionHandler: @escaping (KotlinBoolean?, (any Error)?) -> Void
@@ -214,15 +188,6 @@ localizedPriceString: \(storeProduct.localizedPriceString)
             } else {
                 completionHandler(KotlinBoolean(value: false), nil)
             }
-        }
-    }
-
-    private func getProduct(
-        id: String,
-        completionHandler: @escaping (StoreProduct?) -> Void
-    ) {
-        Purchases.shared.getProducts([id]) { storeProducts in
-            completionHandler(storeProducts.first)
         }
     }
 }

@@ -83,7 +83,6 @@ internal class IosPurchaseManagerImpl(
                     },
                     formattedPrice = rcStoreProduct.localizedPriceString(),
                     formattedPricePerMonth = rcStoreProduct.localizedPricePerMonth() ?: return@mapNotNull null,
-                    isTrialEligible = false,
                     storeProduct = HyperskillStoreProduct(rcStoreProduct)
                 )
             }
