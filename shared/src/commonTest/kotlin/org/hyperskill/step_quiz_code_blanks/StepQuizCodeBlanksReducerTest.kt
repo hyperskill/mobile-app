@@ -8,6 +8,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockChildHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDecreaseIndentLevelHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedEnterHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent
@@ -1243,6 +1244,80 @@ class StepQuizCodeBlanksReducerTest {
     }
 
     @Test
+    fun `DecreaseIndentLevelButtonClicked should not update state if no active code block`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(CodeBlock.Blank(isActive = false, suggestions = emptyList()))
+        )
+
+        val (state, actions) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.Message.DecreaseIndentLevelButtonClicked
+        )
+
+        assertEquals(initialState, state)
+        assertContainsDecreaseIndentLevelAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `DecreaseIndentLevelButtonClicked should not decrease indent level below 1`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(CodeBlock.Blank(isActive = true, indentLevel = 0, suggestions = emptyList()))
+        )
+
+        val (state, actions) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.Message.DecreaseIndentLevelButtonClicked
+        )
+
+        assertEquals(initialState, state)
+        assertContainsDecreaseIndentLevelAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `DecreaseIndentLevelButtonClicked should decrease indent level by 1`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(CodeBlock.Blank(isActive = true, indentLevel = 1, suggestions = emptyList()))
+        )
+
+        val (state, actions) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.Message.DecreaseIndentLevelButtonClicked
+        )
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(CodeBlock.Blank(isActive = true, indentLevel = 0, suggestions = emptyList()))
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsDecreaseIndentLevelAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `DecreaseIndentLevelButtonClicked should decrease indent level for active code block only`() {
+        val initialState = stubContentState(
+            codeBlocks = listOf(
+                CodeBlock.Blank(isActive = false, indentLevel = 3, suggestions = emptyList()),
+                CodeBlock.Blank(isActive = true, indentLevel = 2, suggestions = emptyList())
+            )
+        )
+
+        val (state, actions) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.Message.DecreaseIndentLevelButtonClicked
+        )
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.Blank(isActive = false, indentLevel = 3, suggestions = emptyList()),
+                CodeBlock.Blank(isActive = true, indentLevel = 1, suggestions = emptyList())
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsDecreaseIndentLevelAnalyticEvent(actions)
+    }
+
+    @Test
     fun `Onboarding should be unavailable`() {
         val initialState = StepQuizCodeBlanksFeature.State.Idle
         val (state, _) = reducer.reduce(
@@ -1332,6 +1407,15 @@ class StepQuizCodeBlanksReducerTest {
             actions.any {
                 it is StepQuizCodeBlanksFeature.InternalAction.LogAnalyticEvent &&
                     it.analyticEvent is StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent
+            }
+        }
+    }
+
+    private fun assertContainsDecreaseIndentLevelAnalyticEvent(actions: Set<StepQuizCodeBlanksFeature.Action>) {
+        assertTrue {
+            actions.any {
+                it is StepQuizCodeBlanksFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is StepQuizCodeBlanksClickedDecreaseIndentLevelHyperskillAnalyticEvent
             }
         }
     }
