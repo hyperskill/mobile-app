@@ -16,6 +16,7 @@ import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepositor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCreateSubmissionAmplitudeAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizSubmissionCreatedAmplitudeAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -25,6 +26,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
+import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
@@ -129,59 +131,8 @@ internal class StepQuizActionDispatcher(
                 )
                 onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
             }
-            is Action.CreateSubmission -> {
-                val reply = action.submission.reply ?: return onNewMessage(Message.CreateSubmissionNetworkError)
-
-                analyticInteractor.logEvent(
-                    StepQuizCreateSubmissionAmplitudeAnalyticEvent(
-                        stepId = action.step.id,
-                        blockName = action.step.block.name
-                    )
-                )
-
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission(
-                    blockName = action.step.block.name
-                )
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                var newAttempt: Attempt? = null
-                if (action.submission.originalStatus.isWrongOrRejected &&
-                    StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)
-                ) {
-                    newAttempt = stepQuizInteractor
-                        .createAttempt(action.step.id)
-                        .getOrElse {
-                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                            return onNewMessage(Message.CreateSubmissionNetworkError)
-                        }
-                }
-
-                stepQuizInteractor
-                    .createSubmission(
-                        stepId = action.step.id,
-                        solvingContext = action.stepContext,
-                        attemptId = newAttempt?.id ?: action.attemptId,
-                        reply = reply
-                    )
-                    .fold(
-                        onSuccess = { newSubmission ->
-                            sentryInteractor.finishTransaction(sentryTransaction)
-                            analyticInteractor.logEvent(
-                                StepQuizSubmissionCreatedAmplitudeAnalyticEvent(
-                                    stepId = action.step.id,
-                                    blockName = action.step.block.name,
-                                    submissionStatus = newSubmission.status
-                                )
-                            )
-                            onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
-                        },
-                        onFailure = { e ->
-                            sentryInteractor.finishTransaction(sentryTransaction)
-                            logger.e(e) { "Failed to create submission" }
-                            onNewMessage(Message.CreateSubmissionNetworkError)
-                        }
-                    )
-            }
+            is Action.CreateSubmission ->
+                handleCreateSubmission(action, ::onNewMessage)
             is Action.SaveProblemOnboardingModalShownCacheFlag -> {
                 when (action.modalType) {
                     StepQuizFeature.ProblemOnboardingModal.Parsons ->
@@ -238,6 +189,64 @@ internal class StepQuizActionDispatcher(
                 isProblemsLimitReached = subscriptionWithLimitType.isProblemsLimitReached
             )
         }.let(onNewMessage)
+    }
+
+    private suspend fun handleCreateSubmission(
+        action: Action.CreateSubmission,
+        onNewMessage: (Message) -> Unit
+    ) {
+        val reply = action.submission.reply ?: return onNewMessage(Message.CreateSubmissionNetworkError)
+
+        analyticInteractor.logEvent(
+            StepQuizCreateSubmissionAmplitudeAnalyticEvent(
+                stepId = action.step.id,
+                blockName = action.step.block.name
+            )
+        )
+
+        sentryInteractor.withTransaction(
+            transaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission(
+                blockName = action.step.block.name
+            ),
+            onError = { Message.CreateSubmissionNetworkError }
+        ) {
+            val newAttempt = recreateAttemptIfNeeded(action.submission,action.step)
+
+            val newSubmission = stepQuizInteractor
+                .createSubmission(
+                    stepId = action.step.id,
+                    solvingContext = action.stepContext,
+                    attemptId = newAttempt?.id ?: action.attemptId,
+                    reply = reply
+                )
+                .onFailure { e -> logger.e(e) { "Failed to create submission" } }
+                .getOrThrow()
+
+            analyticInteractor.logEvent(
+                StepQuizSubmissionCreatedAmplitudeAnalyticEvent(
+                    stepId = action.step.id,
+                    blockName = action.step.block.name,
+                    submissionStatus = newSubmission.status
+                )
+            )
+
+            Message.CreateSubmissionSuccess(newSubmission, newAttempt)
+        }.let(::onNewMessage)
+    }
+
+    private suspend fun recreateAttemptIfNeeded(submission: Submission, step: Step): Attempt? {
+        val shouldRecreateAttempt =
+            submission.originalStatus.isWrongOrRejected &&
+                StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step)
+
+        return if (shouldRecreateAttempt) {
+            stepQuizInteractor
+                .createAttempt(step.id)
+                .onFailure { e -> logger.e(e) { "Failed to recreate attempt" } }
+                .getOrThrow()
+        } else {
+            null
+        }
     }
 
     private suspend fun getSubmissionState(
