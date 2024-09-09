@@ -55,7 +55,7 @@ internal object PaywallFeatureBuilder {
             logger = logger.withTag(LOG_TAG)
         )
 
-        val viewStateMapper = PaywallViewStateMapper(resourceProvider, platformType)
+        val viewStateMapper = PaywallViewStateMapper(resourceProvider)
 
         return ReduxFeature(
             initialState = PaywallFeature.State.Idle,
