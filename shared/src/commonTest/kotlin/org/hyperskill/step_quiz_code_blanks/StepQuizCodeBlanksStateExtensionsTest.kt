@@ -18,6 +18,11 @@ import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.step.domain.model.stub
 
 class StepQuizCodeBlanksStateExtensionsTest {
+    companion object {
+        private const val REPLY_CODE_LANGUAGE = "python3"
+        private const val REPLY_CODE_PREFIX = "# solved with code blanks\n"
+    }
+
     @Test
     fun `activeCodeBlockIndex should return null if no active code block`() {
         val state = stubContentState(
@@ -70,24 +75,14 @@ class StepQuizCodeBlanksStateExtensionsTest {
             ),
             CodeBlock.Blank(isActive = true, suggestions = emptyList())
         )
-        val step = Step.stub(id = 1).copy(
-            block = Block.stub(
-                options = Block.Options(
-                    codeTemplates = mapOf("python3" to "# put your python code here")
-                )
-            )
-        )
-        val state = stubContentState(
-            step = step,
-            codeBlocks = codeBlocks
-        )
+        val state = stubContentState(codeBlocks = codeBlocks)
 
         val expectedReply = Reply.code(
             code = buildString {
-                append("# solved with code blanks\n")
+                append(REPLY_CODE_PREFIX)
                 append("print(\"test\")\n")
             },
-            language = "python3"
+            language = REPLY_CODE_LANGUAGE
         )
 
         assertEquals(expectedReply, state.createReply())
@@ -120,24 +115,14 @@ class StepQuizCodeBlanksStateExtensionsTest {
                 )
             ),
         )
-        val step = Step.stub(id = 1).copy(
-            block = Block.stub(
-                options = Block.Options(
-                    codeTemplates = mapOf("python3" to "# put your python code here")
-                )
-            )
-        )
-        val state = stubContentState(
-            step = step,
-            codeBlocks = codeBlocks
-        )
+        val state = stubContentState(codeBlocks = codeBlocks)
 
         val expectedReply = Reply.code(
             code = buildString {
-                append("# solved with code blanks\n")
+                append(REPLY_CODE_PREFIX)
                 append("a = 1\nprint(a)")
             },
-            language = "python3"
+            language = REPLY_CODE_LANGUAGE
         )
 
         assertEquals(expectedReply, state.createReply())
@@ -248,27 +233,17 @@ class StepQuizCodeBlanksStateExtensionsTest {
                 )
             )
         )
-        val step = Step.stub(id = 1).copy(
-            block = Block.stub(
-                options = Block.Options(
-                    codeTemplates = mapOf("python3" to "# put your python code here")
-                )
-            )
-        )
-        val state = stubContentState(
-            step = step,
-            codeBlocks = codeBlocks
-        )
+        val state = stubContentState(codeBlocks = codeBlocks)
 
         val expectedReply = Reply.code(
             code = buildString {
-                append("# solved with code blanks\n")
+                append(REPLY_CODE_PREFIX)
                 append("x = 1000\n")
                 append("r = 5\n")
                 append("y = 10\n")
                 append("print(x * (1 + r / 100) ** y)")
             },
-            language = "python3"
+            language = REPLY_CODE_LANGUAGE
         )
 
         assertEquals(expectedReply, state.createReply())
@@ -393,28 +368,251 @@ class StepQuizCodeBlanksStateExtensionsTest {
                 )
             )
         )
-        val step = Step.stub(id = 1).copy(
-            block = Block.stub(
-                options = Block.Options(
-                    codeTemplates = mapOf("python3" to "# put your python code here")
-                )
-            )
-        )
-        val state = stubContentState(
-            step = step,
-            codeBlocks = codeBlocks
-        )
+        val state = stubContentState(codeBlocks = codeBlocks)
 
         val expectedReply = Reply.code(
             code = buildString {
-                append("# solved with code blanks\n")
+                append(REPLY_CODE_PREFIX)
                 append("x = 1000\n")
                 append("r = 5\n")
                 append("y = 10\n")
                 append("a = x * (1 + r / 100) ** y\n")
                 append("print(a)")
             },
-            language = "python3"
+            language = REPLY_CODE_LANGUAGE
+        )
+
+        assertEquals(expectedReply, state.createReply())
+    }
+
+    @Test
+    fun `createReply should return correct Reply with single IfStatement`() {
+        val codeBlocks = listOf(
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("a")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("33")
+                    )
+                )
+            ),
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("b")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("200")
+                    )
+                )
+            ),
+            CodeBlock.IfStatement(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("b")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString(">")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("a")
+                    )
+                )
+            ),
+            CodeBlock.Print(
+                indentLevel = 1,
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("\"b is greater than a\"")
+                    )
+                )
+            )
+        )
+        val state = stubContentState(codeBlocks = codeBlocks)
+
+        val expectedReply = Reply.code(
+            code = buildString {
+                append(REPLY_CODE_PREFIX)
+                append("a = 33\n")
+                append("b = 200\n")
+                append("if b > a:\n")
+                append("\tprint(\"b is greater than a\")")
+            },
+            language = REPLY_CODE_LANGUAGE
+        )
+
+        assertEquals(expectedReply, state.createReply())
+    }
+
+    @Test
+    fun `createReply should return correct Reply with multiple IfStatement and indentation level of 2`() {
+        val codeBlocks = listOf(
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("x")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("10")
+                    )
+                )
+            ),
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("y")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("5")
+                    )
+                )
+            ),
+            CodeBlock.Variable(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("z")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("15")
+                    )
+                )
+            ),
+            CodeBlock.IfStatement(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("x")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString(">")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("y")
+                    )
+                )
+            ),
+            CodeBlock.Print(
+                indentLevel = 1,
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("\"x is greater than y\"")
+                    )
+                )
+            ),
+            CodeBlock.IfStatement(
+                indentLevel = 1,
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("z")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString(">")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("x")
+                    )
+                )
+            ),
+            CodeBlock.Print(
+                indentLevel = 2,
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("\"z is greater than x\"")
+                    )
+                )
+            ),
+            CodeBlock.IfStatement(
+                indentLevel = 1,
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("z")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("<")
+                    ),
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = false,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("x")
+                    )
+                )
+            ),
+            CodeBlock.Print(
+                indentLevel = 2,
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = Suggestion.ConstantString("\"z is less than x\"")
+                    )
+                )
+            )
+        )
+        val state = stubContentState(codeBlocks = codeBlocks)
+
+        val expectedReply = Reply.code(
+            code = buildString {
+                append(REPLY_CODE_PREFIX)
+                append("x = 10\n")
+                append("y = 5\n")
+                append("z = 15\n")
+                append("if x > y:\n")
+                append("\tprint(\"x is greater than y\")\n")
+                append("\tif z > x:\n")
+                append("\t\tprint(\"z is greater than x\")\n")
+                append("\tif z < x:\n")
+                append("\t\tprint(\"z is less than x\")")
+            },
+            language = REPLY_CODE_LANGUAGE
         )
 
         assertEquals(expectedReply, state.createReply())
@@ -451,7 +649,13 @@ class StepQuizCodeBlanksStateExtensionsTest {
     }
 
     private fun stubContentState(
-        step: Step = Step.stub(id = 1),
+        step: Step = Step.stub(id = 1).copy(
+            block = Block.stub(
+                options = Block.Options(
+                    codeTemplates = mapOf(REPLY_CODE_LANGUAGE to "# put your python code here")
+                )
+            )
+        ),
         codeBlocks: List<CodeBlock>
     ): StepQuizCodeBlanksFeature.State.Content =
         StepQuizCodeBlanksFeature.State.Content(
