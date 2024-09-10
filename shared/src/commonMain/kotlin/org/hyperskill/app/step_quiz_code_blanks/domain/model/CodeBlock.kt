@@ -61,6 +61,7 @@ sealed class CodeBlock {
 
         override fun toReplyString(): String =
             buildString {
+                append(buildIndentString(indentLevel))
                 append("print(")
                 append(joinChildrenToReplyString(children))
                 append(")")
@@ -89,6 +90,7 @@ sealed class CodeBlock {
 
         override fun toReplyString(): String =
             buildString {
+                append(buildIndentString(indentLevel))
                 append(name?.toReplyString() ?: "")
                 append(" = ")
                 append(joinChildrenToReplyString(values))
@@ -111,6 +113,7 @@ sealed class CodeBlock {
 
         override fun toReplyString(): String =
             buildString {
+                append(buildIndentString(indentLevel))
                 append("if ")
                 append(joinChildrenToReplyString(children))
                 append(":")
@@ -159,6 +162,9 @@ sealed class CodeBlock {
             "ElseStatement(isActive=$isActive, indentLevel=$indentLevel)"
     }
 }
+
+internal fun CodeBlock.Companion.buildIndentString(indentLevel: Int): String =
+    "\t".repeat(indentLevel)
 
 internal fun CodeBlock.Companion.joinChildrenToReplyString(children: List<CodeBlockChild>): String =
     buildString {
