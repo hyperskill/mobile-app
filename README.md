@@ -2,9 +2,7 @@
 
 Master coding on-the-go with [Hyperskill](https://hyperskill.org/)! Immerse yourself in curated lessons, keep your streak, and sharpen your knowledge with 3000+ hands-on topics. Hyperskill is the ultimate app to learn programming languages and technologies, offering over 50 courses and 300+ projects that cater to all levels of expertise.
 
-![Choose your course](resources/screenshots/01.webp)
-![Practice in a best way](resources/screenshots/02.webp)
-![Learn practice repeat](resources/screenshots/03.webp)
+<img src="resources/screenshots/01.webp?raw=true" width="33%" alt="Learn to code anywhere, anytime" title="Learn to code anywhere, anytime"><img src="resources/screenshots/02.webp?raw=true" width="33%" alt="Master real-world skills" title="Master real-world skills"><img src="resources/screenshots/03.webp?raw=true" width="33%" alt="Follow your study plan" title="Follow your study plan">
 
 Features:
 * **Curated Learning Experience:** Dive into lessons that are structured to guide you from beginner to expert.

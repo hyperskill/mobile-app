@@ -303,6 +303,7 @@
     <ID>UnstableCollections:CommentReactions.kt$List&lt;CommentReaction&gt;</ID>
     <ID>UnstableCollections:DebugScreenUI.kt$List&lt;EndpointConfigType&gt;</ID>
     <ID>UnstableCollections:LeaderboardList.kt$List&lt;LeaderboardWidgetListItem&gt;</ID>
+    <ID>UnstableCollections:PaywallContent.kt$List&lt;PaywallFeature.ViewStateContent.SubscriptionProduct&gt;</ID>
     <ID>UnstableCollections:ServerSwitcher.kt$List&lt;EndpointConfigType&gt;</ID>
     <ID>UnstableCollections:TopicSearchResultContent.kt$List&lt;Item&gt;</ID>
     <ID>UnstableCollections:WelcomeOnboardingChooseProgrammingLanguage.kt$List&lt;WelcomeOnboardingProgrammingLanguage&gt;</ID>

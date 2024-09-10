@@ -22,8 +22,8 @@ class PaywallTest {
     fun `Success subscription purchase should log analytic event`() {
         val (_, actions) = reducer.reduce(
             PaywallFeature.State.Content(
-                formattedPrice = "",
-                isTrialEligible = false,
+                subscriptionProducts = emptyList(),
+                selectedProductId = "",
                 isPurchaseSyncLoadingShowed = false
             ),
             InternalMessage.MobileOnlySubscriptionPurchaseSuccess(

@@ -337,7 +337,7 @@
     <string name="settings_rate_in_app_store_url">https://apps.apple.com/app/id1637230833?action=write-review</string>
     <string name="settings_subscription">Subscription</string>
     <string name="settings_subscription_mobile_only">Mobile only</string>
-    <string name="settings_subscription_mobile_only_suggestion">Try Mobile only plan for %s</string>
+    <string name="settings_subscription_mobile_only_suggestion">Try Mobile only plan for %s / month</string>
     <string name="settings_subscription_details">Details</string>
     <string name="settings_rate_in_google_play">Rate us on the Play Store</string>
     <string name="settings_rate_in_google_play_url">https://play.google.com/store/apps/details?id=org.hyperskill.app.android</string>
@@ -695,7 +695,7 @@
     <string name="mobile_only_subscription_feature_4">No in-app purchases or ads</string>
 
     <!--Paywall-->
-    <string name="paywall_mobile_only_title">Unlock the full\nlearning experience</string>
+    <string name="paywall_mobile_only_title">Get the full experience</string>
     <string name="paywall_ios_mobile_only_buy_btn">Subscribe for %s / month</string>
     <string name="paywall_ios_mobile_only_trial_buy_btn">Start with a 1 week free trial</string>
     <string name="paywall_ios_mobile_only_trial_description">Then %s per month</string>
@@ -709,7 +709,11 @@
     <string name="paywall_tos_and_privacy_bth">Hyperskill Terms of Service and Privacy Policy</string>
     <string name="paywall_tos_and_privacy_url">https://hi.hyperskill.org/terms</string>
     <string name="paywall_android_subscription_duration">Monthly</string>
-    <string name="paywall_android_explicit_subscription_price">%s / month, cancel any time</string>
+    <string name="paywall_subscription_duration_monthly">Monthly</string>
+    <string name="paywall_subscription_duration_annual">Annual %s</string>
+    <string name="paywall_subscription_month_price">%s / month</string>
+    <string name="paywall_subscription_start_btn">Start now</string>
+    <string name="paywall_best_value_label">Best value</string>
 
     <!--Manage subscription-->
     <string name="manage_subscription_screen_title">Subscription</string>
