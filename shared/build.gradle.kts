@@ -53,6 +53,17 @@ kotlin {
                 // Add export declarations to use moko-resources iOS extensions from Swift side
                 export(libs.mokoResources.main)
             }
+            pod("RevenueCat") {
+                version = "4.41.1"
+                extraOpts += listOf("-compiler-option", "-fmodules")
+            }
+        }
+        sourceSets {
+            all {
+                languageSettings {
+                    optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                }
+            }
         }
     }
 
