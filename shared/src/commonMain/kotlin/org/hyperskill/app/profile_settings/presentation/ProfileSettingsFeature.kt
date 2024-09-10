@@ -19,7 +19,7 @@ object ProfileSettingsFeature {
         data class Content(
             val profileSettings: ProfileSettings,
             val subscription: Subscription?,
-            val mobileOnlyFormattedPrice: String?,
+            val subscriptionFormattedPricePerMonth: String?,
             val isLoadingMagicLink: Boolean = false
         ) : State
     }

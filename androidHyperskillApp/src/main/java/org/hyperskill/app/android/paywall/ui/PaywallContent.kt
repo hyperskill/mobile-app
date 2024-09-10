@@ -17,6 +17,10 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -31,11 +35,13 @@ import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.compose.plus
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.paywall.presentation.PaywallFeature
 
 @Composable
 fun PaywallContent(
     buyButtonText: String,
-    priceText: String?,
+    products: List<PaywallFeature.ViewStateContent.SubscriptionProduct>,
+    onProductClick: (String) -> Unit,
     onTermsOfServiceClick: () -> Unit,
     onBuySubscriptionClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -49,7 +55,9 @@ fun PaywallContent(
             .windowInsetsPadding(WindowInsets.safeDrawing)
     ) {
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
         ) {
             Image(
                 painter = painterResource(id = org.hyperskill.app.android.R.drawable.img_paywall),
@@ -64,10 +72,12 @@ fun PaywallContent(
             )
             Spacer(modifier = Modifier.height(24.dp))
             SubscriptionDetails()
-            Spacer(modifier = Modifier.height(32.dp))
-            if (priceText != null) {
-                SubscriptionPrice(priceText)
-            }
+            Spacer(modifier = Modifier.height(24.dp))
+            SubscriptionProducts(
+                products = products,
+                onProdutsClick = onProductClick
+            )
+            Spacer(modifier = Modifier.height(24.dp))
         }
         Column {
             HyperskillButton(
@@ -87,23 +97,27 @@ fun PaywallContent(
 }
 
 @Composable
-private fun SubscriptionPrice(
-    priceText: String,
+private fun SubscriptionProducts(
+    products: List<PaywallFeature.ViewStateContent.SubscriptionProduct>,
+    onProdutsClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = modifier
     ) {
-        Text(
-            text = stringResource(id = R.string.paywall_android_subscription_duration),
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Medium
-        )
-        Text(
-            text = priceText,
-            style = MaterialTheme.typography.body2
-        )
+        products.forEach { option ->
+            key(option.productId) {
+                SubscriptionProduct(
+                    product = option,
+                    onClick = remember {
+                        {
+                            onProdutsClick(option.productId)
+                        }
+                    }
+                )
+            }
+        }
     }
 }
 
@@ -124,9 +138,15 @@ private fun TermsOfService(
 @Composable
 fun PaywallContentPreview() {
     HyperskillTheme {
+        val options by remember {
+            mutableStateOf(
+                PaywallPreviewDefaults.subscriptionProducts
+            )
+        }
         PaywallContent(
             buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
-            priceText = PaywallPreviewDefaults.PRICE_TEXT,
+            products = options,
+            onProductClick = { },
             onTermsOfServiceClick = {},
             onBuySubscriptionClick = {}
         )

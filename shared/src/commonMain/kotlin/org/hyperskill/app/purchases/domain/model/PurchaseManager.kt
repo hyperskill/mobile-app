@@ -24,16 +24,13 @@ interface PurchaseManager {
      * Makes purchase of the product with [productId].
      */
     suspend fun purchase(
-        productId: String,
+        storeProduct: HyperskillStoreProduct,
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult>
 
     suspend fun getManagementUrl(): Result<String?>
 
-    /**
-     * Returns formatted product price with currency by [productId]
-     */
-    suspend fun getFormattedProductPrice(productId: String): Result<String?>
+    suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>>
 
     /**
      * Checks if user is eligible for trial for the product with [productId]

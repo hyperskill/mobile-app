@@ -118,7 +118,11 @@ internal class ProfileSettingsActionDispatcher(
                 currentSubscriptionStateRepository.getState(forceUpdate = true)
             }
             val priceDeferred = async {
-                purchaseInteractor.getFormattedMobileOnlySubscriptionPrice()
+                purchaseInteractor
+                    .getSubscriptionProducts()
+                    .map { subscriptionProducts ->
+                        subscriptionProducts.firstOrNull()?.formattedPricePerMonth
+                    }
             }
             Message.ProfileSettingsSuccess(
                 profileSettings = profileSettingsInteractor.getProfileSettings(),

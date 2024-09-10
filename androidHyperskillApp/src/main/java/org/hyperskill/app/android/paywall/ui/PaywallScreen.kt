@@ -58,6 +58,7 @@ fun PaywallScreen(
     PaywallScreen(
         viewState = state,
         onBackClick = onBackClick,
+        onProductClick = viewModel::onOptionClick,
         onBuySubscriptionClick = remember(activity) {
             {
                 viewModel.onBuySubscriptionClick(activity)
@@ -73,6 +74,7 @@ fun PaywallScreen(
 fun PaywallScreen(
     viewState: ViewState,
     onBackClick: () -> Unit,
+    onProductClick: (String) -> Unit,
     onBuySubscriptionClick: () -> Unit,
     onCloseClick: () -> Unit,
     onRetryLoadingClick: () -> Unit,
@@ -106,7 +108,8 @@ fun PaywallScreen(
             is ViewStateContent.Content ->
                 PaywallContent(
                     buyButtonText = contentState.buyButtonText,
-                    priceText = contentState.priceText,
+                    products = contentState.subscriptionProducts,
+                    onProductClick = onProductClick,
                     onBuySubscriptionClick = onBuySubscriptionClick,
                     onTermsOfServiceClick = onTermsOfServiceClick,
                     padding = padding
@@ -192,16 +195,14 @@ private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
                 isToolbarVisible = true,
                 contentState = ViewStateContent.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
-                    priceText = "$11.99 / month",
-                    trialText = null
+                    subscriptionProducts = PaywallPreviewDefaults.subscriptionProducts
                 )
             ),
             ViewState(
                 isToolbarVisible = false,
                 contentState = ViewStateContent.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
-                    priceText = PaywallPreviewDefaults.PRICE_TEXT,
-                    trialText = null
+                    subscriptionProducts = PaywallPreviewDefaults.subscriptionProducts
                 )
             ),
             ViewState(
@@ -237,6 +238,7 @@ fun PaywallScreenPreview(
         PaywallScreen(
             viewState = viewState,
             onBackClick = {},
+            onProductClick = {},
             onBuySubscriptionClick = {},
             onCloseClick = {},
             onRetryLoadingClick = {},
