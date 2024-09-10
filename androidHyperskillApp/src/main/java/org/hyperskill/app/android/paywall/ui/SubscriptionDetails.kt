@@ -27,15 +27,15 @@ fun SubscriptionDetails(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_1))
-        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_2))
-        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_3))
-        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_4))
+        SubscriptionDetail(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_1))
+        SubscriptionDetail(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_2))
+        SubscriptionDetail(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_3))
+        SubscriptionDetail(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_4))
     }
 }
 
 @Composable
-fun SubscriptionOption(
+fun SubscriptionDetail(
     text: String,
     modifier: Modifier = Modifier
 ) {

@@ -32,7 +32,7 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 State.Content(
                     profileSettings = message.profileSettings,
                     subscription = message.subscription,
-                    mobileOnlyFormattedPrice = message.mobileOnlyFormattedPrice
+                    subscriptionFormattedPricePerMonth = message.mobileOnlyFormattedPrice
                 ) to emptySet()
             is Message.OnSubscriptionChanged ->
                 handleSubscriptionChanged(state, message)
