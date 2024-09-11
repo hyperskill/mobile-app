@@ -6,6 +6,7 @@ import kotlin.test.assertTrue
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDecreaseIndentLevelHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
+import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 
@@ -54,7 +55,13 @@ class StepQuizCodeBlanksReducerDecreaseIndentLevelButtonClickedTest {
         )
 
         val expectedState = initialState.copy(
-            codeBlocks = listOf(CodeBlock.Blank(isActive = true, indentLevel = 0, suggestions = emptyList()))
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = true,
+                    indentLevel = 0,
+                    suggestions = listOf(Suggestion.Print)
+                )
+            )
         )
 
         assertEquals(expectedState, state)
@@ -78,7 +85,7 @@ class StepQuizCodeBlanksReducerDecreaseIndentLevelButtonClickedTest {
         val expectedState = initialState.copy(
             codeBlocks = listOf(
                 CodeBlock.Blank(isActive = false, indentLevel = 3, suggestions = emptyList()),
-                CodeBlock.Blank(isActive = true, indentLevel = 1, suggestions = emptyList())
+                CodeBlock.Blank(isActive = true, indentLevel = 1, suggestions = listOf(Suggestion.Print))
             )
         )
 

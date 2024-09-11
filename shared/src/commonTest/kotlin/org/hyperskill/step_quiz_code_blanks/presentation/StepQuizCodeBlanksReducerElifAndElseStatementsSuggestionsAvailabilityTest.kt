@@ -1,4 +1,4 @@
-package org.hyperskill.step_quiz_code_blanks
+package org.hyperskill.step_quiz_code_blanks.presentation
 
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -7,7 +7,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 
-class StepQuizCodeBlanksElifAndElseStatementsSuggestionsAvailabilityTest {
+class StepQuizCodeBlanksReducerElifAndElseStatementsSuggestionsAvailabilityTest {
     private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
 
     @Test
