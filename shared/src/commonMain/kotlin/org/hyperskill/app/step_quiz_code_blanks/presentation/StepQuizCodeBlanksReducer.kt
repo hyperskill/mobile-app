@@ -191,7 +191,7 @@ class StepQuizCodeBlanksReducer(
         val newCodeBlocks = state.codeBlocks.mutate {
             set(activeCodeBlockIndex, newCodeBlock)
 
-            if (newCodeBlock is CodeBlock.ElseStatement) {
+            if (newCodeBlock is CodeBlock.ElseStatement && activeCodeBlock !== newCodeBlock) {
                 val blankInsertIndex = activeCodeBlockIndex + 1
                 val blankIndentLevel = newCodeBlock.indentLevel + 1
                 add(

@@ -61,7 +61,7 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
     }
 
     @Test
-    fun `SuggestionClicked should update active Blank code block to Print if suggestion exists`() {
+    fun `SuggestionClicked should update Blank to Print`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(
                 CodeBlock.Blank(
@@ -93,7 +93,7 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
     }
 
     @Test
-    fun `SuggestionClicked should update active Blank code block to Variable if suggestion exists`() {
+    fun `SuggestionClicked should update Blank to Variable`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(
                 CodeBlock.Blank(
@@ -130,6 +130,102 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
     }
 
     @Test
+    fun `SuggestionClicked should update Blank to IfStatement`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = true,
+                    suggestions = listOf(Suggestion.Print, Suggestion.IfStatement)
+                )
+            )
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(Suggestion.IfStatement)
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.IfStatement(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = initialState.codeBlanksVariablesAndStringsSuggestions,
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsSuggestionClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SuggestionClicked should update Blank to ElifStatement`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = true,
+                    suggestions = listOf(Suggestion.Print, Suggestion.ElifStatement)
+                )
+            )
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(Suggestion.ElifStatement)
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.ElifStatement(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = initialState.codeBlanksVariablesAndStringsSuggestions,
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsSuggestionClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SuggestionClicked should update Blank to ElseStatement and add Blank with next indentLevel`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = true,
+                    suggestions = listOf(Suggestion.Print, Suggestion.ElseStatement)
+                )
+            )
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(Suggestion.ElseStatement)
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.ElseStatement(
+                    isActive = false,
+                    indentLevel = 0
+                ),
+                CodeBlock.Blank(
+                    isActive = true,
+                    indentLevel = 1,
+                    suggestions = listOf(Suggestion.Print)
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsSuggestionClickedAnalyticEvent(actions)
+    }
+
+    @Test
     fun `SuggestionClicked should update Print code block with selected suggestion`() {
         val suggestion = Suggestion.ConstantString("suggestion")
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
@@ -151,6 +247,56 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
         assertEquals(suggestion, (state.codeBlocks[0] as CodeBlock.Print).children[0].selectedSuggestion)
+        assertContainsSuggestionClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SuggestionClicked should update IfStatement code block with selected suggestion`() {
+        val suggestion = Suggestion.ConstantString("suggestion")
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.IfStatement(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = listOf(suggestion),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(suggestion)
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertEquals(suggestion, (state.codeBlocks[0] as CodeBlock.IfStatement).children[0].selectedSuggestion)
+        assertContainsSuggestionClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SuggestionClicked should update ElifStatement code block with selected suggestion`() {
+        val suggestion = Suggestion.ConstantString("suggestion")
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.ElifStatement(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = listOf(suggestion),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(suggestion)
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertEquals(suggestion, (state.codeBlocks[0] as CodeBlock.ElifStatement).children[0].selectedSuggestion)
         assertContainsSuggestionClickedAnalyticEvent(actions)
     }
 
@@ -249,6 +395,20 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
         assertEquals(expectedState.codeBlocks, state.codeBlocks)
+        assertContainsSuggestionClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SuggestionClicked should not update ElseStatement code block with selected suggestion`() {
+        val suggestion = Suggestion.ConstantString("suggestion")
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(CodeBlock.ElseStatement(isActive = true))
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(suggestion)
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        assertEquals(initialState, state)
         assertContainsSuggestionClickedAnalyticEvent(actions)
     }
 
