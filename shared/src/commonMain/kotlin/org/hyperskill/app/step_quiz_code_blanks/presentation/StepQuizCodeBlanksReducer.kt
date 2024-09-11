@@ -13,6 +13,8 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlan
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
+import org.hyperskill.app.step_quiz_code_blanks.domain.model.updatedChildren
+import org.hyperskill.app.step_quiz_code_blanks.domain.model.updatedIndentLevel
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Action
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalMessage
@@ -137,12 +139,7 @@ class StepQuizCodeBlanksReducer(
                                 )
                             }
                             .cast<List<CodeBlockChild.SelectSuggestion>>()
-
-                        when (activeCodeBlock) {
-                            is CodeBlock.Print -> activeCodeBlock.copy(children = newChildren)
-                            is CodeBlock.IfStatement -> activeCodeBlock.copy(children = newChildren)
-                            else -> activeCodeBlock
-                        }
+                        activeCodeBlock.updatedChildren(newChildren)
                     } ?: activeCodeBlock
                 }
                 is CodeBlock.Variable -> {
@@ -275,12 +272,7 @@ class StepQuizCodeBlanksReducer(
                 targetCodeBlock?.let { targetCodeBlock ->
                     set(
                         targetCodeBlockIndex,
-                        when (targetCodeBlock) {
-                            is CodeBlock.Print -> targetCodeBlock.copy(children = newChildren)
-                            is CodeBlock.Variable -> targetCodeBlock.copy(children = newChildren)
-                            is CodeBlock.IfStatement -> targetCodeBlock.copy(children = newChildren)
-                            else -> targetCodeBlock
-                        }
+                        targetCodeBlock.updatedChildren(newChildren)
                     )
                 }
             }
@@ -584,12 +576,7 @@ class StepQuizCodeBlanksReducer(
             newChildren?.let {
                 set(
                     activeCodeBlockIndex,
-                    when (activeCodeBlock) {
-                        is CodeBlock.Print -> activeCodeBlock.copy(children = newChildren)
-                        is CodeBlock.Variable -> activeCodeBlock.copy(children = newChildren)
-                        is CodeBlock.IfStatement -> activeCodeBlock.copy(children = newChildren)
-                        else -> activeCodeBlock
-                    }
+                    activeCodeBlock.updatedChildren(newChildren)
                 )
             }
         }
@@ -625,12 +612,7 @@ class StepQuizCodeBlanksReducer(
             codeBlocks = state.codeBlocks.mutate {
                 set(
                     activeCodeBlockIndex,
-                    when (activeCodeBlock) {
-                        is CodeBlock.Blank -> activeCodeBlock.copy(indentLevel = newIndentLevel)
-                        is CodeBlock.Print -> activeCodeBlock.copy(indentLevel = newIndentLevel)
-                        is CodeBlock.Variable -> activeCodeBlock.copy(indentLevel = newIndentLevel)
-                        is CodeBlock.IfStatement -> activeCodeBlock.copy(indentLevel = newIndentLevel)
-                    }
+                    activeCodeBlock.updatedIndentLevel(newIndentLevel)
                 )
             }
         ) to actions
@@ -654,24 +636,14 @@ class StepQuizCodeBlanksReducer(
                                 child.copy(isActive = false)
                             }
                         }
-                        when (codeBlock) {
-                            is CodeBlock.Print -> codeBlock.copy(children = newChildren)
-                            is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
-                            is CodeBlock.IfStatement -> codeBlock.copy(children = newChildren)
-                            else -> codeBlock
-                        }
+                        codeBlock.updatedChildren(newChildren)
                     }
                 } else {
                     val newChildren = codeBlock.children.map { child ->
                         require(child is CodeBlockChild.SelectSuggestion)
                         child.copy(isActive = false)
                     }
-                    when (codeBlock) {
-                        is CodeBlock.Print -> codeBlock.copy(children = newChildren)
-                        is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
-                        is CodeBlock.IfStatement -> codeBlock.copy(children = newChildren)
-                        else -> codeBlock
-                    }
+                    codeBlock.updatedChildren(newChildren)
                 }
             }
         }
