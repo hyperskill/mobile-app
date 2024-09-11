@@ -1285,7 +1285,13 @@ class StepQuizCodeBlanksReducerTest {
         )
 
         val expectedState = initialState.copy(
-            codeBlocks = listOf(CodeBlock.Blank(isActive = true, indentLevel = 0, suggestions = emptyList()))
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = true,
+                    indentLevel = 0,
+                    suggestions = listOf(Suggestion.Print)
+                )
+            )
         )
 
         assertEquals(expectedState, state)
@@ -1309,7 +1315,7 @@ class StepQuizCodeBlanksReducerTest {
         val expectedState = initialState.copy(
             codeBlocks = listOf(
                 CodeBlock.Blank(isActive = false, indentLevel = 3, suggestions = emptyList()),
-                CodeBlock.Blank(isActive = true, indentLevel = 1, suggestions = emptyList())
+                CodeBlock.Blank(isActive = true, indentLevel = 1, suggestions = listOf(Suggestion.Print))
             )
         )
 
