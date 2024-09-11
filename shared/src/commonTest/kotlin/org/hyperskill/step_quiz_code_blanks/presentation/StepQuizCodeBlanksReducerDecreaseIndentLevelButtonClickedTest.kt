@@ -14,6 +14,19 @@ class StepQuizCodeBlanksReducerDecreaseIndentLevelButtonClickedTest {
     private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
 
     @Test
+    fun `DecreaseIndentLevelButtonClicked should not update state if state is not Content`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+
+        val (state, actions) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.Message.DecreaseIndentLevelButtonClicked
+        )
+
+        assertEquals(initialState, state)
+        assertTrue(actions.isEmpty())
+    }
+
+    @Test
     fun `DecreaseIndentLevelButtonClicked should not update state if no active code block`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(CodeBlock.Blank(isActive = false, suggestions = emptyList()))
@@ -47,6 +60,37 @@ class StepQuizCodeBlanksReducerDecreaseIndentLevelButtonClickedTest {
     fun `DecreaseIndentLevelButtonClicked should decrease indent level by 1`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(CodeBlock.Blank(isActive = true, indentLevel = 1, suggestions = emptyList()))
+        )
+
+        val (state, actions) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.Message.DecreaseIndentLevelButtonClicked
+        )
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = true,
+                    indentLevel = 0,
+                    suggestions = listOf(Suggestion.Print)
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsDecreaseIndentLevelAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `DecreaseIndentLevelButtonClicked should decrease indent level by 1 and update suggestions for Blank`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = true,
+                    indentLevel = 1,
+                    suggestions = emptyList()
+                )
+            )
         )
 
         val (state, actions) = reducer.reduce(
