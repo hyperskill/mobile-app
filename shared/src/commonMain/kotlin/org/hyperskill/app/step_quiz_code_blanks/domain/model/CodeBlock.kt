@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_quiz_code_blanks.domain.model
 
 import org.hyperskill.app.core.utils.indexOfFirstOrNull
+import ru.nobird.app.core.model.cast
 
 sealed class CodeBlock {
     companion object;
@@ -184,4 +185,24 @@ internal fun CodeBlock.Companion.joinChildrenToReplyString(children: List<CodeBl
                 append(" ")
             }
         }
+    }
+
+internal fun CodeBlock.updatedChildren(children: List<CodeBlockChild>): CodeBlock =
+    when (this) {
+        is CodeBlock.Blank,
+        is CodeBlock.ElseStatement -> this
+        is CodeBlock.Print -> copy(children = children.cast())
+        is CodeBlock.Variable -> copy(children = children.cast())
+        is CodeBlock.IfStatement -> copy(children = children.cast())
+        is CodeBlock.ElifStatement -> copy(children = children.cast())
+    }
+
+internal fun CodeBlock.updatedIndentLevel(indentLevel: Int): CodeBlock =
+    when (this) {
+        is CodeBlock.Blank -> copy(indentLevel = indentLevel)
+        is CodeBlock.Print -> copy(indentLevel = indentLevel)
+        is CodeBlock.Variable -> copy(indentLevel = indentLevel)
+        is CodeBlock.IfStatement -> copy(indentLevel = indentLevel)
+        is CodeBlock.ElifStatement -> copy(indentLevel = indentLevel)
+        is CodeBlock.ElseStatement -> copy(indentLevel = indentLevel)
     }
