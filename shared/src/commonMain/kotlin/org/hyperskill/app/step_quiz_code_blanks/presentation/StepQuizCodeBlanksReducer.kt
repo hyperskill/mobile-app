@@ -21,7 +21,6 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Message
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.State
-import ru.nobird.app.core.model.cast
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.slice
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -636,12 +635,10 @@ class StepQuizCodeBlanksReducer(
                         selectedSuggestion = null
                     )
 
-                    activeCodeBlock.children
-                        .mutate {
-                            set(activeChildIndex, activeChild.copy(isActive = false))
-                            add(activeChildIndex + 1, newChild)
-                        }
-                        .cast<List<CodeBlockChild.SelectSuggestion>>()
+                    activeCodeBlock.children.mutate {
+                        set(activeChildIndex, activeChild.copy(isActive = false))
+                        add(activeChildIndex + 1, newChild)
+                    }
                 }
             }
             is CodeBlock.Blank,
