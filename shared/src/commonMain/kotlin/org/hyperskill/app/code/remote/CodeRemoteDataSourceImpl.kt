@@ -7,11 +7,11 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.code.data.source.CodeRemoteDataSource
-import org.hyperskill.app.code.domain.model.RunCodeResult
 import org.hyperskill.app.code.remote.model.RunCodeRequest
+import org.hyperskill.app.code.remote.model.RunCodeResponse
 
 internal class CodeRemoteDataSourceImpl(private val httpClient: HttpClient) : CodeRemoteDataSource {
-    override suspend fun runCode(runCodeRequest: RunCodeRequest): Result<RunCodeResult> =
+    override suspend fun runCode(runCodeRequest: RunCodeRequest): Result<RunCodeResponse> =
         runCatching {
             httpClient
                 .post("/api/run-code") {

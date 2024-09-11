@@ -26,7 +26,7 @@ data class Block(
         @SerialName("code_templates")
         val codeTemplates: Map<String, String>? = null,
         @SerialName("samples")
-        val samples: List<List<String>>? = null,
+        private val internalSamples: List<List<String>>? = null,
         @SerialName("files")
         val files: List<File>? = null,
         @SerialName("code_blanks_strings")
@@ -38,6 +38,14 @@ data class Block(
         @SerialName("code_blanks_enabled")
         val codeBlanksEnabled: Boolean? = null
     ) {
+        val samples: List<Sample>?
+            get() = internalSamples?.mapNotNull {
+                Sample(
+                    input = it.firstOrNull() ?: return@mapNotNull null,
+                    output = it.getOrNull(1) ?: return@mapNotNull null
+                )
+            }
+
         @Serializable
         data class File(
             @SerialName("name")
@@ -46,6 +54,11 @@ data class Block(
             val isVisible: Boolean,
             @SerialName("text")
             val text: String
+        )
+
+        data class Sample(
+            val input: String,
+            val output: String
         )
     }
 }
