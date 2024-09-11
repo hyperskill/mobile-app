@@ -29,6 +29,8 @@ object StepQuizCodeBlanksFeature {
             val codeBlocks: List<CodeBlock>,
             val onboardingState: OnboardingState = OnboardingState.Unavailable
         ) : State {
+            companion object;
+
             internal val codeBlanksStringsSuggestions: List<Suggestion.ConstantString> =
                 step.codeBlanksStringsSuggestions()
 
