@@ -54,6 +54,43 @@ class StepQuizCodeBlanksReducerCodeBlockChildClickedTest {
     }
 
     @Test
+    fun `CodeBlockChildClicked should not update state if target code block is Blank`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = false,
+                    suggestions = emptyList()
+                )
+            )
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.CodeBlockChildClicked(
+            codeBlockItem = StepQuizCodeBlanksViewState.CodeBlockItem.Blank(id = 0, isActive = false),
+            codeBlockChildItem = StepQuizCodeBlanksViewState.CodeBlockChildItem(id = 0, isActive = false, value = null)
+        )
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        assertEquals(initialState, state)
+        assertContainsCodeBlockChildClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `CodeBlockChildClicked should not update state if target code block is ElseStatement`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(CodeBlock.ElseStatement(isActive = false))
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.CodeBlockChildClicked(
+            codeBlockItem = StepQuizCodeBlanksViewState.CodeBlockItem.ElseStatement(id = 0, isActive = false),
+            codeBlockChildItem = StepQuizCodeBlanksViewState.CodeBlockChildItem(id = 0, isActive = false, value = null)
+        )
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        assertEquals(initialState, state)
+        assertContainsCodeBlockChildClickedAnalyticEvent(actions)
+    }
+
+    @Test
     fun `CodeBlockChildClicked should update state to activate the clicked Variable child`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(
@@ -141,6 +178,86 @@ class StepQuizCodeBlanksReducerCodeBlockChildClickedTest {
                         ),
                         CodeBlockChild.SelectSuggestion(
                             isActive = false,
+                            suggestions = emptyList(),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsCodeBlockChildClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `CodeBlockChildClicked should update state to activate the clicked IfStatement child`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.IfStatement(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = emptyList(),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.CodeBlockChildClicked(
+            codeBlockItem = StepQuizCodeBlanksViewState.CodeBlockItem.IfStatement(id = 0, children = emptyList()),
+            codeBlockChildItem = StepQuizCodeBlanksViewState.CodeBlockChildItem(id = 0, isActive = false, value = null)
+        )
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.IfStatement(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = emptyList(),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+        assertContainsCodeBlockChildClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `CodeBlockChildClicked should update state to activate the clicked ElifStatement child`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.ElifStatement(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = false,
+                            suggestions = emptyList(),
+                            selectedSuggestion = null
+                        )
+                    )
+                )
+            )
+        )
+
+        val message = StepQuizCodeBlanksFeature.Message.CodeBlockChildClicked(
+            codeBlockItem = StepQuizCodeBlanksViewState.CodeBlockItem.ElifStatement(id = 0, children = emptyList()),
+            codeBlockChildItem = StepQuizCodeBlanksViewState.CodeBlockChildItem(id = 0, isActive = false, value = null)
+        )
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        val expectedState = initialState.copy(
+            codeBlocks = listOf(
+                CodeBlock.ElifStatement(
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
                             suggestions = emptyList(),
                             selectedSuggestion = null
                         )
