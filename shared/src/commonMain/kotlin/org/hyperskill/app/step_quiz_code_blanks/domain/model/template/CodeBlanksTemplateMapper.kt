@@ -46,6 +46,7 @@ internal object CodeBlanksTemplateMapper {
                 CodeBlock.Blank(
                     isActive = entry.isActive,
                     indentLevel = entry.indentLevel,
+                    isDeleteForbidden = entry.isDeleteForbidden,
                     suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
                         isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step)
                     )
@@ -53,6 +54,7 @@ internal object CodeBlanksTemplateMapper {
             CodeBlockTemplateEntryType.PRINT ->
                 CodeBlock.Print(
                     indentLevel = entry.indentLevel,
+                    isDeleteForbidden = entry.isDeleteForbidden,
                     children = mapCodeBlockTemplateEntryChildren(
                         entry = entry,
                         suggestions = childrenSuggestions,
@@ -62,6 +64,7 @@ internal object CodeBlanksTemplateMapper {
             CodeBlockTemplateEntryType.VARIABLE ->
                 CodeBlock.Variable(
                     indentLevel = entry.indentLevel,
+                    isDeleteForbidden = entry.isDeleteForbidden,
                     children = mapCodeBlockTemplateEntryChildren(
                         entry = entry,
                         suggestions = childrenSuggestions,
@@ -71,6 +74,7 @@ internal object CodeBlanksTemplateMapper {
             CodeBlockTemplateEntryType.IF ->
                 CodeBlock.IfStatement(
                     indentLevel = entry.indentLevel,
+                    isDeleteForbidden = entry.isDeleteForbidden,
                     children = mapCodeBlockTemplateEntryChildren(
                         entry = entry,
                         suggestions = childrenSuggestions,
@@ -80,6 +84,7 @@ internal object CodeBlanksTemplateMapper {
             CodeBlockTemplateEntryType.ELIF ->
                 CodeBlock.ElifStatement(
                     indentLevel = entry.indentLevel,
+                    isDeleteForbidden = entry.isDeleteForbidden,
                     children = mapCodeBlockTemplateEntryChildren(
                         entry = entry,
                         suggestions = childrenSuggestions,
@@ -89,7 +94,8 @@ internal object CodeBlanksTemplateMapper {
             CodeBlockTemplateEntryType.ELSE ->
                 CodeBlock.ElseStatement(
                     isActive = entry.isActive,
-                    indentLevel = entry.indentLevel
+                    indentLevel = entry.indentLevel,
+                    isDeleteForbidden = entry.isDeleteForbidden,
                 )
             CodeBlockTemplateEntryType.UNKNOWN -> error("Unknown code block template entry type")
         }
@@ -126,6 +132,7 @@ internal object CodeBlanksTemplateMapper {
         listOf(
             CodeBlock.Variable(
                 indentLevel = 0,
+                isDeleteForbidden = true,
                 children = listOf(
                     CodeBlockChild.SelectSuggestion(
                         isActive = false,
@@ -141,6 +148,7 @@ internal object CodeBlanksTemplateMapper {
             ),
             CodeBlock.Variable(
                 indentLevel = 0,
+                isDeleteForbidden = true,
                 children = listOf(
                     CodeBlockChild.SelectSuggestion(
                         isActive = false,
@@ -156,6 +164,7 @@ internal object CodeBlanksTemplateMapper {
             ),
             CodeBlock.Variable(
                 indentLevel = 0,
+                isDeleteForbidden = true,
                 children = listOf(
                     CodeBlockChild.SelectSuggestion(
                         isActive = false,
@@ -172,6 +181,7 @@ internal object CodeBlanksTemplateMapper {
             CodeBlock.Blank(
                 isActive = true,
                 indentLevel = 0,
+                isDeleteForbidden = false,
                 suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
                     isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step)
                 )

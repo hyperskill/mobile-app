@@ -341,7 +341,7 @@ class StepQuizCodeBlanksReducer(
             )
         )
 
-        if (activeCodeBlock == null) {
+        if (activeCodeBlock == null || activeCodeBlock.isDeleteForbidden) {
             return state to actions
         }
 
