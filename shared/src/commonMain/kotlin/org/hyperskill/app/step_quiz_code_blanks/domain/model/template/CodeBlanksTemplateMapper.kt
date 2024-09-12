@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz_code_blanks.domain.model.template
 
+import kotlin.math.max
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
@@ -104,27 +105,33 @@ internal object CodeBlanksTemplateMapper {
     private fun mapCodeBlockTemplateEntryChildren(
         entry: CodeBlockTemplateEntry,
         suggestions: List<Suggestion.ConstantString>,
-        minimumRequiredChildrenCount: Int,
+        minimumRequiredChildrenCount: Int
     ): List<CodeBlockChild.SelectSuggestion> {
-        val mappedChildren = entry.children.mapIndexed { index, text ->
+        val mappedChildren = entry.children.map { text ->
             CodeBlockChild.SelectSuggestion(
-                isActive = entry.isActive && index == 0,
+                isActive = false,
                 suggestions = suggestions,
                 selectedSuggestion = Suggestion.ConstantString(text)
             )
         }
-        return if (mappedChildren.size < minimumRequiredChildrenCount) {
-            val missingChildrenCount = minimumRequiredChildrenCount - mappedChildren.size
-            val missingChildren = List(missingChildrenCount) {
-                CodeBlockChild.SelectSuggestion(
-                    isActive = false,
-                    suggestions = suggestions,
-                    selectedSuggestion = null
-                )
+
+        val missingChildrenCount = max(0, minimumRequiredChildrenCount - mappedChildren.size)
+        val missingChildren = List(missingChildrenCount) {
+            CodeBlockChild.SelectSuggestion(
+                isActive = false,
+                suggestions = suggestions,
+                selectedSuggestion = null
+            )
+        }
+
+        val completeChildren = mappedChildren + missingChildren
+
+        return if (entry.isActive) {
+            completeChildren.mapIndexed { index, child ->
+                child.copy(isActive = entry.isActive && index == 0)
             }
-            mappedChildren + missingChildren
         } else {
-            mappedChildren
+            completeChildren
         }
     }
 
