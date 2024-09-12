@@ -5,6 +5,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockChildHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDecreaseIndentLevelHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedEnterHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent
@@ -12,6 +13,8 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlan
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
+import org.hyperskill.app.step_quiz_code_blanks.domain.model.updatedChildren
+import org.hyperskill.app.step_quiz_code_blanks.domain.model.updatedIndentLevel
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Action
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalMessage
@@ -36,6 +39,7 @@ class StepQuizCodeBlanksReducer(
             Message.DeleteButtonClicked -> handleDeleteButtonClicked(state)
             Message.EnterButtonClicked -> handleEnterButtonClicked(state)
             Message.SpaceButtonClicked -> handleSpaceButtonClicked(state)
+            Message.DecreaseIndentLevelButtonClicked -> handleDecreaseIndentLevelButtonClicked(state)
         } ?: (state to emptySet())
 
     private fun initialize(
@@ -60,27 +64,28 @@ class StepQuizCodeBlanksReducer(
         }
 
         val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
-                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] },
+                    codeBlock = activeCodeBlock,
                     suggestion = message.suggestion
                 )
             )
         )
 
-        if (activeCodeBlockIndex == null) {
+        if (activeCodeBlock == null) {
             return state to actions
         }
-        val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
 
         val newCodeBlock =
             when (activeCodeBlock) {
                 is CodeBlock.Blank -> when (message.suggestion) {
                     Suggestion.Print ->
                         CodeBlock.Print(
+                            indentLevel = activeCodeBlock.indentLevel,
                             children = listOf(
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = true,
@@ -92,6 +97,7 @@ class StepQuizCodeBlanksReducer(
                         )
                     Suggestion.Variable ->
                         CodeBlock.Variable(
+                            indentLevel = activeCodeBlock.indentLevel,
                             children = listOf(
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = true,
@@ -105,20 +111,35 @@ class StepQuizCodeBlanksReducer(
                                 )
                             )
                         )
+                    Suggestion.IfStatement ->
+                        CodeBlock.IfStatement(
+                            indentLevel = activeCodeBlock.indentLevel,
+                            children = listOf(
+                                CodeBlockChild.SelectSuggestion(
+                                    isActive = true,
+                                    suggestions = state.codeBlanksVariablesSuggestions +
+                                        state.codeBlanksStringsSuggestions,
+                                    selectedSuggestion = null
+                                )
+                            )
+                        )
                     else -> activeCodeBlock
                 }
-                is CodeBlock.Print -> {
+                is CodeBlock.Print,
+                is CodeBlock.IfStatement -> {
                     activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
-                        activeCodeBlock.copy(
-                            children = activeCodeBlock.children.mutate {
+                        val activeChild = activeCodeBlock.children[activeChildIndex] as CodeBlockChild.SelectSuggestion
+                        val newChildren = activeCodeBlock.children
+                            .mutate {
                                 set(
                                     activeChildIndex,
-                                    activeCodeBlock.children[activeChildIndex].copy(
+                                    activeChild.copy(
                                         selectedSuggestion = message.suggestion as? Suggestion.ConstantString
                                     )
                                 )
                             }
-                        )
+                            .cast<List<CodeBlockChild.SelectSuggestion>>()
+                        activeCodeBlock.updatedChildren(newChildren)
                     } ?: activeCodeBlock
                 }
                 is CodeBlock.Variable -> {
@@ -228,7 +249,8 @@ class StepQuizCodeBlanksReducer(
 
         val newChildren = when (targetCodeBlock) {
             is CodeBlock.Print,
-            is CodeBlock.Variable -> {
+            is CodeBlock.Variable,
+            is CodeBlock.IfStatement -> {
                 targetCodeBlock.children.mapIndexed { index, child ->
                     require(child is CodeBlockChild.SelectSuggestion)
                     if (index == message.codeBlockChildItem.id) {
@@ -250,11 +272,7 @@ class StepQuizCodeBlanksReducer(
                 targetCodeBlock?.let { targetCodeBlock ->
                     set(
                         targetCodeBlockIndex,
-                        when (targetCodeBlock) {
-                            is CodeBlock.Print -> targetCodeBlock.copy(children = newChildren)
-                            is CodeBlock.Variable -> targetCodeBlock.copy(children = newChildren)
-                            else -> targetCodeBlock
-                        }
+                        targetCodeBlock.updatedChildren(newChildren)
                     )
                 }
             }
@@ -271,17 +289,18 @@ class StepQuizCodeBlanksReducer(
         }
 
         val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedDeleteHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
-                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+                    codeBlock = activeCodeBlock
                 )
             )
         )
 
-        if (activeCodeBlockIndex == null) {
+        if (activeCodeBlock == null) {
             return state to actions
         }
 
@@ -303,12 +322,13 @@ class StepQuizCodeBlanksReducer(
                     activeCodeBlockIndex,
                     createBlankCodeBlock(
                         isActive = true,
+                        indentLevel = activeCodeBlock.indentLevel,
                         isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
                     )
                 )
             }
 
-            when (val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]) {
+            when (activeCodeBlock) {
                 is CodeBlock.Blank -> {
                     if (state.codeBlocks.size > 1) {
                         removeActiveCodeBlockAndSetNextActive()
@@ -385,7 +405,50 @@ class StepQuizCodeBlanksReducer(
                                 )
                             )
 
-                        activeCodeBlock.children.all { it.selectedSuggestion == null } ->
+                        activeChildIndex == 0 || activeCodeBlock.areAllChildrenUnselected() ->
+                            if (state.codeBlocks.size > 1) {
+                                removeActiveCodeBlockAndSetNextActive()
+                            } else {
+                                replaceActiveCodeWithBlank()
+                            }
+                    }
+                }
+                is CodeBlock.IfStatement -> {
+                    val activeChildIndex = activeCodeBlock.activeChildIndex() ?: return@mutate
+                    val activeChild = activeCodeBlock.children[activeChildIndex]
+
+                    val nextCodeBlock = state.codeBlocks.getOrNull(activeCodeBlockIndex + 1)
+
+                    when {
+                        activeChild.selectedSuggestion != null ->
+                            set(
+                                activeCodeBlockIndex,
+                                activeCodeBlock.copy(
+                                    children = activeCodeBlock.children.mutate {
+                                        set(
+                                            activeChildIndex,
+                                            activeChild.copy(selectedSuggestion = null)
+                                        )
+                                    }
+                                )
+                            )
+
+                        activeChildIndex > 0 ->
+                            set(
+                                activeCodeBlockIndex,
+                                activeCodeBlock.copy(
+                                    children = activeCodeBlock.children.mutate {
+                                        set(
+                                            activeChildIndex - 1,
+                                            this[activeChildIndex - 1].copy(isActive = true)
+                                        )
+                                        removeAt(activeChildIndex)
+                                    }
+                                )
+                            )
+
+                        (activeChildIndex == 0 || activeCodeBlock.areAllChildrenUnselected()) &&
+                            (nextCodeBlock?.let { it.indentLevel == activeCodeBlock.indentLevel } ?: true) ->
                             if (state.codeBlocks.size > 1) {
                                 removeActiveCodeBlockAndSetNextActive()
                             } else {
@@ -407,17 +470,24 @@ class StepQuizCodeBlanksReducer(
         }
 
         val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedEnterHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
-                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+                    codeBlock = activeCodeBlock
                 )
             )
         )
 
-        return if (activeCodeBlockIndex != null) {
+        return if (activeCodeBlock != null) {
+            val indentLevel =
+                when (activeCodeBlock) {
+                    is CodeBlock.IfStatement -> activeCodeBlock.indentLevel + 1
+                    else -> activeCodeBlock.indentLevel
+                }
+
             val newCodeBlocks = state.codeBlocks.mutate {
                 set(
                     activeCodeBlockIndex,
@@ -427,6 +497,7 @@ class StepQuizCodeBlanksReducer(
                     activeCodeBlockIndex + 1,
                     createBlankCodeBlock(
                         isActive = true,
+                        indentLevel = indentLevel,
                         isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
                     )
                 )
@@ -445,24 +516,25 @@ class StepQuizCodeBlanksReducer(
         }
 
         val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
 
         val actions = setOf(
             InternalAction.LogAnalyticEvent(
                 StepQuizCodeBlanksClickedSpaceHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
-                    codeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+                    codeBlock = activeCodeBlock
                 )
             )
         )
 
-        if (activeCodeBlockIndex == null) {
+        if (activeCodeBlock == null) {
             return state to actions
         }
-        val activeCodeBlock = state.codeBlocks[activeCodeBlockIndex]
 
         val newChildren = when (activeCodeBlock) {
             is CodeBlock.Print,
-            is CodeBlock.Variable -> {
+            is CodeBlock.Variable,
+            is CodeBlock.IfStatement -> {
                 activeCodeBlock.activeChildIndex()?.let { activeChildIndex ->
                     val activeChild = activeCodeBlock.children[activeChildIndex] as CodeBlockChild.SelectSuggestion
 
@@ -504,11 +576,7 @@ class StepQuizCodeBlanksReducer(
             newChildren?.let {
                 set(
                     activeCodeBlockIndex,
-                    when (activeCodeBlock) {
-                        is CodeBlock.Print -> activeCodeBlock.copy(children = newChildren)
-                        is CodeBlock.Variable -> activeCodeBlock.copy(children = newChildren)
-                        else -> activeCodeBlock
-                    }
+                    activeCodeBlock.updatedChildren(newChildren)
                 )
             }
         }
@@ -516,11 +584,46 @@ class StepQuizCodeBlanksReducer(
         return state.copy(codeBlocks = newCodeBlocks) to actions
     }
 
+    private fun handleDecreaseIndentLevelButtonClicked(
+        state: State
+    ): StepQuizCodeBlanksReducerResult? {
+        if (state !is State.Content) {
+            return null
+        }
+
+        val activeCodeBlockIndex = state.activeCodeBlockIndex()
+        val activeCodeBlock = activeCodeBlockIndex?.let { state.codeBlocks[it] }
+
+        val actions = setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizCodeBlanksClickedDecreaseIndentLevelHyperskillAnalyticEvent(
+                    route = stepRoute.analyticRoute,
+                    codeBlock = activeCodeBlock
+                )
+            )
+        )
+
+        if (activeCodeBlock == null || activeCodeBlock.indentLevel < 1) {
+            return state to actions
+        }
+        val newIndentLevel = activeCodeBlock.indentLevel - 1
+
+        return state.copy(
+            codeBlocks = state.codeBlocks.mutate {
+                set(
+                    activeCodeBlockIndex,
+                    activeCodeBlock.updatedIndentLevel(newIndentLevel)
+                )
+            }
+        ) to actions
+    }
+
     private fun setCodeBlockIsActive(codeBlock: CodeBlock, isActive: Boolean): CodeBlock =
         when (codeBlock) {
             is CodeBlock.Blank -> codeBlock.copy(isActive = isActive)
+            is CodeBlock.Print,
             is CodeBlock.Variable,
-            is CodeBlock.Print -> {
+            is CodeBlock.IfStatement -> {
                 if (isActive) {
                     if (codeBlock.activeChild() != null) {
                         codeBlock
@@ -533,34 +636,28 @@ class StepQuizCodeBlanksReducer(
                                 child.copy(isActive = false)
                             }
                         }
-                        when (codeBlock) {
-                            is CodeBlock.Print -> codeBlock.copy(children = newChildren)
-                            is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
-                            else -> codeBlock
-                        }
+                        codeBlock.updatedChildren(newChildren)
                     }
                 } else {
                     val newChildren = codeBlock.children.map { child ->
                         require(child is CodeBlockChild.SelectSuggestion)
                         child.copy(isActive = false)
                     }
-                    when (codeBlock) {
-                        is CodeBlock.Print -> codeBlock.copy(children = newChildren)
-                        is CodeBlock.Variable -> codeBlock.copy(children = newChildren)
-                        else -> codeBlock
-                    }
+                    codeBlock.updatedChildren(newChildren)
                 }
             }
         }
 
     private fun createBlankCodeBlock(
         isActive: Boolean,
+        indentLevel: Int,
         isVariableSuggestionAvailable: Boolean
     ): CodeBlock.Blank =
         CodeBlock.Blank(
             isActive = isActive,
+            indentLevel = indentLevel,
             suggestions = if (isVariableSuggestionAvailable) {
-                listOf(Suggestion.Print, Suggestion.Variable)
+                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.IfStatement)
             } else {
                 listOf(Suggestion.Print)
             }
@@ -570,6 +667,7 @@ class StepQuizCodeBlanksReducer(
         if (step.id == 47580L) {
             listOf(
                 CodeBlock.Variable(
+                    indentLevel = 0,
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = false,
@@ -584,6 +682,7 @@ class StepQuizCodeBlanksReducer(
                     )
                 ),
                 CodeBlock.Variable(
+                    indentLevel = 0,
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = false,
@@ -598,6 +697,7 @@ class StepQuizCodeBlanksReducer(
                     )
                 ),
                 CodeBlock.Variable(
+                    indentLevel = 0,
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = false,
@@ -613,6 +713,7 @@ class StepQuizCodeBlanksReducer(
                 ),
                 createBlankCodeBlock(
                     isActive = true,
+                    indentLevel = 0,
                     isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(step)
                 )
             )
@@ -620,6 +721,7 @@ class StepQuizCodeBlanksReducer(
             listOf(
                 createBlankCodeBlock(
                     isActive = true,
+                    indentLevel = 0,
                     isVariableSuggestionAvailable = StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(step)
                 )
             )

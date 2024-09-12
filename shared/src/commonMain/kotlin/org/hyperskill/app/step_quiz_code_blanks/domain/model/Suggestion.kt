@@ -19,6 +19,13 @@ sealed class Suggestion {
             "Variable(text='$text')"
     }
 
+    data object IfStatement : Suggestion() {
+        override val text: String = "if"
+
+        override val analyticRepresentation: String =
+            "IfStatement(text='$text')"
+    }
+
     data class ConstantString(
         override val text: String
     ) : Suggestion() {

@@ -11,6 +11,7 @@ sealed interface StepQuizCodeBlanksViewState {
         val suggestions: List<Suggestion>,
         val isDeleteButtonEnabled: Boolean,
         val isSpaceButtonHidden: Boolean,
+        val isDecreaseIndentLevelButtonHidden: Boolean,
         internal val onboardingState: OnboardingState = OnboardingState.Unavailable
     ) : StepQuizCodeBlanksViewState {
         val isActionButtonsHidden: Boolean
@@ -23,10 +24,13 @@ sealed interface StepQuizCodeBlanksViewState {
     sealed interface CodeBlockItem {
         val id: Int
 
+        val indentLevel: Int
+
         val children: List<CodeBlockChildItem>
 
         data class Blank(
             override val id: Int,
+            override val indentLevel: Int = 0,
             val isActive: Boolean
         ) : CodeBlockItem {
             override val children: List<CodeBlockChildItem> = emptyList()
@@ -34,11 +38,13 @@ sealed interface StepQuizCodeBlanksViewState {
 
         data class Print(
             override val id: Int,
+            override val indentLevel: Int = 0,
             override val children: List<CodeBlockChildItem>
         ) : CodeBlockItem
 
         data class Variable(
             override val id: Int,
+            override val indentLevel: Int = 0,
             override val children: List<CodeBlockChildItem>
         ) : CodeBlockItem {
             val name: CodeBlockChildItem?
@@ -47,6 +53,12 @@ sealed interface StepQuizCodeBlanksViewState {
             val values: List<CodeBlockChildItem>
                 get() = children.drop(1)
         }
+
+        data class IfStatement(
+            override val id: Int,
+            override val indentLevel: Int = 0,
+            override val children: List<CodeBlockChildItem>
+        ) : CodeBlockItem
     }
 
     data class CodeBlockChildItem(

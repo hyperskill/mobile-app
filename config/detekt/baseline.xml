@@ -55,6 +55,7 @@
     <ID>ImplicitDefaultLocale:TimeIntervalUtil.kt$TimeIntervalUtil$String.format("%02d:00 \u2014 %02d:00", i, i + 1)</ID>
     <ID>InvalidPackageDeclaration:HandleActions.kt$package org.hyperskill.app.core.view</ID>
     <ID>LambdaParameterInRestartableEffect:OnComposableShownFirstTime.kt$block</ID>
+    <ID>LargeClass:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer : StateReducer</ID>
     <ID>LargeClass:StepQuizReducer.kt$StepQuizReducer : StateReducer</ID>
     <ID>LongMethod:AppReducer.kt$AppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:ChallengeCard.kt$@Composable fun ChallengeCard( viewState: ChallengeWidgetViewState, onNewMessage: (Message) -&gt; Unit )</ID>
@@ -67,6 +68,7 @@
     <ID>LongMethod:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$fun render( dateFormatter: SharedDateFormatter, binding: LayoutProblemOfTheDayCardBinding, state: HomeFeature.ProblemOfDayState, areProblemsLimited: Boolean )</ID>
     <ID>LongMethod:ProfileBadges.kt$@Composable fun ProfileBadges( viewState: BadgesViewState, windowWidthSizeClass: WindowWidthSizeClass, onBadgeClick: (BadgeKind) -&gt; Unit, onExpandButtonClick: (ProfileFeature.Message.BadgesVisibilityButton) -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun createInitialCodeBlocks(step: Step): List&lt;CodeBlock&gt;</ID>
     <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleDeleteButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSpaceButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSuggestionClicked( state: State, message: Message.SuggestionClicked ): StepQuizCodeBlanksReducerResult?</ID>
@@ -204,6 +206,7 @@
     <ID>ModifierWithoutDefault:BadgeImage.kt$modifier</ID>
     <ID>NestedBlockDepth:AuthSocialWebViewClient.kt$AuthSocialWebViewClient$override fun shouldOverrideUrlLoading( view: WebView?, request: WebResourceRequest? ): Boolean</ID>
     <ID>NestedBlockDepth:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun setCodeBlockIsActive(codeBlock: CodeBlock, isActive: Boolean): CodeBlock</ID>
+    <ID>NestedBlockDepth:StepQuizCodeBlanksViewStateMapper.kt$StepQuizCodeBlanksViewStateMapper$private fun mapContentState( state: StepQuizCodeBlanksFeature.State.Content ): StepQuizCodeBlanksViewState.Content</ID>
     <ID>PreviewPublic:BadgeCard.kt$BadgeCardPreview</ID>
     <ID>PreviewPublic:BadgeCard.kt$LastLevelBadgeCardPreview</ID>
     <ID>PreviewPublic:BadgeGrid.kt$PhoneBadgeGridPreview</ID>
@@ -248,6 +251,7 @@
     <ID>ReturnCount:SearchReducer.kt$SearchReducer$private fun handleSearchResultsItemClickedMessage( state: State, message: Message.SearchResultsItemClicked ): SearchReducerResult?</ID>
     <ID>ReturnCount:SharedDateFormatter.kt$SharedDateFormatter$fun formatTimeDistance(millis: Long): String</ID>
     <ID>ReturnCount:StateExtentions.kt$internal fun ChallengeWidgetFeature.State.Content.setCurrentChallengeIntervalProgressAsCompleted(): Challenge?</ID>
+    <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleDecreaseIndentLevelButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleDeleteButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSpaceButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>ReturnCount:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSuggestionClicked( state: State, message: Message.SuggestionClicked ): StepQuizCodeBlanksReducerResult?</ID>
