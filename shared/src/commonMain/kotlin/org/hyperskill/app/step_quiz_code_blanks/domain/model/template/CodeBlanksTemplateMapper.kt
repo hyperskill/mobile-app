@@ -38,11 +38,8 @@ internal object CodeBlanksTemplateMapper {
     private fun mapCodeBlockTemplateEntry(
         entry: CodeBlockTemplateEntry,
         step: Step
-    ): CodeBlock {
-        val childrenSuggestions = step.codeBlanksVariablesSuggestions() +
-            step.codeBlanksStringsSuggestions() +
-            step.codeBlanksOperationsSuggestions()
-        return when (entry.type) {
+    ): CodeBlock =
+        when (entry.type) {
             CodeBlockTemplateEntryType.BLANK ->
                 CodeBlock.Blank(
                     isActive = entry.isActive,
@@ -58,7 +55,7 @@ internal object CodeBlanksTemplateMapper {
                     isDeleteForbidden = entry.isDeleteForbidden,
                     children = mapCodeBlockTemplateEntryChildren(
                         entry = entry,
-                        suggestions = childrenSuggestions,
+                        suggestions = getChildrenSuggestions(step),
                         minimumRequiredChildrenCount = 1
                     )
                 )
@@ -68,7 +65,7 @@ internal object CodeBlanksTemplateMapper {
                     isDeleteForbidden = entry.isDeleteForbidden,
                     children = mapCodeBlockTemplateEntryChildren(
                         entry = entry,
-                        suggestions = childrenSuggestions,
+                        suggestions = getChildrenSuggestions(step),
                         minimumRequiredChildrenCount = 2
                     )
                 )
@@ -78,7 +75,7 @@ internal object CodeBlanksTemplateMapper {
                     isDeleteForbidden = entry.isDeleteForbidden,
                     children = mapCodeBlockTemplateEntryChildren(
                         entry = entry,
-                        suggestions = childrenSuggestions,
+                        suggestions = getChildrenSuggestions(step),
                         minimumRequiredChildrenCount = 1
                     )
                 )
@@ -88,7 +85,7 @@ internal object CodeBlanksTemplateMapper {
                     isDeleteForbidden = entry.isDeleteForbidden,
                     children = mapCodeBlockTemplateEntryChildren(
                         entry = entry,
-                        suggestions = childrenSuggestions,
+                        suggestions = getChildrenSuggestions(step),
                         minimumRequiredChildrenCount = 1
                     )
                 )
@@ -100,7 +97,10 @@ internal object CodeBlanksTemplateMapper {
                 )
             CodeBlockTemplateEntryType.UNKNOWN -> error("Unknown code block template entry type")
         }
-    }
+
+    private fun getChildrenSuggestions(step: Step): List<Suggestion.ConstantString> =
+        step.codeBlanksVariablesSuggestions() + step.codeBlanksStringsSuggestions() +
+            step.codeBlanksOperationsSuggestions()
 
     private fun mapCodeBlockTemplateEntryChildren(
         entry: CodeBlockTemplateEntry,

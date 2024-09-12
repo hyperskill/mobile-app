@@ -59,7 +59,6 @@
     <ID>LargeClass:StepQuizReducer.kt$StepQuizReducer : StateReducer</ID>
     <ID>LongMethod:AppReducer.kt$AppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:ChallengeCard.kt$@Composable fun ChallengeCard( viewState: ChallengeWidgetViewState, onNewMessage: (Message) -&gt; Unit )</ID>
-    <ID>LongMethod:CodeBlanksTemplateMapper.kt$CodeBlanksTemplateMapper$private fun mapCodeBlockTemplateEntry( entry: CodeBlockTemplateEntry, step: Step ): CodeBlock</ID>
     <ID>LongMethod:DefaultStepQuizFragment.kt$DefaultStepQuizFragment$override fun onAction(action: StepQuizFeature.Action.ViewAction)</ID>
     <ID>LongMethod:LeaderboardSkeletonItem.kt$@Composable fun LeaderboardSkeletonItem( placeNumber: Int?, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
