@@ -10,7 +10,7 @@
     tools:viewBindingIgnore="true">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/stepQuizFeedback"
+        android:id="@+id/stepQuizSubmissionHint"
         style="@style/StepQuizFeedback.Wrong"
         android:text="Current quiz type is not supported in mobile app yet"
         android:layout_margin="16dp"

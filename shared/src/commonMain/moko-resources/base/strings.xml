@@ -172,6 +172,9 @@
     <string name="step_quiz_code_reset">Reset</string>
     <string name="step_quiz_code_editor_title">Code editor</string>
     <string name="step_quiz_code_language_template">(%s)</string>
+    <string name="step_quiz_code_execution_title">Running test cases</string>
+    <string name="step_quiz_code_execution_input">Program input:</string>
+    <string name="step_quiz_code_execution_output">Program output:</string>
 
     <!-- Step quiz sql -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>

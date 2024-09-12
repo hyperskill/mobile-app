@@ -8,7 +8,7 @@ data class CodeExecutionResult(
     @SerialName("language")
     val language: String,
     @SerialName("stdin")
-    val stdin: String,
+    val stdin: String?,
     @SerialName("is_success")
     val isSuccess: Boolean,
     @SerialName("stdout")
