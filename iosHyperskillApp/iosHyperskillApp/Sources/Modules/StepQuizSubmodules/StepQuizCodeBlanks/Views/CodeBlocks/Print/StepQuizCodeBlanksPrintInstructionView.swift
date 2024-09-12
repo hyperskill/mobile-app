@@ -37,6 +37,7 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
         StepQuizCodeBlanksPrintInstructionView(
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
+                indentLevel: 0,
                 children: [.init(id: 0, isActive: false, value: "")]
             ),
             onChildTap: { _ in }
@@ -44,6 +45,7 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
         StepQuizCodeBlanksPrintInstructionView(
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
+                indentLevel: 0,
                 children: [.init(id: 0, isActive: true, value: "")]
             ),
             onChildTap: { _ in }
@@ -51,6 +53,7 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
         StepQuizCodeBlanksPrintInstructionView(
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
+                indentLevel: 0,
                 children: [.init(id: 0, isActive: true, value: "There is a cat on the keyboard, it is true")]
             ),
             onChildTap: { _ in }
@@ -58,6 +61,7 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
         StepQuizCodeBlanksPrintInstructionView(
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
+                indentLevel: 0,
                 children: [.init(id: 0, isActive: false, value: "There is a cat on the keyboard, it is true")]
             ),
             onChildTap: { _ in }
@@ -66,6 +70,7 @@ struct StepQuizCodeBlanksPrintInstructionView: View {
         StepQuizCodeBlanksPrintInstructionView(
             printItem: StepQuizCodeBlanksViewStateCodeBlockItemPrint(
                 id: 0,
+                indentLevel: 0,
                 children: [
                     .init(id: 0, isActive: false, value: "x"),
                     .init(id: 1, isActive: true, value: "")
