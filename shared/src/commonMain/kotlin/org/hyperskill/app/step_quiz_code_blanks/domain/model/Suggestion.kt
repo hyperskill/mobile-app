@@ -26,6 +26,20 @@ sealed class Suggestion {
             "IfStatement(text='$text')"
     }
 
+    data object ElifStatement : Suggestion() {
+        override val text: String = "elif"
+
+        override val analyticRepresentation: String =
+            "ElifStatement(text='$text')"
+    }
+
+    data object ElseStatement : Suggestion() {
+        override val text: String = "else"
+
+        override val analyticRepresentation: String =
+            "ElseStatement(text='$text')"
+    }
+
     data class ConstantString(
         override val text: String
     ) : Suggestion() {

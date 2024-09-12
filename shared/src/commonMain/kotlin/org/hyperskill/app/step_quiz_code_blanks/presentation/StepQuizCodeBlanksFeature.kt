@@ -37,6 +37,9 @@ object StepQuizCodeBlanksFeature {
             internal val codeBlanksVariablesSuggestions: List<Suggestion.ConstantString> =
                 step.codeBlanksVariablesSuggestions()
 
+            internal val codeBlanksVariablesAndStringsSuggestions: List<Suggestion.ConstantString> =
+                codeBlanksVariablesSuggestions + codeBlanksStringsSuggestions
+
             internal val codeBlanksOperationsSuggestions: List<Suggestion.ConstantString> =
                 step.codeBlanksOperationsSuggestions()
         }

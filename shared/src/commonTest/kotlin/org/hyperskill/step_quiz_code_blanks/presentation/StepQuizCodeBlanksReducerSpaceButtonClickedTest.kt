@@ -27,7 +27,7 @@ class StepQuizCodeBlanksReducerSpaceButtonClickedTest {
     }
 
     @Test
-    fun `SpaceButtonClicked should not update state if active Print block has no active child`() {
+    fun `SpaceButtonClicked should not update state if no active code block`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(
                 CodeBlock.Print(
@@ -40,6 +40,35 @@ class StepQuizCodeBlanksReducerSpaceButtonClickedTest {
                     )
                 )
             )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.SpaceButtonClicked)
+
+        assertEquals(initialState, state)
+        assertContainsSpaceButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SpaceButtonClicked should not update state if active code block is Blank`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.Blank(
+                    isActive = true,
+                    suggestions = emptyList()
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.SpaceButtonClicked)
+
+        assertEquals(initialState, state)
+        assertContainsSpaceButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `SpaceButtonClicked should not update state if active code block is ElseStatement`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(CodeBlock.ElseStatement(isActive = true))
         )
 
         val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.SpaceButtonClicked)

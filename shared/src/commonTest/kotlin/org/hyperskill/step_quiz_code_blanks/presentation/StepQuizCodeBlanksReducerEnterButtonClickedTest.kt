@@ -24,7 +24,7 @@ class StepQuizCodeBlanksReducerEnterButtonClickedTest {
     }
 
     @Test
-    fun `EnterButtonClicked should log analytic event and not update state if no active code block`() {
+    fun `EnterButtonClicked should not update state if no active code block`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(
                 CodeBlock.Blank(
@@ -41,7 +41,7 @@ class StepQuizCodeBlanksReducerEnterButtonClickedTest {
     }
 
     @Test
-    fun `EnterButtonClicked should log analytic event and add new active Blank block if active code block exists`() {
+    fun `EnterButtonClicked should append new active Blank block if active code block exists`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(
                 CodeBlock.Blank(
@@ -101,6 +101,41 @@ class StepQuizCodeBlanksReducerEnterButtonClickedTest {
 
         assertEquals(expectedState, state)
         assertContainsEnterButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
+    fun `EnterButtonClicked should add Blank with next indentLevel if active code block is condition`() {
+        val codeBlocks = listOf(
+            CodeBlock.IfStatement(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = null
+                    )
+                )
+            ),
+            CodeBlock.ElifStatement(
+                children = listOf(
+                    CodeBlockChild.SelectSuggestion(
+                        isActive = true,
+                        suggestions = emptyList(),
+                        selectedSuggestion = null
+                    )
+                )
+            ),
+            CodeBlock.ElseStatement(isActive = true)
+        )
+
+        codeBlocks.forEach { codeBlock ->
+            val initialState = StepQuizCodeBlanksFeature.State.Content.stub(codeBlocks = listOf(codeBlock))
+
+            val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.EnterButtonClicked)
+
+            assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+            assertEquals(1, state.codeBlocks[1].indentLevel)
+            assertContainsEnterButtonClickedAnalyticEvent(actions)
+        }
     }
 
     private fun assertContainsEnterButtonClickedAnalyticEvent(actions: Set<StepQuizCodeBlanksFeature.Action>) {
