@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension StepQuizCodeBlanksOptionView {
+extension StepQuizCodeBlanksCodeBlockChildTextView {
     enum Appearance {
         static let insets = LayoutInsets(horizontal: 12, vertical: LayoutInsets.smallInset)
         static let minWidth: CGFloat = 48
@@ -9,7 +9,7 @@ extension StepQuizCodeBlanksOptionView {
     }
 }
 
-struct StepQuizCodeBlanksOptionView: View {
+struct StepQuizCodeBlanksCodeBlockChildTextView: View {
     let text: String
 
     let isActive: Bool
@@ -31,9 +31,9 @@ struct StepQuizCodeBlanksOptionView: View {
 #if DEBUG
 #Preview {
     VStack {
-        StepQuizCodeBlanksOptionView(text: "print", isActive: false)
-        StepQuizCodeBlanksOptionView(text: "There is a cat on the keyboard, it is true", isActive: true)
-        StepQuizCodeBlanksOptionView(text: "Typing messages out of the blue", isActive: true)
+        StepQuizCodeBlanksCodeBlockChildTextView(text: "print", isActive: false)
+        StepQuizCodeBlanksCodeBlockChildTextView(text: "There is a cat on the keyboard, it is true", isActive: true)
+        StepQuizCodeBlanksCodeBlockChildTextView(text: "Typing messages out of the blue", isActive: true)
     }
 }
 #endif

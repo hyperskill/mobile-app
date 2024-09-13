@@ -21,7 +21,7 @@ struct StepQuizCodeBlanksSuggestionsView: View {
                         onSuggestionTap(suggestion)
                     },
                     label: {
-                        StepQuizCodeBlanksOptionView(
+                        StepQuizCodeBlanksCodeBlockChildTextView(
                             text: suggestion.text,
                             isActive: true
                         )
@@ -31,7 +31,7 @@ struct StepQuizCodeBlanksSuggestionsView: View {
                         )
                         .pulseEffect(
                             shape: RoundedRectangle(
-                                cornerRadius: StepQuizCodeBlanksOptionView.Appearance.cornerRadius
+                                cornerRadius: StepQuizCodeBlanksCodeBlockChildTextView.Appearance.cornerRadius
                             ),
                             isActive: isAnimationEffectActive
                         )
@@ -42,11 +42,18 @@ struct StepQuizCodeBlanksSuggestionsView: View {
 
             // Preserve height to avoid layout jumps
             if suggestions.isEmpty {
-                StepQuizCodeBlanksOptionView(text: "", isActive: false)
+                StepQuizCodeBlanksCodeBlockChildTextView(text: "", isActive: false)
                     .hidden()
             }
         }
         .padding(LayoutInsets.defaultInset)
+    }
+}
+
+extension StepQuizCodeBlanksSuggestionsView: Equatable {
+    static func == (lhs: StepQuizCodeBlanksSuggestionsView, rhs: StepQuizCodeBlanksSuggestionsView) -> Bool {
+        lhs.isAnimationEffectActive == rhs.isAnimationEffectActive &&
+        lhs.suggestions.map(\.text) == rhs.suggestions.map(\.text)
     }
 }
 

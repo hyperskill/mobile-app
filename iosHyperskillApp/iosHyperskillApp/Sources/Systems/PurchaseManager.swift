@@ -67,89 +67,75 @@ created: \(created)
     }
 
     func purchase(
-        productId: String,
+        storeProduct: StoreProduct,
         platformPurchaseParams: PlatformPurchaseParams,
         completionHandler: @escaping (SwiftyResult<PurchaseResult, KotlinThrowable>?, Error?) -> Void
     ) {
         #if DEBUG
-        print("PurchaseManager: purchase \(productId)...")
+        print("PurchaseManager: purchase \(storeProduct.productIdentifier)...")
         #endif
 
-        getProduct(id: productId) { storeProduct in
-            guard let storeProduct else {
+        Purchases.shared.purchase(
+            product: storeProduct
+        ) { storeTransaction, customerInfo, error, userCancelled in
+            if userCancelled {
                 #if DEBUG
-                print("PurchaseManager: purchase \(productId) failed, no product found")
+                print("PurchaseManager: purchase \(storeProduct.productIdentifier) cancelled by user")
                 #endif
 
                 let result = SwiftyResultSuccess<PurchaseResult, KotlinThrowable>(
-                    value: PurchaseResultErrorNoProductFound(productId: productId)
+                    value: PurchaseResultCancelledByUser()
                 )
 
                 return completionHandler(result, nil)
             }
 
-            Purchases.shared.purchase(
-                product: storeProduct
-            ) { storeTransaction, customerInfo, error, userCancelled in
-                if userCancelled {
-                    #if DEBUG
-                    print("PurchaseManager: purchase \(productId) cancelled by user")
-                    #endif
+            if let error {
+                let purchaseResult = error.asSharedPurchaseResult()
 
-                    let result = SwiftyResultSuccess<PurchaseResult, KotlinThrowable>(
-                        value: PurchaseResultCancelledByUser()
-                    )
-
-                    return completionHandler(result, nil)
-                }
-
-                if let error {
-                    let purchaseResult = error.asSharedPurchaseResult()
-
-                    #if DEBUG
-                    print("""
-PurchaseManager: purchase \(productId) failed, error: \(error), purchaseResult: \(purchaseResult)
+                #if DEBUG
+                print("""
+PurchaseManager: purchase \(storeProduct.productIdentifier) failed, error: \(error), purchaseResult: \(purchaseResult)
 """)
-                    #endif
+                #endif
 
-                    let result = SwiftyResultSuccess<PurchaseResult, KotlinThrowable>(
-                        value: purchaseResult
-                    )
+                let result = SwiftyResultSuccess<PurchaseResult, KotlinThrowable>(
+                    value: purchaseResult
+                )
 
-                    return completionHandler(result, nil)
-                }
+                return completionHandler(result, nil)
+            }
 
-                if let storeTransaction, let customerInfo {
-                    #if DEBUG
-                    print("""
-PurchaseManager: purchase \(productId) succeeded, storeTransaction: \(storeTransaction), customerInfo: \(customerInfo)
+            if let storeTransaction, let customerInfo {
+                #if DEBUG
+                print("""
+PurchaseManager: purchase \(storeProduct.productIdentifier) succeeded, storeTransaction: \(storeTransaction), customerInfo: \(customerInfo)
 """)
-                    #endif
+                #endif
 
-                    let purchaseResult = PurchaseResultSucceed(
-                        orderId: storeTransaction.transactionIdentifier,
-                        productIds: [storeTransaction.productIdentifier]
-                    )
-                    let result = SwiftyResultSuccess<PurchaseResult, KotlinThrowable>(
-                        value: purchaseResult
-                    )
+                let purchaseResult = PurchaseResultSucceed(
+                    orderId: storeTransaction.transactionIdentifier,
+                    productIds: [storeTransaction.productIdentifier]
+                )
+                let result = SwiftyResultSuccess<PurchaseResult, KotlinThrowable>(
+                    value: purchaseResult
+                )
 
-                    completionHandler(result, nil)
-                } else {
-                    #if DEBUG
-                    print("PurchaseManager: purchase \(productId) failed, no storeTransaction or customerInfo")
-                    #endif
+                completionHandler(result, nil)
+            } else {
+                #if DEBUG
+                print("PurchaseManager: purchase \(storeProduct.productIdentifier) failed, no storeTransaction or customerInfo")
+                #endif
 
-                    let purchaseResult = PurchaseResultErrorOtherError(
-                        message: "No storeTransaction or customerInfo found for \(productId) purchase",
-                        underlyingErrorMessage: nil
-                    )
-                    let result = SwiftyResultSuccess<PurchaseResult, KotlinThrowable>(
-                        value: purchaseResult
-                    )
+                let purchaseResult = PurchaseResultErrorOtherError(
+                    message: "No storeTransaction or customerInfo found for \(storeProduct.productIdentifier) purchase",
+                    underlyingErrorMessage: nil
+                )
+                let result = SwiftyResultSuccess<PurchaseResult, KotlinThrowable>(
+                    value: purchaseResult
+                )
 
-                    completionHandler(result, nil)
-                }
+                completionHandler(result, nil)
             }
         }
     }
@@ -189,32 +175,6 @@ PurchaseManager: get management URL succeeded, managementURL: \(String(describin
         }
     }
 
-    func getFormattedProductPrice(
-        productId: String,
-        completionHandler: @escaping (String?, Error?) -> Void
-    ) {
-        #if DEBUG
-        print("PurchaseManager: get formatted product price for \(productId)...")
-        #endif
-
-        getProduct(id: productId) { storeProduct in
-            if let storeProduct {
-                #if DEBUG
-                print("""
-PurchaseManager: get formatted product price for \(productId) succeeded, \
-localizedPriceString: \(storeProduct.localizedPriceString)
-""")
-                #endif
-                completionHandler(storeProduct.localizedPriceString, nil)
-            } else {
-                #if DEBUG
-                print("PurchaseManager: get formatted product price for \(productId) failed")
-                #endif
-                completionHandler(nil, nil)
-            }
-        }
-    }
-
     func checkTrialOrIntroDiscountEligibility(
         productId: String,
         completionHandler: @escaping (KotlinBoolean?, (any Error)?) -> Void
@@ -228,15 +188,6 @@ localizedPriceString: \(storeProduct.localizedPriceString)
             } else {
                 completionHandler(KotlinBoolean(value: false), nil)
             }
-        }
-    }
-
-    private func getProduct(
-        id: String,
-        completionHandler: @escaping (StoreProduct?) -> Void
-    ) {
-        Purchases.shared.getProducts([id]) { storeProducts in
-            completionHandler(storeProducts.first)
         }
     }
 }

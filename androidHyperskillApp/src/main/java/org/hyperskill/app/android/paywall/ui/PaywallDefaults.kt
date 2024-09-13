@@ -9,10 +9,8 @@ import org.hyperskill.app.R
 
 object PaywallDefaults {
     val ContentPadding = PaddingValues(
-        start = 24.dp,
-        end = 20.dp,
-        top = 24.dp,
-        bottom = 32.dp
+        horizontal = 20.dp,
+        vertical = 24.dp
     )
 
     val BackgroundColor: Color

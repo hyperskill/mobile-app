@@ -38,6 +38,7 @@ struct StepQuizCodeBlanksVariableInstructionView: View {
         StepQuizCodeBlanksVariableInstructionView(
             variableItem: StepQuizCodeBlanksViewStateCodeBlockItemVariable(
                 id: 0,
+                indentLevel: 0,
                 children: [
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: true, value: nil),
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 1, isActive: false, value: nil)
@@ -49,6 +50,7 @@ struct StepQuizCodeBlanksVariableInstructionView: View {
         StepQuizCodeBlanksVariableInstructionView(
             variableItem: StepQuizCodeBlanksViewStateCodeBlockItemVariable(
                 id: 0,
+                indentLevel: 0,
                 children: [
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: false, value: "fruit_a"),
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 1, isActive: true, value: nil)
@@ -60,6 +62,7 @@ struct StepQuizCodeBlanksVariableInstructionView: View {
         StepQuizCodeBlanksVariableInstructionView(
             variableItem: StepQuizCodeBlanksViewStateCodeBlockItemVariable(
                 id: 0,
+                indentLevel: 0,
                 children: [
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(id: 0, isActive: false, value: "fruit_a"),
                     StepQuizCodeBlanksViewStateCodeBlockChildItem(

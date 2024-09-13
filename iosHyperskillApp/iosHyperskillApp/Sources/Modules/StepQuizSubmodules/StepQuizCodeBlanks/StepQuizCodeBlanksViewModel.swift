@@ -48,4 +48,10 @@ final class StepQuizCodeBlanksViewModel {
         impactFeedbackGenerator.triggerFeedback()
         moduleOutput?.handleStepQuizCodeBlanksDidTapSpace()
     }
+
+    @MainActor
+    func doDecreaseIndentLevelAction() {
+        impactFeedbackGenerator.triggerFeedback()
+        moduleOutput?.handleStepQuizCodeBlanksDidTapDecreaseIndentLevel()
+    }
 }
