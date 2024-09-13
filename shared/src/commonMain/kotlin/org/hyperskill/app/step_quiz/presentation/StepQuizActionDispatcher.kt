@@ -221,13 +221,13 @@ internal class StepQuizActionDispatcher(
         ) {
             coroutineScope {
                 val createSubmissionResultDeferred = async {
-                     createSubmission(
-                         submission = action.submission,
-                         step = action.step,
-                         stepContext = action.stepContext,
-                         reply = reply,
-                         attemptId = action.attemptId
-                     )
+                    createSubmission(
+                        submission = action.submission,
+                        step = action.step,
+                        stepContext = action.stepContext,
+                        reply = reply,
+                        attemptId = action.attemptId
+                    )
                 }
 
                 val codeExecutionDeferred = async {
