@@ -1,3 +1,4 @@
+import shared
 import SwiftUI
 
 extension PaywallContentView {
@@ -14,9 +15,10 @@ extension PaywallContentView {
 struct PaywallContentView: View {
     private(set) var appearance = Appearance()
 
+    let subscriptionProducts: [PaywallFeatureViewStateContentSubscriptionProduct]
     let buyButtonText: String
-    let buyFootnoteText: String?
 
+    let onSubscriptionProductTap: (PaywallFeatureViewStateContentSubscriptionProduct) -> Void
     let onBuyButtonTap: () -> Void
     let onTermsOfServiceButtonTap: () -> Void
 
@@ -50,6 +52,13 @@ struct PaywallContentView: View {
                 PaywallFeaturesView(
                     appearance: .init(spacing: appearance.interitemSpacing)
                 )
+
+                PaywallSubscriptionProductsView(
+                    appearance: .init(spacing: appearance.interitemSpacing),
+                    subscriptionProducts: subscriptionProducts,
+                    onTap: onSubscriptionProductTap
+                )
+                .padding(.top)
             }
             .padding(appearance.padding)
         }
@@ -57,7 +66,6 @@ struct PaywallContentView: View {
             PaywallFooterView(
                 appearance: .init(spacing: appearance.interitemSpacing),
                 buyButtonText: buyButtonText,
-                buyFootnoteText: buyFootnoteText,
                 onBuyButtonTap: onBuyButtonTap,
                 onTermsOfServiceButtonTap: onTermsOfServiceButtonTap
             )
@@ -68,17 +76,24 @@ struct PaywallContentView: View {
 #if DEBUG
 #Preview {
     PaywallContentView(
-        buyButtonText: "Subscribe for $11.99/month",
-        buyFootnoteText: nil,
-        onBuyButtonTap: {},
-        onTermsOfServiceButtonTap: {}
-    )
-}
-
-#Preview {
-    PaywallContentView(
-        buyButtonText: "Subscribe for $11.99/month",
-        buyFootnoteText: "Then $11.99 per month",
+        subscriptionProducts: [
+            .init(
+                productId: "1",
+                title: "Monthly Subscription",
+                subtitle: "$11.99 / month",
+                isBestValue: false,
+                isSelected: false
+            ),
+            .init(
+                productId: "2",
+                title: "Yearly Subscription",
+                subtitle: "$99.99 / year",
+                isBestValue: true,
+                isSelected: true
+            )
+        ],
+        buyButtonText: "Start now",
+        onSubscriptionProductTap: { _ in },
         onBuyButtonTap: {},
         onTermsOfServiceButtonTap: {}
     )
