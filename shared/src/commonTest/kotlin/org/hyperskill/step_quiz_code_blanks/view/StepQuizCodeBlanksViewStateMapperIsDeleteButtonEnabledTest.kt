@@ -13,6 +13,21 @@ import org.hyperskill.step_quiz_code_blanks.presentation.stub
 
 class StepQuizCodeBlanksViewStateMapperIsDeleteButtonEnabledTest {
     @Test
+    fun `isDeleteButtonEnabled should be false when isDeleteForbidden`() {
+        val state = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.Blank(isActive = false, isDeleteForbidden = false, suggestions = emptyList()),
+                CodeBlock.Blank(isActive = true, isDeleteForbidden = true, suggestions = emptyList())
+            )
+        )
+
+        val viewState = StepQuizCodeBlanksViewStateMapper.map(state)
+
+        assertTrue(viewState is StepQuizCodeBlanksViewState.Content)
+        assertFalse(viewState.isDeleteButtonEnabled)
+    }
+
+    @Test
     fun `isDeleteButtonEnabled should be false when active code block is Blank and single`() {
         val state = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(CodeBlock.Blank(isActive = true, suggestions = listOf(Suggestion.Print)))
