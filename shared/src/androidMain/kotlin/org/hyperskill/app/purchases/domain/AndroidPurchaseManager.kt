@@ -124,6 +124,4 @@ class AndroidPurchaseManager(
                 )
             }
         }
-
-    override suspend fun checkTrialEligibility(productId: String): Boolean = false
 }

@@ -31,9 +31,4 @@ interface PurchaseManager {
     suspend fun getManagementUrl(): Result<String?>
 
     suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>>
-
-    /**
-     * Checks if user is eligible for trial for the product with [productId]
-     */
-    suspend fun checkTrialEligibility(productId: String): Boolean
 }

@@ -16,8 +16,7 @@ import org.hyperskill.app.purchases.domain.model.SubscriptionPeriod
 import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 
 internal class PaywallViewStateMapper(
-    private val resourceProvider: ResourceProvider/*,
-    private val platformType: PlatformType*/
+    private val resourceProvider: ResourceProvider
 ) {
     fun map(
         state: State,
@@ -53,15 +52,7 @@ internal class PaywallViewStateMapper(
                     product = product,
                     isSelected = product.id == state.selectedProductId
                 )
-            },
-            trialText = null/*if (platformType == PlatformType.IOS && state.isTrialEligible) {
-                resourceProvider.getString(
-                    SharedResources.strings.paywall_ios_mobile_only_trial_description,
-                    state.formattedPrice
-                )
-            } else {
-                null
-            }*/
+            }
         )
 
     private fun mapSubscriptionProductToSubscriptionOption(
@@ -87,16 +78,4 @@ internal class PaywallViewStateMapper(
             isBestValue = index == 0,
             isSelected = isSelected
         )
-
-    /*private fun getBuyButtonText(state: State.Content): String =
-        when (platformType) {
-            PlatformType.IOS ->
-                if (state.isTrialEligible) {
-                    resourceProvider.getString(SharedResources.strings.paywall_ios_mobile_only_trial_buy_btn)
-                } else {
-                    resourceProvider.getString(SharedResources.strings.paywall_ios_mobile_only_buy_btn)
-                }
-            PlatformType.ANDROID ->
-                resourceProvider.getString(SharedResources.strings.paywall_subscription_start_btn)
-        }*/
 }

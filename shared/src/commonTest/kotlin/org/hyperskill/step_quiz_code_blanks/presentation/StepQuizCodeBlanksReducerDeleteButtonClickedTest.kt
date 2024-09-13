@@ -46,6 +46,29 @@ class StepQuizCodeBlanksReducerDeleteButtonClickedTest {
     }
 
     @Test
+    fun `DeleteButtonClicked should not update state if isDeleteForbidden for active code block`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
+            codeBlocks = listOf(
+                CodeBlock.Print(
+                    isDeleteForbidden = true,
+                    children = listOf(
+                        CodeBlockChild.SelectSuggestion(
+                            isActive = true,
+                            suggestions = emptyList(),
+                            selectedSuggestion = Suggestion.ConstantString("suggestion")
+                        )
+                    )
+                )
+            )
+        )
+
+        val (state, actions) = reducer.reduce(initialState, StepQuizCodeBlanksFeature.Message.DeleteButtonClicked)
+
+        assertEquals(initialState, state)
+        assertContainsDeleteButtonClickedAnalyticEvent(actions)
+    }
+
+    @Test
     fun `DeleteButtonClicked should not update state if active code block is Blank and single`() {
         val initialState = StepQuizCodeBlanksFeature.State.Content.stub(
             codeBlocks = listOf(

@@ -18,6 +18,4 @@ interface IosPurchaseManager {
     ): SwiftyResult<PurchaseResult, Throwable>
 
     suspend fun getManagementUrl(): SwiftyResult<String?, Throwable>
-
-    suspend fun checkTrialOrIntroDiscountEligibility(productId: String): Boolean
 }
