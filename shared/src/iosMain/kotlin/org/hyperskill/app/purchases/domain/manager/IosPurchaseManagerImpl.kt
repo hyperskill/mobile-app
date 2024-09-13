@@ -66,14 +66,13 @@ internal class IosPurchaseManagerImpl(
             }
         }
 
-    @Suppress("VariableNaming")
     private fun mapOfferingsToSubscriptionProducts(rcOfferings: RCOfferings): List<SubscriptionProduct> {
         val currentOffering = rcOfferings.current() ?: return emptyList()
         return currentOffering
             .availablePackages()
             .mapNotNull {
-                val _package = it as? RCPackage ?: return@mapNotNull null
-                val rcStoreProduct = _package.storeProduct()
+                val rcPackage = it as? RCPackage ?: return@mapNotNull null
+                val rcStoreProduct = rcPackage.storeProduct()
                 SubscriptionProduct(
                     id = rcStoreProduct.productIdentifier(),
                     period = when (rcStoreProduct.subscriptionPeriod()?.unit()) {

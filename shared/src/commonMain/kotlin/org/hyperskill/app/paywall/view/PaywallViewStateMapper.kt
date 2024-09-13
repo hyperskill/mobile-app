@@ -16,8 +16,7 @@ import org.hyperskill.app.purchases.domain.model.SubscriptionPeriod
 import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 
 internal class PaywallViewStateMapper(
-    private val resourceProvider: ResourceProvider/*,
-    private val platformType: PlatformType*/
+    private val resourceProvider: ResourceProvider
 ) {
     fun map(
         state: State,

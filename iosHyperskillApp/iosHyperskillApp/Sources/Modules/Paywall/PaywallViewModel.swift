@@ -6,6 +6,8 @@ final class PaywallViewModel: FeatureViewModel<
   PaywallFeatureMessage,
   PaywallFeatureActionViewAction
 > {
+    private let selectionFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
+
     var contentStateKs: PaywallFeatureViewStateContentKs { .init(state.contentState) }
 
     init(feature: Presentation_reduxFeature) {
@@ -31,6 +33,12 @@ final class PaywallViewModel: FeatureViewModel<
 
     func doRetryContentLoading() {
         onNewMessage(PaywallFeatureMessageRetryContentLoading())
+    }
+
+    @MainActor
+    func doSubscriptionProductAction(product: PaywallFeatureViewStateContentSubscriptionProduct) {
+        selectionFeedbackGenerator.triggerFeedback()
+        onNewMessage(PaywallFeatureMessageProductClicked(productId: product.productId))
     }
 
     func doBuySubscription() {

@@ -53,7 +53,9 @@ struct PaywallView: View {
             )
         case .content(let content):
             PaywallContentView(
+                subscriptionProducts: content.subscriptionProducts,
                 buyButtonText: content.buyButtonText,
+                onSubscriptionProductTap: viewModel.doSubscriptionProductAction(product:),
                 onBuyButtonTap: viewModel.doBuySubscription,
                 onTermsOfServiceButtonTap: viewModel.doTermsOfServicePresentation
             )
