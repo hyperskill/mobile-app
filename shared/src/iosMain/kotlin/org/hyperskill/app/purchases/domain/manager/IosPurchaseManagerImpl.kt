@@ -87,9 +87,6 @@ internal class IosPurchaseManagerImpl(
                 )
             }
     }
-
-    override suspend fun checkTrialEligibility(productId: String): Boolean =
-        purchases.checkTrialOrIntroDiscountEligibility(productId)
 }
 
 class FetchOfferingsException(override val message: String?) : Exception()

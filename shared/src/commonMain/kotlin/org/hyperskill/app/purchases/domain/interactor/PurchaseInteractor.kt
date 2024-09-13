@@ -3,7 +3,6 @@ package org.hyperskill.app.purchases.domain.interactor
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.model.AnalyticKeys
 import org.hyperskill.app.purchases.domain.model.HyperskillStoreProduct
-import org.hyperskill.app.purchases.domain.model.PlatformProductIdentifiers
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
@@ -48,9 +47,6 @@ class PurchaseInteractor(
 
     suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>> =
         purchaseManager.getSubscriptionProducts()
-
-    suspend fun checkTrialEligibilityForMobileOnlySubscription(): Boolean =
-        purchaseManager.checkTrialEligibility(PlatformProductIdentifiers.MOBILE_ONLY_MONTHLY_SUBSCRIPTION)
 
     suspend fun getManagementUrl(): Result<String?> =
         purchaseManager.getManagementUrl()

@@ -33,8 +33,7 @@ object PaywallFeature {
         data object Error : ViewStateContent
         data class Content(
             val subscriptionProducts: List<SubscriptionProduct>,
-            val buyButtonText: String,
-            val trialText: String? = null
+            val buyButtonText: String
         ) : ViewStateContent
 
         data object SubscriptionSyncLoading : ViewStateContent

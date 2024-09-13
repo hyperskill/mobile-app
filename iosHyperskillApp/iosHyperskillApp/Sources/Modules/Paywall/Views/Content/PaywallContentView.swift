@@ -15,7 +15,6 @@ struct PaywallContentView: View {
     private(set) var appearance = Appearance()
 
     let buyButtonText: String
-    let buyFootnoteText: String?
 
     let onBuyButtonTap: () -> Void
     let onTermsOfServiceButtonTap: () -> Void
@@ -57,7 +56,6 @@ struct PaywallContentView: View {
             PaywallFooterView(
                 appearance: .init(spacing: appearance.interitemSpacing),
                 buyButtonText: buyButtonText,
-                buyFootnoteText: buyFootnoteText,
                 onBuyButtonTap: onBuyButtonTap,
                 onTermsOfServiceButtonTap: onTermsOfServiceButtonTap
             )
@@ -69,16 +67,6 @@ struct PaywallContentView: View {
 #Preview {
     PaywallContentView(
         buyButtonText: "Subscribe for $11.99/month",
-        buyFootnoteText: nil,
-        onBuyButtonTap: {},
-        onTermsOfServiceButtonTap: {}
-    )
-}
-
-#Preview {
-    PaywallContentView(
-        buyButtonText: "Subscribe for $11.99/month",
-        buyFootnoteText: "Then $11.99 per month",
         onBuyButtonTap: {},
         onTermsOfServiceButtonTap: {}
     )
