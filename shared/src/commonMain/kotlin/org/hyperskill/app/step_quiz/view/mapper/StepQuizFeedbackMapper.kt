@@ -120,14 +120,10 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
         submission: Submission,
         codeExecutionResult: CodeExecutionResult?
     ): StepQuizFeedbackState.Hint? =
-        when (submission.status) {
-            SubmissionStatus.CORRECT -> {
-                if (isCodeExecutionLaunched(step) && codeExecutionResult != null) {
+        when {
+            submission.status == SubmissionStatus.CORRECT &&
+                isCodeExecutionLaunched(step) && codeExecutionResult != null ->
                     getCodeExecutionFeedback(codeExecutionResult)
-                } else {
-                    null
-                }
-            }
             else -> {
                 val text = submission
                     .hint
