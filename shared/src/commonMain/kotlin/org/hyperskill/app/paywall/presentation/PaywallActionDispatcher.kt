@@ -1,8 +1,6 @@
 package org.hyperskill.app.paywall.presentation
 
 import co.touchlab.kermit.Logger
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action
 import org.hyperskill.app.paywall.presentation.PaywallFeature.InternalAction
@@ -49,19 +47,15 @@ internal class PaywallActionDispatcher(
                 InternalMessage.FetchSubscriptionProductsError
             }
         ) {
-            coroutineScope {
-                val subscriptionProductsDeferred = async {
-                    purchaseInteractor.getSubscriptionProducts()
-                }
+            val subscriptionProducts = purchaseInteractor
+                .getSubscriptionProducts()
+                .getOrThrow()
 
-                val subscriptionProducts = subscriptionProductsDeferred.await().getOrThrow()
-
-                if (subscriptionProducts.isNotEmpty()) {
-                    InternalMessage.FetchSubscriptionProductsSuccess(subscriptionProducts)
-                } else {
-                    logger.e { "Receive null instead of formatted mobile-only subscription price" }
-                    InternalMessage.FetchSubscriptionProductsError
-                }
+            if (subscriptionProducts.isNotEmpty()) {
+                InternalMessage.FetchSubscriptionProductsSuccess(subscriptionProducts)
+            } else {
+                logger.e { "Receive null instead of formatted mobile-only subscription price" }
+                InternalMessage.FetchSubscriptionProductsError
             }
         }.let(onNewMessage)
     }
