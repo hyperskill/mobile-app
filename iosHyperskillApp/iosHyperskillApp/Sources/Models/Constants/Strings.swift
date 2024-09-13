@@ -646,6 +646,9 @@ enum Strings {
         static let subscriptionFeature1 = sharedStrings.mobile_only_subscription_feature_1.localized()
         static let subscriptionFeature2 = sharedStrings.mobile_only_subscription_feature_2.localized()
         static let subscriptionFeature3 = sharedStrings.mobile_only_subscription_feature_3.localized()
+        static let subscriptionFeature4 = sharedStrings.mobile_only_subscription_feature_4.localized()
+
+        static let bestValueBadge = sharedStrings.paywall_best_value_label.localized()
     }
 
     // MARK: - ManageSubscription -
