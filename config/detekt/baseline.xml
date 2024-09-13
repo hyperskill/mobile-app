@@ -68,7 +68,6 @@
     <ID>LongMethod:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$fun render( dateFormatter: SharedDateFormatter, binding: LayoutProblemOfTheDayCardBinding, state: HomeFeature.ProblemOfDayState, areProblemsLimited: Boolean )</ID>
     <ID>LongMethod:ProfileBadges.kt$@Composable fun ProfileBadges( viewState: BadgesViewState, windowWidthSizeClass: WindowWidthSizeClass, onBadgeClick: (BadgeKind) -&gt; Unit, onExpandButtonClick: (ProfileFeature.Message.BadgesVisibilityButton) -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
-    <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun createInitialCodeBlocks(step: Step): List&lt;CodeBlock&gt;</ID>
     <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleDeleteButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSpaceButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSuggestionClicked( state: State, message: Message.SuggestionClicked ): StepQuizCodeBlanksReducerResult?</ID>
@@ -158,8 +157,6 @@
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$25</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$5</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$50</ID>
-    <ID>MagicNumber:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$2</ID>
-    <ID>MagicNumber:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$47580L</ID>
     <ID>MagicNumber:StudyPlanActivityAdapterDelegate.kt$StudyPlanActivityAdapterDelegate.ViewHolder$100f</ID>
     <ID>MagicNumber:SubscriptionSyncLoading.kt$0.5f</ID>
     <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$50f</ID>

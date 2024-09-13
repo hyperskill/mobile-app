@@ -10,7 +10,7 @@ internal fun StepQuizCodeBlanksFeature.State.Content.activeCodeBlockIndex(): Int
 
 internal val StepQuizCodeBlanksFeature.State.isVariableSuggestionsAvailable: Boolean
     get() = (this as? StepQuizCodeBlanksFeature.State.Content)?.step?.let {
-        StepQuizCodeBlanksFeature.isVariableSuggestionsAvailable(it)
+        StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(it)
     } ?: false
 
 fun StepQuizCodeBlanksFeature.State.Content.createReply(): Reply =
