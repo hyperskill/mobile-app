@@ -10,7 +10,8 @@ struct PaywallFeaturesView: View {
     private static let features = [
         Strings.Paywall.subscriptionFeature1,
         Strings.Paywall.subscriptionFeature2,
-        Strings.Paywall.subscriptionFeature3
+        Strings.Paywall.subscriptionFeature3,
+        Strings.Paywall.subscriptionFeature4
     ]
 
     private(set) var appearance = Appearance()
@@ -42,6 +43,7 @@ private struct PaywallFeatureView: View {
         Label(
             title: {
                 Text(title)
+                    .foregroundColor(.newPrimaryText)
                     .offset(x: !animateTitle ? -width : 0)
                     .clipped()
             },

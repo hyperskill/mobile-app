@@ -95,7 +95,9 @@ created: \(created)
 
                 #if DEBUG
                 print("""
-PurchaseManager: purchase \(storeProduct.productIdentifier) failed, error: \(error), purchaseResult: \(purchaseResult)
+PurchaseManager: purchase \(storeProduct.productIdentifier) failed, \
+error: \(error), \
+purchaseResult: \(purchaseResult)
 """)
                 #endif
 
@@ -109,7 +111,9 @@ PurchaseManager: purchase \(storeProduct.productIdentifier) failed, error: \(err
             if let storeTransaction, let customerInfo {
                 #if DEBUG
                 print("""
-PurchaseManager: purchase \(storeProduct.productIdentifier) succeeded, storeTransaction: \(storeTransaction), customerInfo: \(customerInfo)
+PurchaseManager: purchase \(storeProduct.productIdentifier) succeeded, \
+storeTransaction: \(storeTransaction), \
+customerInfo: \(customerInfo)
 """)
                 #endif
 
@@ -124,7 +128,9 @@ PurchaseManager: purchase \(storeProduct.productIdentifier) succeeded, storeTran
                 completionHandler(result, nil)
             } else {
                 #if DEBUG
-                print("PurchaseManager: purchase \(storeProduct.productIdentifier) failed, no storeTransaction or customerInfo")
+                print("""
+PurchaseManager: purchase \(storeProduct.productIdentifier) failed, no storeTransaction or customerInfo
+""")
                 #endif
 
                 let purchaseResult = PurchaseResultErrorOtherError(
@@ -171,22 +177,6 @@ PurchaseManager: get management URL succeeded, managementURL: \(String(describin
                 )
 
                 completionHandler(successResult, nil)
-            }
-        }
-    }
-
-    func checkTrialOrIntroDiscountEligibility(
-        productId: String,
-        completionHandler: @escaping (KotlinBoolean?, (any Error)?) -> Void
-    ) {
-        Purchases.shared.checkTrialOrIntroDiscountEligibility(
-            productIdentifiers: [productId]
-        ) { eligibilities in
-            if let eligibility = eligibilities[productId] {
-                let isEligible = eligibility.status == .eligible
-                completionHandler(KotlinBoolean(value: isEligible), nil)
-            } else {
-                completionHandler(KotlinBoolean(value: false), nil)
             }
         }
     }
