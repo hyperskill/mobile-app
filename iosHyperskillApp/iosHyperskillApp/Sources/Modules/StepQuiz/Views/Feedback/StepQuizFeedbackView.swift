@@ -14,7 +14,13 @@ struct StepQuizFeedbackView: View {
             StepQuizFeedbackStatusView(state: .correct)
 
             if let hint = correctState.hint {
-                StepQuizFeedbackHintView(text: hint)
+                let hintKs = StepQuizFeedbackStateHintKs(hint)
+                switch hintKs{
+                case .fromCodeExecution(_):
+                    #warning("TODO: ALTAPPS-1358")
+                case .fromSubmission(let fromSubmission):
+                    StepQuizFeedbackHintView(text: fromSubmission.text)
+                }
             }
         case .wrong(let wrongState):
             StepQuizFeedbackWrongStateView(
@@ -22,8 +28,14 @@ struct StepQuizFeedbackView: View {
                 onAction: onAction
             )
 
-            if let feedbackHint = wrongState.feedbackHint {
-                StepQuizFeedbackHintView(text: feedbackHint)
+            if let feedbackHint = wrongState.hint {
+                let hintKs = StepQuizFeedbackStateHintKs(feedbackHint)
+                switch hintKs{
+                case .fromCodeExecution(_):
+                    #warning("TODO: ALTAPPS-1358")
+                case .fromSubmission(let fromSubmission):
+                    StepQuizFeedbackHintView(text: fromSubmission.text)
+                }
             }
         case .rejectedSubmission(let rejectedSubmissionState):
             StepQuizFeedbackStatusView(
@@ -50,10 +62,12 @@ struct StepQuizFeedbackView: View {
             StepQuizFeedbackView(
                 stepQuizFeedbackState: .correct(
                     StepQuizFeedbackStateCorrect(
-                        hint: """
+                        hint: StepQuizFeedbackStateHintFromSubmission(
+                            text: """
 That's right! Since any comparison results in a boolean value, there is no need to write everything twice.
 """,
-                        useLatex: false
+                            useLatex: false
+                        )
                     )
                 ),
                 onAction: { _ in }
@@ -69,7 +83,7 @@ That's right! Since any comparison results in a boolean value, there is no need 
             )
 
             StepQuizFeedbackView(
-                stepQuizFeedbackState: .evaluation,
+                stepQuizFeedbackState: .evaluation(StepQuizFeedbackStateEvaluation(hint: nil)),
                 onAction: { _ in }
             )
 
