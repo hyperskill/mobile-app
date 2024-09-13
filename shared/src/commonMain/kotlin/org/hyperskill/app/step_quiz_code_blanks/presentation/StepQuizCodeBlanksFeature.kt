@@ -8,16 +8,8 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
 
 object StepQuizCodeBlanksFeature {
-    private const val ONBOARDING_STEP_ID = 47329L
-
     internal fun isCodeBlanksFeatureAvailable(step: Step): Boolean =
         step.block.options.codeBlanksEnabled == true
-
-    internal fun isVariableSuggestionsAvailable(step: Step): Boolean =
-        step.block.options.codeBlanksVariables?.isNotEmpty() == true
-
-    internal fun isOnboardingAvailable(step: Step): Boolean =
-        step.id == ONBOARDING_STEP_ID
 
     internal fun initialState(): State = State.Idle
 
