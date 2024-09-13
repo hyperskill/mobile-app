@@ -119,24 +119,25 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
         step: Step,
         submission: Submission,
         codeExecutionResult: CodeExecutionResult?
-    ): StepQuizFeedbackState.Hint? =
-        when {
+    ): StepQuizFeedbackState.Hint? {
+        val shouldUseCodeExecutionHint =
             submission.status == SubmissionStatus.CORRECT &&
-                isCodeExecutionLaunched(step) && codeExecutionResult != null ->
-                    getCodeExecutionFeedback(codeExecutionResult)
-            else -> {
-                val text = submission
-                    .hint
-                    ?.takeIf(String::isNotEmpty)
-                    ?.replace("\n", "<br />")
-                text?.let {
-                    StepQuizFeedbackState.Hint.FromSubmission(
-                        text = text,
-                        useLatex = step.block.name == BlockName.MATH
-                    )
-                }
+                isCodeExecutionLaunched(step) && codeExecutionResult != null
+        return if (shouldUseCodeExecutionHint) {
+            getCodeExecutionFeedback(codeExecutionResult)
+        } else {
+            val text = submission
+                .hint
+                ?.takeIf(String::isNotEmpty)
+                ?.replace("\n", "<br />")
+            text?.let {
+                StepQuizFeedbackState.Hint.FromSubmission(
+                    text = text,
+                    useLatex = step.block.name == BlockName.MATH
+                )
             }
         }
+    }
 
     private fun isCodeExecutionLaunched(step: Step): Boolean =
         step.block.name == BlockName.CODE
