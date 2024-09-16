@@ -21,8 +21,8 @@ class CommonCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
             ?.mapIndexed { i, sample ->
                 CodeDetail.Sample(
                     i + 1,
-                    sample.first().trim('\n'),
-                    sample.last().trim('\n')
+                    sample.input.trim('\n'),
+                    sample.output.trim('\n')
                 )
             } ?: emptyList()
 

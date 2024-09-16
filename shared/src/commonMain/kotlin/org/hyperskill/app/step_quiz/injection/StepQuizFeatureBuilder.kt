@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
+import org.hyperskill.app.code.domain.repository.CodeRepository
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.features.data.source.FeaturesDataSource
@@ -48,6 +49,7 @@ internal object StepQuizFeatureBuilder {
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
         featuresDataSource: FeaturesDataSource,
+        codeRepository: CodeRepository,
         stepQuizHintsReducer: StepQuizHintsReducer,
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
         stepQuizToolbarReducer: StepQuizToolbarReducer,
@@ -77,6 +79,7 @@ internal object StepQuizFeatureBuilder {
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
+            codeRepository = codeRepository,
             logger = logger.withTag(LOG_TAG)
         )
 

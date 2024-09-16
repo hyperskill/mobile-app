@@ -8,6 +8,7 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.badges.injection.BadgesDataComponent
 import org.hyperskill.app.challenges.injection.ChallengesDataComponent
 import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
+import org.hyperskill.app.code.injection.CodeDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.comments.screen.injection.CommentsScreenComponent
@@ -218,4 +219,5 @@ interface AppGraph {
     fun buildCommentsScreenComponent(
         params: CommentsScreenFeatureParams
     ): CommentsScreenComponent
+    fun buildCodeDataComponent(): CodeDataComponent
 }
