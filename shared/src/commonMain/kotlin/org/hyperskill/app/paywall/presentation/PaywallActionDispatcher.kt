@@ -1,8 +1,6 @@
 package org.hyperskill.app.paywall.presentation
 
 import co.touchlab.kermit.Logger
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action
 import org.hyperskill.app.paywall.presentation.PaywallFeature.InternalAction
@@ -29,8 +27,8 @@ internal class PaywallActionDispatcher(
         when (action) {
             is InternalAction.FetchMobileOnlyPrice ->
                 handleFetchMobileOnlyPrice(::onNewMessage)
-            is InternalAction.StartMobileOnlySubscriptionPurchase ->
-                handleStartMobileOnlySubscriptionPurchase(action, ::onNewMessage)
+            is InternalAction.StartSubscriptionProductPurchase ->
+                handleStartSubscriptionProductPurchase(action, ::onNewMessage)
             is InternalAction.SyncSubscription ->
                 handleSyncSubscription(::onNewMessage)
             is InternalAction.LogWrongSubscriptionTypeAfterSync ->
@@ -46,35 +44,24 @@ internal class PaywallActionDispatcher(
             transaction = HyperskillSentryTransactionBuilder.buildPaywallFetchSubscriptionPrice(),
             onError = { e ->
                 logger.e(e) { "Failed to load subscription price" }
-                InternalMessage.FetchMobileOnlyPriceError
+                InternalMessage.FetchSubscriptionProductsError
             }
         ) {
-            coroutineScope {
-                val priceDeferred = async {
-                    purchaseInteractor.getFormattedMobileOnlySubscriptionPrice()
-                }
-                val trialEligibilityDeferred = async {
-                    purchaseInteractor.checkTrialEligibilityForMobileOnlySubscription()
-                }
+            val subscriptionProducts = purchaseInteractor
+                .getSubscriptionProducts()
+                .getOrThrow()
 
-                val price = priceDeferred.await().getOrThrow()
-                val isTrialEligible = trialEligibilityDeferred.await()
-
-                if (price != null) {
-                    InternalMessage.FetchMobileOnlyPriceSuccess(
-                        formattedPrice = price,
-                        isTrialEligible = isTrialEligible
-                    )
-                } else {
-                    logger.e { "Receive null instead of formatted mobile-only subscription price" }
-                    InternalMessage.FetchMobileOnlyPriceError
-                }
+            if (subscriptionProducts.isNotEmpty()) {
+                InternalMessage.FetchSubscriptionProductsSuccess(subscriptionProducts)
+            } else {
+                logger.e { "Receive null instead of formatted mobile-only subscription price" }
+                InternalMessage.FetchSubscriptionProductsError
             }
         }.let(onNewMessage)
     }
 
-    private suspend fun handleStartMobileOnlySubscriptionPurchase(
-        action: InternalAction.StartMobileOnlySubscriptionPurchase,
+    private suspend fun handleStartSubscriptionProductPurchase(
+        action: InternalAction.StartSubscriptionProductPurchase,
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(
@@ -85,7 +72,10 @@ internal class PaywallActionDispatcher(
             }
         ) {
             val purchaseResult = purchaseInteractor
-                .purchaseMobileOnlySubscription(action.purchaseParams)
+                .purchaseSubscriptionProduct(
+                    storeProduct = action.storeProduct,
+                    platformPurchaseParams = action.purchaseParams
+                )
                 .getOrThrow()
 
             if (purchaseResult is PurchaseResult.Error) {
@@ -97,7 +87,11 @@ internal class PaywallActionDispatcher(
     }
 
     private fun getPurchaseErrorMessage(error: PurchaseResult.Error): String =
-        "Subscription purchase failed!\n${error.message}\n${error.underlyingErrorMessage}"
+        """
+            Subscription purchase failed!
+            error message: ${error.message}
+            underlying error message: ${error.underlyingErrorMessage}
+        """.trimIndent()
 
     private suspend fun handleSyncSubscription(onNewMessage: (Message) -> Unit) {
         sentryInteractor.withTransaction(

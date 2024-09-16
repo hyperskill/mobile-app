@@ -2,10 +2,11 @@ package org.hyperskill.app.purchases.domain.interactor
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.model.AnalyticKeys
-import org.hyperskill.app.purchases.domain.model.PlatformProductIdentifiers
+import org.hyperskill.app.purchases.domain.model.HyperskillStoreProduct
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
+import org.hyperskill.app.purchases.domain.model.SubscriptionProduct
 
 class PurchaseInteractor(
     private val purchaseManager: PurchaseManager,
@@ -35,17 +36,18 @@ class PurchaseInteractor(
     suspend fun canMakePayments(): Result<Boolean> =
         purchaseManager.canMakePayments()
 
-    suspend fun purchaseMobileOnlySubscription(
+    suspend fun purchaseSubscriptionProduct(
+        storeProduct: HyperskillStoreProduct,
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult> =
-        purchaseManager.purchase(PlatformProductIdentifiers.MOBILE_ONLY_SUBSCRIPTION, platformPurchaseParams)
+        purchaseManager.purchase(
+            storeProduct = storeProduct,
+            platformPurchaseParams = platformPurchaseParams
+        )
+
+    suspend fun getSubscriptionProducts(): Result<List<SubscriptionProduct>> =
+        purchaseManager.getSubscriptionProducts()
 
     suspend fun getManagementUrl(): Result<String?> =
         purchaseManager.getManagementUrl()
-
-    suspend fun getFormattedMobileOnlySubscriptionPrice(): Result<String?> =
-        purchaseManager.getFormattedProductPrice(PlatformProductIdentifiers.MOBILE_ONLY_SUBSCRIPTION)
-
-    suspend fun checkTrialEligibilityForMobileOnlySubscription(): Boolean =
-        purchaseManager.checkTrialEligibility(PlatformProductIdentifiers.MOBILE_ONLY_SUBSCRIPTION)
 }

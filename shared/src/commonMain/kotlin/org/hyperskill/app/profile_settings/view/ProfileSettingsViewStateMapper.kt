@@ -20,7 +20,7 @@ internal class ProfileSettingsViewStateMapper(
         ViewState.Content(
             profileSettings = state.profileSettings,
             isLoadingMagicLink = state.isLoadingMagicLink,
-            subscriptionState = if (state.subscription != null && state.mobileOnlyFormattedPrice != null) {
+            subscriptionState = if (state.subscription != null && state.subscriptionFormattedPricePerMonth != null) {
                 when {
                     state.subscription.type == SubscriptionType.MOBILE_ONLY -> {
                         ViewState.Content.SubscriptionState(
@@ -31,7 +31,7 @@ internal class ProfileSettingsViewStateMapper(
                         ViewState.Content.SubscriptionState(
                             resourceProvider.getString(
                                 SharedResources.strings.settings_subscription_mobile_only_suggestion,
-                                state.mobileOnlyFormattedPrice
+                                state.subscriptionFormattedPricePerMonth
                             )
                         )
                     }

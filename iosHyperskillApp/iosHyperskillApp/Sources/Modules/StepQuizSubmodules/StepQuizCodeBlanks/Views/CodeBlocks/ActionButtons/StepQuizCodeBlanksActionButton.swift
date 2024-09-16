@@ -62,6 +62,19 @@ extension StepQuizCodeBlanksActionButton {
             action: action
         )
     }
+
+    static func decreaseIndentLevel(action: @escaping () -> Void) -> StepQuizCodeBlanksActionButton {
+        StepQuizCodeBlanksActionButton(
+            appearance: .init(
+                padding: LayoutInsets(
+                    horizontal: LayoutInsets.smallInset,
+                    vertical: 5.5
+                )
+            ),
+            imageSystemName: "arrow.left.to.line",
+            action: action
+        )
+    }
 }
 
 #if DEBUG
@@ -71,12 +84,14 @@ extension StepQuizCodeBlanksActionButton {
             StepQuizCodeBlanksActionButton.delete(action: {})
             StepQuizCodeBlanksActionButton.enter(action: {})
             StepQuizCodeBlanksActionButton.space(action: {})
+            StepQuizCodeBlanksActionButton.decreaseIndentLevel(action: {})
         }
 
         HStack {
             StepQuizCodeBlanksActionButton.delete(action: {})
             StepQuizCodeBlanksActionButton.enter(action: {})
             StepQuizCodeBlanksActionButton.space(action: {})
+            StepQuizCodeBlanksActionButton.decreaseIndentLevel(action: {})
         }
         .disabled(true)
     }

@@ -3,6 +3,7 @@ package org.hyperskill.app.step.domain.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.code.domain.model.ProgrammingLanguage
+import org.hyperskill.app.step_quiz_code_blanks.domain.model.template.CodeBlockTemplateEntry
 
 @Serializable
 data class Block(
@@ -36,7 +37,9 @@ data class Block(
         @SerialName("code_blanks_operations")
         val codeBlanksOperations: List<String>? = null,
         @SerialName("code_blanks_enabled")
-        val codeBlanksEnabled: Boolean? = null
+        val codeBlanksEnabled: Boolean? = null,
+        @SerialName("code_blanks_template")
+        val codeBlanksTemplate: List<CodeBlockTemplateEntry>? = null
     ) {
         @Serializable
         data class File(
