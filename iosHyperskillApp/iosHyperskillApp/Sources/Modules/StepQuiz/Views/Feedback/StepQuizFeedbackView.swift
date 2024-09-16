@@ -15,8 +15,8 @@ struct StepQuizFeedbackView: View {
 
             if let hint = correctState.hint {
                 let hintKs = StepQuizFeedbackStateHintKs(hint)
-                switch hintKs{
-                case .fromCodeExecution(_):
+                switch hintKs {
+                case .fromCodeExecution:
                     #warning("TODO: ALTAPPS-1358")
                 case .fromSubmission(let fromSubmission):
                     StepQuizFeedbackHintView(text: fromSubmission.text)
@@ -30,8 +30,8 @@ struct StepQuizFeedbackView: View {
 
             if let feedbackHint = wrongState.hint {
                 let hintKs = StepQuizFeedbackStateHintKs(feedbackHint)
-                switch hintKs{
-                case .fromCodeExecution(_):
+                switch hintKs {
+                case .fromCodeExecution:
                     #warning("TODO: ALTAPPS-1358")
                 case .fromSubmission(let fromSubmission):
                     StepQuizFeedbackHintView(text: fromSubmission.text)
