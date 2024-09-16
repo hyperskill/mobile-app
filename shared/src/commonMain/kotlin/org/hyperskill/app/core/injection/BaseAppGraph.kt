@@ -14,6 +14,8 @@ import org.hyperskill.app.challenges.injection.ChallengesDataComponent
 import org.hyperskill.app.challenges.injection.ChallengesDataComponentImpl
 import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
 import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponentImpl
+import org.hyperskill.app.code.injection.CodeDataComponent
+import org.hyperskill.app.code.injection.CodeDataComponentImpl
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
@@ -556,4 +558,7 @@ abstract class BaseAppGraph : AppGraph {
         params: CommentsScreenFeatureParams
     ): CommentsScreenComponent =
         CommentsScreenComponentImpl(appGraph = this, params = params)
+
+    override fun buildCodeDataComponent(): CodeDataComponent =
+        CodeDataComponentImpl(appGraph = this)
 }

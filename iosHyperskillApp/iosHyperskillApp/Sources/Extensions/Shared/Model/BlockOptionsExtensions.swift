@@ -23,7 +23,7 @@ extension Block.Options {
             isCheckbox: isCheckbox.flatMap(KotlinBoolean.init(value:)),
             limits: limits,
             codeTemplates: codeTemplates,
-            samples: samples,
+            internalSamples: samples,
             files: files,
             codeBlanksStrings: codeBlanksStrings,
             codeBlanksVariables: codeBlanksVariables,

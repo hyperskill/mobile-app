@@ -76,7 +76,7 @@
         android:text="@string/step_quiz_status_correct_text" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/stepQuizFeedback"
+        android:id="@+id/stepQuizSubmissionHint"
         android:layout_height="wrap_content"
         style="@style/StepQuizFeedback.Feedback"
         android:background="@color/color_background"
@@ -120,6 +120,63 @@
             </org.hyperskill.app.android.latex.view.widget.LatexView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/stepQuizCodeExecutionHint"
+        android:layout_height="wrap_content"
+        style="@style/StepQuizFeedback.Feedback"
+        android:background="@color/color_background"
+        android:maxWidth="@dimen/auth_button_max_width"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/stepQuizCodeExecutionTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:text="@string/step_quiz_code_execution_title"
+                android:layout_marginBottom="7dp"/>
+
+            <TextView
+                android:id="@+id/stepQuizCodeExecutionInputTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:text="@string/step_quiz_code_execution_input"
+                android:layout_marginBottom="7dp"/>
+
+            <TextView
+                android:id="@+id/stepQuizCodeExecutionInputValueTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Body1"
+                tools:text="5"
+                android:layout_marginBottom="7dp"/>
+
+            <TextView
+                android:id="@+id/stepQuizCodeExecutionOutputTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:text="@string/step_quiz_code_execution_output"
+                android:layout_marginBottom="7dp"/>
+
+            <TextView
+                android:id="@+id/stepQuizCodeExecutionOutputValueTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Body1"
+                tools:text="120" />
+
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
