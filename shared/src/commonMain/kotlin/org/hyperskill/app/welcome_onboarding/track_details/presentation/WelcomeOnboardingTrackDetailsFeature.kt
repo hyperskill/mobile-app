@@ -6,13 +6,18 @@ import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 object WelcomeOnboardingTrackDetailsFeature {
     internal data class State(
         val track: WelcomeOnboardingTrack,
-        val isLoadingShowed: Boolean
+        val isLoadingShowed: Boolean,
+        val isMobilePythonAdoptedCourseEnabled: Boolean
     )
 
-    internal fun initialState(track: WelcomeOnboardingTrack) =
+    internal fun initialState(
+        track: WelcomeOnboardingTrack,
+        isMobilePythonAdoptedCourseEnabled: Boolean
+    ) =
         State(
             track = track,
-            isLoadingShowed = false
+            isLoadingShowed = false,
+            isMobilePythonAdoptedCourseEnabled = isMobilePythonAdoptedCourseEnabled
         )
 
     /**

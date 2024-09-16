@@ -20,6 +20,7 @@ internal class WelcomeOnboardingTrackDetailsReducer : StateReducer<State, Messag
         private const val JS_TRACK_ID = 32L
         private const val KOTLIN_TRACK_ID = 69L
         private const val PYTHON_TRACK_ID = 6L
+        private const val PYTHON_TRACK_MOBILE_ADOPTED_ID = 139L
         private const val SQL_TRACK_ID = 31L
     }
 
@@ -41,7 +42,7 @@ internal class WelcomeOnboardingTrackDetailsReducer : StateReducer<State, Messag
             InternalAction.LogAnalyticEvent(
                 WelcomeOnboardingSelectTrackClickedHSAnalyticEvent(state.track)
             ),
-            InternalAction.SelectTrack(getTrackId(state.track))
+            InternalAction.SelectTrack(getTrackId(state))
         )
 
     private fun handleSelectTrackSuccess(state: State): WelcomeOnboardingTrackDetailsReducerResult =
@@ -50,12 +51,13 @@ internal class WelcomeOnboardingTrackDetailsReducer : StateReducer<State, Messag
     private fun handleSelectTrackFailed(state: State): WelcomeOnboardingTrackDetailsReducerResult =
         state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowTrackSelectionError)
 
-    private fun getTrackId(track: WelcomeOnboardingTrack): Long =
-        when (track) {
+    private fun getTrackId(state: State): Long =
+        when (state.track) {
             WelcomeOnboardingTrack.JAVA -> JAVA_TRACK_ID
             WelcomeOnboardingTrack.JAVA_SCRIPT -> JS_TRACK_ID
             WelcomeOnboardingTrack.KOTLIN -> KOTLIN_TRACK_ID
-            WelcomeOnboardingTrack.PYTHON -> PYTHON_TRACK_ID
+            WelcomeOnboardingTrack.PYTHON ->
+                if (state.isMobilePythonAdoptedCourseEnabled) PYTHON_TRACK_MOBILE_ADOPTED_ID else PYTHON_TRACK_ID
             WelcomeOnboardingTrack.SQL -> SQL_TRACK_ID
         }
 }
