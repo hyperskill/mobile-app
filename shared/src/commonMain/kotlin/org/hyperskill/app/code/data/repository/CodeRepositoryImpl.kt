@@ -11,5 +11,5 @@ internal class CodeRepositoryImpl(
     override suspend fun runCode(runCodeRequest: RunCodeRequest): Result<CodeExecutionResult> =
         codeRemoteDataSource
             .runCode(runCodeRequest)
-            .map { it.codeExecutionResults.first() }
+            .mapCatching { it.codeExecutionResults.first() }
 }

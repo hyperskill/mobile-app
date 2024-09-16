@@ -294,7 +294,7 @@ internal class StepQuizActionDispatcher(
         step: Step,
         reply: Reply
     ): Result<CodeExecutionResult?> =
-        if (step.block.name in BlockName.codeRelatedBlocksNames && reply.code != null) {
+        if (step.block.name == BlockName.CODE && reply.code != null) {
             codeRepository.runCode(
                 RunCodeRequest(
                     stdin = step.block.options.samples?.firstOrNull()?.input ?: "Empty stdin",
