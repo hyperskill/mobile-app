@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_quiz.view.mapper
 
 import org.hyperskill.app.SharedResources
+import org.hyperskill.app.code.domain.model.CodeExecutionResult
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -43,10 +44,15 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
         return when (submission?.status) {
             SubmissionStatus.CORRECT ->
                 StepQuizFeedbackState.Correct(
-                    hint = getHint(submission),
-                    useLatex = shouldUseLatex(stepQuizState.step)
+                    hint = getHint(stepQuizState.step, submission, stepQuizState.codeExecutionResult)
                 )
-            SubmissionStatus.EVALUATION -> StepQuizFeedbackState.Evaluation
+            SubmissionStatus.EVALUATION -> StepQuizFeedbackState.Evaluation(
+                if (isCodeExecutionLaunched(stepQuizState.step)) {
+                    StepQuizFeedbackState.Hint.FromCodeExecution.Loading
+                } else {
+                    null
+                }
+            )
             SubmissionStatus.WRONG -> getWrongStatusFeedback(state, stepQuizState, submission)
             SubmissionStatus.REJECTED -> {
                 val feedback = submission.feedback
@@ -87,13 +93,9 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
                 null -> null
             },
             actionType = wrongSubmissionAction,
-            feedbackHint = getHint(submission),
-            useFeedbackHintLatex = shouldUseLatex(stepQuizState.step)
+            hint = getHint(stepQuizState.step, submission, stepQuizState.codeExecutionResult)
         )
     }
-
-    private fun shouldUseLatex(step: Step): Boolean =
-        step.block.name == BlockName.MATH
 
     private fun getWrongSubmissionAction(
         state: StepQuizFeature.State,
@@ -113,9 +115,48 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
             else -> Action.SKIP_PROBLEM
         }
 
-    private fun getHint(submission: Submission): String? =
-        submission
-            .hint
-            ?.takeIf(String::isNotEmpty)
-            ?.replace("\n", "<br />")
+    private fun getHint(
+        step: Step,
+        submission: Submission,
+        codeExecutionResult: CodeExecutionResult?
+    ): StepQuizFeedbackState.Hint? {
+        val shouldUseCodeExecutionHint =
+            submission.status == SubmissionStatus.CORRECT &&
+                isCodeExecutionLaunched(step) && codeExecutionResult != null
+        return if (shouldUseCodeExecutionHint) {
+            getCodeExecutionFeedback(codeExecutionResult)
+        } else {
+            val text = submission
+                .hint
+                ?.takeIf(String::isNotEmpty)
+                ?.replace("\n", "<br />")
+            text?.let {
+                StepQuizFeedbackState.Hint.FromSubmission(
+                    text = text,
+                    useLatex = step.block.name == BlockName.MATH
+                )
+            }
+        }
+    }
+
+    private fun isCodeExecutionLaunched(step: Step): Boolean =
+        step.block.name == BlockName.CODE
+
+    private fun getCodeExecutionFeedback(
+        codeExecutionResult: CodeExecutionResult?
+    ): StepQuizFeedbackState.Hint.FromCodeExecution.Result? =
+        when {
+            codeExecutionResult != null -> {
+                val stdout = codeExecutionResult.stdout
+                if (!stdout.isNullOrEmpty()) {
+                    StepQuizFeedbackState.Hint.FromCodeExecution.Result(
+                        input = codeExecutionResult.stdin?.takeIf { it.isNotEmpty() }?.trim(),
+                        output = codeExecutionResult.stdout.trim()
+                    )
+                } else {
+                    null
+                }
+            }
+            else -> null
+        }
 }

@@ -67,8 +67,7 @@ let previewTitle = "Not correct"
             description: nil,
             actionText: nil,
             actionType: nil,
-            feedbackHint: nil,
-            useFeedbackHintLatex: false
+            hint: nil
         ),
         onAction: { _ in }
     )
@@ -82,8 +81,7 @@ let previewTitle = "Not correct"
             description: "Take a look at what other users are suggesting to solve this problem.",
             actionText: "See community hint",
             actionType: nil,
-            feedbackHint: nil,
-            useFeedbackHintLatex: false
+            hint: nil
         ),
         onAction: { _ in }
     )

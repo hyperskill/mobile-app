@@ -54,7 +54,7 @@ class StepQuizCodeViewDataMapper {
 
     // MARK: Private API
 
-    private func mapSamples(_ samples: [[String]]?) -> [StepQuizCodeViewData.Sample] {
+    private func mapSamples(_ samples: [Block.OptionsSample]?) -> [StepQuizCodeViewData.Sample] {
         guard let samples else {
             return []
         }
@@ -63,11 +63,6 @@ class StepQuizCodeViewDataMapper {
         var displayIndex = 1
 
         for sample in samples {
-            guard let input = sample.first,
-                  let output = sample.last else {
-                continue
-            }
-
             let inputTitle = resourceProvider.getString(
                 stringResource: Strings.StepQuizCode.sampleInputTitleResource,
                 args: KotlinArray(size: 1, init: { _ in NSNumber(value: displayIndex) })
@@ -80,9 +75,9 @@ class StepQuizCodeViewDataMapper {
             result.append(
                 .init(
                     inputTitle: inputTitle,
-                    inputValue: input.trimmed(),
+                    inputValue: sample.input.trimmed(),
                     outputTitle: outputTitle,
-                    outputValue: output.trimmed()
+                    outputValue: sample.output.trimmed()
                 )
             )
 
