@@ -11,4 +11,5 @@ internal object FeatureKeys {
     const val MOBILE_ONLY_SUBSCRIPTION = "mobile.mobile_only_subscription"
     const val MOBILE_USERS_INTERVIEW_WIDGET = "mobile.users_interview_widget"
     const val MOBILE_CONTENT_TRIAL = "mobile.content_trial"
+    const val MOBILE_PYTHON_ADOPTED_COURSE = "mobile.python_adopted_course"
 }
