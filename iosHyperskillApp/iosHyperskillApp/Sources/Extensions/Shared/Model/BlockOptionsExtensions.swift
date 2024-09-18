@@ -15,7 +15,7 @@ extension Block.Options {
         codeBlanksVariables: [String]? = nil,
         codeBlanksOperations: [String]? = nil,
         codeBlanksEnabled: Bool? = nil,
-        codeBlanksTemplate: [CodeBlockTemplateEntry]? = nil
+        codeBlanksTemplateString: String? = nil
     ) {
         self.init(
             isMultipleChoice: isMultipleChoice.flatMap(KotlinBoolean.init(value:)),
@@ -29,7 +29,7 @@ extension Block.Options {
             codeBlanksVariables: codeBlanksVariables,
             codeBlanksOperations: codeBlanksOperations,
             codeBlanksEnabled: codeBlanksEnabled.flatMap(KotlinBoolean.init(value:)),
-            codeBlanksTemplate: codeBlanksTemplate
+            codeBlanksTemplateString: codeBlanksTemplateString
         )
     }
     // swiftlint:enable discouraged_optional_boolean
