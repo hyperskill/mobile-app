@@ -25,9 +25,7 @@
     <ID>CyclomaticComplexMethod:LeaderboardWidgetReducer.kt$LeaderboardWidgetReducer$override fun reduce(state: State, message: Message): LeaderboardWidgetReducerResult</ID>
     <ID>CyclomaticComplexMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
     <ID>CyclomaticComplexMethod:ProfileReducer.kt$ProfileReducer$override fun reduce(state: State, message: Message): ReducerResult</ID>
-    <ID>CyclomaticComplexMethod:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>CyclomaticComplexMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleDeleteButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
-    <ID>CyclomaticComplexMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSuggestionClicked( state: State, message: Message.SuggestionClicked ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>CyclomaticComplexMethod:StepQuizCodeBlanksViewStateMapper.kt$StepQuizCodeBlanksViewStateMapper$private fun mapContentState( state: StepQuizCodeBlanksFeature.State.Content ): StepQuizCodeBlanksViewState.Content</ID>
     <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): StepQuizHintsReducerResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizReducer.kt$StepQuizReducer$override fun reduce(state: State, message: Message): StepQuizReducerResult</ID>

@@ -20,6 +20,7 @@ import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
+import org.hyperskill.step_quiz_code_blanks.presentation.stub
 import org.hyperskill.subscriptions.stub
 import org.junit.Test
 
@@ -78,8 +79,8 @@ class AndroidStepQuizTest {
                     stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
                         stepQuizHintsReducer = StepQuizHintsReducer(stepRoute),
                         stepQuizToolbarReducer = StepQuizToolbarReducer(stepRoute),
-                        stepQuizCodeBlanksReducer = StepQuizCodeBlanksReducer(stepRoute)
-                    ),
+                        stepQuizCodeBlanksReducer = StepQuizCodeBlanksReducer.stub(stepRoute)
+                    )
                 )
 
                 val (state, _) = reducer.reduce(

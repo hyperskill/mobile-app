@@ -20,7 +20,6 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalAction
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.InternalMessage
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.Message
-import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.State
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -28,8 +27,11 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias StepQuizCodeBlanksReducerResult = Pair<State, Set<Action>>
 
 class StepQuizCodeBlanksReducer(
-    private val stepRoute: StepRoute
+    private val stepRoute: StepRoute,
+    private val stepQuizCodeBlanksOnboardingReducer: StepQuizCodeBlanksOnboardingReducer
 ) : StateReducer<State, Message, Action> {
+    companion object;
+
     override fun reduce(state: State, message: Message): StepQuizCodeBlanksReducerResult =
         when (message) {
             is InternalMessage.Initialize -> initialize(message)
@@ -48,11 +50,7 @@ class StepQuizCodeBlanksReducer(
         State.Content(
             step = message.step,
             codeBlocks = createInitialCodeBlocks(step = message.step),
-            onboardingState = if (StepQuizCodeBlanksResolver.isOnboardingAvailable(message.step)) {
-                OnboardingState.HighlightSuggestions
-            } else {
-                OnboardingState.Unavailable
-            }
+            onboardingState = stepQuizCodeBlanksOnboardingReducer.reduceInitializeMessage(message)
         ) to emptySet()
 
     private fun handleSuggestionClicked(
@@ -209,21 +207,12 @@ class StepQuizCodeBlanksReducer(
             }
         }
 
-        val isFulfilledOnboardingPrintCodeBlock =
-            state.onboardingState is OnboardingState.HighlightSuggestions &&
-                activeCodeBlock is CodeBlock.Print && activeCodeBlock.hasAnyUnselectedChild() &&
-                newCodeBlock is CodeBlock.Print && newCodeBlock.areAllChildrenSelected()
         val (onboardingState, onboardingActions) =
-            if (isFulfilledOnboardingPrintCodeBlock) {
-                OnboardingState.HighlightCallToActionButton to
-                    setOf(
-                        InternalAction.ParentFeatureActionRequested(
-                            StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton
-                        )
-                    )
-            } else {
-                state.onboardingState to emptySet()
-            }
+            stepQuizCodeBlanksOnboardingReducer.reduceSuggestionClickedMessage(
+                state = state,
+                activeCodeBlock = activeCodeBlock,
+                newCodeBlock = newCodeBlock
+            )
 
         return state.copy(
             codeBlocks = newCodeBlocks,

@@ -18,7 +18,7 @@ sealed interface StepQuizCodeBlanksViewState {
             get() = onboardingState != OnboardingState.Unavailable
 
         val isSuggestionsHighlightEffectActive: Boolean
-            get() = onboardingState == OnboardingState.HighlightSuggestions
+            get() = onboardingState == OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
     }
 
     sealed interface CodeBlockItem {

@@ -9,7 +9,9 @@ import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksVie
 class StepQuizCodeBlanksViewStateTest {
     @Test
     fun `isActionButtonsHidden should be true when onboarding is available`() {
-        val viewState = stubContentViewState(onboardingState = OnboardingState.HighlightSuggestions)
+        val viewState = stubContentViewState(
+            onboardingState = OnboardingState.PrintSuggestionAndCallToAction.HighlightCallToActionButton
+        )
         assertTrue(viewState.isActionButtonsHidden)
     }
 
@@ -21,7 +23,9 @@ class StepQuizCodeBlanksViewStateTest {
 
     @Test
     fun `isSuggestionsHighlightEffectActive should be true when onboardingState is HighlightSuggestions`() {
-        val viewState = stubContentViewState(onboardingState = OnboardingState.HighlightSuggestions)
+        val viewState = stubContentViewState(
+            onboardingState = OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
+        )
         assertTrue(viewState.isSuggestionsHighlightEffectActive)
     }
 
