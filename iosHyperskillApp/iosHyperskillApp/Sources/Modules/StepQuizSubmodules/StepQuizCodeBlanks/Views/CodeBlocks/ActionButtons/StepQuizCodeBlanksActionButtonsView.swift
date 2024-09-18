@@ -5,6 +5,9 @@ struct StepQuizCodeBlanksActionButtonsView: View {
     let isSpaceButtonHidden: Bool
     let isDecreaseIndentLevelButtonHidden: Bool
 
+    let isDeleteButtonHighlightEffectActive: Bool
+    let isSpaceButtonHighlightEffectActive: Bool
+
     let onSpaceTap: () -> Void
     let onDeleteTap: () -> Void
     let onEnterTap: () -> Void
@@ -21,11 +24,17 @@ struct StepQuizCodeBlanksActionButtonsView: View {
 
             if !isSpaceButtonHidden {
                 StepQuizCodeBlanksActionButton
-                    .space(action: onSpaceTap)
+                    .space(
+                        isAnimationEffectActive: isSpaceButtonHighlightEffectActive,
+                        action: onSpaceTap
+                    )
             }
 
             StepQuizCodeBlanksActionButton
-                .delete(action: onDeleteTap)
+                .delete(
+                    isAnimationEffectActive: isDeleteButtonHighlightEffectActive,
+                    action: onDeleteTap
+                )
                 .disabled(!isDeleteButtonEnabled)
 
             StepQuizCodeBlanksActionButton
@@ -42,6 +51,8 @@ struct StepQuizCodeBlanksActionButtonsView: View {
             isDeleteButtonEnabled: false,
             isSpaceButtonHidden: false,
             isDecreaseIndentLevelButtonHidden: false,
+            isDeleteButtonHighlightEffectActive: false,
+            isSpaceButtonHighlightEffectActive: true,
             onSpaceTap: {},
             onDeleteTap: {},
             onEnterTap: {},
@@ -52,6 +63,8 @@ struct StepQuizCodeBlanksActionButtonsView: View {
             isDeleteButtonEnabled: true,
             isSpaceButtonHidden: true,
             isDecreaseIndentLevelButtonHidden: true,
+            isDeleteButtonHighlightEffectActive: true,
+            isSpaceButtonHighlightEffectActive: false,
             onSpaceTap: {},
             onDeleteTap: {},
             onEnterTap: {},

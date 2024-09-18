@@ -9,6 +9,8 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 
 class StepQuizCodeBlanksOnboardingReducer {
     companion object {
+        private const val DELETE_BUTTON_STEP_ID = 50969L
+        private const val SPACE_BUTTON_STEP_ID = 50970L
         private val PRINT_SUGGESTION_AND_CALL_TO_ACTION_STEP_IDS = setOf(47329L, 50968L)
     }
 
@@ -18,6 +20,8 @@ class StepQuizCodeBlanksOnboardingReducer {
         when (message.step.id) {
             in PRINT_SUGGESTION_AND_CALL_TO_ACTION_STEP_IDS ->
                 OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
+            DELETE_BUTTON_STEP_ID -> OnboardingState.HighlightDeleteButton
+            SPACE_BUTTON_STEP_ID -> OnboardingState.HighlightSpaceButton
             else -> OnboardingState.Unavailable
         }
 

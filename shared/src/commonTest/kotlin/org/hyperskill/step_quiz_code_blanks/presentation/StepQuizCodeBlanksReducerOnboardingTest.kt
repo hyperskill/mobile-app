@@ -28,15 +28,41 @@ class StepQuizCodeBlanksReducerOnboardingTest {
     }
 
     @Test
-    fun `Onboarding should be available`() {
+    fun `Onboarding should be available for print suggestion`() {
+        setOf(47329L, 50968L).forEach { stepId ->
+            val initialState = StepQuizCodeBlanksFeature.State.Idle
+            val (state, _) = reducer.reduce(
+                initialState,
+                StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = stepId))
+            )
+
+            assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+            assertTrue(state.onboardingState is OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions)
+        }
+    }
+
+    @Test
+    fun `Onboarding should be available for delete button`() {
         val initialState = StepQuizCodeBlanksFeature.State.Idle
         val (state, _) = reducer.reduce(
             initialState,
-            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 47329))
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 50969L))
         )
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
-        assertTrue(state.onboardingState is OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions)
+        assertTrue(state.onboardingState is OnboardingState.HighlightDeleteButton)
+    }
+
+    @Test
+    fun `Onboarding should be available for space button`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+        val (state, _) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 50970L))
+        )
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertTrue(state.onboardingState is OnboardingState.HighlightSpaceButton)
     }
 
     @Test
