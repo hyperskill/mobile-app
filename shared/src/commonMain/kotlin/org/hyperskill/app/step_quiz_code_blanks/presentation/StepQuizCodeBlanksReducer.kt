@@ -615,7 +615,8 @@ class StepQuizCodeBlanksReducer(
                         activeChild.selectedSuggestion in state.codeBlanksOperationsSuggestions ->
                             state.codeBlanksVariablesSuggestions + state.codeBlanksStringsSuggestions
 
-                        else -> emptyList()
+                        else ->
+                            state.codeBlanksOperationsSuggestions + state.codeBlanksVariablesAndStringsSuggestions
                     }
 
                     val newChild = CodeBlockChild.SelectSuggestion(
