@@ -422,7 +422,7 @@
 		2CA5F8EE2994C3D00013B854 /* DebugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8ED2994C3D00013B854 /* DebugViewModel.swift */; };
 		2CA5F8F02994C4A90013B854 /* DebugAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8EF2994C4A90013B854 /* DebugAssembly.swift */; };
 		2CA5F8F32994CB870013B854 /* DebugStepNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8F22994CB870013B854 /* DebugStepNavigationView.swift */; };
-		2CA7614B2926272500987B66 /* StepQuizFeedbackHintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7614A2926272500987B66 /* StepQuizFeedbackHintView.swift */; };
+		2CA7614B2926272500987B66 /* StepQuizSubmissionFeedbackHintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7614A2926272500987B66 /* StepQuizSubmissionFeedbackHintView.swift */; };
 		2CA7B88F2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7B88E2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift */; };
 		2CA7B892289329C600A789EF /* UIView+FindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7B891289329C600A789EF /* UIView+FindViewController.swift */; };
 		2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */; };
@@ -500,6 +500,9 @@
 		2CCA0DED2C857F51007E50A9 /* StudyPlanSectionNextPageLoadingStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCA0DEC2C857F51007E50A9 /* StudyPlanSectionNextPageLoadingStateView.swift */; };
 		2CCA0DEF2C858110007E50A9 /* StudyPlanSectionCompletedPageLoadingStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCA0DEE2C858110007E50A9 /* StudyPlanSectionCompletedPageLoadingStateView.swift */; };
 		2CCAAB7F2BEA561C001A040F /* spacebot-progress-bar-wow.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCAAB7E2BEA561C001A040F /* spacebot-progress-bar-wow.lottie */; };
+		2CCC1F682C9ADD7500530522 /* StepQuizRunCodeFeedbackHintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1F672C9ADD7500530522 /* StepQuizRunCodeFeedbackHintView.swift */; };
+		2CCC1F6A2C9ADDBD00530522 /* StepQuizFeedbackHintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1F692C9ADDBD00530522 /* StepQuizFeedbackHintView.swift */; };
+		2CCC1F6C2C9AE0B900530522 /* StepQuizFeedbackStateHintKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC1F6B2C9AE0B900530522 /* StepQuizFeedbackStateHintKsExtensions.swift */; };
 		2CCC421F2ABD810A0067C869 /* GhostButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC421E2ABD810A0067C869 /* GhostButtonStyle.swift */; };
 		2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */; };
 		2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */; };
@@ -1230,7 +1233,7 @@
 		2CA5F8ED2994C3D00013B854 /* DebugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewModel.swift; sourceTree = "<group>"; };
 		2CA5F8EF2994C4A90013B854 /* DebugAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugAssembly.swift; sourceTree = "<group>"; };
 		2CA5F8F22994CB870013B854 /* DebugStepNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugStepNavigationView.swift; sourceTree = "<group>"; };
-		2CA7614A2926272500987B66 /* StepQuizFeedbackHintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFeedbackHintView.swift; sourceTree = "<group>"; };
+		2CA7614A2926272500987B66 /* StepQuizSubmissionFeedbackHintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSubmissionFeedbackHintView.swift; sourceTree = "<group>"; };
 		2CA7B88E2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorSuggestionsPresentationContextProviding.swift; sourceTree = "<group>"; };
 		2CA7B891289329C600A789EF /* UIView+FindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindViewController.swift"; sourceTree = "<group>"; };
 		2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindowExtensions.swift; sourceTree = "<group>"; };
@@ -1308,6 +1311,9 @@
 		2CCA0DEC2C857F51007E50A9 /* StudyPlanSectionNextPageLoadingStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionNextPageLoadingStateView.swift; sourceTree = "<group>"; };
 		2CCA0DEE2C858110007E50A9 /* StudyPlanSectionCompletedPageLoadingStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionCompletedPageLoadingStateView.swift; sourceTree = "<group>"; };
 		2CCAAB7E2BEA561C001A040F /* spacebot-progress-bar-wow.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-wow.lottie"; sourceTree = "<group>"; };
+		2CCC1F672C9ADD7500530522 /* StepQuizRunCodeFeedbackHintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizRunCodeFeedbackHintView.swift; sourceTree = "<group>"; };
+		2CCC1F692C9ADDBD00530522 /* StepQuizFeedbackHintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFeedbackHintView.swift; sourceTree = "<group>"; };
+		2CCC1F6B2C9AE0B900530522 /* StepQuizFeedbackStateHintKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFeedbackStateHintKsExtensions.swift; sourceTree = "<group>"; };
 		2CCC421E2ABD810A0067C869 /* GhostButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostButtonStyle.swift; sourceTree = "<group>"; };
 		2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringView.swift; sourceTree = "<group>"; };
 		2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringDataType.swift; sourceTree = "<group>"; };
@@ -1860,6 +1866,7 @@
 				2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */,
 				2C84E70D2C47BB5B002EE787 /* StepQuizCodeBlanksViewStateKsExtensions.swift */,
 				2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */,
+				2CCC1F6B2C9AE0B900530522 /* StepQuizFeedbackStateHintKsExtensions.swift */,
 				2CF865782C5A2CA10076736C /* StepQuizFeedbackStateKsExtensions.swift */,
 				2CB9537D2AF2474100CA64BA /* StepQuizHintsFeatureStateKsExtensions.swift */,
 				E9AD65A9292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift */,
@@ -4218,10 +4225,12 @@
 		2CF865772C5A25E40076736C /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
-				2CA7614A2926272500987B66 /* StepQuizFeedbackHintView.swift */,
+				2CCC1F692C9ADDBD00530522 /* StepQuizFeedbackHintView.swift */,
 				2CF865752C5A25D60076736C /* StepQuizFeedbackStatusView.swift */,
 				2CF865732C5A1EE70076736C /* StepQuizFeedbackView.swift */,
 				2C5A57E82C5B1EF2001DA85A /* StepQuizFeedbackWrongStateView.swift */,
+				2CCC1F672C9ADD7500530522 /* StepQuizRunCodeFeedbackHintView.swift */,
+				2CA7614A2926272500987B66 /* StepQuizSubmissionFeedbackHintView.swift */,
 			);
 			path = Feedback;
 			sourceTree = "<group>";
@@ -5342,7 +5351,7 @@
 				2C45E7C52A0FEE7A00DFF32D /* StarRatingView.swift in Sources */,
 				2C9AA3F22C245C5700F5170E /* WelcomeQuestionnaireItemType+ImageResource.swift in Sources */,
 				2C4D43F62BD8C5810058EBBC /* StepTypeWrapper.swift in Sources */,
-				2CA7614B2926272500987B66 /* StepQuizFeedbackHintView.swift in Sources */,
+				2CA7614B2926272500987B66 /* StepQuizSubmissionFeedbackHintView.swift in Sources */,
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				2C2D73442B1736E000CBB1DA /* AppTabItemsAvailabilityService.swift in Sources */,
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
@@ -5382,6 +5391,7 @@
 				2C772E7D28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift in Sources */,
 				2CD67CA12C452B2400240C17 /* StepQuizCodeBlanksCodeBlockChildBlankView.swift in Sources */,
 				2C963BCC2812D9330036DD53 /* ProfileSettingsAssembly.swift in Sources */,
+				2CCC1F6A2C9ADDBD00530522 /* StepQuizFeedbackHintView.swift in Sources */,
 				E9470C6B29810AB7008ACF9A /* StepQuizOutputProtocol.swift in Sources */,
 				2C079687285CFFF500EE0487 /* StepQuizSortingAssembly.swift in Sources */,
 				2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */,
@@ -5395,6 +5405,7 @@
 				2CDF14D628EF02740060D972 /* StackRouter.swift in Sources */,
 				2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */,
 				2C2D4932281154CB00753F16 /* AppGraph.swift in Sources */,
+				2CCC1F682C9ADD7500530522 /* StepQuizRunCodeFeedbackHintView.swift in Sources */,
 				2CCC421F2ABD810A0067C869 /* GhostButtonStyle.swift in Sources */,
 				E94BB0442A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift in Sources */,
 				2CB45764288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift in Sources */,
@@ -5524,6 +5535,7 @@
 				2C4F63A12A102D3300D4EE39 /* SharedProjectLevelWrapper.swift in Sources */,
 				E97EDB002A8F595E00CABF8E /* BadgeEarnedModalViewController.swift in Sources */,
 				2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */,
+				2CCC1F6C2C9AE0B900530522 /* StepQuizFeedbackStateHintKsExtensions.swift in Sources */,
 				2CB0ADF52B04BC8E0089D557 /* ChallengeWidgetAssembly.swift in Sources */,
 				2C05AC572A0EC9E50039C7EF /* ProjectSelectionListHeaderSkeletonView.swift in Sources */,
 				2CC63AEC2B70B25200407810 /* ProfileSettingsSubscriptionSectionView.swift in Sources */,

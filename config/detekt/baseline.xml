@@ -259,12 +259,14 @@
     <ID>ReturnCount:TopicsRepetitionsActionDispatcher.kt$TopicsRepetitionsActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( fragmentStepQuizBinding.stepQuizFeedbackBlocks.root, descriptionBinding?.stepQuizDescription, fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton, *quizViews ).toTypedArray() )</ID>
     <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( skeletonView, descriptionBinding?.stepQuizDescriptionSkeleton ).toTypedArray() )</ID>
+    <ID>SwallowedException:Block.kt$e: Exception</ID>
     <ID>SwallowedException:NotificationExtensions.kt$e: ActivityNotFoundException</ID>
     <ID>SwallowedException:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$e: ActivityNotFoundException</ID>
     <ID>SwallowedException:PushNotificationData.kt$PushNotificationData$e: Exception</ID>
     <ID>SwallowedException:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$exception: Exception</ID>
     <ID>ThrowsCount:FillBlanksResolver.kt$FillBlanksResolver$@Throws(InvalidFillBlanksConfigException::class) fun resolve(dataset: Dataset): FillBlanksMode</ID>
     <ID>TooGenericExceptionCaught:BaseStateRepository.kt$BaseStateRepository$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:Block.kt$e: Exception</ID>
     <ID>TooGenericExceptionCaught:LatexWebView.kt$LatexWebView$e: Exception</ID>
     <ID>TooGenericExceptionCaught:PushNotificationData.kt$PushNotificationData$e: Exception</ID>
     <ID>TooGenericExceptionCaught:PushNotificationsInteractor.kt$PushNotificationsInteractor$e: Exception</ID>

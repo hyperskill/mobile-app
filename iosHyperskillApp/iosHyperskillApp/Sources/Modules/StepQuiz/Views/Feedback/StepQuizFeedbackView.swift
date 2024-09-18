@@ -14,13 +14,8 @@ struct StepQuizFeedbackView: View {
             StepQuizFeedbackStatusView(state: .correct)
 
             if let hint = correctState.hint {
-                let hintKs = StepQuizFeedbackStateHintKs(hint)
-                switch hintKs {
-                case .fromRunCodeExecution:
-                    #warning("TODO: ALTAPPS-1358")
-                case .fromSubmission(let fromSubmission):
-                    StepQuizFeedbackHintView(text: fromSubmission.text)
-                }
+                StepQuizFeedbackHintView(hint: hint)
+                    .equatable()
             }
         case .wrong(let wrongState):
             StepQuizFeedbackWrongStateView(
@@ -28,14 +23,9 @@ struct StepQuizFeedbackView: View {
                 onAction: onAction
             )
 
-            if let feedbackHint = wrongState.hint {
-                let hintKs = StepQuizFeedbackStateHintKs(feedbackHint)
-                switch hintKs {
-                case .fromRunCodeExecution:
-                    #warning("TODO: ALTAPPS-1358")
-                case .fromSubmission(let fromSubmission):
-                    StepQuizFeedbackHintView(text: fromSubmission.text)
-                }
+            if let hint = wrongState.hint {
+                StepQuizFeedbackHintView(hint: hint)
+                    .equatable()
             }
         case .rejectedSubmission(let rejectedSubmissionState):
             StepQuizFeedbackStatusView(
@@ -43,8 +33,13 @@ struct StepQuizFeedbackView: View {
                     message: rejectedSubmissionState.message
                 )
             )
-        case .evaluation:
+        case .evaluation(let stepQuizFeedbackStateEvaluation):
             StepQuizFeedbackStatusView(state: .evaluation)
+
+            if let hint = stepQuizFeedbackStateEvaluation.hint {
+                StepQuizFeedbackHintView(hint: hint)
+                    .equatable()
+            }
         case .validationFailed(let validationFailedState):
             StepQuizFeedbackStatusView(
                 state: .invalidReply(
