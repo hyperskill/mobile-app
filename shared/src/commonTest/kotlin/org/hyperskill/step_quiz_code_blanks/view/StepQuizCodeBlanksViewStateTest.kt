@@ -8,32 +8,87 @@ import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksVie
 
 class StepQuizCodeBlanksViewStateTest {
     @Test
-    fun `isActionButtonsHidden should be true when onboarding is available`() {
-        val viewState = stubContentViewState(onboardingState = OnboardingState.HighlightSuggestions)
-        assertTrue(viewState.isActionButtonsHidden)
+    fun `isActionButtonsHidden should be true when onboarding PrintSuggestionAndCallToAction`() {
+        listOf(
+            OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions,
+            OnboardingState.PrintSuggestionAndCallToAction.HighlightCallToActionButton
+        ).forEach { onboardingState ->
+            val viewState = stubContentViewState(onboardingState = onboardingState)
+            assertTrue(viewState.isActionButtonsHidden)
+        }
     }
 
     @Test
-    fun `isActionButtonsHidden should be false when onboarding is unavailable`() {
-        val viewState = stubContentViewState(onboardingState = OnboardingState.Unavailable)
-        assertFalse(viewState.isActionButtonsHidden)
+    fun `isActionButtonsHidden should be false when onboarding is not PrintSuggestionAndCallToAction`() {
+        listOf(
+            OnboardingState.HighlightDeleteButton,
+            OnboardingState.HighlightSpaceButton,
+            OnboardingState.Unavailable
+        ).forEach { onboardingState ->
+            val viewState = stubContentViewState(onboardingState = onboardingState)
+            assertFalse(viewState.isActionButtonsHidden)
+        }
+    }
+
+    /* ktlint-disable */
+    @Test
+    fun `isDeleteButtonHighlightEffectActive should be true when onboardingState is HighlightDeleteButton and isDeleteButtonEnabled`() {
+        val viewState = stubContentViewState(
+            isDeleteButtonEnabled = true,
+            onboardingState = OnboardingState.HighlightDeleteButton
+        )
+        assertTrue(viewState.isDeleteButtonHighlightEffectActive)
+    }
+
+    /* ktlint-disable */
+    @Test
+    fun `isDeleteButtonHighlightEffectActive should be false when onboardingState is HighlightDeleteButton and isDeleteButtonEnabled is false`() {
+        val viewState = stubContentViewState(
+            isDeleteButtonEnabled = false,
+            onboardingState = OnboardingState.HighlightDeleteButton
+        )
+        assertFalse(viewState.isDeleteButtonHighlightEffectActive)
+    }
+
+    /* ktlint-disable */
+    @Test
+    fun `isSpaceButtonHighlightEffectActive should be true when onboardingState is HighlightSpaceButton and isSpaceButtonHidden is false`() {
+        val viewState = stubContentViewState(
+            onboardingState = OnboardingState.HighlightSpaceButton
+        )
+        assertTrue(viewState.isSpaceButtonHighlightEffectActive)
+    }
+
+    /* ktlint-disable */
+    @Test
+    fun `isSpaceButtonHighlightEffectActive should be false when onboardingState is HighlightSpaceButton and isSpaceButtonHidden is true`() {
+        val viewState = stubContentViewState(
+            isSpaceButtonHidden = true,
+            onboardingState = OnboardingState.HighlightSpaceButton
+        )
+        assertFalse(viewState.isSpaceButtonHighlightEffectActive)
     }
 
     @Test
     fun `isSuggestionsHighlightEffectActive should be true when onboardingState is HighlightSuggestions`() {
-        val viewState = stubContentViewState(onboardingState = OnboardingState.HighlightSuggestions)
+        val viewState = stubContentViewState(
+            onboardingState = OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
+        )
         assertTrue(viewState.isSuggestionsHighlightEffectActive)
     }
 
     private fun stubContentViewState(
+        isDeleteButtonEnabled: Boolean = false,
+        isSpaceButtonHidden: Boolean = false,
+        isDecreaseIndentLevelButtonHidden: Boolean = false,
         onboardingState: OnboardingState
     ): StepQuizCodeBlanksViewState.Content =
         StepQuizCodeBlanksViewState.Content(
             codeBlocks = emptyList(),
             suggestions = emptyList(),
-            isDeleteButtonEnabled = false,
-            isSpaceButtonHidden = false,
-            isDecreaseIndentLevelButtonHidden = false,
+            isDeleteButtonEnabled = isDeleteButtonEnabled,
+            isSpaceButtonHidden = isSpaceButtonHidden,
+            isDecreaseIndentLevelButtonHidden = isDecreaseIndentLevelButtonHidden,
             onboardingState = onboardingState
         )
 }

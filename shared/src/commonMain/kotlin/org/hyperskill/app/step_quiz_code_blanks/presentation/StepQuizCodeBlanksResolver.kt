@@ -6,12 +6,7 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import ru.nobird.app.core.model.slice
 
 internal object StepQuizCodeBlanksResolver {
-    private const val ONBOARDING_STEP_ID = 47329L
-
     private const val MINIMUM_POSSIBLE_INDEX_FOR_ELIF_AND_ELSE_STATEMENTS = 2
-
-    fun isOnboardingAvailable(step: Step): Boolean =
-        step.id == ONBOARDING_STEP_ID
 
     fun isVariableSuggestionsAvailable(step: Step): Boolean =
         step.block.options.codeBlanksVariables?.isNotEmpty() == true

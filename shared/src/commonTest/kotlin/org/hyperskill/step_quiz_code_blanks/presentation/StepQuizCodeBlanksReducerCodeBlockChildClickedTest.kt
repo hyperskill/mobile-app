@@ -3,7 +3,6 @@ package org.hyperskill.step_quiz_code_blanks.presentation
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedCodeBlockChildHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
@@ -12,7 +11,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksR
 import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksViewState
 
 class StepQuizCodeBlanksReducerCodeBlockChildClickedTest {
-    private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
+    private val reducer = StepQuizCodeBlanksReducer.stub()
 
     @Test
     fun `CodeBlockChildClicked should not update state if state is not Content`() {
