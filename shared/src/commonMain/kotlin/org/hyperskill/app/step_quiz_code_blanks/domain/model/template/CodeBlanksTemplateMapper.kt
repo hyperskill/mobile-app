@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz_code_blanks.domain.model.template
 
 import kotlin.math.max
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.decodeCodeBlanksTemplateString
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
@@ -14,24 +15,27 @@ internal object CodeBlanksTemplateMapper {
     private const val MATH_EXPRESSIONS_TEMPLATE_STEP_ID = 47580L // ALTAPPS-1324
 
     fun map(step: Step): List<CodeBlock> =
-        when {
-            step.id == MATH_EXPRESSIONS_TEMPLATE_STEP_ID -> createMathExpressionsCodeBlocks(step)
-            isCodeBlanksTemplateAvailable(step) -> parseCodeBlanksTemplate(step)
-            else -> emptyList()
+        if (step.id == MATH_EXPRESSIONS_TEMPLATE_STEP_ID) {
+            createMathExpressionsCodeBlocks(step)
+        } else {
+            step.block.options.decodeCodeBlanksTemplateString()
+                .takeIf(::isCodeBlanksTemplateAvailable)
+                ?.let { mapCodeBlanksTemplate(it, step) }
+                ?: emptyList()
         }
 
-    private fun isCodeBlanksTemplateAvailable(step: Step): Boolean {
-        val codeBlockTemplateEntries = step.block.options.codeBlanksTemplate ?: return false
-        return codeBlockTemplateEntries.none { it.type == CodeBlockTemplateEntryType.UNKNOWN }
-    }
+    private fun isCodeBlanksTemplateAvailable(codeBlanksTemplate: List<CodeBlockTemplateEntry>): Boolean =
+        codeBlanksTemplate.none { it.type == CodeBlockTemplateEntryType.UNKNOWN }
 
-    private fun parseCodeBlanksTemplate(step: Step): List<CodeBlock> {
-        val codeBlockTemplateEntries = step.block.options.codeBlanksTemplate
-            ?.filter { it.type != CodeBlockTemplateEntryType.UNKNOWN }
-        return if (codeBlockTemplateEntries.isNullOrEmpty()) {
+    private fun mapCodeBlanksTemplate(
+        codeBlanksTemplate: List<CodeBlockTemplateEntry>,
+        step: Step
+    ): List<CodeBlock> {
+        val supportedEntries = codeBlanksTemplate.filter { it.type != CodeBlockTemplateEntryType.UNKNOWN }
+        return if (supportedEntries.isEmpty()) {
             emptyList()
         } else {
-            codeBlockTemplateEntries.map { mapCodeBlockTemplateEntry(entry = it, step = step) }
+            supportedEntries.map { mapCodeBlockTemplateEntry(entry = it, step = step) }
         }
     }
 
