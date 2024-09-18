@@ -8,7 +8,6 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.badges.injection.BadgesDataComponent
 import org.hyperskill.app.challenges.injection.ChallengesDataComponent
 import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
-import org.hyperskill.app.code.injection.CodeDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.screen.domain.model.CommentsScreenFeatureParams
 import org.hyperskill.app.comments.screen.injection.CommentsScreenComponent
@@ -57,6 +56,7 @@ import org.hyperskill.app.purchases.injection.PurchaseComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
 import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
+import org.hyperskill.app.run_code.injection.RunCodeDataComponent
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -144,6 +144,7 @@ interface AppGraph {
     fun buildStepFeedbackComponent(stepRoute: StepRoute): StepFeedbackComponent
 
     fun buildSubmissionsDataComponent(): SubmissionsDataComponent
+    fun buildRunCodeDataComponent(): RunCodeDataComponent
 
     fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent
 
@@ -204,6 +205,7 @@ interface AppGraph {
     fun buildWelcomeOnboardingTrackDetailsComponent(
         track: WelcomeOnboardingTrack
     ): WelcomeOnboardingTrackDetailsComponent
+
     fun buildWelcomeOnboardingFinishComponent(): WelcomeOnboardingFinishComponent
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
@@ -213,11 +215,12 @@ interface AppGraph {
     fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent
+
     fun buildTopicCompletedModalComponent(
         params: TopicCompletedModalFeatureParams
     ): TopicCompletedModalComponent
+
     fun buildCommentsScreenComponent(
         params: CommentsScreenFeatureParams
     ): CommentsScreenComponent
-    fun buildCodeDataComponent(): CodeDataComponent
 }

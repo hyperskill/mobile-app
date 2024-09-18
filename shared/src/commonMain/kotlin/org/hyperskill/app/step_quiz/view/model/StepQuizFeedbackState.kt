@@ -21,7 +21,7 @@ sealed interface StepQuizFeedbackState {
 
     data class RejectedSubmission(val message: String) : StepQuizFeedbackState
 
-    data class Evaluation(val hint: Hint.FromCodeExecution?) : StepQuizFeedbackState
+    data class Evaluation(val hint: Hint.FromRunCodeExecution?) : StepQuizFeedbackState
 
     data class ValidationFailed(val message: String) : StepQuizFeedbackState
 
@@ -33,12 +33,12 @@ sealed interface StepQuizFeedbackState {
             val useLatex: Boolean
         ) : Hint
 
-        sealed interface FromCodeExecution : Hint {
-            data object Loading : FromCodeExecution
+        sealed interface FromRunCodeExecution : Hint {
+            data object Loading : FromRunCodeExecution
             data class Result(
                 val input: String?,
                 val output: String
-            ) : FromCodeExecution
+            ) : FromRunCodeExecution
         }
     }
 }

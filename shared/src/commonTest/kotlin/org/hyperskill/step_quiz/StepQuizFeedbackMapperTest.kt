@@ -4,10 +4,10 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import org.hyperskill.ResourceProviderStub
-import org.hyperskill.app.code.domain.model.CodeExecutionResult
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.comments.domain.model.CommentThread
+import org.hyperskill.app.run_code.domain.model.RunCodeExecutionResult
 import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -132,7 +132,7 @@ class StepQuizFeedbackMapperTest {
                 status = SubmissionStatus.CORRECT,
                 hint = null
             ),
-            codeExecutionResult = CodeExecutionResult(
+            runCodeExecutionResult = RunCodeExecutionResult(
                 language = "kotlin",
                 stdin = stdin,
                 stdout = stdout,
@@ -142,7 +142,7 @@ class StepQuizFeedbackMapperTest {
 
         val viewState = mapper.map(state)
 
-        val expectedHint = StepQuizFeedbackState.Hint.FromCodeExecution.Result(
+        val expectedHint = StepQuizFeedbackState.Hint.FromRunCodeExecution.Result(
             input = stdin,
             output = stdout
         )
@@ -323,7 +323,7 @@ class StepQuizFeedbackMapperTest {
         wrongSubmissionCount: Int = 0,
         step: Step = Step.stub(id = 0),
         stepQuizHintsState: StepQuizHintsFeature.State = StepQuizHintsFeature.State.Idle,
-        codeExecutionResult: CodeExecutionResult? = null
+        runCodeExecutionResult: RunCodeExecutionResult? = null
     ): StepQuizFeature.State =
         StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
@@ -336,7 +336,7 @@ class StepQuizFeedbackMapperTest {
                 isProblemsLimitReached = false,
                 isTheoryAvailable = false,
                 wrongSubmissionsCount = wrongSubmissionCount,
-                codeExecutionResult = codeExecutionResult
+                runCodeExecutionResult = runCodeExecutionResult
             ),
             stepQuizHintsState = stepQuizHintsState,
             stepQuizToolbarState = StepQuizToolbarFeature.State.Idle,

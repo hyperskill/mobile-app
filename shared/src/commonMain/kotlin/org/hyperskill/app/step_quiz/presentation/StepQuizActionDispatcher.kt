@@ -7,9 +7,6 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.code.domain.model.CodeExecutionResult
-import org.hyperskill.app.code.domain.repository.CodeRepository
-import org.hyperskill.app.code.remote.model.RunCodeRequest
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.features.data.source.FeaturesDataSource
@@ -18,6 +15,9 @@ import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.run_code.domain.model.RunCodeExecutionResult
+import org.hyperskill.app.run_code.domain.repository.RunCodeRepository
+import org.hyperskill.app.run_code.remote.model.RunCodeRequest
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -52,7 +52,7 @@ internal class StepQuizActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
-    private val codeRepository: CodeRepository,
+    private val runCodeRepository: RunCodeRepository,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -230,7 +230,7 @@ internal class StepQuizActionDispatcher(
                     )
                 }
 
-                val codeExecutionDeferred = async {
+                val runCodeExecutionDeferred = async {
                     runCode(step = action.step, reply = reply)
                 }
 
@@ -239,7 +239,7 @@ internal class StepQuizActionDispatcher(
                 Message.CreateSubmissionSuccess(
                     submission = createSubmissionResult.newSubmission,
                     newAttempt = createSubmissionResult.newAttempt,
-                    codeExecutionResult = codeExecutionDeferred.await().getOrNull()
+                    runCodeExecutionResult = runCodeExecutionDeferred.await().getOrNull()
                 )
             }
         }.let(::onNewMessage)
@@ -293,9 +293,9 @@ internal class StepQuizActionDispatcher(
     private suspend fun runCode(
         step: Step,
         reply: Reply
-    ): Result<CodeExecutionResult?> =
+    ): Result<RunCodeExecutionResult?> =
         if (step.block.name == BlockName.CODE && reply.code != null) {
-            codeRepository.runCode(
+            runCodeRepository.runCode(
                 RunCodeRequest(
                     stdin = step.block.options.samples?.firstOrNull()?.input ?: "Empty stdin",
                     language = reply.language ?: "",
