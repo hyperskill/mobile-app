@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
@@ -14,7 +13,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksR
 import org.hyperskill.step.domain.model.stub
 
 class StepQuizCodeBlanksReducerOnboardingTest {
-    private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
+    private val reducer = StepQuizCodeBlanksReducer.stub()
 
     @Test
     fun `Onboarding should be unavailable`() {
@@ -29,15 +28,41 @@ class StepQuizCodeBlanksReducerOnboardingTest {
     }
 
     @Test
-    fun `Onboarding should be available`() {
+    fun `Onboarding should be available for print suggestion`() {
+        setOf(47329L, 50968L).forEach { stepId ->
+            val initialState = StepQuizCodeBlanksFeature.State.Idle
+            val (state, _) = reducer.reduce(
+                initialState,
+                StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = stepId))
+            )
+
+            assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+            assertTrue(state.onboardingState is OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions)
+        }
+    }
+
+    @Test
+    fun `Onboarding should be available for delete button`() {
         val initialState = StepQuizCodeBlanksFeature.State.Idle
         val (state, _) = reducer.reduce(
             initialState,
-            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 47329))
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 50969L))
         )
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
-        assertTrue(state.onboardingState is OnboardingState.HighlightSuggestions)
+        assertTrue(state.onboardingState is OnboardingState.HighlightDeleteButton)
+    }
+
+    @Test
+    fun `Onboarding should be available for space button`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+        val (state, _) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 50970L))
+        )
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertTrue(state.onboardingState is OnboardingState.HighlightSpaceButton)
     }
 
     @Test
@@ -55,13 +80,13 @@ class StepQuizCodeBlanksReducerOnboardingTest {
                     )
                 )
             ),
-            onboardingState = OnboardingState.HighlightSuggestions
+            onboardingState = OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
         )
 
         val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(suggestion)
         val (state, _) = reducer.reduce(initialState, message)
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
-        assertEquals(OnboardingState.HighlightCallToActionButton, state.onboardingState)
+        assertEquals(OnboardingState.PrintSuggestionAndCallToAction.HighlightCallToActionButton, state.onboardingState)
     }
 }

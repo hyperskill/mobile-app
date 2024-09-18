@@ -5,7 +5,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
@@ -13,7 +12,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksR
 import org.hyperskill.step.domain.model.stub
 
 class StepQuizCodeBlanksReducerInitializeTest {
-    private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
+    private val reducer = StepQuizCodeBlanksReducer.stub()
 
     @Test
     fun `Initialize should return Content state with active Blank and Print and Variable and If suggestions`() {

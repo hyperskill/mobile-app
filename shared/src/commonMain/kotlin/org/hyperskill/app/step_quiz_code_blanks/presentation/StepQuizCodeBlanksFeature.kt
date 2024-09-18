@@ -39,8 +39,14 @@ object StepQuizCodeBlanksFeature {
 
     sealed interface OnboardingState {
         data object Unavailable : OnboardingState
-        data object HighlightSuggestions : OnboardingState
-        data object HighlightCallToActionButton : OnboardingState
+
+        data object HighlightDeleteButton : OnboardingState
+        data object HighlightSpaceButton : OnboardingState
+
+        sealed interface PrintSuggestionAndCallToAction : OnboardingState {
+            data object HighlightSuggestions : PrintSuggestionAndCallToAction
+            data object HighlightCallToActionButton : PrintSuggestionAndCallToAction
+        }
     }
 
     sealed interface Message {
