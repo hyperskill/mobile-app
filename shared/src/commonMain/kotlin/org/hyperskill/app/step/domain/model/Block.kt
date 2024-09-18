@@ -2,7 +2,9 @@ package org.hyperskill.app.step.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import org.hyperskill.app.code.domain.model.ProgrammingLanguage
+import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.template.CodeBlockTemplateEntry
 
 @Serializable
@@ -39,7 +41,7 @@ data class Block(
         @SerialName("code_blanks_enabled")
         val codeBlanksEnabled: Boolean? = null,
         @SerialName("code_blanks_template")
-        val codeBlanksTemplate: List<CodeBlockTemplateEntry>? = null
+        val codeBlanksTemplateString: String? = null
     ) {
         val samples: List<Sample>?
             get() = internalSamples?.mapNotNull {
@@ -68,3 +70,16 @@ data class Block(
 
 val Block.Options.programmingLanguage: ProgrammingLanguage?
     get() = language?.let(ProgrammingLanguage::of)
+
+internal fun Block.Options.decodeCodeBlanksTemplateString(
+    json: Json = NetworkModule.provideJson()
+): List<CodeBlockTemplateEntry> {
+    if (codeBlanksTemplateString.isNullOrBlank()) {
+        return emptyList()
+    }
+    return try {
+        json.decodeFromString<List<CodeBlockTemplateEntry>>(codeBlanksTemplateString)
+    } catch (e: Exception) {
+        emptyList()
+    }
+}
