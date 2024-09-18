@@ -35,10 +35,10 @@ struct StepQuizCodeBlanksActionButton: View {
                     )
                     .foregroundColor(Color(ColorPalette.onPrimary))
                     .cornerRadius(appearance.cornerRadius)
-                    .shineEffect(isActive: isAnimationEffectActive)
+                    .shineEffect(isActive: isEnabled && isAnimationEffectActive)
                     .pulseEffect(
                         shape: RoundedRectangle(cornerRadius: appearance.cornerRadius),
-                        isActive: isAnimationEffectActive
+                        isActive: isEnabled && isAnimationEffectActive
                     )
             }
         )
