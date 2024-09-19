@@ -203,7 +203,7 @@ class StepQuizCodeBlanksReducerSpaceButtonClickedTest {
                         ),
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksOperationsSuggestions,
+                            suggestions = initialState.operationsSuggestions,
                             selectedSuggestion = null
                         )
                     )
