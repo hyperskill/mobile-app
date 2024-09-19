@@ -288,6 +288,7 @@
 		2C7994AD2A12940D00874C16 /* TrackSelectionListGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994AC2A12940D00874C16 /* TrackSelectionListGridView.swift */; };
 		2C7994AF2A1299B800874C16 /* TrackSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994AE2A1299B800874C16 /* TrackSelectionListView.swift */; };
 		2C7994B12A129D6100874C16 /* TrackSelectionListSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994B02A129D6100874C16 /* TrackSelectionListSkeletonView.swift */; };
+		2C79C9CD2C9BDFDD00FF6D21 /* LinearIndeterminateProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C79C9CC2C9BDFDD00FF6D21 /* LinearIndeterminateProgressView.swift */; };
 		2C7A1B1F2922EB070018D72C /* Hyperskill-Mobile_shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7A1B1E2922EB070018D72C /* Hyperskill-Mobile_shared.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2C7C0D632B6B45A20093609D /* PaywallFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C0D622B6B45A20093609D /* PaywallFeaturesView.swift */; };
 		2C7CB66B2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */; };
@@ -1098,6 +1099,7 @@
 		2C7994AC2A12940D00874C16 /* TrackSelectionListGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListGridView.swift; sourceTree = "<group>"; };
 		2C7994AE2A1299B800874C16 /* TrackSelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListView.swift; sourceTree = "<group>"; };
 		2C7994B02A129D6100874C16 /* TrackSelectionListSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListSkeletonView.swift; sourceTree = "<group>"; };
+		2C79C9CC2C9BDFDD00FF6D21 /* LinearIndeterminateProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearIndeterminateProgressView.swift; sourceTree = "<group>"; };
 		2C7A1B1E2922EB070018D72C /* Hyperskill-Mobile_shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Hyperskill-Mobile_shared.swift"; sourceTree = "<group>"; };
 		2C7C0D622B6B45A20093609D /* PaywallFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallFeaturesView.swift; sourceTree = "<group>"; };
 		2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksAssembly.swift; sourceTree = "<group>"; };
@@ -2875,6 +2877,16 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		2C79C9CB2C9BDFD200FF6D21 /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				2C95BAD82A4AED4300371C17 /* BackgroundProgressView.swift */,
+				E9D537D12A71330A00F21828 /* LinearGradientProgressView.swift */,
+				2C79C9CC2C9BDFDD00FF6D21 /* LinearIndeterminateProgressView.swift */,
+			);
+			path = ProgressView;
+			sourceTree = "<group>";
+		};
 		2C7A1B1D2922EADC0018D72C /* sharedSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -3609,13 +3621,11 @@
 		2CBD191B291D3A2500F5FB0B /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				2C95BAD82A4AED4300371C17 /* BackgroundProgressView.swift */,
 				2C725B622809198000A49043 /* BackgroundView.swift */,
 				2C54E4272A1F717F003406B9 /* CardView.swift */,
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
 				2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */,
 				2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */,
-				E9D537D12A71330A00F21828 /* LinearGradientProgressView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				2C1B71042B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
@@ -3632,6 +3642,7 @@
 				2CF87DA029B717E20092FF83 /* Introspect */,
 				2C677CF92C4A2CA50019AF03 /* Layouts */,
 				2C82BA302844AFED004C9013 /* PlaceholderView */,
+				2C79C9CB2C9BDFD200FF6D21 /* ProgressView */,
 				2C60F1B428880AA600B66C78 /* Skeletons */,
 				2CA8E08E281039EB00154088 /* Styles */,
 				2C9C89392C2A713800C41890 /* TextEffects */,
@@ -5094,6 +5105,7 @@
 				E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */,
 				2C8E66D52878771B00D3928D /* ProfilePresentationDescription.swift in Sources */,
 				2C5F19152AE667C90039414D /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				2C79C9CD2C9BDFDD00FF6D21 /* LinearIndeterminateProgressView.swift in Sources */,
 				E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */,
 				E9F59B90289FE053001CEA02 /* ProfileSettingsViewModel.swift in Sources */,
 				2C8DD40C2AFB7E6A00FD5359 /* ShareStreakModalView.swift in Sources */,

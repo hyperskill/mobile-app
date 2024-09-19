@@ -5,7 +5,7 @@ struct StepQuizSubmissionFeedbackHintView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-            Text(Strings.StepQuiz.feedbackTitle)
+            Text(Strings.StepQuiz.submissionFeedbackHintTitle)
                 .font(.caption)
                 .foregroundColor(.tertiaryText)
                 .frame(maxWidth: .infinity, alignment: .leading)
