@@ -79,7 +79,7 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksStringsSuggestions,
+                            suggestions = initialState.stringsSuggestions,
                             selectedSuggestion = null
                         )
                     )
@@ -111,12 +111,12 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksVariablesSuggestions,
+                            suggestions = initialState.variablesSuggestions,
                             selectedSuggestion = null
                         ),
                         CodeBlockChild.SelectSuggestion(
                             isActive = false,
-                            suggestions = initialState.codeBlanksStringsSuggestions,
+                            suggestions = initialState.stringsSuggestions,
                             selectedSuggestion = null
                         )
                     )
@@ -148,7 +148,7 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksVariablesAndStringsSuggestions,
+                            suggestions = initialState.variablesAndStringsSuggestions,
                             selectedSuggestion = null
                         )
                     )
@@ -180,7 +180,7 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksVariablesAndStringsSuggestions,
+                            suggestions = initialState.variablesAndStringsSuggestions,
                             selectedSuggestion = null
                         )
                     )

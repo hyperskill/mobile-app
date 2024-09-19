@@ -7,20 +7,23 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.State
 
+private typealias StepQuizCodeBlanksOnboardingReducerResult = Pair<OnboardingState, Set<Action>>
+
 class StepQuizCodeBlanksOnboardingReducer {
     companion object {
-        private const val DELETE_BUTTON_STEP_ID = 50969L
-        private const val SPACE_BUTTON_STEP_ID = 50970L
-        private val PRINT_SUGGESTION_AND_CALL_TO_ACTION_STEP_IDS = setOf(47329L, 50968L)
+        internal val FIRST_PROGRAM_STEP_IDS = setOf(47329L, 50984L)
+        internal const val DELETE_BUTTON_STEP_ID = 50986L
+        internal const val ENTER_BUTTON_STEP_ID = 50985L
+        internal const val SPACE_BUTTON_STEP_ID = 50997L
     }
 
     internal fun reduceInitializeMessage(
         message: InternalMessage.Initialize
     ): OnboardingState =
         when (message.step.id) {
-            in PRINT_SUGGESTION_AND_CALL_TO_ACTION_STEP_IDS ->
-                OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
+            in FIRST_PROGRAM_STEP_IDS -> OnboardingState.FirstProgram.HighlightSuggestions
             DELETE_BUTTON_STEP_ID -> OnboardingState.HighlightDeleteButton
+            ENTER_BUTTON_STEP_ID -> OnboardingState.HighlightEnterButton
             SPACE_BUTTON_STEP_ID -> OnboardingState.HighlightSpaceButton
             else -> OnboardingState.Unavailable
         }
@@ -29,13 +32,13 @@ class StepQuizCodeBlanksOnboardingReducer {
         state: State.Content,
         activeCodeBlock: CodeBlock?,
         newCodeBlock: CodeBlock
-    ): Pair<OnboardingState, Set<Action>> {
-        val isFulfilledOnboardingPrintCodeBlock =
-            state.onboardingState is OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions &&
+    ): StepQuizCodeBlanksOnboardingReducerResult {
+        val isFulfilledFirstProgramOnboarding =
+            state.onboardingState is OnboardingState.FirstProgram.HighlightSuggestions &&
                 activeCodeBlock is CodeBlock.Print && activeCodeBlock.hasAnyUnselectedChild() &&
                 newCodeBlock is CodeBlock.Print && newCodeBlock.areAllChildrenSelected()
-        return if (isFulfilledOnboardingPrintCodeBlock) {
-            OnboardingState.PrintSuggestionAndCallToAction.HighlightCallToActionButton to
+        return if (isFulfilledFirstProgramOnboarding) {
+            OnboardingState.FirstProgram.HighlightCallToActionButton to
                 setOf(
                     InternalAction.ParentFeatureActionRequested(
                         StepQuizCodeBlanksFeature.ParentFeatureAction.HighlightCallToActionButton
@@ -45,4 +48,31 @@ class StepQuizCodeBlanksOnboardingReducer {
             state.onboardingState to emptySet()
         }
     }
+
+    internal fun reduceDeleteButtonClickedMessage(
+        state: State.Content
+    ): StepQuizCodeBlanksOnboardingReducerResult =
+        if (state.onboardingState is OnboardingState.HighlightDeleteButton) {
+            OnboardingState.Unavailable to emptySet()
+        } else {
+            state.onboardingState to emptySet()
+        }
+
+    internal fun reduceEnterButtonClickedMessage(
+        state: State.Content
+    ): StepQuizCodeBlanksOnboardingReducerResult =
+        if (state.onboardingState is OnboardingState.HighlightEnterButton) {
+            OnboardingState.Unavailable to emptySet()
+        } else {
+            state.onboardingState to emptySet()
+        }
+
+    internal fun reduceSpaceButtonClickedMessage(
+        state: State.Content
+    ): StepQuizCodeBlanksOnboardingReducerResult =
+        if (state.onboardingState is OnboardingState.HighlightSpaceButton) {
+            OnboardingState.Unavailable to emptySet()
+        } else {
+            state.onboardingState to emptySet()
+        }
 }

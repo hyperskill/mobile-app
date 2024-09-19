@@ -87,7 +87,7 @@ class StepQuizCodeBlanksReducer(
                             children = listOf(
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = true,
-                                    suggestions = state.codeBlanksVariablesAndStringsSuggestions,
+                                    suggestions = state.variablesAndStringsSuggestions,
                                     selectedSuggestion = null
                                 )
                             )
@@ -98,12 +98,12 @@ class StepQuizCodeBlanksReducer(
                             children = listOf(
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = true,
-                                    suggestions = state.codeBlanksVariablesSuggestions,
+                                    suggestions = state.variablesSuggestions,
                                     selectedSuggestion = null
                                 ),
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = false,
-                                    suggestions = state.codeBlanksStringsSuggestions,
+                                    suggestions = state.stringsSuggestions,
                                     selectedSuggestion = null
                                 )
                             )
@@ -114,7 +114,7 @@ class StepQuizCodeBlanksReducer(
                             children = listOf(
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = true,
-                                    suggestions = state.codeBlanksVariablesAndStringsSuggestions,
+                                    suggestions = state.variablesAndStringsSuggestions,
                                     selectedSuggestion = null
                                 )
                             )
@@ -125,7 +125,7 @@ class StepQuizCodeBlanksReducer(
                             children = listOf(
                                 CodeBlockChild.SelectSuggestion(
                                     isActive = true,
-                                    suggestions = state.codeBlanksVariablesAndStringsSuggestions,
+                                    suggestions = state.variablesAndStringsSuggestions,
                                     selectedSuggestion = null
                                 )
                             )
@@ -511,7 +511,13 @@ class StepQuizCodeBlanksReducer(
             }
         }
 
-        return state.copy(codeBlocks = newCodeBlocks) to actions
+        val (onboardingState, onboardingActions) =
+            stepQuizCodeBlanksOnboardingReducer.reduceDeleteButtonClickedMessage(state)
+
+        return state.copy(
+            codeBlocks = newCodeBlocks,
+            onboardingState = onboardingState
+        ) to actions + onboardingActions
     }
 
     private fun handleEnterButtonClicked(
@@ -564,7 +570,13 @@ class StepQuizCodeBlanksReducer(
                 )
             }
 
-            state.copy(codeBlocks = newCodeBlocks) to actions
+            val (onboardingState, onboardingActions) =
+                stepQuizCodeBlanksOnboardingReducer.reduceEnterButtonClickedMessage(state)
+
+            state.copy(
+                codeBlocks = newCodeBlocks,
+                onboardingState = onboardingState
+            ) to actions + onboardingActions
         } else {
             state to actions
         }
@@ -603,20 +615,19 @@ class StepQuizCodeBlanksReducer(
 
                     val newChildSuggestions = when {
                         activeChild.selectedSuggestion?.isOpeningParentheses == true ->
-                            state.codeBlanksVariablesSuggestions + state.codeBlanksStringsSuggestions
+                            state.variablesSuggestions + state.stringsSuggestions
 
                         activeChild.selectedSuggestion?.isClosingParentheses == true ->
-                            state.codeBlanksOperationsSuggestions
+                            state.operationsSuggestions
 
-                        activeChild.selectedSuggestion in state.codeBlanksStringsSuggestions ||
-                            activeChild.selectedSuggestion in state.codeBlanksVariablesSuggestions ->
-                            state.codeBlanksOperationsSuggestions
+                        activeChild.selectedSuggestion in state.stringsSuggestions ||
+                            activeChild.selectedSuggestion in state.variablesSuggestions ->
+                            state.operationsSuggestions
 
-                        activeChild.selectedSuggestion in state.codeBlanksOperationsSuggestions ->
-                            state.codeBlanksVariablesSuggestions + state.codeBlanksStringsSuggestions
+                        activeChild.selectedSuggestion in state.operationsSuggestions ->
+                            state.variablesSuggestions + state.stringsSuggestions
 
-                        else ->
-                            state.codeBlanksOperationsSuggestions + state.codeBlanksVariablesAndStringsSuggestions
+                        else -> state.operationsSuggestions + state.variablesAndStringsSuggestions
                     }
 
                     val newChild = CodeBlockChild.SelectSuggestion(
@@ -644,7 +655,13 @@ class StepQuizCodeBlanksReducer(
             }
         }
 
-        return state.copy(codeBlocks = newCodeBlocks) to actions
+        val (onboardingState, onboardingActions) =
+            stepQuizCodeBlanksOnboardingReducer.reduceSpaceButtonClickedMessage(state)
+
+        return state.copy(
+            codeBlocks = newCodeBlocks,
+            onboardingState = onboardingState
+        ) to actions + onboardingActions
     }
 
     private fun handleDecreaseIndentLevelButtonClicked(

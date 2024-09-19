@@ -40,6 +40,7 @@ struct StepQuizCodeBlanksCodeBlocksView: View {
                     isSpaceButtonHidden: state.isSpaceButtonHidden,
                     isDecreaseIndentLevelButtonHidden: state.isDecreaseIndentLevelButtonHidden,
                     isDeleteButtonHighlightEffectActive: state.isDeleteButtonHighlightEffectActive,
+                    isEnterButtonHighlightEffectActive: state.isEnterButtonHighlightEffectActive,
                     isSpaceButtonHighlightEffectActive: state.isSpaceButtonHighlightEffectActive,
                     onSpaceTap: onSpaceTap,
                     onDeleteTap: onDeleteTap,
