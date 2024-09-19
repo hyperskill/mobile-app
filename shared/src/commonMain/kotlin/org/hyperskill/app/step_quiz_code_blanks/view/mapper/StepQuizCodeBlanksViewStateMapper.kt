@@ -84,7 +84,7 @@ object StepQuizCodeBlanksViewStateMapper {
                 null -> false
             }
 
-        val isSpaceButtonHidden = if (state.codeBlanksOperationsSuggestions.isNotEmpty()) {
+        val isSpaceButtonHidden = if (state.operationsSuggestions.isNotEmpty()) {
             when (activeCodeBlock) {
                 is CodeBlock.Print,
                 is CodeBlock.IfStatement,

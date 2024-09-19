@@ -23,16 +23,16 @@ object StepQuizCodeBlanksFeature {
         ) : State {
             companion object;
 
-            internal val codeBlanksStringsSuggestions: List<Suggestion.ConstantString> =
+            internal val stringsSuggestions: List<Suggestion.ConstantString> =
                 step.codeBlanksStringsSuggestions()
 
-            internal val codeBlanksVariablesSuggestions: List<Suggestion.ConstantString> =
+            internal val variablesSuggestions: List<Suggestion.ConstantString> =
                 step.codeBlanksVariablesSuggestions()
 
-            internal val codeBlanksVariablesAndStringsSuggestions: List<Suggestion.ConstantString> =
-                codeBlanksVariablesSuggestions + codeBlanksStringsSuggestions
+            internal val variablesAndStringsSuggestions: List<Suggestion.ConstantString> =
+                variablesSuggestions + stringsSuggestions
 
-            internal val codeBlanksOperationsSuggestions: List<Suggestion.ConstantString> =
+            internal val operationsSuggestions: List<Suggestion.ConstantString> =
                 step.codeBlanksOperationsSuggestions()
         }
     }
@@ -41,11 +41,12 @@ object StepQuizCodeBlanksFeature {
         data object Unavailable : OnboardingState
 
         data object HighlightDeleteButton : OnboardingState
+        data object HighlightEnterButton : OnboardingState
         data object HighlightSpaceButton : OnboardingState
 
-        sealed interface PrintSuggestionAndCallToAction : OnboardingState {
-            data object HighlightSuggestions : PrintSuggestionAndCallToAction
-            data object HighlightCallToActionButton : PrintSuggestionAndCallToAction
+        sealed interface FirstProgram : OnboardingState {
+            data object HighlightSuggestions : FirstProgram
+            data object HighlightCallToActionButton : FirstProgram
         }
     }
 

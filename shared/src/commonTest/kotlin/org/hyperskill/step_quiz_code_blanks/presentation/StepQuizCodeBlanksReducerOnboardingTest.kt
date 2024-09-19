@@ -9,6 +9,7 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksFeature.OnboardingState
+import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksOnboardingReducer
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 import org.hyperskill.step.domain.model.stub
 
@@ -28,8 +29,8 @@ class StepQuizCodeBlanksReducerOnboardingTest {
     }
 
     @Test
-    fun `Onboarding should be available for print suggestion`() {
-        setOf(47329L, 50968L).forEach { stepId ->
+    fun `Onboarding should be available for first program`() {
+        StepQuizCodeBlanksOnboardingReducer.Companion.FIRST_PROGRAM_STEP_IDS.forEach { stepId ->
             val initialState = StepQuizCodeBlanksFeature.State.Idle
             val (state, _) = reducer.reduce(
                 initialState,
@@ -37,7 +38,7 @@ class StepQuizCodeBlanksReducerOnboardingTest {
             )
 
             assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
-            assertTrue(state.onboardingState is OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions)
+            assertTrue(state.onboardingState is OnboardingState.FirstProgram.HighlightSuggestions)
         }
     }
 
@@ -46,7 +47,9 @@ class StepQuizCodeBlanksReducerOnboardingTest {
         val initialState = StepQuizCodeBlanksFeature.State.Idle
         val (state, _) = reducer.reduce(
             initialState,
-            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 50969L))
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(
+                Step.stub(id = StepQuizCodeBlanksOnboardingReducer.Companion.DELETE_BUTTON_STEP_ID)
+            )
         )
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
@@ -54,11 +57,27 @@ class StepQuizCodeBlanksReducerOnboardingTest {
     }
 
     @Test
+    fun `Onboarding should be available for enter button`() {
+        val initialState = StepQuizCodeBlanksFeature.State.Idle
+        val (state, _) = reducer.reduce(
+            initialState,
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(
+                Step.stub(id = StepQuizCodeBlanksOnboardingReducer.Companion.ENTER_BUTTON_STEP_ID)
+            )
+        )
+
+        assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
+        assertTrue(state.onboardingState is OnboardingState.HighlightEnterButton)
+    }
+
+    @Test
     fun `Onboarding should be available for space button`() {
         val initialState = StepQuizCodeBlanksFeature.State.Idle
         val (state, _) = reducer.reduce(
             initialState,
-            StepQuizCodeBlanksFeature.InternalMessage.Initialize(Step.stub(id = 50970L))
+            StepQuizCodeBlanksFeature.InternalMessage.Initialize(
+                Step.stub(id = StepQuizCodeBlanksOnboardingReducer.Companion.SPACE_BUTTON_STEP_ID)
+            )
         )
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
@@ -80,13 +99,13 @@ class StepQuizCodeBlanksReducerOnboardingTest {
                     )
                 )
             ),
-            onboardingState = OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
+            onboardingState = OnboardingState.FirstProgram.HighlightSuggestions
         )
 
         val message = StepQuizCodeBlanksFeature.Message.SuggestionClicked(suggestion)
         val (state, _) = reducer.reduce(initialState, message)
 
         assertTrue(state is StepQuizCodeBlanksFeature.State.Content)
-        assertEquals(OnboardingState.PrintSuggestionAndCallToAction.HighlightCallToActionButton, state.onboardingState)
+        assertEquals(OnboardingState.FirstProgram.HighlightCallToActionButton, state.onboardingState)
     }
 }

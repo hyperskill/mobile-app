@@ -16,8 +16,9 @@ sealed interface StepQuizCodeBlanksViewState {
     ) : StepQuizCodeBlanksViewState {
         val isActionButtonsHidden: Boolean
             get() = when (onboardingState) {
-                is OnboardingState.PrintSuggestionAndCallToAction -> true
+                is OnboardingState.FirstProgram -> true
                 OnboardingState.HighlightDeleteButton,
+                OnboardingState.HighlightEnterButton,
                 OnboardingState.HighlightSpaceButton,
                 OnboardingState.Unavailable -> false
             }
@@ -25,11 +26,14 @@ sealed interface StepQuizCodeBlanksViewState {
         val isDeleteButtonHighlightEffectActive: Boolean
             get() = isDeleteButtonEnabled && onboardingState == OnboardingState.HighlightDeleteButton
 
+        val isEnterButtonHighlightEffectActive: Boolean
+            get() = onboardingState == OnboardingState.HighlightEnterButton
+
         val isSpaceButtonHighlightEffectActive: Boolean
             get() = !isSpaceButtonHidden && onboardingState == OnboardingState.HighlightSpaceButton
 
         val isSuggestionsHighlightEffectActive: Boolean
-            get() = onboardingState == OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
+            get() = onboardingState == OnboardingState.FirstProgram.HighlightSuggestions
     }
 
     sealed interface CodeBlockItem {

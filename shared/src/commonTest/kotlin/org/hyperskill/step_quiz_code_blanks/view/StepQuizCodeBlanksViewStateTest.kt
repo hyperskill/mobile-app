@@ -8,10 +8,10 @@ import org.hyperskill.app.step_quiz_code_blanks.view.model.StepQuizCodeBlanksVie
 
 class StepQuizCodeBlanksViewStateTest {
     @Test
-    fun `isActionButtonsHidden should be true when onboarding PrintSuggestionAndCallToAction`() {
+    fun `isActionButtonsHidden should be true when onboarding FirstProgram`() {
         listOf(
-            OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions,
-            OnboardingState.PrintSuggestionAndCallToAction.HighlightCallToActionButton
+            OnboardingState.FirstProgram.HighlightSuggestions,
+            OnboardingState.FirstProgram.HighlightCallToActionButton
         ).forEach { onboardingState ->
             val viewState = stubContentViewState(onboardingState = onboardingState)
             assertTrue(viewState.isActionButtonsHidden)
@@ -50,6 +50,14 @@ class StepQuizCodeBlanksViewStateTest {
         assertFalse(viewState.isDeleteButtonHighlightEffectActive)
     }
 
+    @Test
+    fun `isEnterButtonHighlightEffectActive should be true when onboardingState is HighlightEnterButton`() {
+        val viewState = stubContentViewState(
+            onboardingState = OnboardingState.HighlightEnterButton
+        )
+        assertTrue(viewState.isEnterButtonHighlightEffectActive)
+    }
+
     /* ktlint-disable */
     @Test
     fun `isSpaceButtonHighlightEffectActive should be true when onboardingState is HighlightSpaceButton and isSpaceButtonHidden is false`() {
@@ -69,10 +77,11 @@ class StepQuizCodeBlanksViewStateTest {
         assertFalse(viewState.isSpaceButtonHighlightEffectActive)
     }
 
+    /* ktlint-disable */
     @Test
-    fun `isSuggestionsHighlightEffectActive should be true when onboardingState is HighlightSuggestions`() {
+    fun `isSuggestionsHighlightEffectActive should be true when onboardingState is FirstProgram_HighlightSuggestions`() {
         val viewState = stubContentViewState(
-            onboardingState = OnboardingState.PrintSuggestionAndCallToAction.HighlightSuggestions
+            onboardingState = OnboardingState.FirstProgram.HighlightSuggestions
         )
         assertTrue(viewState.isSuggestionsHighlightEffectActive)
     }
