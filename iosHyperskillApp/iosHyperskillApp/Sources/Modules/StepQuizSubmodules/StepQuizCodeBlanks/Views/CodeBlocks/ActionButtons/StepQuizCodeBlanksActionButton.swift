@@ -58,8 +58,15 @@ extension StepQuizCodeBlanksActionButton {
         )
     }
 
-    static func enter(action: @escaping () -> Void) -> StepQuizCodeBlanksActionButton {
-        StepQuizCodeBlanksActionButton(imageSystemName: "return", action: action)
+    static func enter(
+        isAnimationEffectActive: Bool,
+        action: @escaping () -> Void
+    ) -> StepQuizCodeBlanksActionButton {
+        StepQuizCodeBlanksActionButton(
+            imageSystemName: "return",
+            isAnimationEffectActive: isAnimationEffectActive,
+            action: action
+        )
     }
 
     static func space(
@@ -98,14 +105,14 @@ extension StepQuizCodeBlanksActionButton {
     VStack {
         HStack {
             StepQuizCodeBlanksActionButton.delete(isAnimationEffectActive: false, action: {})
-            StepQuizCodeBlanksActionButton.enter(action: {})
+            StepQuizCodeBlanksActionButton.enter(isAnimationEffectActive: false, action: {})
             StepQuizCodeBlanksActionButton.space(isAnimationEffectActive: false, action: {})
             StepQuizCodeBlanksActionButton.decreaseIndentLevel(action: {})
         }
 
         HStack {
             StepQuizCodeBlanksActionButton.delete(isAnimationEffectActive: false, action: {})
-            StepQuizCodeBlanksActionButton.enter(action: {})
+            StepQuizCodeBlanksActionButton.enter(isAnimationEffectActive: false, action: {})
             StepQuizCodeBlanksActionButton.space(isAnimationEffectActive: false, action: {})
             StepQuizCodeBlanksActionButton.decreaseIndentLevel(action: {})
         }
