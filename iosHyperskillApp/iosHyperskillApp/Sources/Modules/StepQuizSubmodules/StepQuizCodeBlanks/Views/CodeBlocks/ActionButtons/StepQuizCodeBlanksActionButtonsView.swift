@@ -55,7 +55,7 @@ struct StepQuizCodeBlanksActionButtonsView: View {
             isDeleteButtonEnabled: false,
             isSpaceButtonHidden: false,
             isDecreaseIndentLevelButtonHidden: false,
-            isDeleteButtonHighlightEffectActive: false, 
+            isDeleteButtonHighlightEffectActive: false,
             isEnterButtonHighlightEffectActive: false,
             isSpaceButtonHighlightEffectActive: true,
             onSpaceTap: {},
