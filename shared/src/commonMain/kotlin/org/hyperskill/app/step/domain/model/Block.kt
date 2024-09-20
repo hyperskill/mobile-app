@@ -38,12 +38,12 @@ data class Block(
         val codeBlanksVariables: List<String>? = null,
         @SerialName("code_blanks_operations")
         val codeBlanksOperations: List<String>? = null,
+        @SerialName("code_blanks_available_conditions")
+        val codeBlanksAvailableConditions: Set<String>? = null,
         @SerialName("code_blanks_enabled")
         val codeBlanksEnabled: Boolean? = null,
         @SerialName("code_blanks_template")
-        val codeBlanksTemplateString: String? = null,
-        @SerialName("code_blanks_available_conditions")
-        val codeBlanksAvailableConditions: Set<String>? = null
+        val codeBlanksTemplateString: String? = null
     ) {
         val samples: List<Sample>?
             get() = internalSamples?.mapNotNull {

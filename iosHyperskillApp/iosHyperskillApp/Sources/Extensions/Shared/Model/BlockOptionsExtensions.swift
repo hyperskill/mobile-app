@@ -14,6 +14,7 @@ extension Block.Options {
         codeBlanksStrings: [String]? = nil,
         codeBlanksVariables: [String]? = nil,
         codeBlanksOperations: [String]? = nil,
+        codeBlanksAvailableConditions: Set<String>? = nil,
         codeBlanksEnabled: Bool? = nil,
         codeBlanksTemplateString: String? = nil
     ) {
@@ -28,6 +29,7 @@ extension Block.Options {
             codeBlanksStrings: codeBlanksStrings,
             codeBlanksVariables: codeBlanksVariables,
             codeBlanksOperations: codeBlanksOperations,
+            codeBlanksAvailableConditions: codeBlanksAvailableConditions,
             codeBlanksEnabled: codeBlanksEnabled.flatMap(KotlinBoolean.init(value:)),
             codeBlanksTemplateString: codeBlanksTemplateString
         )
