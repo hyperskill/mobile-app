@@ -13,6 +13,9 @@ internal val StepQuizCodeBlanksFeature.State.isVariableSuggestionsAvailable: Boo
         StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(it)
     } ?: false
 
+internal val StepQuizCodeBlanksFeature.State.Content.availableConditions: Set<String>
+    get() = step.block.options.codeBlanksAvailableConditions ?: emptySet()
+
 fun StepQuizCodeBlanksFeature.State.Content.createReply(): Reply =
     Reply.code(
         code = buildString {
