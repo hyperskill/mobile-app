@@ -1,8 +1,8 @@
 package org.hyperskill.app.step_quiz.view.mapper
 
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.code.domain.model.CodeExecutionResult
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.run_code.domain.model.RunCodeExecutionResult
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.areCommentsAvailable
@@ -44,11 +44,11 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
         return when (submission?.status) {
             SubmissionStatus.CORRECT ->
                 StepQuizFeedbackState.Correct(
-                    hint = getHint(stepQuizState.step, submission, stepQuizState.codeExecutionResult)
+                    hint = getHint(stepQuizState.step, submission, stepQuizState.runCodeExecutionResult)
                 )
             SubmissionStatus.EVALUATION -> StepQuizFeedbackState.Evaluation(
-                if (isCodeExecutionLaunched(stepQuizState.step)) {
-                    StepQuizFeedbackState.Hint.FromCodeExecution.Loading
+                if (isRunCodeExecutionLaunched(stepQuizState.step)) {
+                    StepQuizFeedbackState.Hint.FromRunCodeExecution.Loading
                 } else {
                     null
                 }
@@ -93,7 +93,7 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
                 null -> null
             },
             actionType = wrongSubmissionAction,
-            hint = getHint(stepQuizState.step, submission, stepQuizState.codeExecutionResult)
+            hint = getHint(stepQuizState.step, submission, stepQuizState.runCodeExecutionResult)
         )
     }
 
@@ -118,13 +118,13 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
     private fun getHint(
         step: Step,
         submission: Submission,
-        codeExecutionResult: CodeExecutionResult?
+        runCodeExecutionResult: RunCodeExecutionResult?
     ): StepQuizFeedbackState.Hint? {
-        val shouldUseCodeExecutionHint =
+        val shouldUseRunCodeExecutionHint =
             submission.status == SubmissionStatus.CORRECT &&
-                isCodeExecutionLaunched(step) && codeExecutionResult != null
-        return if (shouldUseCodeExecutionHint) {
-            getCodeExecutionFeedback(codeExecutionResult)
+                isRunCodeExecutionLaunched(step) && runCodeExecutionResult != null
+        return if (shouldUseRunCodeExecutionHint) {
+            getRunCodeExecutionFeedback(runCodeExecutionResult)
         } else {
             val text = submission
                 .hint
@@ -139,19 +139,19 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
         }
     }
 
-    private fun isCodeExecutionLaunched(step: Step): Boolean =
+    private fun isRunCodeExecutionLaunched(step: Step): Boolean =
         step.block.name == BlockName.CODE
 
-    private fun getCodeExecutionFeedback(
-        codeExecutionResult: CodeExecutionResult?
-    ): StepQuizFeedbackState.Hint.FromCodeExecution.Result? =
+    private fun getRunCodeExecutionFeedback(
+        runCodeExecutionResult: RunCodeExecutionResult?
+    ): StepQuizFeedbackState.Hint.FromRunCodeExecution.Result? =
         when {
-            codeExecutionResult != null -> {
-                val stdout = codeExecutionResult.stdout
+            runCodeExecutionResult != null -> {
+                val stdout = runCodeExecutionResult.stdout
                 if (!stdout.isNullOrEmpty()) {
-                    StepQuizFeedbackState.Hint.FromCodeExecution.Result(
-                        input = codeExecutionResult.stdin?.takeIf { it.isNotEmpty() }?.trim(),
-                        output = codeExecutionResult.stdout.trim()
+                    StepQuizFeedbackState.Hint.FromRunCodeExecution.Result(
+                        input = runCodeExecutionResult.stdin?.takeIf { it.isNotEmpty() }?.trim(),
+                        output = runCodeExecutionResult.stdout.trim()
                     )
                 } else {
                     null

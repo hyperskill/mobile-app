@@ -128,11 +128,11 @@ class StepQuizFeedbackBlocksDelegate(
         layoutStepQuizFeedbackBlockBinding.stepQuizSubmissionHint.isVisible =
             hint is StepQuizFeedbackState.Hint.FromSubmission
         layoutStepQuizFeedbackBlockBinding.stepQuizCodeExecutionHint.isVisible =
-            hint is StepQuizFeedbackState.Hint.FromCodeExecution
+            hint is StepQuizFeedbackState.Hint.FromRunCodeExecution
         when (hint) {
             is StepQuizFeedbackState.Hint.FromSubmission ->
                 setRemoteHint(hint, layoutStepQuizFeedbackBlockBinding)
-            is StepQuizFeedbackState.Hint.FromCodeExecution ->
+            is StepQuizFeedbackState.Hint.FromRunCodeExecution ->
                 setCodeExecutionHint(hint, layoutStepQuizFeedbackBlockBinding)
             null -> {
                 // no op
@@ -153,26 +153,26 @@ class StepQuizFeedbackBlocksDelegate(
     }
 
     private fun setCodeExecutionHint(
-        hint: StepQuizFeedbackState.Hint.FromCodeExecution,
+        hint: StepQuizFeedbackState.Hint.FromRunCodeExecution,
         layoutStepQuizFeedbackBlockBinding: LayoutStepQuizFeedbackBlockBinding
     ) {
         with(layoutStepQuizFeedbackBlockBinding) {
             val isInputVisible =
-                hint is StepQuizFeedbackState.Hint.FromCodeExecution.Result && hint.input != null
+                hint is StepQuizFeedbackState.Hint.FromRunCodeExecution.Result && hint.input != null
             stepQuizCodeExecutionInputTitleTextView.isVisible = isInputVisible
             stepQuizCodeExecutionInputValueTextView.isVisible = isInputVisible
             if (isInputVisible) {
                 stepQuizCodeExecutionInputValueTextView.text =
-                    (hint as? StepQuizFeedbackState.Hint.FromCodeExecution.Result)?.input
+                    (hint as? StepQuizFeedbackState.Hint.FromRunCodeExecution.Result)?.input
             }
 
             val isOutputVisible =
-                hint is StepQuizFeedbackState.Hint.FromCodeExecution.Result
+                hint is StepQuizFeedbackState.Hint.FromRunCodeExecution.Result
             stepQuizCodeExecutionOutputTitleTextView.isVisible = isOutputVisible
             stepQuizCodeExecutionOutputValueTextView.isVisible = isOutputVisible
             if (isOutputVisible) {
                 stepQuizCodeExecutionOutputValueTextView.text =
-                    (hint as? StepQuizFeedbackState.Hint.FromCodeExecution.Result)?.output
+                    (hint as? StepQuizFeedbackState.Hint.FromRunCodeExecution.Result)?.output
             }
         }
     }
