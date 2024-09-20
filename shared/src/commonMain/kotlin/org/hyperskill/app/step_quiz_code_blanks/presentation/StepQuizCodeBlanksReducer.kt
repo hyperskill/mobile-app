@@ -200,7 +200,8 @@ class StepQuizCodeBlanksReducer(
                             index = blankInsertIndex,
                             indentLevel = blankIndentLevel,
                             codeBlocks = this,
-                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable,
+                            availableConditions = state.availableConditions
                         )
                     )
                 )
@@ -357,7 +358,8 @@ class StepQuizCodeBlanksReducer(
                             index = activeCodeBlockIndex,
                             indentLevel = activeCodeBlock.indentLevel,
                             codeBlocks = this,
-                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable,
+                            availableConditions = state.availableConditions
                         )
                     )
                 )
@@ -564,7 +566,8 @@ class StepQuizCodeBlanksReducer(
                             index = insertIndex,
                             indentLevel = indentLevel,
                             codeBlocks = this,
-                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                            isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable,
+                            availableConditions = state.availableConditions
                         )
                     )
                 )
@@ -699,7 +702,8 @@ class StepQuizCodeBlanksReducer(
                                 index = activeCodeBlockIndex,
                                 indentLevel = newIndentLevel,
                                 codeBlocks = this,
-                                isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable
+                                isVariableSuggestionAvailable = state.isVariableSuggestionsAvailable,
+                                availableConditions = state.availableConditions
                             )
                         )
                         else -> activeCodeBlock.updatedIndentLevel(newIndentLevel)
@@ -749,7 +753,8 @@ class StepQuizCodeBlanksReducer(
                     isActive = true,
                     indentLevel = 0,
                     suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
-                        isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step)
+                        isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step),
+                        availableConditions = step.block.options.codeBlanksAvailableConditions ?: emptySet()
                     )
                 )
             )
