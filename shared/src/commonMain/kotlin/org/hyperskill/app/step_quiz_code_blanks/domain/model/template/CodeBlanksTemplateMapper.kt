@@ -50,7 +50,8 @@ internal object CodeBlanksTemplateMapper {
                     indentLevel = entry.indentLevel,
                     isDeleteForbidden = entry.isDeleteForbidden,
                     suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
-                        isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step)
+                        isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step),
+                        availableConditions = step.block.options.codeBlanksAvailableConditions ?: emptySet()
                     )
                 )
             CodeBlockTemplateEntryType.PRINT ->
@@ -194,7 +195,8 @@ internal object CodeBlanksTemplateMapper {
                 indentLevel = 0,
                 isDeleteForbidden = false,
                 suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
-                    isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step)
+                    isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step),
+                    availableConditions = step.block.options.codeBlanksAvailableConditions ?: emptySet()
                 )
             )
         )

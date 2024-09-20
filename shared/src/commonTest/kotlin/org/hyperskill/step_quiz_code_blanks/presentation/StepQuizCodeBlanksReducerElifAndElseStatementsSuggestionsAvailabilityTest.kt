@@ -7,12 +7,17 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksResolver
 
 class StepQuizCodeBlanksReducerElifAndElseStatementsSuggestionsAvailabilityTest {
+    companion object {
+        private val availableConditions = setOf("if", "elif", "else")
+    }
+
     @Test
     fun `Should return false if index is less than 2`() {
         val result = StepQuizCodeBlanksResolver.areElifAndElseStatementsSuggestionsAvailable(
             index = 1,
             indentLevel = 0,
-            codeBlocks = emptyList()
+            codeBlocks = emptyList(),
+            availableConditions = availableConditions
         )
         assertFalse(result)
     }
@@ -22,7 +27,23 @@ class StepQuizCodeBlanksReducerElifAndElseStatementsSuggestionsAvailabilityTest 
         val result = StepQuizCodeBlanksResolver.areElifAndElseStatementsSuggestionsAvailable(
             index = 2,
             indentLevel = 0,
-            codeBlocks = emptyList()
+            codeBlocks = emptyList(),
+            availableConditions = availableConditions
+        )
+        assertFalse(result)
+    }
+
+    @Test
+    fun `Should return false if availableConditions is empty`() {
+        val codeBlocks = listOf(
+            CodeBlock.IfStatement(indentLevel = 0, children = emptyList()),
+            CodeBlock.Print(indentLevel = 1, children = emptyList())
+        )
+        val result = StepQuizCodeBlanksResolver.areElifAndElseStatementsSuggestionsAvailable(
+            index = 2,
+            indentLevel = 0,
+            codeBlocks = codeBlocks,
+            availableConditions = emptySet()
         )
         assertFalse(result)
     }
@@ -36,7 +57,8 @@ class StepQuizCodeBlanksReducerElifAndElseStatementsSuggestionsAvailabilityTest 
         val result = StepQuizCodeBlanksResolver.areElifAndElseStatementsSuggestionsAvailable(
             index = 2,
             indentLevel = 1,
-            codeBlocks = codeBlocks
+            codeBlocks = codeBlocks,
+            availableConditions = availableConditions
         )
         assertFalse(result)
     }
@@ -50,7 +72,8 @@ class StepQuizCodeBlanksReducerElifAndElseStatementsSuggestionsAvailabilityTest 
         val result = StepQuizCodeBlanksResolver.areElifAndElseStatementsSuggestionsAvailable(
             index = 2,
             indentLevel = 0,
-            codeBlocks = codeBlocks
+            codeBlocks = codeBlocks,
+            availableConditions = availableConditions
         )
         assertTrue(result)
     }
@@ -66,7 +89,8 @@ class StepQuizCodeBlanksReducerElifAndElseStatementsSuggestionsAvailabilityTest 
         val result = StepQuizCodeBlanksResolver.areElifAndElseStatementsSuggestionsAvailable(
             index = 4,
             indentLevel = 1,
-            codeBlocks = codeBlocks
+            codeBlocks = codeBlocks,
+            availableConditions = availableConditions
         )
         assertTrue(result)
     }
@@ -82,7 +106,8 @@ class StepQuizCodeBlanksReducerElifAndElseStatementsSuggestionsAvailabilityTest 
         val result = StepQuizCodeBlanksResolver.areElifAndElseStatementsSuggestionsAvailable(
             index = 4,
             indentLevel = 0,
-            codeBlocks = codeBlocks
+            codeBlocks = codeBlocks,
+            availableConditions = availableConditions
         )
         assertTrue(result)
     }

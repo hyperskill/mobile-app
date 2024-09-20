@@ -41,7 +41,9 @@ data class Block(
         @SerialName("code_blanks_enabled")
         val codeBlanksEnabled: Boolean? = null,
         @SerialName("code_blanks_template")
-        val codeBlanksTemplateString: String? = null
+        val codeBlanksTemplateString: String? = null,
+        @SerialName("code_blanks_available_conditions")
+        val codeBlanksAvailableConditions: Set<String>? = null
     ) {
         val samples: List<Sample>?
             get() = internalSamples?.mapNotNull {

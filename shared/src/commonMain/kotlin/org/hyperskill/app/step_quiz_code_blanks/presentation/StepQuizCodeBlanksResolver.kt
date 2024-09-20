@@ -15,14 +15,33 @@ internal object StepQuizCodeBlanksResolver {
         index: Int = -1,
         indentLevel: Int = 0,
         codeBlocks: List<CodeBlock> = emptyList(),
-        isVariableSuggestionAvailable: Boolean
+        isVariableSuggestionAvailable: Boolean,
+        availableConditions: Set<String>
     ): List<Suggestion> =
         when {
-            areElifAndElseStatementsSuggestionsAvailable(index, indentLevel, codeBlocks) ->
-                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.ElifStatement, Suggestion.ElseStatement)
+            areElifAndElseStatementsSuggestionsAvailable(index, indentLevel, codeBlocks, availableConditions) ->
+                buildList {
+                    add(Suggestion.Print)
+                    add(Suggestion.Variable)
+
+                    if (availableConditions.contains(Suggestion.ElifStatement.text)) {
+                        add(Suggestion.ElifStatement)
+                    }
+
+                    if (availableConditions.contains(Suggestion.ElseStatement.text)) {
+                        add(Suggestion.ElseStatement)
+                    }
+                }
 
             isVariableSuggestionAvailable ->
-                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.IfStatement)
+                buildList {
+                    add(Suggestion.Print)
+                    add(Suggestion.Variable)
+
+                    if (availableConditions.contains(Suggestion.IfStatement.text)) {
+                        add(Suggestion.IfStatement)
+                    }
+                }
 
             else ->
                 listOf(Suggestion.Print)
@@ -31,9 +50,14 @@ internal object StepQuizCodeBlanksResolver {
     fun areElifAndElseStatementsSuggestionsAvailable(
         index: Int,
         indentLevel: Int,
-        codeBlocks: List<CodeBlock>
+        codeBlocks: List<CodeBlock>,
+        availableConditions: Set<String>
     ): Boolean {
-        if (index < MINIMUM_POSSIBLE_INDEX_FOR_ELIF_AND_ELSE_STATEMENTS || codeBlocks.isEmpty()) {
+        if (
+            index < MINIMUM_POSSIBLE_INDEX_FOR_ELIF_AND_ELSE_STATEMENTS ||
+            codeBlocks.isEmpty() ||
+            availableConditions.isEmpty()
+        ) {
             return false
         }
 
