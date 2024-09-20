@@ -460,7 +460,7 @@ internal class StepQuizReducer(
                         currentWrongSubmissionCount = state.stepQuizState.wrongSubmissionsCount,
                         currentSubmissionStatus = submissionStatus
                     ),
-                    codeExecutionResult = message.codeExecutionResult
+                    runCodeExecutionResult = message.runCodeExecutionResult
                 )
             ) to buildSet {
                 if (submissionStatus == SubmissionStatus.WRONG &&

@@ -1,39 +1,23 @@
+import shared
 import SwiftUI
 
 struct StepQuizFeedbackHintView: View {
-    let text: String
+    let hint: StepQuizFeedbackStateHint
 
     var body: some View {
-        VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-            Text(Strings.StepQuiz.feedbackTitle)
-                .font(.caption)
-                .foregroundColor(.tertiaryText)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            LatexView(
-                text: text,
-                configuration: .quizContent(
-                    textFont: .monospacedSystemFont(ofSize: 14, weight: .regular),
-                    textColor: .primaryText,
-                    backgroundColor: .clear
-                )
+        switch StepQuizFeedbackStateHintKs(hint) {
+        case .fromSubmission(let data):
+            StepQuizSubmissionFeedbackHintView(text: data.text)
+        case .fromRunCodeExecution(let runCodeExecution):
+            StepQuizRunCodeFeedbackHintView(
+                runCodeExecution: StepQuizFeedbackStateHintFromRunCodeExecutionKs(runCodeExecution)
             )
         }
-        .padding()
-        .background(Color.background)
-        .addBorder()
     }
 }
 
-#if DEBUG
-#Preview {
-    ScrollView {
-        StepQuizFeedbackHintView(
-            text: """
-That's right! Since any comparison results in a boolean value, there is no need to write everything twice.
-"""
-        )
+extension StepQuizFeedbackHintView: Equatable {
+    static func == (lhs: StepQuizFeedbackHintView, rhs: StepQuizFeedbackHintView) -> Bool {
+        StepQuizFeedbackStateHintKs(lhs.hint) == StepQuizFeedbackStateHintKs(rhs.hint)
     }
-    .padding()
 }
-#endif
