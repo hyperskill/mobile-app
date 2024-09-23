@@ -46,9 +46,8 @@ internal class PaywallViewStateMapper(
     private fun getContentViewState(state: State.Content): ViewStateContent.Content =
         ViewStateContent.Content(
             buyButtonText = resourceProvider.getString(SharedResources.strings.paywall_subscription_start_btn),
-            subscriptionProducts = state.subscriptionProducts.mapIndexed { i, product ->
+            subscriptionProducts = state.subscriptionProducts.map { product ->
                 mapSubscriptionProductToSubscriptionOption(
-                    index = i,
                     product = product,
                     isSelected = product.id == state.selectedProductId
                 )
@@ -56,7 +55,6 @@ internal class PaywallViewStateMapper(
         )
 
     private fun mapSubscriptionProductToSubscriptionOption(
-        index: Int,
         product: SubscriptionProduct,
         isSelected: Boolean
     ): ViewStateContent.SubscriptionProduct =
@@ -75,7 +73,7 @@ internal class PaywallViewStateMapper(
                 SharedResources.strings.paywall_subscription_month_price,
                 product.formattedPricePerMonth
             ),
-            isBestValue = index == 0,
+            isBestValue = product.period == SubscriptionPeriod.YEAR,
             isSelected = isSelected
         )
 }
