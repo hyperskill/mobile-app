@@ -173,6 +173,7 @@
     <string name="step_quiz_code_editor_title">Code editor</string>
     <string name="step_quiz_code_language_template">(%s)</string>
     <string name="step_quiz_code_execution_title">Running test cases</string>
+    <string name="step_quiz_code_execution_test_case_1">Case 1</string>
     <string name="step_quiz_code_execution_input">Program input:</string>
     <string name="step_quiz_code_execution_output">Program output:</string>
 

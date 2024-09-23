@@ -2,9 +2,9 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.code.domain.model.CodeExecutionResult
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.run_code.domain.model.RunCodeExecutionResult
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -39,7 +39,7 @@ object StepQuizFeature {
             val isProblemsLimitReached: Boolean,
             internal val isTheoryAvailable: Boolean,
             internal val wrongSubmissionsCount: Int = 0,
-            internal val codeExecutionResult: CodeExecutionResult? = null
+            internal val runCodeExecutionResult: RunCodeExecutionResult? = null
         ) : StepQuizState
 
         data object NetworkError : StepQuizState
@@ -82,7 +82,7 @@ object StepQuizFeature {
         data class CreateSubmissionSuccess(
             val submission: Submission,
             val newAttempt: Attempt? = null,
-            val codeExecutionResult: CodeExecutionResult? = null
+            val runCodeExecutionResult: RunCodeExecutionResult? = null
         ) : Message
         data object CreateSubmissionNetworkError : Message
         data class CreateSubmissionReplyValidationResult(

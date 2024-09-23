@@ -98,7 +98,11 @@ enum Strings {
         static let quizStatusEvaluation = sharedStrings.step_quiz_status_evaluation_text.localized()
         static let quizStatusLoading = sharedStrings.step_quiz_status_loading_text.localized()
 
-        static let feedbackTitle = sharedStrings.step_quiz_feedback_title.localized()
+        static let submissionFeedbackHintTitle = sharedStrings.step_quiz_feedback_title.localized()
+        static let runCodeFeedbackHintTitle = sharedStrings.step_quiz_code_execution_title.localized()
+        static let runCodeFeedbackHintCase1 = sharedStrings.step_quiz_code_execution_test_case_1.localized()
+        static let runCodeFeedbackHintInput = sharedStrings.step_quiz_code_execution_input.localized()
+        static let runCodeFeedbackHintOutput = sharedStrings.step_quiz_code_execution_output.localized()
 
         static let continueButton = sharedStrings.step_quiz_continue_button_text.localized()
         static let retryButton = sharedStrings.step_quiz_retry_button_text.localized()

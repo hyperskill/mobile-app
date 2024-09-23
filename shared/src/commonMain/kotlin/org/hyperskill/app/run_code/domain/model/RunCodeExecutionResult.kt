@@ -1,10 +1,10 @@
-package org.hyperskill.app.code.domain.model
+package org.hyperskill.app.run_code.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CodeExecutionResult(
+data class RunCodeExecutionResult(
     @SerialName("language")
     val language: String,
     @SerialName("stdin")
