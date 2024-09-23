@@ -35,5 +35,6 @@ internal object StudyPlanWidgetFakeTopicsFeature {
     val topicsIds: Set<Long> by lazy { topics.map { it.id }.toSet() }
 
     fun isFakeTopicsFeatureAvailable(trackId: Long?, subscription: Subscription): Boolean =
-        trackId == PYTHON_MOBILE_ADOPTED_TRACK_ID && subscription.isFreemium
+        trackId == PYTHON_MOBILE_ADOPTED_TRACK_ID &&
+            (subscription.isFreemium || subscription.type == SubscriptionType.MOBILE_CONTENT_TRIAL)
 }
