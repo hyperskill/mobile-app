@@ -44,7 +44,11 @@ internal object StepQuizCodeBlanksResolver {
                 }
 
             else ->
-                listOf(Suggestion.Print)
+                if (availableConditions.contains(Suggestion.IfStatement.text)) {
+                    listOf(Suggestion.Print, Suggestion.IfStatement)
+                } else {
+                    listOf(Suggestion.Print)
+                }
         }
 
     fun areElifAndElseStatementsSuggestionsAvailable(
