@@ -16,6 +16,8 @@ struct StepQuizCodeBlanksActionButton: View {
 
     let imageSystemName: String
 
+    var isAnimationEffectActive = false
+
     let action: () -> Void
 
     @Environment(\.isEnabled) private var isEnabled
@@ -33,6 +35,11 @@ struct StepQuizCodeBlanksActionButton: View {
                     )
                     .foregroundColor(Color(ColorPalette.onPrimary))
                     .cornerRadius(appearance.cornerRadius)
+                    .shineEffect(isActive: isEnabled && isAnimationEffectActive)
+                    .pulseEffect(
+                        shape: RoundedRectangle(cornerRadius: appearance.cornerRadius),
+                        isActive: isEnabled && isAnimationEffectActive
+                    )
             }
         )
         .buttonStyle(BounceButtonStyle())
@@ -40,15 +47,30 @@ struct StepQuizCodeBlanksActionButton: View {
 }
 
 extension StepQuizCodeBlanksActionButton {
-    static func delete(action: @escaping () -> Void) -> StepQuizCodeBlanksActionButton {
-        StepQuizCodeBlanksActionButton(imageSystemName: "delete.left", action: action)
+    static func delete(
+        isAnimationEffectActive: Bool,
+        action: @escaping () -> Void
+    ) -> StepQuizCodeBlanksActionButton {
+        StepQuizCodeBlanksActionButton(
+            imageSystemName: "delete.left",
+            isAnimationEffectActive: isAnimationEffectActive,
+            action: action
+        )
     }
 
-    static func enter(action: @escaping () -> Void) -> StepQuizCodeBlanksActionButton {
-        StepQuizCodeBlanksActionButton(imageSystemName: "return", action: action)
+    static func enter(
+        isAnimationEffectActive: Bool,
+        action: @escaping () -> Void
+    ) -> StepQuizCodeBlanksActionButton {
+        StepQuizCodeBlanksActionButton(
+            imageSystemName: "return",
+            isAnimationEffectActive: isAnimationEffectActive,
+            action: action
+        )
     }
 
     static func space(
+        isAnimationEffectActive: Bool,
         action: @escaping () -> Void
     ) -> StepQuizCodeBlanksActionButton {
         StepQuizCodeBlanksActionButton(
@@ -59,6 +81,7 @@ extension StepQuizCodeBlanksActionButton {
                 )
             ),
             imageSystemName: "space",
+            isAnimationEffectActive: isAnimationEffectActive,
             action: action
         )
     }
@@ -81,16 +104,16 @@ extension StepQuizCodeBlanksActionButton {
 #Preview {
     VStack {
         HStack {
-            StepQuizCodeBlanksActionButton.delete(action: {})
-            StepQuizCodeBlanksActionButton.enter(action: {})
-            StepQuizCodeBlanksActionButton.space(action: {})
+            StepQuizCodeBlanksActionButton.delete(isAnimationEffectActive: false, action: {})
+            StepQuizCodeBlanksActionButton.enter(isAnimationEffectActive: false, action: {})
+            StepQuizCodeBlanksActionButton.space(isAnimationEffectActive: false, action: {})
             StepQuizCodeBlanksActionButton.decreaseIndentLevel(action: {})
         }
 
         HStack {
-            StepQuizCodeBlanksActionButton.delete(action: {})
-            StepQuizCodeBlanksActionButton.enter(action: {})
-            StepQuizCodeBlanksActionButton.space(action: {})
+            StepQuizCodeBlanksActionButton.delete(isAnimationEffectActive: false, action: {})
+            StepQuizCodeBlanksActionButton.enter(isAnimationEffectActive: false, action: {})
+            StepQuizCodeBlanksActionButton.space(isAnimationEffectActive: false, action: {})
             StepQuizCodeBlanksActionButton.decreaseIndentLevel(action: {})
         }
         .disabled(true)

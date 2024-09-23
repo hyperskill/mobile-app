@@ -5,6 +5,10 @@ struct StepQuizCodeBlanksActionButtonsView: View {
     let isSpaceButtonHidden: Bool
     let isDecreaseIndentLevelButtonHidden: Bool
 
+    let isDeleteButtonHighlightEffectActive: Bool
+    let isEnterButtonHighlightEffectActive: Bool
+    let isSpaceButtonHighlightEffectActive: Bool
+
     let onSpaceTap: () -> Void
     let onDeleteTap: () -> Void
     let onEnterTap: () -> Void
@@ -21,15 +25,24 @@ struct StepQuizCodeBlanksActionButtonsView: View {
 
             if !isSpaceButtonHidden {
                 StepQuizCodeBlanksActionButton
-                    .space(action: onSpaceTap)
+                    .space(
+                        isAnimationEffectActive: isSpaceButtonHighlightEffectActive,
+                        action: onSpaceTap
+                    )
             }
 
             StepQuizCodeBlanksActionButton
-                .delete(action: onDeleteTap)
+                .delete(
+                    isAnimationEffectActive: isDeleteButtonHighlightEffectActive,
+                    action: onDeleteTap
+                )
                 .disabled(!isDeleteButtonEnabled)
 
             StepQuizCodeBlanksActionButton
-                .enter(action: onEnterTap)
+                .enter(
+                    isAnimationEffectActive: isEnterButtonHighlightEffectActive,
+                    action: onEnterTap
+                )
         }
         .padding(.horizontal)
     }
@@ -42,6 +55,9 @@ struct StepQuizCodeBlanksActionButtonsView: View {
             isDeleteButtonEnabled: false,
             isSpaceButtonHidden: false,
             isDecreaseIndentLevelButtonHidden: false,
+            isDeleteButtonHighlightEffectActive: false,
+            isEnterButtonHighlightEffectActive: false,
+            isSpaceButtonHighlightEffectActive: true,
             onSpaceTap: {},
             onDeleteTap: {},
             onEnterTap: {},
@@ -52,6 +68,9 @@ struct StepQuizCodeBlanksActionButtonsView: View {
             isDeleteButtonEnabled: true,
             isSpaceButtonHidden: true,
             isDecreaseIndentLevelButtonHidden: true,
+            isDeleteButtonHighlightEffectActive: true,
+            isEnterButtonHighlightEffectActive: true,
+            isSpaceButtonHighlightEffectActive: false,
             onSpaceTap: {},
             onDeleteTap: {},
             onEnterTap: {},

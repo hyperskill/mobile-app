@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.run_code.domain.model.RunCodeExecutionResult
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.areCommentsAvailable
@@ -43,10 +44,15 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
         return when (submission?.status) {
             SubmissionStatus.CORRECT ->
                 StepQuizFeedbackState.Correct(
-                    hint = getHint(submission),
-                    useLatex = shouldUseLatex(stepQuizState.step)
+                    hint = getHint(stepQuizState.step, submission, stepQuizState.runCodeExecutionResult)
                 )
-            SubmissionStatus.EVALUATION -> StepQuizFeedbackState.Evaluation
+            SubmissionStatus.EVALUATION -> StepQuizFeedbackState.Evaluation(
+                if (isRunCodeExecutionLaunched(stepQuizState.step)) {
+                    StepQuizFeedbackState.Hint.FromRunCodeExecution.Loading
+                } else {
+                    null
+                }
+            )
             SubmissionStatus.WRONG -> getWrongStatusFeedback(state, stepQuizState, submission)
             SubmissionStatus.REJECTED -> {
                 val feedback = submission.feedback
@@ -87,13 +93,9 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
                 null -> null
             },
             actionType = wrongSubmissionAction,
-            feedbackHint = getHint(submission),
-            useFeedbackHintLatex = shouldUseLatex(stepQuizState.step)
+            hint = getHint(stepQuizState.step, submission, stepQuizState.runCodeExecutionResult)
         )
     }
-
-    private fun shouldUseLatex(step: Step): Boolean =
-        step.block.name == BlockName.MATH
 
     private fun getWrongSubmissionAction(
         state: StepQuizFeature.State,
@@ -113,9 +115,48 @@ class StepQuizFeedbackMapper(private val resourcesProvider: ResourceProvider) {
             else -> Action.SKIP_PROBLEM
         }
 
-    private fun getHint(submission: Submission): String? =
-        submission
-            .hint
-            ?.takeIf(String::isNotEmpty)
-            ?.replace("\n", "<br />")
+    private fun getHint(
+        step: Step,
+        submission: Submission,
+        runCodeExecutionResult: RunCodeExecutionResult?
+    ): StepQuizFeedbackState.Hint? {
+        val shouldUseRunCodeExecutionHint =
+            submission.status == SubmissionStatus.CORRECT &&
+                isRunCodeExecutionLaunched(step) && runCodeExecutionResult != null
+        return if (shouldUseRunCodeExecutionHint) {
+            getRunCodeExecutionFeedback(runCodeExecutionResult)
+        } else {
+            val text = submission
+                .hint
+                ?.takeIf(String::isNotEmpty)
+                ?.replace("\n", "<br />")
+            text?.let {
+                StepQuizFeedbackState.Hint.FromSubmission(
+                    text = text,
+                    useLatex = step.block.name == BlockName.MATH
+                )
+            }
+        }
+    }
+
+    private fun isRunCodeExecutionLaunched(step: Step): Boolean =
+        step.block.name == BlockName.CODE
+
+    private fun getRunCodeExecutionFeedback(
+        runCodeExecutionResult: RunCodeExecutionResult?
+    ): StepQuizFeedbackState.Hint.FromRunCodeExecution.Result? =
+        when {
+            runCodeExecutionResult != null -> {
+                val stdout = runCodeExecutionResult.stdout
+                if (!stdout.isNullOrEmpty()) {
+                    StepQuizFeedbackState.Hint.FromRunCodeExecution.Result(
+                        input = runCodeExecutionResult.stdin?.takeIf { it.isNotEmpty() }?.trim(),
+                        output = runCodeExecutionResult.stdout.trim()
+                    )
+                } else {
+                    null
+                }
+            }
+            else -> null
+        }
 }

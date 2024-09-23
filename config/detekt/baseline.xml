@@ -25,9 +25,7 @@
     <ID>CyclomaticComplexMethod:LeaderboardWidgetReducer.kt$LeaderboardWidgetReducer$override fun reduce(state: State, message: Message): LeaderboardWidgetReducerResult</ID>
     <ID>CyclomaticComplexMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
     <ID>CyclomaticComplexMethod:ProfileReducer.kt$ProfileReducer$override fun reduce(state: State, message: Message): ReducerResult</ID>
-    <ID>CyclomaticComplexMethod:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>CyclomaticComplexMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleDeleteButtonClicked( state: State ): StepQuizCodeBlanksReducerResult?</ID>
-    <ID>CyclomaticComplexMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSuggestionClicked( state: State, message: Message.SuggestionClicked ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>CyclomaticComplexMethod:StepQuizCodeBlanksViewStateMapper.kt$StepQuizCodeBlanksViewStateMapper$private fun mapContentState( state: StepQuizCodeBlanksFeature.State.Content ): StepQuizCodeBlanksViewState.Content</ID>
     <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): StepQuizHintsReducerResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizReducer.kt$StepQuizReducer$override fun reduce(state: State, message: Message): StepQuizReducerResult</ID>
@@ -73,6 +71,7 @@
     <ID>LongMethod:StepQuizCodeBlanksReducer.kt$StepQuizCodeBlanksReducer$private fun handleSuggestionClicked( state: State, message: Message.SuggestionClicked ): StepQuizCodeBlanksReducerResult?</ID>
     <ID>LongMethod:StepQuizCodeBlanksViewStateMapper.kt$StepQuizCodeBlanksViewStateMapper$private fun mapContentState( state: StepQuizCodeBlanksFeature.State.Content ): StepQuizCodeBlanksViewState.Content</ID>
     <ID>LongMethod:StreakFreezeDialogFragment.kt$StreakFreezeDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>LongMethod:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$private fun handleLearningActivitiesWithSectionsFetchSuccess( state: State, message: StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success ): StudyPlanWidgetReducerResult</ID>
     <ID>LongMethod:TrackProgressContent.kt$@Composable fun TrackProgressContent( viewState: ProgressScreenViewState.TrackProgressViewState.Content, onNewMessage: (ProgressScreenFeature.Message) -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongParameterList:AppInteractor.kt$AppInteractor$( private val appRepository: AppRepository, private val authInteractor: AuthInteractor, private val currentProfileStateRepository: CurrentProfileStateRepository, private val userStorageInteractor: UserStorageInteractor, private val analyticInteractor: AnalyticInteractor, private val progressesRepository: ProgressesRepository, private val trackRepository: TrackRepository, private val providersRepository: ProvidersRepository, private val projectsRepository: ProjectsRepository, private val shareStreakRepository: ShareStreakRepository, private val pushNotificationsInteractor: PushNotificationsInteractor )</ID>
     <ID>LongParameterList:AuthRemoteDataSourceImpl.kt$AuthRemoteDataSourceImpl$( private val authCacheMutex: Mutex, private val deauthorizationFlow: Flow&lt;UserDeauthorized&gt;, private val authSocialHttpClient: HttpClient, private val authCredentialsHttpClient: HttpClient, private val networkEndpointConfigInfo: NetworkEndpointConfigInfo, private val json: Json, private val settings: Settings )</ID>
@@ -261,12 +260,14 @@
     <ID>ReturnCount:TopicsRepetitionsActionDispatcher.kt$TopicsRepetitionsActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( fragmentStepQuizBinding.stepQuizFeedbackBlocks.root, descriptionBinding?.stepQuizDescription, fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton, *quizViews ).toTypedArray() )</ID>
     <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( skeletonView, descriptionBinding?.stepQuizDescriptionSkeleton ).toTypedArray() )</ID>
+    <ID>SwallowedException:Block.kt$e: Exception</ID>
     <ID>SwallowedException:NotificationExtensions.kt$e: ActivityNotFoundException</ID>
     <ID>SwallowedException:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$e: ActivityNotFoundException</ID>
     <ID>SwallowedException:PushNotificationData.kt$PushNotificationData$e: Exception</ID>
     <ID>SwallowedException:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$exception: Exception</ID>
     <ID>ThrowsCount:FillBlanksResolver.kt$FillBlanksResolver$@Throws(InvalidFillBlanksConfigException::class) fun resolve(dataset: Dataset): FillBlanksMode</ID>
     <ID>TooGenericExceptionCaught:BaseStateRepository.kt$BaseStateRepository$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:Block.kt$e: Exception</ID>
     <ID>TooGenericExceptionCaught:LatexWebView.kt$LatexWebView$e: Exception</ID>
     <ID>TooGenericExceptionCaught:PushNotificationData.kt$PushNotificationData$e: Exception</ID>
     <ID>TooGenericExceptionCaught:PushNotificationsInteractor.kt$PushNotificationsInteractor$e: Exception</ID>

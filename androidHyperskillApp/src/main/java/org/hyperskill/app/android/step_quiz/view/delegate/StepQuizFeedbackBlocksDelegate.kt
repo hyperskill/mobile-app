@@ -24,33 +24,33 @@ class StepQuizFeedbackBlocksDelegate(
         private const val NON_LATEX_HINT_TEMPLATE = """<pre><span style="font-family: 'Roboto';">%s</span></pre>"""
     }
 
-    private val viewStateDelegate = ViewStateDelegate<StepQuizFeedbackState>()
+    private val viewStateDelegate = ViewStateDelegate<StepQuizFeedbackState>().apply {
+        addState<StepQuizFeedbackState.Idle>()
+        addState<StepQuizFeedbackState.UnsupportedStep>(
+            layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackUnsupported
+        )
+        addState<StepQuizFeedbackState.Evaluation>(
+            layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation,
+            layoutStepQuizFeedbackBlockBinding.stepQuizCodeExecutionHint
+        )
+        addState<StepQuizFeedbackState.Correct>(
+            layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect,
+            layoutStepQuizFeedbackBlockBinding.stepQuizSubmissionHint,
+            layoutStepQuizFeedbackBlockBinding.stepQuizCodeExecutionHint
+        )
+        addState<StepQuizFeedbackState.Wrong>(
+            layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong,
+            layoutStepQuizFeedbackBlockBinding.stepQuizSubmissionHint
+        )
+        addState<StepQuizFeedbackState.ValidationFailed>(
+            layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
+        )
+        addState<StepQuizFeedbackState.RejectedSubmission>(
+            layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
+        )
+    }
 
     init {
-        with(viewStateDelegate) {
-            addState<StepQuizFeedbackState.Idle>()
-            addState<StepQuizFeedbackState.UnsupportedStep>(
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackUnsupported
-            )
-            addState<StepQuizFeedbackState.Evaluation>(
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation
-            )
-            addState<StepQuizFeedbackState.Correct>(
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackCorrect,
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedback
-            )
-            addState<StepQuizFeedbackState.Wrong>(
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackWrong,
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedback
-            )
-            addState<StepQuizFeedbackState.ValidationFailed>(
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
-            )
-            addState<StepQuizFeedbackState.RejectedSubmission>(
-                layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackValidation
-            )
-        }
-
         getEvaluationDrawable(context).let { evaluationDrawable ->
             layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackEvaluation
                 .setCompoundDrawablesWithIntrinsicBounds(evaluationDrawable, null, null, null)
@@ -73,8 +73,11 @@ class StepQuizFeedbackBlocksDelegate(
         viewStateDelegate.switchState(state)
         layoutStepQuizFeedbackBlockBinding.root.isVisible = state !is StepQuizFeedbackState.Idle
         when (state) {
+            is StepQuizFeedbackState.Evaluation -> {
+                setHint(state.hint, layoutStepQuizFeedbackBlockBinding)
+            }
             is StepQuizFeedbackState.Correct -> {
-                setHint(layoutStepQuizFeedbackBlockBinding, state.hint, state.useLatex)
+                setHint(state.hint, layoutStepQuizFeedbackBlockBinding)
             }
             is StepQuizFeedbackState.Wrong -> {
                 with(layoutStepQuizFeedbackBlockBinding) {
@@ -103,7 +106,7 @@ class StepQuizFeedbackBlocksDelegate(
                         } else null
                     )
 
-                    setHint(layoutStepQuizFeedbackBlockBinding, state.feedbackHint, state.useFeedbackHintLatex)
+                    setHint(state.hint, layoutStepQuizFeedbackBlockBinding)
                 }
             }
             is StepQuizFeedbackState.ValidationFailed -> {
@@ -119,19 +122,59 @@ class StepQuizFeedbackBlocksDelegate(
     }
 
     private fun setHint(
-        layoutStepQuizFeedbackBlockBinding: LayoutStepQuizFeedbackBlockBinding,
-        hint: String?,
-        useLatex: Boolean
+        hint: StepQuizFeedbackState.Hint?,
+        layoutStepQuizFeedbackBlockBinding: LayoutStepQuizFeedbackBlockBinding
     ) {
-        val resultHint = hint?.let {
-            if (useLatex) {
-                hint
-            } else {
-                String.format(NON_LATEX_HINT_TEMPLATE, hint)
+        layoutStepQuizFeedbackBlockBinding.stepQuizSubmissionHint.isVisible =
+            hint is StepQuizFeedbackState.Hint.FromSubmission
+        layoutStepQuizFeedbackBlockBinding.stepQuizCodeExecutionHint.isVisible =
+            hint is StepQuizFeedbackState.Hint.FromRunCodeExecution
+        when (hint) {
+            is StepQuizFeedbackState.Hint.FromSubmission ->
+                setRemoteHint(hint, layoutStepQuizFeedbackBlockBinding)
+            is StepQuizFeedbackState.Hint.FromRunCodeExecution ->
+                setCodeExecutionHint(hint, layoutStepQuizFeedbackBlockBinding)
+            null -> {
+                // no op
             }
         }
-        layoutStepQuizFeedbackBlockBinding.stepQuizFeedback.isVisible = resultHint != null
+    }
+
+    private fun setRemoteHint(
+        hint: StepQuizFeedbackState.Hint.FromSubmission,
+        layoutStepQuizFeedbackBlockBinding: LayoutStepQuizFeedbackBlockBinding
+    ) {
+        val resultHint = if (hint.useLatex) {
+            hint.text
+        } else {
+            String.format(NON_LATEX_HINT_TEMPLATE, hint.text)
+        }
         layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody.setText(resultHint)
+    }
+
+    private fun setCodeExecutionHint(
+        hint: StepQuizFeedbackState.Hint.FromRunCodeExecution,
+        layoutStepQuizFeedbackBlockBinding: LayoutStepQuizFeedbackBlockBinding
+    ) {
+        with(layoutStepQuizFeedbackBlockBinding) {
+            val isInputVisible =
+                hint is StepQuizFeedbackState.Hint.FromRunCodeExecution.Result && hint.input != null
+            stepQuizCodeExecutionInputTitleTextView.isVisible = isInputVisible
+            stepQuizCodeExecutionInputValueTextView.isVisible = isInputVisible
+            if (isInputVisible) {
+                stepQuizCodeExecutionInputValueTextView.text =
+                    (hint as? StepQuizFeedbackState.Hint.FromRunCodeExecution.Result)?.input
+            }
+
+            val isOutputVisible =
+                hint is StepQuizFeedbackState.Hint.FromRunCodeExecution.Result
+            stepQuizCodeExecutionOutputTitleTextView.isVisible = isOutputVisible
+            stepQuizCodeExecutionOutputValueTextView.isVisible = isOutputVisible
+            if (isOutputVisible) {
+                stepQuizCodeExecutionOutputValueTextView.text =
+                    (hint as? StepQuizFeedbackState.Hint.FromRunCodeExecution.Result)?.output
+            }
+        }
     }
 
     private fun getEvaluationDrawable(context: Context): AnimationDrawable =

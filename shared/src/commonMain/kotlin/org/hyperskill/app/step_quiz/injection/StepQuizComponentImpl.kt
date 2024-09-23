@@ -73,6 +73,7 @@ internal class StepQuizComponentImpl(
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
             featuresDataSource = appGraph.profileDataComponent.featuresDataSource,
+            runCodeRepository = appGraph.buildRunCodeDataComponent().runCodeRepository,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             stepQuizHintsActionDispatcher = stepQuizHintsComponent.stepQuizHintsActionDispatcher,

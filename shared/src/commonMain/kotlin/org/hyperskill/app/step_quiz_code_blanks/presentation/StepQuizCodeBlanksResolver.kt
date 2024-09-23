@@ -6,12 +6,7 @@ import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
 import ru.nobird.app.core.model.slice
 
 internal object StepQuizCodeBlanksResolver {
-    private const val ONBOARDING_STEP_ID = 47329L
-
     private const val MINIMUM_POSSIBLE_INDEX_FOR_ELIF_AND_ELSE_STATEMENTS = 2
-
-    fun isOnboardingAvailable(step: Step): Boolean =
-        step.id == ONBOARDING_STEP_ID
 
     fun isVariableSuggestionsAvailable(step: Step): Boolean =
         step.block.options.codeBlanksVariables?.isNotEmpty() == true
@@ -20,25 +15,53 @@ internal object StepQuizCodeBlanksResolver {
         index: Int = -1,
         indentLevel: Int = 0,
         codeBlocks: List<CodeBlock> = emptyList(),
-        isVariableSuggestionAvailable: Boolean
+        isVariableSuggestionAvailable: Boolean,
+        availableConditions: Set<String>
     ): List<Suggestion> =
         when {
-            areElifAndElseStatementsSuggestionsAvailable(index, indentLevel, codeBlocks) ->
-                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.ElifStatement, Suggestion.ElseStatement)
+            areElifAndElseStatementsSuggestionsAvailable(index, indentLevel, codeBlocks, availableConditions) ->
+                buildList {
+                    add(Suggestion.Print)
+                    add(Suggestion.Variable)
+
+                    if (availableConditions.contains(Suggestion.ElifStatement.text)) {
+                        add(Suggestion.ElifStatement)
+                    }
+
+                    if (availableConditions.contains(Suggestion.ElseStatement.text)) {
+                        add(Suggestion.ElseStatement)
+                    }
+                }
 
             isVariableSuggestionAvailable ->
-                listOf(Suggestion.Print, Suggestion.Variable, Suggestion.IfStatement)
+                buildList {
+                    add(Suggestion.Print)
+                    add(Suggestion.Variable)
+
+                    if (availableConditions.contains(Suggestion.IfStatement.text)) {
+                        add(Suggestion.IfStatement)
+                    }
+                }
 
             else ->
-                listOf(Suggestion.Print)
+                if (availableConditions.contains(Suggestion.IfStatement.text)) {
+                    listOf(Suggestion.Print, Suggestion.IfStatement)
+                } else {
+                    listOf(Suggestion.Print)
+                }
         }
 
     fun areElifAndElseStatementsSuggestionsAvailable(
         index: Int,
         indentLevel: Int,
-        codeBlocks: List<CodeBlock>
+        codeBlocks: List<CodeBlock>,
+        availableConditions: Set<String>
     ): Boolean {
-        if (index < MINIMUM_POSSIBLE_INDEX_FOR_ELIF_AND_ELSE_STATEMENTS || codeBlocks.isEmpty()) {
+        if (
+            index < MINIMUM_POSSIBLE_INDEX_FOR_ELIF_AND_ELSE_STATEMENTS ||
+            codeBlocks.isEmpty() ||
+            availableConditions.isEmpty()
+        ) {
             return false
         }
 

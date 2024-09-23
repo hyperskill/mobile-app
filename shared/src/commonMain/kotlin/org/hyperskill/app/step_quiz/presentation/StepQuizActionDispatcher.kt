@@ -1,6 +1,8 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import co.touchlab.kermit.Logger
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -13,9 +15,15 @@ import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.run_code.domain.model.RunCodeExecutionResult
+import org.hyperskill.app.run_code.domain.repository.RunCodeRepository
+import org.hyperskill.app.run_code.remote.model.RunCodeRequest
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.step.domain.model.BlockName
+import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCreateSubmissionAmplitudeAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizSubmissionCreatedAmplitudeAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -25,6 +33,8 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
@@ -42,6 +52,7 @@ internal class StepQuizActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
+    private val runCodeRepository: RunCodeRepository,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -129,59 +140,8 @@ internal class StepQuizActionDispatcher(
                 )
                 onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
             }
-            is Action.CreateSubmission -> {
-                val reply = action.submission.reply ?: return onNewMessage(Message.CreateSubmissionNetworkError)
-
-                analyticInteractor.logEvent(
-                    StepQuizCreateSubmissionAmplitudeAnalyticEvent(
-                        stepId = action.step.id,
-                        blockName = action.step.block.name
-                    )
-                )
-
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission(
-                    blockName = action.step.block.name
-                )
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                var newAttempt: Attempt? = null
-                if (action.submission.originalStatus.isWrongOrRejected &&
-                    StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)
-                ) {
-                    newAttempt = stepQuizInteractor
-                        .createAttempt(action.step.id)
-                        .getOrElse {
-                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                            return onNewMessage(Message.CreateSubmissionNetworkError)
-                        }
-                }
-
-                stepQuizInteractor
-                    .createSubmission(
-                        stepId = action.step.id,
-                        solvingContext = action.stepContext,
-                        attemptId = newAttempt?.id ?: action.attemptId,
-                        reply = reply
-                    )
-                    .fold(
-                        onSuccess = { newSubmission ->
-                            sentryInteractor.finishTransaction(sentryTransaction)
-                            analyticInteractor.logEvent(
-                                StepQuizSubmissionCreatedAmplitudeAnalyticEvent(
-                                    stepId = action.step.id,
-                                    blockName = action.step.block.name,
-                                    submissionStatus = newSubmission.status
-                                )
-                            )
-                            onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
-                        },
-                        onFailure = { e ->
-                            sentryInteractor.finishTransaction(sentryTransaction)
-                            logger.e(e) { "Failed to create submission" }
-                            onNewMessage(Message.CreateSubmissionNetworkError)
-                        }
-                    )
-            }
+            is Action.CreateSubmission ->
+                handleCreateSubmission(action, ::onNewMessage)
             is Action.SaveProblemOnboardingModalShownCacheFlag -> {
                 when (action.modalType) {
                     StepQuizFeature.ProblemOnboardingModal.Parsons ->
@@ -240,6 +200,112 @@ internal class StepQuizActionDispatcher(
         }.let(onNewMessage)
     }
 
+    private suspend fun handleCreateSubmission(
+        action: Action.CreateSubmission,
+        onNewMessage: (Message) -> Unit
+    ) {
+        val reply = action.submission.reply ?: return onNewMessage(Message.CreateSubmissionNetworkError)
+
+        analyticInteractor.logEvent(
+            StepQuizCreateSubmissionAmplitudeAnalyticEvent(
+                stepId = action.step.id,
+                blockName = action.step.block.name
+            )
+        )
+
+        sentryInteractor.withTransaction(
+            transaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission(
+                blockName = action.step.block.name
+            ),
+            onError = { Message.CreateSubmissionNetworkError }
+        ) {
+            coroutineScope {
+                val createSubmissionResultDeferred = async {
+                    createSubmission(
+                        submission = action.submission,
+                        step = action.step,
+                        stepContext = action.stepContext,
+                        reply = reply,
+                        attemptId = action.attemptId
+                    )
+                }
+
+                val runCodeExecutionDeferred = async {
+                    runCode(step = action.step, reply = reply)
+                }
+
+                val createSubmissionResult = createSubmissionResultDeferred.await()
+
+                Message.CreateSubmissionSuccess(
+                    submission = createSubmissionResult.newSubmission,
+                    newAttempt = createSubmissionResult.newAttempt,
+                    runCodeExecutionResult = runCodeExecutionDeferred.await().getOrNull()
+                )
+            }
+        }.let(::onNewMessage)
+    }
+
+    private suspend fun createSubmission(
+        submission: Submission,
+        step: Step,
+        stepContext: StepContext,
+        attemptId: Long,
+        reply: Reply
+    ): CreateSubmissionResult {
+        val newAttempt = recreateAttemptIfNeeded(submission, step)
+
+        val newSubmission = stepQuizInteractor
+            .createSubmission(
+                stepId = step.id,
+                solvingContext = stepContext,
+                attemptId = newAttempt?.id ?: attemptId,
+                reply = reply
+            )
+            .onFailure { e -> logger.e(e) { "Failed to create submission" } }
+            .getOrThrow()
+
+        analyticInteractor.logEvent(
+            StepQuizSubmissionCreatedAmplitudeAnalyticEvent(
+                stepId = step.id,
+                blockName = step.block.name,
+                submissionStatus = newSubmission.status
+            )
+        )
+
+        return CreateSubmissionResult(newSubmission, newAttempt)
+    }
+
+    private suspend fun recreateAttemptIfNeeded(submission: Submission, step: Step): Attempt? {
+        val shouldRecreateAttempt =
+            submission.originalStatus.isWrongOrRejected &&
+                StepQuizResolver.isNeedRecreateAttemptForNewSubmission(step)
+
+        return if (shouldRecreateAttempt) {
+            stepQuizInteractor
+                .createAttempt(step.id)
+                .onFailure { e -> logger.e(e) { "Failed to recreate attempt" } }
+                .getOrThrow()
+        } else {
+            null
+        }
+    }
+
+    private suspend fun runCode(
+        step: Step,
+        reply: Reply
+    ): Result<RunCodeExecutionResult?> =
+        if (step.block.name == BlockName.CODE && reply.code != null) {
+            runCodeRepository.runCode(
+                RunCodeRequest(
+                    stdin = step.block.options.samples?.firstOrNull()?.input ?: "Empty stdin",
+                    language = reply.language ?: "",
+                    code = reply.code
+                )
+            )
+        } else {
+            Result.success(null)
+        }
+
     private suspend fun getSubmissionState(
         attemptId: Long,
         stepId: Long,
@@ -275,4 +341,9 @@ internal class StepQuizActionDispatcher(
             )
         )
     }
+
+    private data class CreateSubmissionResult(
+        val newSubmission: Submission,
+        val newAttempt: Attempt?
+    )
 }

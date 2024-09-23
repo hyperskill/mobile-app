@@ -102,6 +102,8 @@ import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
 import org.hyperskill.app.request_review.injection.RequestReviewDataComponentImpl
 import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
 import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponentImpl
+import org.hyperskill.app.run_code.injection.RunCodeDataComponent
+import org.hyperskill.app.run_code.injection.RunCodeDataComponentImpl
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search.injection.SearchComponentImpl
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
@@ -324,6 +326,9 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildSubmissionsDataComponent(): SubmissionsDataComponent =
         SubmissionsDataComponentImpl(this)
+
+    override fun buildRunCodeDataComponent(): RunCodeDataComponent =
+        RunCodeDataComponentImpl(appGraph = this)
 
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)

@@ -3,7 +3,6 @@ package org.hyperskill.step_quiz_code_blanks.presentation
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedSuggestionHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
@@ -12,7 +11,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 
 class StepQuizCodeBlanksReducerSuggestionClickedTest {
-    private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
+    private val reducer = StepQuizCodeBlanksReducer.stub()
 
     @Test
     fun `SuggestionClicked should not update state if no active code block`() {
@@ -80,7 +79,7 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksStringsSuggestions,
+                            suggestions = initialState.stringsSuggestions,
                             selectedSuggestion = null
                         )
                     )
@@ -112,12 +111,12 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksVariablesSuggestions,
+                            suggestions = initialState.variablesSuggestions,
                             selectedSuggestion = null
                         ),
                         CodeBlockChild.SelectSuggestion(
                             isActive = false,
-                            suggestions = initialState.codeBlanksStringsSuggestions,
+                            suggestions = initialState.stringsSuggestions,
                             selectedSuggestion = null
                         )
                     )
@@ -149,7 +148,7 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksVariablesAndStringsSuggestions,
+                            suggestions = initialState.variablesAndStringsSuggestions,
                             selectedSuggestion = null
                         )
                     )
@@ -181,7 +180,7 @@ class StepQuizCodeBlanksReducerSuggestionClickedTest {
                     children = listOf(
                         CodeBlockChild.SelectSuggestion(
                             isActive = true,
-                            suggestions = initialState.codeBlanksVariablesAndStringsSuggestions,
+                            suggestions = initialState.variablesAndStringsSuggestions,
                             selectedSuggestion = null
                         )
                     )

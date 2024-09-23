@@ -7,6 +7,9 @@ import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.comments.domain.model.CommentThread
+import org.hyperskill.app.run_code.domain.model.RunCodeExecutionResult
+import org.hyperskill.app.step.domain.model.Block
+import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
@@ -87,7 +90,15 @@ class StepQuizFeedbackMapperTest {
     fun `SubmissionStatus_CORRECT should be mapped to Correct viewState`() {
         val hint = "Test hint"
         val state = getAttemptLoadedSubmissionState(
-            Submission.stub(
+            step = Step.stub(
+                id = 0,
+                block = Block(
+                    name = BlockName.TEXT,
+                    text = "",
+                    options = Block.Options()
+                )
+            ),
+            submission = Submission.stub(
                 status = SubmissionStatus.CORRECT,
                 hint = hint
             )
@@ -95,8 +106,49 @@ class StepQuizFeedbackMapperTest {
 
         val viewState = mapper.map(state)
 
+        val expectedHint = StepQuizFeedbackState.Hint.FromSubmission(
+            text = hint,
+            useLatex = false
+        )
+
         assertIs<StepQuizFeedbackState.Correct>(viewState)
-        assertEquals(hint, viewState.hint)
+        assertEquals(expectedHint, viewState.hint)
+    }
+
+    @Test
+    fun `SubmissionStatus_Correct should be mapped to Correct view state with code execution hint for code step`() {
+        val stdout = "test out"
+        val stdin = "test in"
+        val state = getAttemptLoadedSubmissionState(
+            step = Step.stub(
+                id = 0,
+                block = Block(
+                    name = BlockName.CODE,
+                    text = "",
+                    options = Block.Options()
+                )
+            ),
+            submission = Submission.stub(
+                status = SubmissionStatus.CORRECT,
+                hint = null
+            ),
+            runCodeExecutionResult = RunCodeExecutionResult(
+                language = "kotlin",
+                stdin = stdin,
+                stdout = stdout,
+                isSuccess = true
+            )
+        )
+
+        val viewState = mapper.map(state)
+
+        val expectedHint = StepQuizFeedbackState.Hint.FromRunCodeExecution.Result(
+            input = stdin,
+            output = stdout
+        )
+
+        assertIs<StepQuizFeedbackState.Correct>(viewState)
+        assertEquals(expectedHint, viewState.hint)
     }
 
     @Test
@@ -270,7 +322,8 @@ class StepQuizFeedbackMapperTest {
         replyValidation: ReplyValidationResult? = null,
         wrongSubmissionCount: Int = 0,
         step: Step = Step.stub(id = 0),
-        stepQuizHintsState: StepQuizHintsFeature.State = StepQuizHintsFeature.State.Idle
+        stepQuizHintsState: StepQuizHintsFeature.State = StepQuizHintsFeature.State.Idle,
+        runCodeExecutionResult: RunCodeExecutionResult? = null
     ): StepQuizFeature.State =
         StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
@@ -282,7 +335,8 @@ class StepQuizFeedbackMapperTest {
                 ),
                 isProblemsLimitReached = false,
                 isTheoryAvailable = false,
-                wrongSubmissionsCount = wrongSubmissionCount
+                wrongSubmissionsCount = wrongSubmissionCount,
+                runCodeExecutionResult = runCodeExecutionResult
             ),
             stepQuizHintsState = stepQuizHintsState,
             stepQuizToolbarState = StepQuizToolbarFeature.State.Idle,

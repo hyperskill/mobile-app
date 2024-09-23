@@ -10,6 +10,7 @@ import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.run_code.domain.repository.RunCodeRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -48,6 +49,7 @@ internal object StepQuizFeatureBuilder {
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
         featuresDataSource: FeaturesDataSource,
+        runCodeRepository: RunCodeRepository,
         stepQuizHintsReducer: StepQuizHintsReducer,
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
         stepQuizToolbarReducer: StepQuizToolbarReducer,
@@ -77,6 +79,7 @@ internal object StepQuizFeatureBuilder {
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
+            runCodeRepository = runCodeRepository,
             logger = logger.withTag(LOG_TAG)
         )
 

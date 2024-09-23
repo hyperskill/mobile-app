@@ -3,6 +3,8 @@ package org.hyperskill.step_quiz_code_blanks.template
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlinx.serialization.encodeToString
+import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
@@ -33,9 +35,7 @@ class CodeBlanksTemplateMapperTest {
             id = 1,
             block = Block.stub(
                 options = Block.Options(
-                    codeBlanksTemplate = listOf(
-                        CodeBlockTemplateEntry(type = CodeBlockTemplateEntryType.UNKNOWN)
-                    )
+                    codeBlanksTemplateString = "[{\"type\":\"test\"}]"
                 )
             )
         )
@@ -63,9 +63,13 @@ class CodeBlanksTemplateMapperTest {
                 children = emptyList()
             )
         )
+
+        val json = NetworkModule.provideJson()
+        val codeBlanksTemplateString = json.encodeToString(codeBlanksTemplate)
+
         val step = Step.stub(
             id = 1,
-            block = Block.stub(options = Block.Options(codeBlanksTemplate = codeBlanksTemplate))
+            block = Block.stub(options = Block.Options(codeBlanksTemplateString = codeBlanksTemplateString))
         )
 
         val expectedCodeBlocks = listOf(

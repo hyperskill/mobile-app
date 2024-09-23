@@ -3,7 +3,6 @@ package org.hyperskill.step_quiz_code_blanks.presentation
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_code_blanks.domain.analytic.StepQuizCodeBlanksClickedDecreaseIndentLevelHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
@@ -11,7 +10,7 @@ import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksF
 import org.hyperskill.app.step_quiz_code_blanks.presentation.StepQuizCodeBlanksReducer
 
 class StepQuizCodeBlanksReducerDecreaseIndentLevelButtonClickedTest {
-    private val reducer = StepQuizCodeBlanksReducer(StepRoute.Learn.Step(1, null))
+    private val reducer = StepQuizCodeBlanksReducer.stub()
 
     @Test
     fun `DecreaseIndentLevelButtonClicked should not update state if state is not Content`() {

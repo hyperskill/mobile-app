@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz_code_blanks.domain.model.template
 
 import kotlin.math.max
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.decodeCodeBlanksTemplateString
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlock
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.CodeBlockChild
 import org.hyperskill.app.step_quiz_code_blanks.domain.model.Suggestion
@@ -14,26 +15,26 @@ internal object CodeBlanksTemplateMapper {
     private const val MATH_EXPRESSIONS_TEMPLATE_STEP_ID = 47580L // ALTAPPS-1324
 
     fun map(step: Step): List<CodeBlock> =
-        when {
-            step.id == MATH_EXPRESSIONS_TEMPLATE_STEP_ID -> createMathExpressionsCodeBlocks(step)
-            isCodeBlanksTemplateAvailable(step) -> parseCodeBlanksTemplate(step)
-            else -> emptyList()
-        }
-
-    private fun isCodeBlanksTemplateAvailable(step: Step): Boolean {
-        val codeBlockTemplateEntries = step.block.options.codeBlanksTemplate ?: return false
-        return codeBlockTemplateEntries.none { it.type == CodeBlockTemplateEntryType.UNKNOWN }
-    }
-
-    private fun parseCodeBlanksTemplate(step: Step): List<CodeBlock> {
-        val codeBlockTemplateEntries = step.block.options.codeBlanksTemplate
-            ?.filter { it.type != CodeBlockTemplateEntryType.UNKNOWN }
-        return if (codeBlockTemplateEntries.isNullOrEmpty()) {
-            emptyList()
+        if (step.id == MATH_EXPRESSIONS_TEMPLATE_STEP_ID) {
+            createMathExpressionsCodeBlocks(step)
         } else {
-            codeBlockTemplateEntries.map { mapCodeBlockTemplateEntry(entry = it, step = step) }
+            step.block.options.decodeCodeBlanksTemplateString()
+                .takeIf(::isCodeBlanksTemplateAvailable)
+                ?.let { mapCodeBlanksTemplate(it, step) }
+                ?: emptyList()
         }
-    }
+
+    private fun isCodeBlanksTemplateAvailable(codeBlanksTemplate: List<CodeBlockTemplateEntry>): Boolean =
+        codeBlanksTemplate.none { it.type == CodeBlockTemplateEntryType.UNKNOWN }
+
+    private fun mapCodeBlanksTemplate(
+        codeBlanksTemplate: List<CodeBlockTemplateEntry>,
+        step: Step
+    ): List<CodeBlock> =
+        codeBlanksTemplate
+            .filter { it.type != CodeBlockTemplateEntryType.UNKNOWN }
+            .map { mapCodeBlockTemplateEntry(entry = it, step = step) }
+            .let { setSuggestionsForBlankCodeBlocks(codeBlocks = it, step = step) }
 
     private fun mapCodeBlockTemplateEntry(
         entry: CodeBlockTemplateEntry,
@@ -45,9 +46,7 @@ internal object CodeBlanksTemplateMapper {
                     isActive = entry.isActive,
                     indentLevel = entry.indentLevel,
                     isDeleteForbidden = entry.isDeleteForbidden,
-                    suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
-                        isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step)
-                    )
+                    suggestions = emptyList()
                 )
             CodeBlockTemplateEntryType.PRINT ->
                 CodeBlock.Print(
@@ -135,6 +134,26 @@ internal object CodeBlanksTemplateMapper {
         }
     }
 
+    private fun setSuggestionsForBlankCodeBlocks(
+        codeBlocks: List<CodeBlock>,
+        step: Step
+    ): List<CodeBlock> =
+        codeBlocks.mapIndexed { index, codeBlock ->
+            if (codeBlock is CodeBlock.Blank) {
+                codeBlock.copy(
+                    suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
+                        index = index,
+                        indentLevel = codeBlock.indentLevel,
+                        codeBlocks = codeBlocks,
+                        isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step),
+                        availableConditions = step.block.options.codeBlanksAvailableConditions ?: emptySet()
+                    )
+                )
+            } else {
+                codeBlock
+            }
+        }
+
     private fun createMathExpressionsCodeBlocks(step: Step): List<CodeBlock> =
         listOf(
             CodeBlock.Variable(
@@ -190,7 +209,8 @@ internal object CodeBlanksTemplateMapper {
                 indentLevel = 0,
                 isDeleteForbidden = false,
                 suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
-                    isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step)
+                    isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step),
+                    availableConditions = step.block.options.codeBlanksAvailableConditions ?: emptySet()
                 )
             )
         )

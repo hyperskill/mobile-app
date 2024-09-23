@@ -56,6 +56,7 @@ import org.hyperskill.app.purchases.injection.PurchaseComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
 import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
+import org.hyperskill.app.run_code.injection.RunCodeDataComponent
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -143,6 +144,7 @@ interface AppGraph {
     fun buildStepFeedbackComponent(stepRoute: StepRoute): StepFeedbackComponent
 
     fun buildSubmissionsDataComponent(): SubmissionsDataComponent
+    fun buildRunCodeDataComponent(): RunCodeDataComponent
 
     fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent
 
@@ -203,6 +205,7 @@ interface AppGraph {
     fun buildWelcomeOnboardingTrackDetailsComponent(
         track: WelcomeOnboardingTrack
     ): WelcomeOnboardingTrackDetailsComponent
+
     fun buildWelcomeOnboardingFinishComponent(): WelcomeOnboardingFinishComponent
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
@@ -212,9 +215,11 @@ interface AppGraph {
     fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent
+
     fun buildTopicCompletedModalComponent(
         params: TopicCompletedModalFeatureParams
     ): TopicCompletedModalComponent
+
     fun buildCommentsScreenComponent(
         params: CommentsScreenFeatureParams
     ): CommentsScreenComponent

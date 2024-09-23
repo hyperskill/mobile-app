@@ -145,8 +145,42 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success
     ): StudyPlanWidgetReducerResult {
-        val learningActivitiesIds = message.learningActivities.map { it.id }.toSet()
-        val visibleSections = getVisibleSections(message.studyPlanSections, learningActivitiesIds)
+        val isFakeTopicsFeatureAvailable =
+            StudyPlanWidgetFakeTopicsFeature.isFakeTopicsFeatureAvailable(
+                trackId = state.profile?.trackId,
+                subscription = message.subscription
+            )
+        val fakeTopics = if (isFakeTopicsFeatureAvailable) {
+            StudyPlanWidgetFakeTopicsFeature.topics
+        } else {
+            emptyList()
+        }
+
+        val studyPlanSections =
+            if (isFakeTopicsFeatureAvailable) {
+                message.studyPlanSections.map { section ->
+                    if (section.type == StudyPlanSectionType.ROOT_TOPICS) {
+                        section.copy(
+                            isVisible = true,
+                            activities = section.activities + fakeTopics.map { it.id }
+                        )
+                    } else {
+                        section
+                    }
+                }
+            } else {
+                message.studyPlanSections
+            }
+
+        val learningActivities =
+            if (isFakeTopicsFeatureAvailable) {
+                message.learningActivities + fakeTopics
+            } else {
+                message.learningActivities
+            }
+        val learningActivitiesIds = learningActivities.map { it.id }.toSet()
+
+        val visibleSections = getVisibleSections(studyPlanSections, learningActivitiesIds)
         val currentSectionId = visibleSections.firstOrNull()?.id ?: return state.copy(
             studyPlanSections = emptyMap(),
             sectionsStatus = ContentStatus.LOADED,
@@ -156,15 +190,18 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
         val supportedSections = visibleSections
             .filter { studyPlanSection ->
-                // ALTAPPS-1186: We should hide next project section for freemium users
-                if (!message.subscription.type.isProjectSelectionEnabled) {
-                    studyPlanSection.type != StudyPlanSectionType.NEXT_PROJECT
-                } else {
-                    true
+                when (studyPlanSection.type) {
+                    StudyPlanSectionType.NEXT_PROJECT ->
+                        // ALTAPPS-1186: We should hide next project section for freemium users
+                        message.subscription.type.isProjectSelectionEnabled
+                    StudyPlanSectionType.NEXT_TRACK ->
+                        // ALTAPPS-1355: We should hide next track section for freemium users
+                        !isFakeTopicsFeatureAvailable
+                    else -> true
                 }
             }
 
-        val studyPlanSections = supportedSections.associate { studyPlanSection ->
+        val resultStudyPlanSections = supportedSections.associate { studyPlanSection ->
             studyPlanSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                 studyPlanSection = studyPlanSection,
                 isExpanded = studyPlanSection.id == currentSectionId,
@@ -179,11 +216,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         }
 
         val loadedSectionsState = state.copy(
-            studyPlanSections = studyPlanSections,
+            studyPlanSections = resultStudyPlanSections,
             sectionsStatus = ContentStatus.LOADED,
             isRefreshing = false,
             learnedTopicsCount = message.learnedTopicsCount,
-            activities = message.learningActivities.associateBy { it.id },
+            activities = learningActivities.associateBy { it.id },
             subscriptionLimitType = message.subscriptionLimitType
         )
 
@@ -191,7 +228,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             handleNewActivities(
                 loadedSectionsState,
                 sectionId = currentSectionId,
-                activities = message.learningActivities,
+                activities = learningActivities,
                 targetPage = SectionPage.MAIN
             )
         } else {
