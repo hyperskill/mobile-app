@@ -5,6 +5,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
 
 internal object StudyPlanWidgetFakeTopicsFeature {
@@ -12,11 +13,43 @@ internal object StudyPlanWidgetFakeTopicsFeature {
 
     private val topicsTitles: List<String> =
         listOf(
-            "Fake topic 1",
-            "Fake topic 2",
-            "Fake topic 3",
-            "Fake topic 4",
-            "Fake topic 5"
+            "Advanced conditions",
+            "Comments",
+            "Boolean data type",
+            "Lists",
+            "List comprehension",
+            "Nested lists",
+            "Indexes and slicing",
+            "While loop",
+            "For loop",
+            "Loop control",
+            "Advanced strings",
+            "Declaring functions",
+            "Invoking functions",
+            "Lambda functions",
+            "Tuples",
+            "Sets",
+            "Dictionaries",
+            "Global vs local scopes",
+            "Immutability",
+            "Objects",
+            "Classes",
+            "Class instances",
+            "Class methods",
+            "Methods and attributes",
+            "Magic methods",
+            "Inheritance",
+            "Polymorphism",
+            "Method overriding",
+            "Errors and exceptions",
+            "Exception handling",
+            "User-defined exceptions",
+            "Modules",
+            "Random module",
+            "File modes and permissions",
+            "Files in Python",
+            "Reading files",
+            "Writing files"
         )
 
     val topics: List<LearningActivity> by lazy {
