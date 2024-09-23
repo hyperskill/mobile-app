@@ -30,14 +30,11 @@ internal object CodeBlanksTemplateMapper {
     private fun mapCodeBlanksTemplate(
         codeBlanksTemplate: List<CodeBlockTemplateEntry>,
         step: Step
-    ): List<CodeBlock> {
-        val supportedEntries = codeBlanksTemplate.filter { it.type != CodeBlockTemplateEntryType.UNKNOWN }
-        return if (supportedEntries.isEmpty()) {
-            emptyList()
-        } else {
-            supportedEntries.map { mapCodeBlockTemplateEntry(entry = it, step = step) }
-        }
-    }
+    ): List<CodeBlock> =
+        codeBlanksTemplate
+            .filter { it.type != CodeBlockTemplateEntryType.UNKNOWN }
+            .map { mapCodeBlockTemplateEntry(entry = it, step = step) }
+            .let { setSuggestionsForBlankCodeBlocks(codeBlocks = it, step = step) }
 
     private fun mapCodeBlockTemplateEntry(
         entry: CodeBlockTemplateEntry,
@@ -49,10 +46,7 @@ internal object CodeBlanksTemplateMapper {
                     isActive = entry.isActive,
                     indentLevel = entry.indentLevel,
                     isDeleteForbidden = entry.isDeleteForbidden,
-                    suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
-                        isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step),
-                        availableConditions = step.block.options.codeBlanksAvailableConditions ?: emptySet()
-                    )
+                    suggestions = emptyList()
                 )
             CodeBlockTemplateEntryType.PRINT ->
                 CodeBlock.Print(
@@ -139,6 +133,26 @@ internal object CodeBlanksTemplateMapper {
             completeChildren
         }
     }
+
+    private fun setSuggestionsForBlankCodeBlocks(
+        codeBlocks: List<CodeBlock>,
+        step: Step
+    ): List<CodeBlock> =
+        codeBlocks.mapIndexed { index, codeBlock ->
+            if (codeBlock is CodeBlock.Blank) {
+                codeBlock.copy(
+                    suggestions = StepQuizCodeBlanksResolver.getSuggestionsForBlankCodeBlock(
+                        index = index,
+                        indentLevel = codeBlock.indentLevel,
+                        codeBlocks = codeBlocks,
+                        isVariableSuggestionAvailable = StepQuizCodeBlanksResolver.isVariableSuggestionsAvailable(step),
+                        availableConditions = step.block.options.codeBlanksAvailableConditions ?: emptySet()
+                    )
+                )
+            } else {
+                codeBlock
+            }
+        }
 
     private fun createMathExpressionsCodeBlocks(step: Step): List<CodeBlock> =
         listOf(
