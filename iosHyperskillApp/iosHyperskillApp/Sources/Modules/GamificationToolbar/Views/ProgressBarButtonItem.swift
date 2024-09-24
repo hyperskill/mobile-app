@@ -55,7 +55,9 @@ struct ProgressBarButtonItem: View {
     }
 }
 
-#Preview {
+#if DEBUG
+@available(iOS 17, *)
+#Preview(traits: .sizeThatFitsLayout) {
     VStack {
         ProgressBarButtonItem(
             progress: 0.65,
@@ -73,5 +75,5 @@ struct ProgressBarButtonItem: View {
     }
     .padding()
     .background(Color(ColorPalette.background))
-    .previewLayout(.sizeThatFits)
 }
+#endif
