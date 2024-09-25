@@ -1,5 +1,9 @@
 package org.hyperskill.app.notification_daily_study_reminder_widget.presentation
 
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.notification_daily_study_reminder_widget.domain.repository.NotificationDailyStudyReminderWidgetRepository
 import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature.Action
@@ -14,6 +18,20 @@ internal class MainNotificationDailyStudyReminderWidgetActionDispatcher(
     private val notificationDailyStudyReminderWidgetRepository: NotificationDailyStudyReminderWidgetRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+    init {
+        currentProfileStateRepository.changes
+            .map { it.gamification.passedTopicsCount }
+            .distinctUntilChanged()
+            .onEach { passedTopicsCount ->
+                onNewMessage(
+                    InternalMessage.PassedTopicsCountChanged(
+                        passedTopicsCount
+                    )
+                )
+            }
+            .launchIn(actionScope)
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             InternalAction.FetchWidgetData ->

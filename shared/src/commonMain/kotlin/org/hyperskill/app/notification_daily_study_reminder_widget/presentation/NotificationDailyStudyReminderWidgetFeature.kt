@@ -31,6 +31,10 @@ object NotificationDailyStudyReminderWidgetFeature {
             val passedTopicsCount: Int,
             val isWidgetHidden: Boolean
         ) : InternalMessage
+
+        data class PassedTopicsCountChanged(
+            val passedTopicsCount: Int
+        ) : InternalMessage
     }
 
     sealed interface Action {

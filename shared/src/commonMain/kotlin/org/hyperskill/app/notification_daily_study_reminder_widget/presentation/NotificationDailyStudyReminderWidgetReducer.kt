@@ -18,6 +18,7 @@ class NotificationDailyStudyReminderWidgetReducer : StateReducer<State, Message,
             is InternalMessage.FetchWidgetDataResult -> handleFetchWidgetDataResult(state, message)
             Message.CloseClicked -> handleCloseClicked(state)
             Message.WidgetClicked -> handleWidgetClicked(state)
+            is InternalMessage.PassedTopicsCountChanged -> handlePassedTopicsCountChanged(state, message)
             Message.ViewedEventMessage -> handleViewedEvent(state)
         } ?: (state to emptySet())
 
@@ -61,6 +62,16 @@ class NotificationDailyStudyReminderWidgetReducer : StateReducer<State, Message,
     private fun handleWidgetClicked(state: State): ReducerResult? =
         if (state is State.Data) {
             state to emptySet()
+        } else {
+            null
+        }
+
+    private fun handlePassedTopicsCountChanged(
+        state: State,
+        message: InternalMessage.PassedTopicsCountChanged
+    ): ReducerResult? =
+        if (state is State.Data) {
+            state.copy(passedTopicsCount = message.passedTopicsCount) to emptySet()
         } else {
             null
         }
