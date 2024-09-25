@@ -7,7 +7,6 @@ import kotlin.test.fail
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature
 import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedChangeTrackHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
@@ -31,8 +30,11 @@ class StudyPlanScreenTest {
 
     @Test
     fun `Viewed event message should trigger logging view analytic event`() {
-        val (state, actions) = reducer.reduce(stubState(), StudyPlanScreenFeature.Message.ViewedEventMessage)
-        assertEquals(state, stubState())
+        val (state, actions) = reducer.reduce(
+            StudyPlanScreenFeature.State.stub(),
+            StudyPlanScreenFeature.Message.ViewedEventMessage
+        )
+        assertEquals(state, StudyPlanScreenFeature.State.stub())
 
         assertEquals(actions.size, 1)
         val targetAction = actions.first() as StudyPlanScreenFeature.InternalAction.LogAnalyticEvent
@@ -45,7 +47,10 @@ class StudyPlanScreenTest {
 
     @Test
     fun `Pull-to-refresh message should trigger logging pull-to-refresh analytic event`() {
-        val (_, actions) = reducer.reduce(stubState(), StudyPlanScreenFeature.Message.PullToRefresh)
+        val (_, actions) = reducer.reduce(
+            StudyPlanScreenFeature.State.stub(),
+            StudyPlanScreenFeature.Message.PullToRefresh
+        )
         assertTrue {
             val targetAction = actions
                 .filterIsInstance<StudyPlanScreenFeature.InternalAction.LogAnalyticEvent>()
@@ -57,11 +62,11 @@ class StudyPlanScreenTest {
     @Test
     fun `Retry content loading message should trigger logging analytic event`() {
         val (actualState, actions) = reducer.reduce(
-            stubState(),
+            StudyPlanScreenFeature.State.stub(),
             StudyPlanScreenFeature.Message.RetryContentLoading
         )
 
-        val expectedState = stubState(
+        val expectedState = StudyPlanScreenFeature.State.stub(
             toolbarState = GamificationToolbarFeature.State.Loading,
             usersInterviewWidgetState = UsersInterviewWidgetFeature.State.Loading,
             studyPlanWidgetState = StudyPlanWidgetFeature.State(
@@ -80,11 +85,11 @@ class StudyPlanScreenTest {
     @Test
     fun `ChangeTrackButtonClicked message should navigate to track selection screen`() {
         val (state, actions) = reducer.reduce(
-            stubState(),
+            StudyPlanScreenFeature.State.stub(),
             StudyPlanScreenFeature.Message.ChangeTrackButtonClicked
         )
 
-        assertEquals(state, stubState())
+        assertEquals(state, StudyPlanScreenFeature.State.stub())
         assertTrue {
             actions.any {
                 it is StudyPlanScreenFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen
@@ -97,18 +102,4 @@ class StudyPlanScreenTest {
             }
         }
     }
-
-    private fun stubState(
-        toolbarState: GamificationToolbarFeature.State = GamificationToolbarFeature.State.Idle,
-        usersInterviewWidgetState: UsersInterviewWidgetFeature.State = UsersInterviewWidgetFeature.State.Idle,
-        notificationDailyStudyReminderWidgetState: NotificationDailyStudyReminderWidgetFeature.State =
-            NotificationDailyStudyReminderWidgetFeature.State.Idle,
-        studyPlanWidgetState: StudyPlanWidgetFeature.State = StudyPlanWidgetFeature.State()
-    ): StudyPlanScreenFeature.State =
-        StudyPlanScreenFeature.State(
-            toolbarState = toolbarState,
-            usersInterviewWidgetState = usersInterviewWidgetState,
-            notificationDailyStudyReminderWidgetState = notificationDailyStudyReminderWidgetState,
-            studyPlanWidgetState = studyPlanWidgetState
-        )
 }
