@@ -7,6 +7,8 @@ import kotlin.test.fail
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedChangeTrackHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
@@ -23,6 +25,7 @@ class StudyPlanScreenTest {
     private val reducer = StudyPlanScreenReducer(
         GamificationToolbarReducer(GamificationToolbarScreen.STUDY_PLAN),
         UsersInterviewWidgetReducer(),
+        NotificationDailyStudyReminderWidgetReducer(),
         StudyPlanWidgetReducer()
     )
 
@@ -60,7 +63,7 @@ class StudyPlanScreenTest {
 
         val expectedState = stubState(
             toolbarState = GamificationToolbarFeature.State.Loading,
-            questionnaireWidgetState = UsersInterviewWidgetFeature.State.Loading,
+            usersInterviewWidgetState = UsersInterviewWidgetFeature.State.Loading,
             studyPlanWidgetState = StudyPlanWidgetFeature.State(
                 sectionsStatus = ContentStatus.LOADING
             )
@@ -97,12 +100,15 @@ class StudyPlanScreenTest {
 
     private fun stubState(
         toolbarState: GamificationToolbarFeature.State = GamificationToolbarFeature.State.Idle,
-        questionnaireWidgetState: UsersInterviewWidgetFeature.State = UsersInterviewWidgetFeature.State.Idle,
+        usersInterviewWidgetState: UsersInterviewWidgetFeature.State = UsersInterviewWidgetFeature.State.Idle,
+        notificationDailyStudyReminderWidgetState: NotificationDailyStudyReminderWidgetFeature.State =
+            NotificationDailyStudyReminderWidgetFeature.State.Idle,
         studyPlanWidgetState: StudyPlanWidgetFeature.State = StudyPlanWidgetFeature.State()
     ): StudyPlanScreenFeature.State =
         StudyPlanScreenFeature.State(
-            toolbarState,
-            questionnaireWidgetState,
-            studyPlanWidgetState
+            toolbarState = toolbarState,
+            usersInterviewWidgetState = usersInterviewWidgetState,
+            notificationDailyStudyReminderWidgetState = notificationDailyStudyReminderWidgetState,
+            studyPlanWidgetState = studyPlanWidgetState
         )
 }

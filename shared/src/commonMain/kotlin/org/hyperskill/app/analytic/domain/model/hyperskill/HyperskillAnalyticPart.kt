@@ -43,6 +43,7 @@ enum class HyperskillAnalyticPart(val partName: String) {
     DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL("daily_study_reminders_hour_interval_picker_modal"),
     REQUEST_REVIEW_MODAL("request_review_modal"),
     USERS_INTERVIEW_WIDGET("users_interview_widget"),
+    NOTIFICATION_DAILY_STUDY_REMINDER_WIDGET("notification_daily_study_reminder_widget"),
     UNSUPPORTED_QUIZ_PLACEHOLDER("unsupported_quiz_placeholder"),
     CODE_BLANKS("code_blanks"),
     CODE_BLOCK("code_block"),

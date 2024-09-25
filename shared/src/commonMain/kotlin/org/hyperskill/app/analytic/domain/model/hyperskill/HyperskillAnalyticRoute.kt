@@ -124,6 +124,11 @@ sealed class HyperskillAnalyticRoute {
             override val path: String
                 get() = "${super.path}/users-interview-widget"
         }
+
+        class NotificationDailyStudyReminderWidget : StudyPlan() {
+            override val path: String
+                get() = "${super.path}/notification-daily-study-reminder-widget"
+        }
     }
 
     class Leaderboard : HyperskillAnalyticRoute() {

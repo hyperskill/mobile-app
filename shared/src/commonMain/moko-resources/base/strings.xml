@@ -639,6 +639,10 @@
     <string name="users_interview_widget_title">We want to hear your story!</string>
     <string name="users_interview_widget_subtitle">Share your Hyperskill app experience in an online feedback session, and receive an Amazon gift card</string>
 
+    <!-- Notification daily study reminder widget -->
+    <string name="notification_daily_study_reminder_widget_title">Build a habit</string>
+    <string name="notification_daily_study_reminder_widget_subtitle">Stay on top of your learning with daily reminder notifications</string>
+
     <!-- Search -->
     <string name="search_title">Search</string>
     <string name="search_input_placeholder">Find topic</string>

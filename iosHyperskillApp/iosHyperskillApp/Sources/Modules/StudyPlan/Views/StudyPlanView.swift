@@ -89,13 +89,21 @@ struct StudyPlanView: View {
                         .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
 
-                    let usersInterviewWidgetFeatureStateKs = viewModel.usersInterviewWidgetFeatureStateKs
+                    let usersInterviewWidgetFeatureStateKs = viewModel.usersInterviewWidgetStateKs
                     if usersInterviewWidgetFeatureStateKs != .hidden {
                         UsersInterviewWidgetAssembly(
                             stateKs: usersInterviewWidgetFeatureStateKs,
                             moduleOutput: viewModel
                         )
                         .makeModule()
+                    }
+
+                    if viewModel.notificationDailyStudyReminderWidgetViewStateKs != .hidden {
+                        NotificationDailyStudyReminderWidgetView(
+                            onCallToAction: viewModel.doNotificationDailyStudyReminderWidgetCallToAction,
+                            onClose: viewModel.doNotificationDailyStudyReminderWidgetCloseAction,
+                            onViewedEvent: viewModel.logNotificationDailyStudyReminderWidgetViewedEvent
+                        )
                     }
 
                     if data.isPaywallBannerShown {
@@ -152,6 +160,8 @@ private extension StudyPlanView {
             handleUsersInterviewWidgetViewAction(
                 usersInterviewWidgetViewAction.viewAction
             )
+        case .notificationDailyStudyReminderWidgetViewAction:
+            break
         }
     }
 

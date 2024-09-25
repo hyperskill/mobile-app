@@ -10,6 +10,9 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarA
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetActionDispatcher
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetReducer
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature.InternalAction
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenReducer
@@ -36,6 +39,8 @@ internal object StudyPlanScreenFeatureBuilder {
         toolbarActionDispatcher: GamificationToolbarActionDispatcher,
         usersInterviewWidgetReducer: UsersInterviewWidgetReducer,
         usersInterviewWidgetActionDispatcher: UsersInterviewWidgetActionDispatcher,
+        notificationDailyStudyReminderWidgetReducer: NotificationDailyStudyReminderWidgetReducer,
+        notificationDailyStudyReminderWidgetActionDispatcher: NotificationDailyStudyReminderWidgetActionDispatcher,
         studyPlanWidgetReducer: StudyPlanWidgetReducer,
         studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher,
         studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
@@ -46,6 +51,7 @@ internal object StudyPlanScreenFeatureBuilder {
         val studyPlanScreenReducer = StudyPlanScreenReducer(
             toolbarReducer = toolbarReducer,
             usersInterviewWidgetReducer = usersInterviewWidgetReducer,
+            notificationDailyStudyReminderWidgetReducer = notificationDailyStudyReminderWidgetReducer,
             studyPlanWidgetReducer = studyPlanWidgetReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
@@ -59,6 +65,7 @@ internal object StudyPlanScreenFeatureBuilder {
             StudyPlanScreenFeature.State(
                 toolbarState = GamificationToolbarFeature.State.Idle,
                 usersInterviewWidgetState = UsersInterviewWidgetFeature.State.Idle,
+                notificationDailyStudyReminderWidgetState = NotificationDailyStudyReminderWidgetFeature.State.Idle,
                 studyPlanWidgetState = StudyPlanWidgetFeature.State()
             ),
             reducer = studyPlanScreenReducer
@@ -78,6 +85,14 @@ internal object StudyPlanScreenFeatureBuilder {
                         it.safeCast<InternalAction.UsersInterviewWidgetAction>()?.action
                     },
                     transformMessage = StudyPlanScreenFeature.Message::UsersInterviewWidgetMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                notificationDailyStudyReminderWidgetActionDispatcher.transform(
+                    transformAction = {
+                        it.safeCast<InternalAction.NotificationDailyStudyReminderWidgetAction>()?.action
+                    },
+                    transformMessage = StudyPlanScreenFeature.Message::NotificationDailyStudyReminderWidgetMessage
                 )
             )
             .wrapWithActionDispatcher(
