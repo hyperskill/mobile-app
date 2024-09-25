@@ -15,6 +15,8 @@ object StudyPlanScreenFeature {
         val notificationDailyStudyReminderWidgetState: NotificationDailyStudyReminderWidgetFeature.State,
         val studyPlanWidgetState: StudyPlanWidgetFeature.State
     ) {
+        companion object;
+
         val isRefreshing: Boolean
             get() = toolbarState.isRefreshing ||
                 studyPlanWidgetState.isRefreshing
