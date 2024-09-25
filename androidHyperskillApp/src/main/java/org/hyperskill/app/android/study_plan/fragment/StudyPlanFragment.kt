@@ -202,6 +202,9 @@ class StudyPlanFragment :
                     )
                 )
             }
+            is StudyPlanScreenFeature.Action.ViewAction.NotificationDailyStudyReminderWidgetViewAction -> {
+                // TODO: ALTAPPS-1347 handle notification daily study reminder widget view actions
+            }
         }
     }
 

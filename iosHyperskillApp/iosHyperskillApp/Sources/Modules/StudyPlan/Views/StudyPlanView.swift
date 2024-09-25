@@ -89,13 +89,21 @@ struct StudyPlanView: View {
                         .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
 
-                    let usersInterviewWidgetFeatureStateKs = viewModel.usersInterviewWidgetFeatureStateKs
+                    let usersInterviewWidgetFeatureStateKs = viewModel.usersInterviewWidgetStateKs
                     if usersInterviewWidgetFeatureStateKs != .hidden {
                         UsersInterviewWidgetAssembly(
                             stateKs: usersInterviewWidgetFeatureStateKs,
                             moduleOutput: viewModel
                         )
                         .makeModule()
+                    }
+
+                    if viewModel.notificationDailyStudyReminderWidgetViewStateKs != .hidden {
+                        NotificationDailyStudyReminderWidgetView(
+                            onCallToAction: viewModel.doNotificationDailyStudyReminderWidgetCallToAction,
+                            onClose: viewModel.doNotificationDailyStudyReminderWidgetCloseAction,
+                            onViewedEvent: viewModel.logNotificationDailyStudyReminderWidgetViewedEvent
+                        )
                     }
 
                     if data.isPaywallBannerShown {
@@ -151,6 +159,10 @@ private extension StudyPlanView {
         case .usersInterviewWidgetViewAction(let usersInterviewWidgetViewAction):
             handleUsersInterviewWidgetViewAction(
                 usersInterviewWidgetViewAction.viewAction
+            )
+        case .notificationDailyStudyReminderWidgetViewAction(let notificationDailyStudyReminderWidgetViewAction):
+            handleNotificationDailyStudyReminderWidgetViewAction(
+                notificationDailyStudyReminderWidgetViewAction.viewAction
             )
         }
     }
@@ -234,6 +246,15 @@ private extension StudyPlanView {
                 showUsersInterviewViewAction.url,
                 controllerType: .inAppSafari
             )
+        }
+    }
+
+    func handleNotificationDailyStudyReminderWidgetViewAction(
+        _ viewAction: NotificationDailyStudyReminderWidgetFeatureActionViewAction
+    ) {
+        switch NotificationDailyStudyReminderWidgetFeatureActionViewActionKs(viewAction) {
+        case .requestNotificationPermission:
+            viewModel.doNotificationDailyStudyReminderWidgetRequestNotificationPermission()
         }
     }
 }
