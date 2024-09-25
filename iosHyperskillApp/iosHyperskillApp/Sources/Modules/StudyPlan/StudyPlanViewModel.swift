@@ -18,6 +18,16 @@ final class StudyPlanViewModel: FeatureViewModel<
         .init(state.notificationDailyStudyReminderWidgetViewState)
     }
 
+    private let notificationsRegistrationService: NotificationsRegistrationService
+
+    init(
+        notificationsRegistrationService: NotificationsRegistrationService,
+        feature: Presentation_reduxFeature
+    ) {
+        self.notificationsRegistrationService = notificationsRegistrationService
+        super.init(feature: feature)
+    }
+
     override func shouldNotifyStateDidChange(
         oldState: StudyPlanScreenFeature.ViewState,
         newState: StudyPlanScreenFeature.ViewState
@@ -134,6 +144,16 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
+    // MARK: Analytic
+
+    func logViewedEvent() {
+        onNewMessage(StudyPlanScreenFeatureMessageViewedEventMessage())
+    }
+}
+
+// MARK: - StudyPlanViewModel (NotificationDailyStudyReminderWidget) -
+
+extension StudyPlanViewModel {
     func doNotificationDailyStudyReminderWidgetCallToAction() {
         onNewMessage(
             StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
@@ -146,6 +166,30 @@ final class StudyPlanViewModel: FeatureViewModel<
         onNewMessage(
             StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
                 message: NotificationDailyStudyReminderWidgetFeatureMessageCloseClicked()
+            )
+        )
+    }
+
+    func doNotificationDailyStudyReminderWidgetRequestNotificationPermission() {
+        Task(priority: .userInitiated) {
+            let isGranted = await notificationsRegistrationService.requestAuthorizationIfNeeded()
+
+            await MainActor.run {
+                onNewMessage(
+                    StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
+                        message: NotificationDailyStudyReminderWidgetFeatureMessageNotificationPermissionRequestResult(
+                            isPermissionGranted: isGranted
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    func logNotificationDailyStudyReminderWidgetViewedEvent() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
+                message: NotificationDailyStudyReminderWidgetFeatureMessageViewedEventMessage()
             )
         )
     }
@@ -164,20 +208,6 @@ final class StudyPlanViewModel: FeatureViewModel<
                 )
             }
         }
-    }
-
-    // MARK: Analytic
-
-    func logViewedEvent() {
-        onNewMessage(StudyPlanScreenFeatureMessageViewedEventMessage())
-    }
-
-    func logNotificationDailyStudyReminderWidgetViewedEvent() {
-        onNewMessage(
-            StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
-                message: NotificationDailyStudyReminderWidgetFeatureMessageViewedEventMessage()
-            )
-        )
     }
 }
 

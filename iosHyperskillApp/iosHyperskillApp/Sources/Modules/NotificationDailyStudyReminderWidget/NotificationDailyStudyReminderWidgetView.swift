@@ -21,11 +21,7 @@ struct NotificationDailyStudyReminderWidgetView: View {
             UIViewControllerEventsWrapper(onViewDidAppear: onViewedEvent)
 
             Button(
-                action: {
-                    withAnimation {
-                        onCallToAction()
-                    }
-                },
+                action: onCallToAction,
                 label: {
                     ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
                         HStack(alignment: .center, spacing: appearance.spacing) {
@@ -64,11 +60,7 @@ struct NotificationDailyStudyReminderWidgetView: View {
 
     private var closeButton: some View {
         Button(
-            action: {
-                withAnimation {
-                    onClose()
-                }
-            },
+            action: onClose,
             label: {
                 Image(systemName: "xmark.circle.fill")
                     .padding(.all, appearance.interitemSpacing)

@@ -1,6 +1,10 @@
 package org.hyperskill.app.notification_daily_study_reminder_widget.presentation
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.notification_daily_study_reminder_widget.domain.analytic.NotificationDailyStudyReminderWidgetClickedCloseHyperskillAnalyticEvent
+import org.hyperskill.app.notification_daily_study_reminder_widget.domain.analytic.NotificationDailyStudyReminderWidgetClickedHyperskillAnalyticEvent
 import org.hyperskill.app.notification_daily_study_reminder_widget.domain.analytic.NotificationDailyStudyReminderWidgetViewedHyperskillAnalyticEvent
 import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature.Action
 import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature.InternalAction
@@ -18,6 +22,7 @@ class NotificationDailyStudyReminderWidgetReducer : StateReducer<State, Message,
             is InternalMessage.FetchWidgetDataResult -> handleFetchWidgetDataResult(state, message)
             Message.CloseClicked -> handleCloseClicked(state)
             Message.WidgetClicked -> handleWidgetClicked(state)
+            is Message.NotificationPermissionRequestResult -> handleNotificationPermissionRequestResult(state, message)
             is InternalMessage.PassedTopicsCountChanged -> handlePassedTopicsCountChanged(state, message)
             Message.ViewedEventMessage -> handleViewedEvent(state)
         } ?: (state to emptySet())
@@ -61,7 +66,29 @@ class NotificationDailyStudyReminderWidgetReducer : StateReducer<State, Message,
 
     private fun handleWidgetClicked(state: State): ReducerResult? =
         if (state is State.Data) {
-            state to emptySet()
+            state to setOf(
+                Action.ViewAction.RequestNotificationPermission,
+                InternalAction.LogAnalyticEvent(
+                    NotificationDailyStudyReminderWidgetClickedHyperskillAnalyticEvent
+                )
+            )
+        } else {
+            null
+        }
+
+    private fun handleNotificationPermissionRequestResult(
+        state: State,
+        message: Message.NotificationPermissionRequestResult
+    ): ReducerResult? =
+        if (state is State.Data) {
+            State.Hidden to buildSet {
+                if (message.isPermissionGranted) {
+                    val dailyStudyRemindersStartHour = Clock.System.now()
+                        .toLocalDateTime(TimeZone.currentSystemDefault())
+                        .hour
+                    add(InternalAction.SaveDailyStudyRemindersIntervalStartHour(dailyStudyRemindersStartHour))
+                }
+            }
         } else {
             null
         }

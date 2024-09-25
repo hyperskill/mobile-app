@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification_daily_study_reminder_widget.domain.repository.NotificationDailyStudyReminderWidgetRepository
 import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature.Action
 import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature.InternalAction
@@ -15,6 +16,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class MainNotificationDailyStudyReminderWidgetActionDispatcher(
     config: ActionDispatcherOptions,
+    private val notificationInteractor: NotificationInteractor,
     private val notificationDailyStudyReminderWidgetRepository: NotificationDailyStudyReminderWidgetRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -38,7 +40,13 @@ internal class MainNotificationDailyStudyReminderWidgetActionDispatcher(
                 handleFetchWidgetData(::onNewMessage)
             InternalAction.HideWidget ->
                 notificationDailyStudyReminderWidgetRepository.setIsNotificationDailyStudyReminderWidgetHidden(true)
-            is InternalAction.LogAnalyticEvent -> TODO()
+            is InternalAction.SaveDailyStudyRemindersIntervalStartHour -> {
+                notificationInteractor.setDailyStudyRemindersEnabled(enabled = true)
+                notificationInteractor.setDailyStudyReminderNotificationTime(notificationHour = action.startHour)
+            }
+            else -> {
+                // no op
+            }
         }
     }
 

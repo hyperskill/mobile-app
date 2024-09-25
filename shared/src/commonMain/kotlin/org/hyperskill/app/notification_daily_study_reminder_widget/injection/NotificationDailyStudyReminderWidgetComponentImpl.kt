@@ -30,6 +30,7 @@ internal class NotificationDailyStudyReminderWidgetComponentImpl(
         get() = NotificationDailyStudyReminderWidgetActionDispatcher(
             MainNotificationDailyStudyReminderWidgetActionDispatcher(
                 config = ActionDispatcherOptions(),
+                notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor,
                 notificationDailyStudyReminderWidgetRepository = notificationDailyStudyReminderWidgetRepository,
                 currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository
             ),

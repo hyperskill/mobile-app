@@ -23,6 +23,10 @@ object NotificationDailyStudyReminderWidgetFeature {
         data object CloseClicked : Message
         data object WidgetClicked : Message
 
+        data class NotificationPermissionRequestResult(
+            val isPermissionGranted: Boolean
+        ) : Message
+
         data object ViewedEventMessage : Message
     }
 
@@ -38,13 +42,19 @@ object NotificationDailyStudyReminderWidgetFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            data object RequestNotificationPermission : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {
         data object FetchWidgetData : InternalAction
 
         data object HideWidget : InternalAction
+
+        data class SaveDailyStudyRemindersIntervalStartHour(
+            val startHour: Int
+        ) : InternalAction
 
         data class LogAnalyticEvent(val event: AnalyticEvent) : InternalAction
     }

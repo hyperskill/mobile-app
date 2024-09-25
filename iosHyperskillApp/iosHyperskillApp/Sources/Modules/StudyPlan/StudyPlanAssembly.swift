@@ -5,6 +5,7 @@ final class StudyPlanAssembly: UIKitAssembly {
         let studyPlanScreenComponent = AppGraphBridge.sharedAppGraph.buildStudyPlanScreenComponent()
 
         let viewModel = StudyPlanViewModel(
+            notificationsRegistrationService: .shared,
             feature: studyPlanScreenComponent.studyPlanScreenFeature
         )
 

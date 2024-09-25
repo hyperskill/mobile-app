@@ -160,8 +160,10 @@ private extension StudyPlanView {
             handleUsersInterviewWidgetViewAction(
                 usersInterviewWidgetViewAction.viewAction
             )
-        case .notificationDailyStudyReminderWidgetViewAction:
-            break
+        case .notificationDailyStudyReminderWidgetViewAction(let notificationDailyStudyReminderWidgetViewAction):
+            handleNotificationDailyStudyReminderWidgetViewAction(
+                notificationDailyStudyReminderWidgetViewAction.viewAction
+            )
         }
     }
 
@@ -244,6 +246,15 @@ private extension StudyPlanView {
                 showUsersInterviewViewAction.url,
                 controllerType: .inAppSafari
             )
+        }
+    }
+
+    func handleNotificationDailyStudyReminderWidgetViewAction(
+        _ viewAction: NotificationDailyStudyReminderWidgetFeatureActionViewAction
+    ) {
+        switch NotificationDailyStudyReminderWidgetFeatureActionViewActionKs(viewAction) {
+        case .requestNotificationPermission:
+            viewModel.doNotificationDailyStudyReminderWidgetRequestNotificationPermission()
         }
     }
 }
