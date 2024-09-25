@@ -2,6 +2,8 @@ package org.hyperskill.app.study_plan.screen.presentation
 
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetFeature
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedChangeTrackHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
@@ -17,6 +19,7 @@ internal typealias StudyPlanScreenReducerResult = Pair<StudyPlanScreenFeature.St
 internal class StudyPlanScreenReducer(
     private val toolbarReducer: GamificationToolbarReducer,
     private val usersInterviewWidgetReducer: UsersInterviewWidgetReducer,
+    private val notificationDailyStudyReminderWidgetReducer: NotificationDailyStudyReminderWidgetReducer,
     private val studyPlanWidgetReducer: StudyPlanWidgetReducer
 ) : StateReducer<StudyPlanScreenFeature.State, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
     override fun reduce(
@@ -46,6 +49,16 @@ internal class StudyPlanScreenReducer(
                 val (usersInterviewWidgetState, usersInterviewWidgetActions) =
                     reduceUsersInterviewWidgetMessage(state.usersInterviewWidgetState, message.message)
                 state.copy(usersInterviewWidgetState = usersInterviewWidgetState) to usersInterviewWidgetActions
+            }
+            is StudyPlanScreenFeature.Message.NotificationDailyStudyReminderWidgetMessage -> {
+                val (notificationDailyStudyReminderWidgetState, notificationDailyStudyReminderWidgetActions) =
+                    reduceNotificationDailyStudyReminderWidgetMessage(
+                        state.notificationDailyStudyReminderWidgetState,
+                        message.message
+                    )
+                state.copy(
+                    notificationDailyStudyReminderWidgetState = notificationDailyStudyReminderWidgetState
+                ) to notificationDailyStudyReminderWidgetActions
             }
             is StudyPlanScreenFeature.Message.StudyPlanWidgetMessage -> {
                 val (widgetState, widgetActions) =
@@ -171,6 +184,26 @@ internal class StudyPlanScreenReducer(
             .toSet()
 
         return usersInterviewWidgetState to actions
+    }
+
+    private fun reduceNotificationDailyStudyReminderWidgetMessage(
+        state: NotificationDailyStudyReminderWidgetFeature.State,
+        message: NotificationDailyStudyReminderWidgetFeature.Message
+    ): Pair<NotificationDailyStudyReminderWidgetFeature.State, Set<StudyPlanScreenFeature.Action>> {
+        val (notificationDailyStudyReminderWidgetState, notificationDailyStudyReminderWidgetActions) =
+            notificationDailyStudyReminderWidgetReducer.reduce(state, message)
+
+        val actions = notificationDailyStudyReminderWidgetActions
+            .map {
+                if (it is NotificationDailyStudyReminderWidgetFeature.Action.ViewAction) {
+                    StudyPlanScreenFeature.Action.ViewAction.NotificationDailyStudyReminderWidgetViewAction(it)
+                } else {
+                    StudyPlanScreenFeature.InternalAction.NotificationDailyStudyReminderWidgetAction(it)
+                }
+            }
+            .toSet()
+
+        return notificationDailyStudyReminderWidgetState to actions
     }
 
     private fun reduceStudyPlanWidgetMessage(

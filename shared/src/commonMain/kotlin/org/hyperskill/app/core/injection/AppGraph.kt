@@ -35,6 +35,7 @@ import org.hyperskill.app.notification.local.injection.NotificationComponent
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
+import org.hyperskill.app.notification_daily_study_reminder_widget.injection.NotificationDailyStudyReminderWidgetComponent
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
@@ -212,6 +213,7 @@ interface AppGraph {
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
     fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
     fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent
+    fun buildNotificationDailyStudyReminderWidgetComponent(): NotificationDailyStudyReminderWidgetComponent
     fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent

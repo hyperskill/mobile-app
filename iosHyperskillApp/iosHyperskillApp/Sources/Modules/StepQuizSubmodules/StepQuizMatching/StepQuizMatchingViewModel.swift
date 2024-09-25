@@ -52,24 +52,24 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
             selectedColumnsIDs: matchItem.option != nil ? [matchItem.option.require().id] : [],
             isMultipleChoice: false,
             onColumnsSelected: { [weak self] selectedColumnsIDs in
-                guard let self,
+                guard let strongSelf = self,
                       let selectedColumnID = selectedColumnsIDs.first,
                       matchItem.option?.id != selectedColumnID,
-                      let currentItemIndex = self.viewData.items.firstIndex(of: matchItem) else {
+                      let currentItemIndex = strongSelf.viewData.items.firstIndex(of: matchItem) else {
                     return
                 }
 
-                if let swappingIndex = self.viewData.items.firstIndex(where: { $0.option?.id == selectedColumnID }) {
-                    let tmp = self.viewData.items[currentItemIndex].option
-                    self.viewData.items[currentItemIndex].option = self.viewData.items[swappingIndex].option
-                    self.viewData.items[swappingIndex].option = tmp
+                if let swapIndex = strongSelf.viewData.items.firstIndex(where: { $0.option?.id == selectedColumnID }) {
+                    let tmp = strongSelf.viewData.items[currentItemIndex].option
+                    strongSelf.viewData.items[currentItemIndex].option = strongSelf.viewData.items[swapIndex].option
+                    strongSelf.viewData.items[swapIndex].option = tmp
                 } else {
-                    self.viewData.items[currentItemIndex].option = self.options.first(
+                    strongSelf.viewData.items[currentItemIndex].option = strongSelf.options.first(
                         where: { $0.id == selectedColumnID }
                     )
                 }
 
-                self.outputCurrentReply()
+                strongSelf.outputCurrentReply()
             }
         )
     }

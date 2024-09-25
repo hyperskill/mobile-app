@@ -3,6 +3,7 @@ package org.hyperskill.app.study_plan.screen.injection
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
+import org.hyperskill.app.notification_daily_study_reminder_widget.injection.NotificationDailyStudyReminderWidgetComponent
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
@@ -16,6 +17,9 @@ internal class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : St
     private val usersInterviewWidgetComponent: UsersInterviewWidgetComponent =
         appGraph.buildUsersInterviewWidgetComponent()
 
+    private val notificationDailyStudyReminderWidgetComponent: NotificationDailyStudyReminderWidgetComponent =
+        appGraph.buildNotificationDailyStudyReminderWidgetComponent()
+
     private val studyPlanWidgetComponent: StudyPlanWidgetComponent =
         appGraph.buildStudyPlanWidgetComponent()
 
@@ -28,6 +32,10 @@ internal class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : St
             usersInterviewWidgetReducer = usersInterviewWidgetComponent.usersInterviewWidgetReducer,
             usersInterviewWidgetActionDispatcher = usersInterviewWidgetComponent
                 .usersInterviewWidgetActionDispatcher,
+            notificationDailyStudyReminderWidgetReducer = notificationDailyStudyReminderWidgetComponent
+                .notificationDailyStudyReminderWidgetReducer,
+            notificationDailyStudyReminderWidgetActionDispatcher = notificationDailyStudyReminderWidgetComponent
+                .notificationDailyStudyReminderWidgetActionDispatcher,
             studyPlanWidgetReducer = studyPlanWidgetComponent.studyPlanWidgetReducer,
             studyPlanWidgetDispatcher = studyPlanWidgetComponent.studyPlanWidgetDispatcher,
             studyPlanWidgetViewStateMapper = studyPlanWidgetComponent.studyPlanWidgetViewStateMapper,

@@ -64,6 +64,8 @@ import org.hyperskill.app.notification.local.injection.NotificationFlowDataCompo
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponentImpl
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponentImpl
+import org.hyperskill.app.notification_daily_study_reminder_widget.injection.NotificationDailyStudyReminderWidgetComponent
+import org.hyperskill.app.notification_daily_study_reminder_widget.injection.NotificationDailyStudyReminderWidgetComponentImpl
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
@@ -546,6 +548,9 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent =
         UsersInterviewWidgetComponentImpl(this)
+
+    override fun buildNotificationDailyStudyReminderWidgetComponent(): NotificationDailyStudyReminderWidgetComponent =
+        NotificationDailyStudyReminderWidgetComponentImpl(this)
 
     override fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
