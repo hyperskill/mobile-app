@@ -1,0 +1,9 @@
+package org.hyperskill.app.notification_daily_study_reminder_widget.injection
+
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetActionDispatcher
+import org.hyperskill.app.notification_daily_study_reminder_widget.presentation.NotificationDailyStudyReminderWidgetReducer
+
+interface NotificationDailyStudyReminderWidgetComponent {
+    val notificationDailyStudyReminderWidgetReducer: NotificationDailyStudyReminderWidgetReducer
+    val notificationDailyStudyReminderWidgetActionDispatcher: NotificationDailyStudyReminderWidgetActionDispatcher
+}
