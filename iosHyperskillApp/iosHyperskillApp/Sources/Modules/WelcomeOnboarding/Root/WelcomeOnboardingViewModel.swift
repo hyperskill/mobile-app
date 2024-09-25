@@ -18,11 +18,9 @@ final class WelcomeOnboardingViewModel: FeatureViewModel<
 
         self.objectWillChangeSubscription = objectWillChange.sink { [weak self] _ in
             self?.mainScheduler.schedule { [weak self] in
-                guard let self else {
-                    return
+                if let strongSelf = self {
+                    strongSelf.viewController?.displayState(strongSelf.state)
                 }
-
-                self.viewController?.displayState(self.state)
             }
         }
         self.onViewAction = { [weak self] viewAction in
