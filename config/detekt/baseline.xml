@@ -178,6 +178,8 @@
     <ID>MaxLineLength:ExpandableTextView.kt$ExpandableTextView$*</ID>
     <ID>MaxLineLength:HtmlText.kt$text</ID>
     <ID>MaxLineLength:LinearProgressIndicator.kt$*</ID>
+    <ID>MaxLineLength:NotificationDailyStudyReminderWidgetComponentImpl.kt$NotificationDailyStudyReminderWidgetComponentImpl$override</ID>
+    <ID>MaxLineLength:NotificationDailyStudyReminderWidgetComponentImpl.kt$NotificationDailyStudyReminderWidgetComponentImpl$private</ID>
     <ID>MaxLineLength:ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent.kt$ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent$*</ID>
     <ID>MaxLineLength:RepositoryCacheProxy.kt$RepositoryCacheProxy$*</ID>
     <ID>MaxLineLength:StepComponentImpl.kt$StepComponentImpl$nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository</ID>

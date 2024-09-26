@@ -1,0 +1,5 @@
+package org.hyperskill.app.notification_daily_study_reminder_widget.cache
+
+internal object NotificationDailyStudyReminderWidgetCacheKeyValues {
+    const val NOTIFICATION_DAILY_STUDY_REMINDER_WIDGET_HIDDEN = "notification_daily_study_reminder_widget_hidden"
+}

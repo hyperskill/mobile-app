@@ -11,8 +11,21 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarViewStateKs: GamificationToolbarFeatureViewStateKs { .init(state.toolbarViewState) }
-    var usersInterviewWidgetFeatureStateKs: UsersInterviewWidgetFeatureStateKs {
+    var usersInterviewWidgetStateKs: UsersInterviewWidgetFeatureStateKs {
         .init(state.usersInterviewWidgetState)
+    }
+    var notificationDailyStudyReminderWidgetViewStateKs: NotificationDailyStudyReminderWidgetFeatureViewStateKs {
+        .init(state.notificationDailyStudyReminderWidgetViewState)
+    }
+
+    private let notificationsRegistrationService: NotificationsRegistrationService
+
+    init(
+        notificationsRegistrationService: NotificationsRegistrationService,
+        feature: Presentation_reduxFeature
+    ) {
+        self.notificationsRegistrationService = notificationsRegistrationService
+        super.init(feature: feature)
     }
 
     override func shouldNotifyStateDidChange(
@@ -24,10 +37,12 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     func doLoadStudyPlan() {
         onNewMessage(StudyPlanScreenFeatureMessageInitialize())
+        initializeNotificationDailyStudyReminderWidgetFeature()
     }
 
     func doRetryContentLoading() {
         onNewMessage(StudyPlanScreenFeatureMessageRetryContentLoading())
+        initializeNotificationDailyStudyReminderWidgetFeature()
     }
 
     func doScreenBecomesActive() {
@@ -133,6 +148,66 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(StudyPlanScreenFeatureMessageViewedEventMessage())
+    }
+}
+
+// MARK: - StudyPlanViewModel (NotificationDailyStudyReminderWidget) -
+
+extension StudyPlanViewModel {
+    func doNotificationDailyStudyReminderWidgetCallToAction() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
+                message: NotificationDailyStudyReminderWidgetFeatureMessageWidgetClicked()
+            )
+        )
+    }
+
+    func doNotificationDailyStudyReminderWidgetCloseAction() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
+                message: NotificationDailyStudyReminderWidgetFeatureMessageCloseClicked()
+            )
+        )
+    }
+
+    func doNotificationDailyStudyReminderWidgetRequestNotificationPermission() {
+        Task(priority: .userInitiated) {
+            let isGranted = await notificationsRegistrationService.requestAuthorizationIfNeeded()
+
+            await MainActor.run {
+                onNewMessage(
+                    StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
+                        message: NotificationDailyStudyReminderWidgetFeatureMessageNotificationPermissionRequestResult(
+                            isPermissionGranted: isGranted
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    func logNotificationDailyStudyReminderWidgetViewedEvent() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
+                message: NotificationDailyStudyReminderWidgetFeatureMessageViewedEventMessage()
+            )
+        )
+    }
+
+    private func initializeNotificationDailyStudyReminderWidgetFeature() {
+        Task(priority: .userInitiated) {
+            let isNotificationPermissionGranted = await NotificationPermissionStatus.current.isRegistered
+
+            await MainActor.run {
+                onNewMessage(
+                    StudyPlanScreenFeatureMessageNotificationDailyStudyReminderWidgetMessage(
+                        message: NotificationDailyStudyReminderWidgetFeatureMessageInitialize(
+                            isNotificationPermissionGranted: isNotificationPermissionGranted
+                        )
+                    )
+                )
+            }
+        }
     }
 }
 
