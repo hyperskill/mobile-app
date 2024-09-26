@@ -49,7 +49,7 @@ runs:
       shell: bash
 
     - name: Setup Ruby
-      uses: ruby/setup-ruby@v1.190.0
+      uses: ruby/setup-ruby@v1.194.0
       with:
         ruby-version: '3.3.0'
         bundler-cache: true
