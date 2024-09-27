@@ -119,6 +119,11 @@ object StepQuizFeature {
         data object UnsupportedQuizGoToStudyPlanClicked : Message
 
         /**
+         * Click on child quiz UI when it's disabled
+         */
+        data object ChildQuizClickedWhenDisabled : Message
+
+        /**
          * Analytic
          */
         data object ClickedCodeDetailsEventMessage : Message
@@ -246,6 +251,8 @@ object StepQuizFeature {
              */
             data object HighlightCallToActionButton : ViewAction
             data object UnhighlightCallToActionButton : ViewAction
+
+            data object BounceCallToActionButton : ViewAction
 
             sealed interface ScrollTo : ViewAction {
                 data object Hints : ScrollTo

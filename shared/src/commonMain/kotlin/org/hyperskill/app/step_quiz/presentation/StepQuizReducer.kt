@@ -170,6 +170,8 @@ internal class StepQuizReducer(
                 handleReadCommentsClicked(state)
             is Message.SkipClicked ->
                 handleSkipClicked(state)
+            Message.ChildQuizClickedWhenDisabled ->
+                handleChildQuizClickedWhenDisabled(state)
             is Message.ClickedCodeDetailsEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedCodeDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -681,4 +683,16 @@ internal class StepQuizReducer(
             ),
             Action.ViewAction.RequestSkipStep
         )
+
+    private fun handleChildQuizClickedWhenDisabled(state: State): StepQuizReducerResult? =
+        if (state.stepQuizState is StepQuizState.AttemptLoaded &&
+            !StepQuizResolver.isQuizEnabled(state.stepQuizState)
+        ) {
+            state to setOf(
+                Action.ViewAction.ScrollTo.CallToActionButton,
+                Action.ViewAction.BounceCallToActionButton
+            )
+        } else {
+            null
+        }
 }
