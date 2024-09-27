@@ -11,6 +11,7 @@ import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.step.domain.model.Block
+import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
@@ -966,5 +967,72 @@ class StepQuizTest {
                 )
             )
         )
+    }
+
+    @Test
+    fun `handleChildQuizClickedWhenDisabled should scroll and bounce call-to-action button when quiz is disabled`() {
+        val step = Step.stub(id = 1, block = Block.stub(name = BlockName.CHOICE))
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Loaded(
+                    Submission.stub(status = SubmissionStatus.WRONG)
+                ),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val (_, actions) = reducer.reduce(initialState, StepQuizFeature.Message.ChildQuizClickedWhenDisabled)
+
+        assertContains(
+            actions,
+            StepQuizFeature.Action.ViewAction.ScrollTo.CallToActionButton
+        )
+        assertContains(
+            actions,
+            StepQuizFeature.Action.ViewAction.BounceCallToActionButton
+        )
+    }
+
+    /* ktlint-disable */
+    @Test
+    fun `handleChildQuizClickedWhenDisabled should not scroll and bounce call-to-action button when quiz is disabled`() {
+        val step = Step.stub(id = 1, block = Block.stub(name = BlockName.CODE))
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Loaded(
+                    Submission.stub(status = SubmissionStatus.WRONG)
+                ),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute),
+            stepQuizCodeBlanksState = StepQuizCodeBlanksFeature.initialState()
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        val (_, actions) = reducer.reduce(initialState, StepQuizFeature.Message.ChildQuizClickedWhenDisabled)
+        assertTrue(actions.isEmpty())
     }
 }
