@@ -686,7 +686,9 @@ internal class StepQuizReducer(
 
     private fun handleChildQuizClickedWhenDisabled(state: State): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded &&
-            !StepQuizResolver.isQuizEnabled(state.stepQuizState)
+            !StepQuizResolver.isQuizEnabled(state.stepQuizState) &&
+            state.stepQuizState.submission?.status.isWrongOrRejected &&
+            StepQuizResolver.isNeedRecreateAttemptForNewSubmission(state.stepQuizState.step)
         ) {
             state to setOf(
                 Action.ViewAction.ScrollTo.CallToActionButton,
