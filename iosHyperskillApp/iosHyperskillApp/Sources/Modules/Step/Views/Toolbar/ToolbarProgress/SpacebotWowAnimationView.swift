@@ -42,12 +42,12 @@ final class SpacebotWowAnimationView: UIView {
         animationView.play { [weak self] completed in
             completion?(completed)
 
-            guard let self else {
+            guard let strongSelf = self else {
                 return
             }
 
-            self.animationView.alpha = self.appearance.animationViewAlphaHidden
-            self.animationView.currentProgress = 0
+            strongSelf.animationView.alpha = strongSelf.appearance.animationViewAlphaHidden
+            strongSelf.animationView.currentProgress = 0
         }
     }
 

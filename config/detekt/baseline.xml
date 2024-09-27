@@ -10,6 +10,7 @@
     <ID>ComplexCondition:GamificationToolbarReducer.kt$GamificationToolbarReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
     <ID>ComplexCondition:LeaderboardWidgetReducer.kt$LeaderboardWidgetReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
     <ID>ComplexCondition:ProfileReducer.kt$ProfileReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
+    <ID>ComplexCondition:StepQuizReducer.kt$StepQuizReducer$state.stepQuizState is StepQuizState.AttemptLoaded &amp;&amp; !StepQuizResolver.isQuizEnabled(state.stepQuizState) &amp;&amp; state.stepQuizState.submission?.status.isWrongOrRejected &amp;&amp; StepQuizResolver.isNeedRecreateAttemptForNewSubmission(state.stepQuizState.step)</ID>
     <ID>ComplexCondition:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.NetworkError))</ID>
     <ID>ComplexCondition:WelcomeReducer.kt$WelcomeReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.NetworkError))</ID>
     <ID>ComposableParamOrder:FindStage.kt$FindStage</ID>
@@ -178,6 +179,8 @@
     <ID>MaxLineLength:ExpandableTextView.kt$ExpandableTextView$*</ID>
     <ID>MaxLineLength:HtmlText.kt$text</ID>
     <ID>MaxLineLength:LinearProgressIndicator.kt$*</ID>
+    <ID>MaxLineLength:NotificationDailyStudyReminderWidgetComponentImpl.kt$NotificationDailyStudyReminderWidgetComponentImpl$override</ID>
+    <ID>MaxLineLength:NotificationDailyStudyReminderWidgetComponentImpl.kt$NotificationDailyStudyReminderWidgetComponentImpl$private</ID>
     <ID>MaxLineLength:ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent.kt$ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent$*</ID>
     <ID>MaxLineLength:RepositoryCacheProxy.kt$RepositoryCacheProxy$*</ID>
     <ID>MaxLineLength:StepComponentImpl.kt$StepComponentImpl$nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository</ID>

@@ -1,3 +1,4 @@
+// swiftlint:disable all
 import Foundation
 import shared
 
@@ -277,6 +278,11 @@ enum Strings {
     enum UsersInterviewWidget {
         static let title = sharedStrings.users_interview_widget_title.localized()
         static let subtitle = sharedStrings.users_interview_widget_subtitle.localized()
+    }
+
+    enum NotificationDailyStudyReminderWidget {
+        static let title = sharedStrings.notification_daily_study_reminder_widget_title.localized()
+        static let subtitle = sharedStrings.notification_daily_study_reminder_widget_subtitle.localized()
     }
 
     // MARK: - Topics widget -
@@ -673,3 +679,4 @@ enum Strings {
         static let showMoreButton = sharedStrings.comments_show_more_btn.localized()
     }
 }
+// swiftlint:enable all

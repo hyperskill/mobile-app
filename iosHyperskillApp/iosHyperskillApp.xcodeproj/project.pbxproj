@@ -170,6 +170,9 @@
 		2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C37960E2876F36F00C197E2 /* ProfileViewData.swift */; };
 		2C3796122877001700C197E2 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3796112877001700C197E2 /* ProfileHeaderView.swift */; };
 		2C3B84E82C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B84E72C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift */; };
+		2C3B90652CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B90642CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift */; };
+		2C3B90692CA66ABE00FDA6CB /* BounceEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B90682CA66ABE00FDA6CB /* BounceEffect.swift */; };
+		2C3B906B2CA6861400FDA6CB /* JiggleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B906A2CA6861400FDA6CB /* JiggleEffect.swift */; };
 		2C3CE3962C1073990011BECA /* StepToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CE3952C1073990011BECA /* StepToolbarContent.swift */; };
 		2C3D92D42C857DAA00D271B7 /* StudyPlanWidgetViewStateSectionContentPageLoadingStateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3D92D32C857DAA00D271B7 /* StudyPlanWidgetViewStateSectionContentPageLoadingStateWrapper.swift */; };
 		2C3E656D2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E656C2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift */; };
@@ -307,6 +310,7 @@
 		2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */; };
 		2C80D4FF288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FE288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift */; };
 		2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */; };
+		2C8118292CA3BEB600DCE9A8 /* NotificationDailyStudyReminderWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8118282CA3BEB600DCE9A8 /* NotificationDailyStudyReminderWidgetView.swift */; };
 		2C829B912B88583300765335 /* StepQuizUnsupportedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C829B902B88583300765335 /* StepQuizUnsupportedView.swift */; };
 		2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C82BA312844B01D004C9013 /* PlaceholderView+Configurations.swift */; };
 		2C83FBBE2B177633007AD7E2 /* LeaderboardTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83FBBD2B177633007AD7E2 /* LeaderboardTab.swift */; };
@@ -977,6 +981,9 @@
 		2C37960E2876F36F00C197E2 /* ProfileViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewData.swift; sourceTree = "<group>"; };
 		2C3796112877001700C197E2 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		2C3B84E72C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeBlanksVariableInstructionView.swift; sourceTree = "<group>"; };
+		2C3B90642CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnTapWhenDisabled.swift"; sourceTree = "<group>"; };
+		2C3B90682CA66ABE00FDA6CB /* BounceEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceEffect.swift; sourceTree = "<group>"; };
+		2C3B906A2CA6861400FDA6CB /* JiggleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JiggleEffect.swift; sourceTree = "<group>"; };
 		2C3CE3952C1073990011BECA /* StepToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepToolbarContent.swift; sourceTree = "<group>"; };
 		2C3D92D32C857DAA00D271B7 /* StudyPlanWidgetViewStateSectionContentPageLoadingStateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanWidgetViewStateSectionContentPageLoadingStateWrapper.swift; sourceTree = "<group>"; };
 		2C3E656C2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListHeaderView.swift; sourceTree = "<group>"; };
@@ -1118,6 +1125,7 @@
 		2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenViewModel.swift; sourceTree = "<group>"; };
 		2C80D4FE288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenOutputProtocol.swift; sourceTree = "<group>"; };
 		2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeNavigationState.swift; sourceTree = "<group>"; };
+		2C8118282CA3BEB600DCE9A8 /* NotificationDailyStudyReminderWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDailyStudyReminderWidgetView.swift; sourceTree = "<group>"; };
 		2C829B902B88583300765335 /* StepQuizUnsupportedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizUnsupportedView.swift; sourceTree = "<group>"; };
 		2C82BA312844B01D004C9013 /* PlaceholderView+Configurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceholderView+Configurations.swift"; sourceTree = "<group>"; };
 		2C83FBBD2B177633007AD7E2 /* LeaderboardTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTab.swift; sourceTree = "<group>"; };
@@ -1937,6 +1945,7 @@
 				2CB0ADE92B04AC9E0089D557 /* HomeSubmodules */,
 				E6992F3BBF430924F32DC178 /* Leaderboard */,
 				1B096FE500BA52CA6E56B26D /* ManageSubscription */,
+				2C8118272CA3BE9900DCE9A8 /* NotificationDailyStudyReminderWidget */,
 				B58361EACE24BF4B761F10BA /* NotificationsOnboarding */,
 				2C9320F32B68F13000999992 /* Paywall */,
 				2CE3F5BA2BD7AE7C000B51A4 /* ProblemsLimitInfo */,
@@ -2223,6 +2232,7 @@
 				2C177EC22837B65500D841DB /* View+Frame.swift */,
 				2CF34F9A2C34079C0054477E /* View+ListRowSeparator.swift */,
 				E9FAF38E299F61AE001FC596 /* View+MeasureSize.swift */,
+				2C3B90642CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift */,
 				2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */,
 				2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */,
 				2C7271232B6B634F005628B0 /* View+Task.swift */,
@@ -2460,6 +2470,8 @@
 		2C4677962C75E7D7000EB2EE /* Effects */ = {
 			isa = PBXGroup;
 			children = (
+				2C3B90682CA66ABE00FDA6CB /* BounceEffect.swift */,
+				2C3B906A2CA6861400FDA6CB /* JiggleEffect.swift */,
 				2C4677942C75E7CA000EB2EE /* PulseEffect.swift */,
 				2CAF254B2AB9C2E500595582 /* ShineEffect.swift */,
 			);
@@ -2948,6 +2960,14 @@
 				2C198DFC2AEA441E00DCD35A /* Select */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		2C8118272CA3BE9900DCE9A8 /* NotificationDailyStudyReminderWidget */ = {
+			isa = PBXGroup;
+			children = (
+				2C8118282CA3BEB600DCE9A8 /* NotificationDailyStudyReminderWidgetView.swift */,
+			);
+			path = NotificationDailyStudyReminderWidget;
 			sourceTree = "<group>";
 		};
 		2C82BA302844AFED004C9013 /* PlaceholderView */ = {
@@ -5113,6 +5133,7 @@
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
 				2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */,
 				2C54E4222A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */,
+				2C3B90652CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift in Sources */,
 				2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */,
 				2C66720B2A52974A0040EA2F /* ProgressScreenSectionTitleSkeletonView.swift in Sources */,
 				2C0EB9542A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift in Sources */,
@@ -5226,6 +5247,7 @@
 				2CD20ED12B73475400FB5269 /* ApplicationShortcutsService.swift in Sources */,
 				2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
+				2C3B906B2CA6861400FDA6CB /* JiggleEffect.swift in Sources */,
 				2CE0F6EE2BB40B760032C439 /* StepFeedbackViewModel.swift in Sources */,
 				2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */,
 				2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */,
@@ -5378,6 +5400,7 @@
 				2C9AA3F52C24611300F5170E /* WelcomeOnboardingChooseProgrammingLanguageView.swift in Sources */,
 				2C20FBA8284F193A006D879E /* ContentProcessingRule.swift in Sources */,
 				E9AB311429DED7FE00645376 /* StudyPlanSectionItemIconView.swift in Sources */,
+				2C8118292CA3BEB600DCE9A8 /* NotificationDailyStudyReminderWidgetView.swift in Sources */,
 				2C7CB66B2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift in Sources */,
 				2CBC97CA2A5553330078E445 /* StageImplementStageCompletedModalViewController.swift in Sources */,
 				2C20FBC9284F6F97006D879E /* UnitConverters.swift in Sources */,
@@ -5541,6 +5564,7 @@
 				2C0EB9502A151B56006DC84B /* TrackSelectionListViewModel.swift in Sources */,
 				E9ACD3412937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift in Sources */,
 				2C0EB9562A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift in Sources */,
+				2C3B90692CA66ABE00FDA6CB /* BounceEffect.swift in Sources */,
 				2CB0AE002B0525020089D557 /* ChallengeWidgetContentStateDescriptionView.swift in Sources */,
 				2CE58C5A2B07662300E5EBBE /* ChallengeWidgetContentStateProgressGridView.swift in Sources */,
 				E9D537D22A71330A00F21828 /* LinearGradientProgressView.swift in Sources */,
@@ -5797,7 +5821,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 589;
+				CURRENT_PROJECT_VERSION = 594;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -5818,7 +5842,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 589;
+				CURRENT_PROJECT_VERSION = 594;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = iosHyperskillAppUITests/Info.plist;
@@ -5839,7 +5863,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 589;
+				CURRENT_PROJECT_VERSION = 594;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
@@ -5860,7 +5884,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 589;
+				CURRENT_PROJECT_VERSION = 594;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5881,7 +5905,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 589;
+				CURRENT_PROJECT_VERSION = 594;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -5910,7 +5934,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 589;
+				CURRENT_PROJECT_VERSION = 594;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -6056,7 +6080,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 589;
+				CURRENT_PROJECT_VERSION = 594;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;
@@ -6092,7 +6116,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 589;
+				CURRENT_PROJECT_VERSION = 594;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;

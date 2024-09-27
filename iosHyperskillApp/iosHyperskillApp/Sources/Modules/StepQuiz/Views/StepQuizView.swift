@@ -19,6 +19,7 @@ struct StepQuizView: View {
 
     @State private var scrollPosition: ScrollPosition?
     @State private var isActionButtonAnimationEffectActive = false
+    @State private var isActionButtonBounceAnimationEffectActive = false
 
     var body: some View {
         UIViewControllerEventsWrapper(
@@ -169,15 +170,15 @@ struct StepQuizView: View {
         step: Step,
         attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
     ) -> some View {
-        let stepQuizCodeBlanksState = viewModel.state.stepQuizCodeBlanksState
-        if stepQuizCodeBlanksState is StepQuizCodeBlanksFeatureStateContent {
+        let isQuizDisabled = !StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState)
+        if viewModel.state.stepQuizCodeBlanksState is StepQuizCodeBlanksFeatureStateContent {
             StepQuizCodeBlanksAssembly(
-                state: stepQuizCodeBlanksState,
+                state: viewModel.state.stepQuizCodeBlanksState,
                 moduleOutput: viewModel
             )
             .makeModule()
             .equatable()
-            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+            .disabled(isQuizDisabled)
         } else if let dataset = attemptLoadedState.attempt.dataset {
             let reply = StepQuizStateExtensionsKt.reply(attemptLoadedState.submissionState)
 
@@ -189,7 +190,11 @@ struct StepQuizView: View {
                 provideModuleInputCallback: { viewModel.childQuizModuleInput = $0 },
                 moduleOutput: viewModel
             )
-            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+            .disabled(isQuizDisabled)
+            .onTapWhenDisabled(
+                isDisabled: isQuizDisabled,
+                action: viewModel.doChildQuizClickedWhenDisabledAction
+            )
         }
     }
 
@@ -215,8 +220,11 @@ struct StepQuizView: View {
                 )
                 .disabled(StepQuizResolver.shared.isQuizLoading(state: state.stepQuizState))
             } else if StepQuizResolver.shared.isNeedRecreateAttemptForNewSubmission(step: viewModel.step) {
-                StepQuizActionButtons.retry(action: viewModel.doQuizRetryAction)
-                    .disabled(StepQuizResolver.shared.isQuizLoading(state: state.stepQuizState))
+                StepQuizActionButtons.retry(
+                    isBounceEffectActive: isActionButtonBounceAnimationEffectActive,
+                    action: viewModel.doQuizRetryAction
+                )
+                .disabled(StepQuizResolver.shared.isQuizLoading(state: state.stepQuizState))
             } else {
                 StepQuizActionButtons.submit(
                     state: .init(submissionStatus: submissionStatus),
@@ -325,6 +333,11 @@ private extension StepQuizView {
             isActionButtonAnimationEffectActive = true
         case .unhighlightCallToActionButton:
             isActionButtonAnimationEffectActive = false
+        case .bounceCallToActionButton:
+            isActionButtonBounceAnimationEffectActive = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                isActionButtonBounceAnimationEffectActive = false
+            }
         }
     }
 

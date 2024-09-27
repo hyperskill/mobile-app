@@ -342,6 +342,9 @@ abstract class DefaultStepQuizFragment :
             StepQuizFeature.Action.ViewAction.UnhighlightCallToActionButton -> {
                 // no op
             }
+            StepQuizFeature.Action.ViewAction.BounceCallToActionButton -> {
+                // TODO: ALTAPPS-1349 Implement bounce animation
+            }
         }
     }
 
