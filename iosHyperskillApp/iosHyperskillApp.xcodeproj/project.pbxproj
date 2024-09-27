@@ -170,6 +170,7 @@
 		2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C37960E2876F36F00C197E2 /* ProfileViewData.swift */; };
 		2C3796122877001700C197E2 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3796112877001700C197E2 /* ProfileHeaderView.swift */; };
 		2C3B84E82C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B84E72C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift */; };
+		2C3B90652CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B90642CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift */; };
 		2C3CE3962C1073990011BECA /* StepToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3CE3952C1073990011BECA /* StepToolbarContent.swift */; };
 		2C3D92D42C857DAA00D271B7 /* StudyPlanWidgetViewStateSectionContentPageLoadingStateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3D92D32C857DAA00D271B7 /* StudyPlanWidgetViewStateSectionContentPageLoadingStateWrapper.swift */; };
 		2C3E656D2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E656C2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift */; };
@@ -978,6 +979,7 @@
 		2C37960E2876F36F00C197E2 /* ProfileViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewData.swift; sourceTree = "<group>"; };
 		2C3796112877001700C197E2 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		2C3B84E72C637AE100FE9D5C /* StepQuizCodeBlanksVariableInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeBlanksVariableInstructionView.swift; sourceTree = "<group>"; };
+		2C3B90642CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnTapWhenDisabled.swift"; sourceTree = "<group>"; };
 		2C3CE3952C1073990011BECA /* StepToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepToolbarContent.swift; sourceTree = "<group>"; };
 		2C3D92D32C857DAA00D271B7 /* StudyPlanWidgetViewStateSectionContentPageLoadingStateWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanWidgetViewStateSectionContentPageLoadingStateWrapper.swift; sourceTree = "<group>"; };
 		2C3E656C2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListHeaderView.swift; sourceTree = "<group>"; };
@@ -2226,6 +2228,7 @@
 				2C177EC22837B65500D841DB /* View+Frame.swift */,
 				2CF34F9A2C34079C0054477E /* View+ListRowSeparator.swift */,
 				E9FAF38E299F61AE001FC596 /* View+MeasureSize.swift */,
+				2C3B90642CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift */,
 				2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */,
 				2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */,
 				2C7271232B6B634F005628B0 /* View+Task.swift */,
@@ -5124,6 +5127,7 @@
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
 				2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */,
 				2C54E4222A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */,
+				2C3B90652CA65AA400FDA6CB /* View+OnTapWhenDisabled.swift in Sources */,
 				2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */,
 				2C66720B2A52974A0040EA2F /* ProgressScreenSectionTitleSkeletonView.swift in Sources */,
 				2C0EB9542A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift in Sources */,
