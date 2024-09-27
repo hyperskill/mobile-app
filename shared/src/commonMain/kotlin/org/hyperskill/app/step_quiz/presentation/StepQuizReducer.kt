@@ -691,6 +691,7 @@ internal class StepQuizReducer(
             StepQuizResolver.isNeedRecreateAttemptForNewSubmission(state.stepQuizState.step)
         ) {
             state to setOf(
+                Action.ViewAction.HapticFeedback.WrongSubmission,
                 Action.ViewAction.ScrollTo.CallToActionButton,
                 Action.ViewAction.BounceCallToActionButton
             )
