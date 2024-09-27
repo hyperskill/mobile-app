@@ -18,6 +18,8 @@ struct StepQuizRetryButton: View {
 
     var style: Style
 
+    let isBounceEffectActive: Bool
+
     var onTap: () -> Void
 
     @Environment(\.isEnabled) private var isEnabled
@@ -45,6 +47,7 @@ struct StepQuizRetryButton: View {
                 action: onTap
             )
             .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+            .bounceEffect(isActive: isBounceEffectActive && isEnabled)
         }
     }
 
@@ -58,15 +61,15 @@ struct StepQuizRetryButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             HStack {
-                StepQuizRetryButton(style: .logoOnly, onTap: {})
+                StepQuizRetryButton(style: .logoOnly, isBounceEffectActive: false, onTap: {})
 
-                StepQuizRetryButton(style: .logoOnly, onTap: {})
+                StepQuizRetryButton(style: .logoOnly, isBounceEffectActive: true, onTap: {})
                     .disabled(true)
             }
 
-            StepQuizRetryButton(style: .roundedRectangle, onTap: {})
+            StepQuizRetryButton(style: .roundedRectangle, isBounceEffectActive: false, onTap: {})
 
-            StepQuizRetryButton(style: .roundedRectangle, onTap: {})
+            StepQuizRetryButton(style: .roundedRectangle, isBounceEffectActive: true, onTap: {})
                 .disabled(true)
         }
         .previewLayout(.sizeThatFits)
