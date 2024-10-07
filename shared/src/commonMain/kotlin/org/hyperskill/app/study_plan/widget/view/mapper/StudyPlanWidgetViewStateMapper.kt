@@ -5,7 +5,6 @@ import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsMapper
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFakeTopicsFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.ContentStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.PageContentStatus
@@ -107,15 +106,12 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
             emptyActivitiesState
         } else {
             val unlockedActivitiesCount = state.getUnlockedActivitiesCount(sectionId)
-            val fakeTopicsIds = StudyPlanWidgetFakeTopicsFeature.topicsIds
             SectionContent.Content(
                 sectionItems = loadedActivities.mapIndexed { index, activity ->
-                    val isLocked = fakeTopicsIds.contains(activity.id) ||
-                        (unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount)
                     mapSectionItem(
                         activity = activity,
                         currentActivityId = currentActivityId,
-                        isLocked = isLocked
+                        isLocked = unlockedActivitiesCount != null && index + 1 > unlockedActivitiesCount
                     )
                 },
                 nextPageLoadingState = mapPageContentStatusToViewState(sectionInfo.nextPageContentStatus),
