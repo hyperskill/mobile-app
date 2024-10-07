@@ -39,9 +39,9 @@ extension View {
     }
 }
 
-//#if DEBUG
-//@available(iOS 17.0, *)
-//#Preview {
+// #if DEBUG
+// @available(iOS 17.0, *)
+// #Preview {
 //    @Previewable @State var isJiggling = false
 //
 //    Button {
@@ -52,5 +52,5 @@ extension View {
 //    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 //    .jiggleEffect(amount: 2, isActive: isJiggling)
 //    .padding()
-//}
-//#endif
+// }
+// #endif

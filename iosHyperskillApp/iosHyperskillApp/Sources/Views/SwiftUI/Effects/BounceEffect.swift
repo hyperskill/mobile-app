@@ -29,9 +29,9 @@ extension View {
     }
 }
 
-//#if DEBUG
-//@available(iOS 17.0, *)
-//#Preview {
+// #if DEBUG
+// @available(iOS 17.0, *)
+// #Preview {
 //    @Previewable @State var isBouncing = false
 //
 //    Button {
@@ -42,5 +42,5 @@ extension View {
 //    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 //    .bounceEffect(isActive: isBouncing)
 //    .padding()
-//}
-//#endif
+// }
+// #endif
