@@ -39,18 +39,18 @@ extension View {
     }
 }
 
-#if DEBUG
-@available(iOS 17.0, *)
-#Preview {
-    @Previewable @State var isJiggling = false
-
-    Button {
-        isJiggling.toggle()
-    } label: {
-        Text("Retry")
-    }
-    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-    .jiggleEffect(amount: 2, isActive: isJiggling)
-    .padding()
-}
-#endif
+// #if DEBUG
+// @available(iOS 17.0, *)
+// #Preview {
+//    @Previewable @State var isJiggling = false
+//
+//    Button {
+//        isJiggling.toggle()
+//    } label: {
+//        Text("Retry")
+//    }
+//    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+//    .jiggleEffect(amount: 2, isActive: isJiggling)
+//    .padding()
+// }
+// #endif

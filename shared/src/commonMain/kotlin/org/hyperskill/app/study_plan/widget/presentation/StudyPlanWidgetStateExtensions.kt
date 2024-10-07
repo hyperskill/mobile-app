@@ -109,17 +109,13 @@ internal fun StudyPlanWidgetFeature.State.isActivityLocked(
     sectionId: Long,
     activityId: Long,
 ): Boolean {
-    if (StudyPlanWidgetFakeTopicsFeature.topicsIds.contains(activityId)) {
-        return true
-    } else {
-        val unlockedActivitiesCount = getUnlockedActivitiesCount(sectionId)
-        return unlockedActivitiesCount != null &&
-            getLoadedSectionActivities(sectionId)
-                .take(unlockedActivitiesCount)
-                .map { it.id }
-                .contains(activityId)
-                .not()
-    }
+    val unlockedActivitiesCount = getUnlockedActivitiesCount(sectionId)
+    return unlockedActivitiesCount != null &&
+        getLoadedSectionActivities(sectionId)
+            .take(unlockedActivitiesCount)
+            .map { it.id }
+            .contains(activityId)
+            .not()
 }
 
 /**
