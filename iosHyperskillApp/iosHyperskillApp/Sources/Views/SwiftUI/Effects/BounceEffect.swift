@@ -29,18 +29,18 @@ extension View {
     }
 }
 
-#if DEBUG
-@available(iOS 17.0, *)
-#Preview {
-    @Previewable @State var isBouncing = false
-
-    Button {
-        isBouncing.toggle()
-    } label: {
-        Text("Retry")
-    }
-    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-    .bounceEffect(isActive: isBouncing)
-    .padding()
-}
-#endif
+//#if DEBUG
+//@available(iOS 17.0, *)
+//#Preview {
+//    @Previewable @State var isBouncing = false
+//
+//    Button {
+//        isBouncing.toggle()
+//    } label: {
+//        Text("Retry")
+//    }
+//    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+//    .bounceEffect(isActive: isBouncing)
+//    .padding()
+//}
+//#endif
