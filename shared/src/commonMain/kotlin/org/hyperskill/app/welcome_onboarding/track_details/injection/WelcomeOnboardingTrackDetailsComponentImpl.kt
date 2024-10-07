@@ -17,10 +17,8 @@ internal class WelcomeOnboardingTrackDetailsComponentImpl(
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             profileRepository = appGraph.profileDataComponent.profileRepository,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
-            featuresDataSource = appGraph.profileDataComponent.featuresDataSource,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
-            resourceProvider = appGraph.commonComponent.resourceProvider,
-            platformType = appGraph.commonComponent.platform.platformType
+            resourceProvider = appGraph.commonComponent.resourceProvider
         )
 }

@@ -40,6 +40,3 @@ val FeaturesMap.isMobileUsersInterviewWidgetEnabled: Boolean
 
 val FeaturesMap.isMobileContentTrialEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_CONTENT_TRIAL) ?: false
-
-val FeaturesMap.isMobilePythonAdoptedCourseEnabled: Boolean
-    get() = get(FeatureKeys.MOBILE_PYTHON_ADOPTED_COURSE) ?: false
