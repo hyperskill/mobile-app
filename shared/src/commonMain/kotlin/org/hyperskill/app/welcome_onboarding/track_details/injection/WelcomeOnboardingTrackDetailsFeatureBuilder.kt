@@ -4,13 +4,10 @@ import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.logging.presentation.wrapWithLogger
-import org.hyperskill.app.profile.domain.model.isMobilePythonAdoptedCourseEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
@@ -34,15 +31,10 @@ internal object WelcomeOnboardingTrackDetailsFeatureBuilder {
         currentProfileStateRepository: CurrentProfileStateRepository,
         profileRepository: ProfileRepository,
         analyticInteractor: AnalyticInteractor,
-        featuresDataSource: FeaturesDataSource,
         resourceProvider: ResourceProvider,
         logger: Logger,
-        buildVariant: BuildVariant,
-        platformType: PlatformType
+        buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
-        val isMobilePythonAdoptedCourseEnabled = platformType == PlatformType.IOS &&
-            featuresDataSource.getFeaturesMap().isMobilePythonAdoptedCourseEnabled
-
         val welcomeOnboardingTrackDetailsReducer =
             WelcomeOnboardingTrackDetailsReducer()
                 .wrapWithLogger(buildVariant, logger, LOG_TAG)
@@ -57,10 +49,7 @@ internal object WelcomeOnboardingTrackDetailsFeatureBuilder {
         val viewStateMapper = WelcomeOnboardingTrackDetailsViewStateMapper(resourceProvider)
 
         return ReduxFeature(
-            initialState = WelcomeOnboardingTrackDetailsFeature.initialState(
-                track = track,
-                isMobilePythonAdoptedCourseEnabled = isMobilePythonAdoptedCourseEnabled
-            ),
+            initialState = WelcomeOnboardingTrackDetailsFeature.initialState(track),
             reducer = welcomeOnboardingTrackDetailsReducer
         )
             .wrapWithActionDispatcher(welcomeOnboardingTrackDetailsActionDispatcher)
