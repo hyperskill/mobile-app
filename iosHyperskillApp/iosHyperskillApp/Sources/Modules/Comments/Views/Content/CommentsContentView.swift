@@ -85,9 +85,9 @@ struct CommentsContentView: View {
     }
 }
 
-extension CommentsScreenViewState.DiscussionItem: Identifiable {}
+extension shared.CommentsScreenViewState.DiscussionItem: @retroactive Swift.Identifiable {}
 
-extension CommentsScreenViewState.CommentItem: Identifiable {}
+extension shared.CommentsScreenViewState.CommentItem: @retroactive Swift.Identifiable {}
 
 extension CommentsCommentView {
     init(

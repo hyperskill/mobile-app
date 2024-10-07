@@ -34,7 +34,7 @@ jobs:
   deployment:
     name: iOS Beta Deployment
     needs: gradle-wrapper-validation
-    runs-on: macos-14
+    runs-on: macos-15
     environment: ios_production
     timeout-minutes: 60
 
