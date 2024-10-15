@@ -335,7 +335,7 @@
     <string name="settings_account_deletion_dialog_explanation">Your account on Hyperskill (JetBrains Academy) will be deleted. You will no longer be able to use this account both in the app and on the website.</string>
     <string name="settings_account_deletion_dialog_delete_button_text">Delete</string>
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
-    <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
+    <string name="settings_privacy_policy_url">https://hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
     <string name="settings_rate_in_app_store">Rate us in the App Store</string>
     <string name="settings_rate_in_app_store_url">https://apps.apple.com/app/id1637230833?action=write-review</string>
@@ -620,7 +620,7 @@
     <string name="share_streak_modal_share_button_text">Share</string>
     <string name="share_streak_modal_no_thanks_button_text">No, thanks</string>
     <string name="share_streak_sharing_text">Hyperskill – Level up your coding skills!</string>
-    <string name="share_streak_sharing_url">https://hi.hyperskill.org/my-hyperskill-app</string>
+    <string name="share_streak_sharing_url">https://hyperskill.org/my-hyperskill-app</string>
 
     <!-- Challenge widget -->
     <string name="challenge_widget_status_not_started_title">Get ready to push your limits!</string>
@@ -711,7 +711,7 @@
     <string name="paywall_pending_purchase">Paid functionality will become available after success payment</string>
     <string name="paywall_subscription_sync_description">The app is updating. Please wait a moment.</string>
     <string name="paywall_tos_and_privacy_bth">Hyperskill Terms of Service and Privacy Policy</string>
-    <string name="paywall_tos_and_privacy_url">https://hi.hyperskill.org/terms</string>
+    <string name="paywall_tos_and_privacy_url">https://hyperskill.org/terms</string>
     <string name="paywall_subscription_duration_monthly">Monthly</string>
     <string name="paywall_subscription_duration_annual">Annual %s</string>
     <string name="paywall_subscription_month_price">%s / month</string>
