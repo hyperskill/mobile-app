@@ -620,7 +620,7 @@
     <string name="share_streak_modal_share_button_text">Share</string>
     <string name="share_streak_modal_no_thanks_button_text">No, thanks</string>
     <string name="share_streak_sharing_text">Hyperskill – Level up your coding skills!</string>
-    <string name="share_streak_sharing_url">https://hi.hyperskill.org/my-hyperskill-app</string>
+    <string name="share_streak_sharing_url">https://hyperskill.org/my-hyperskill-app</string>
 
     <!-- Challenge widget -->
     <string name="challenge_widget_status_not_started_title">Get ready to push your limits!</string>
