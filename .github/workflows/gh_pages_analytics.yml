@@ -32,7 +32,7 @@ jobs:
   build:
     needs: files-changed
     if: ${{ inputs.force_build || needs.files-changed.outputs.analytic == 'true' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
@@ -59,7 +59,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     environment:

@@ -41,7 +41,7 @@ on:
 
 jobs:
   files-changed:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     # Map a step output to a job output
     outputs:
