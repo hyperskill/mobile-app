@@ -63,3 +63,10 @@ jobs:
           APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
           GITHUB_USER: ${{ github.actor }}
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload error log
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: iosHyperskillApp-iosHyperskillApp.log
+          path: /Users/runner/Library/Logs/gym/iosHyperskillApp-iosHyperskillApp.log
