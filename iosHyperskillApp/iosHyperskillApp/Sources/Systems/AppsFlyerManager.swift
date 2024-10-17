@@ -78,7 +78,7 @@ final class AppsFlyerManager: AppsFlyerAnalyticEngine {
             values: values,
             completionHandler: { dictionaryOrNil, errorOrNil in
                 if let error = errorOrNil {
-                    assertionFailure("AppsFlyerManager: failed log event = \(name) with error =\(error)")
+                    print("AppsFlyerManager: failed log event = \(name), values = \(values), error =\(error)")
                 } else {
                     print("""
 AppsFlyerManager: successfully logged event = \(name) with result = \(String(describing: dictionaryOrNil))

@@ -75,7 +75,9 @@ struct ProgressScreenCardView: View {
     }
 }
 
-#Preview {
+#if DEBUG
+@available(iOS 17, *)
+#Preview(traits: .sizeThatFitsLayout) {
     let appearance = ProgressScreenCardView.Appearance(
         spacing: LayoutInsets.defaultInset,
         interitemSpacing: LayoutInsets.smallInset,
@@ -111,7 +113,7 @@ struct ProgressScreenCardView: View {
             subtitle: "Time to complete the track"
         )
     }
-    .previewLayout(.sizeThatFits)
     .padding()
     .background(Color.systemGroupedBackground)
 }
+#endif
