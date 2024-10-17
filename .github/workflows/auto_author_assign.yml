@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   assign-author:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: ${{ !github.event.pull_request.assignee }}
     steps:
       - uses: toshimaru/auto-author-assign@v2.1.1

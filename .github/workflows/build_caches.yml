@@ -28,7 +28,7 @@ jobs:
     needs: files-changed
     if: ${{ github.event_name == 'workflow_dispatch' || needs.files-changed.outputs.android == 'true' }}
     name: Build Android Caches
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 60
 
     steps:
