@@ -37,7 +37,7 @@ defaults:
 jobs:
   gradle-wrapper-validation:
     name: Gradle Wrapper Validation
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Checkout
@@ -59,7 +59,7 @@ jobs:
     needs: files-changed
     if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run ktlint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
@@ -86,7 +86,7 @@ jobs:
     needs: files-changed
     if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run detekt
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
@@ -146,7 +146,7 @@ jobs:
     needs: [files-changed, ktlint, detekt]
     if: ${{ needs.files-changed.outputs.shared == 'true' }}
     name: Run shared unit tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
@@ -170,7 +170,7 @@ jobs:
     needs: [files-changed, ktlint, detekt]
     if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run Android unit tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
