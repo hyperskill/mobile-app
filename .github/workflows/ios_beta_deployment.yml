@@ -22,10 +22,10 @@ jobs:
     needs: files-changed
     if: ${{ needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Gradle Wrapper Validation
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.1
 
       - name: Gradle Wrapper Validation
         uses: gradle/actions/wrapper-validation@v4
@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.1
 
       - name: Setup CI
         id: setup
@@ -63,3 +63,10 @@ jobs:
           APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
           GITHUB_USER: ${{ github.actor }}
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload error log
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: iosHyperskillApp-iosHyperskillApp.log
+          path: /Users/runner/Library/Logs/gym/iosHyperskillApp-iosHyperskillApp.log

@@ -32,12 +32,12 @@ jobs:
   build:
     needs: files-changed
     if: ${{ inputs.force_build || needs.files-changed.outputs.analytic == 'true' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.1
 
       - name: Setup CI
         uses: ./.github/actions/setup-android
@@ -59,7 +59,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     environment:

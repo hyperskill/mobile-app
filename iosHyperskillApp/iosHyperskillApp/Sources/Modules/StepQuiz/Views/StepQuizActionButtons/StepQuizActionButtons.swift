@@ -14,6 +14,7 @@ struct StepQuizActionButtons: View {
                 StepQuizRetryButton(
                     appearance: retryButton.appearance,
                     style: retryButton.style,
+                    isBounceEffectActive: retryButton.isBounceEffectActive,
                     onTap: retryButton.action
                 )
             }
@@ -44,6 +45,8 @@ struct StepQuizActionButtons: View {
         var appearance = StepQuizRetryButton.Appearance()
 
         var style: StepQuizRetryButton.Style = .logoOnly
+
+        var isBounceEffectActive = false
 
         let action: () -> Void
     }
@@ -103,8 +106,17 @@ extension StepQuizActionButtons {
         )
     }
 
-    static func retry(action: @escaping () -> Void) -> StepQuizActionButtons {
-        StepQuizActionButtons(retryButton: .init(style: .roundedRectangle, action: action))
+    static func retry(
+        isBounceEffectActive: Bool,
+        action: @escaping () -> Void
+    ) -> StepQuizActionButtons {
+        StepQuizActionButtons(
+            retryButton: .init(
+                style: .roundedRectangle,
+                isBounceEffectActive: isBounceEffectActive,
+                action: action
+            )
+        )
     }
 
     static func `continue`(isLoading: Bool, action: @escaping () -> Void) -> StepQuizActionButtons {
@@ -168,7 +180,7 @@ struct StepQuizActionButtons_Previews: PreviewProvider {
                 action: {}
             )
 
-            StepQuizActionButtons.retry {}
+            StepQuizActionButtons.retry(isBounceEffectActive: false) {}
 
             StepQuizActionButtons.continue(isLoading: false) {}
             StepQuizActionButtons.continue(isLoading: true) {}

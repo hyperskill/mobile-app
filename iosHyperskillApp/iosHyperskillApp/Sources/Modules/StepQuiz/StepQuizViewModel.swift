@@ -134,6 +134,10 @@ final class StepQuizViewModel: FeatureViewModel<
         moduleOutput?.stepQuizDidRequestSkipStep()
     }
 
+    func doChildQuizClickedWhenDisabledAction() {
+        onNewMessage(StepQuizFeatureMessageChildQuizClickedWhenDisabled())
+    }
+
     func doUnsupportedQuizSolveOnTheWebAction() {
         onNewMessage(StepQuizFeatureMessageUnsupportedQuizSolveOnTheWebClicked())
     }

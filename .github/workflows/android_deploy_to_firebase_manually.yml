@@ -11,10 +11,10 @@ jobs:
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
   gradle-wrapper-validation:
     name: Gradle Wrapper Validation
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.1
 
       - name: Gradle Wrapper Validation
         uses: gradle/actions/wrapper-validation@v4
