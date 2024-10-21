@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "3.3.0"
 
-gem "fastlane", "2.224.0"
+gem "fastlane", "2.225.0"
 gem "rexml", ">= 3.3.6"
 
 eval_gemfile("fastlane/Pluginfile")
