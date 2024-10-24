@@ -5,13 +5,13 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     environment: android_production
     timeout-minutes: 30
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4
 
       - name: Setup CI
         id: setup

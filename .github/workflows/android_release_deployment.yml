@@ -21,10 +21,10 @@ jobs:
   gradle-wrapper-validation:
     # if: ${{ github.ref == 'refs/heads/main' }}
     name: Gradle Wrapper Validation
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4
         
       - name: Gradle Wrapper Validation
         uses: gradle/actions/wrapper-validation@v4
@@ -33,13 +33,13 @@ jobs:
   deployment:
     name: Android Release Deployment
     needs: gradle-wrapper-validation
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     environment: android_production
     timeout-minutes: 60
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4.2.1
+      uses: actions/checkout@v4
 
     - name: Setup CI
       id: setup
