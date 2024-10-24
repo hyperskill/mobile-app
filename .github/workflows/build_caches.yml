@@ -33,7 +33,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4.2.1
+      uses: actions/checkout@v4.2.2
 
     - name: Setup CI
       uses: ./.github/actions/setup-android
@@ -55,7 +55,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.1
+        uses: actions/checkout@v4.2.2
 
       - name: Setup CI
         id: setup
