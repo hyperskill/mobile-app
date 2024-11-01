@@ -30,8 +30,8 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
 
         let items = pairs.enumerated().map { index, _ in
             StepQuizMatchingViewData.MatchItem(
-                title: .init(id: index, text: pairs[index].first ?? ""),
-                option: options.first { $0.id == replyOrdering?[index] }
+                title: .init(id: index, text: pairs[safe: index]?.first ?? ""),
+                option: options.first { $0.id == replyOrdering?[safe: index] }
             )
         }
 
