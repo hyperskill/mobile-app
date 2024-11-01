@@ -384,11 +384,11 @@ final class CodePlaygroundManager {
         }
     }
 
-    func textRangeFrom(position: Int, textView: UITextView) -> UITextRange {
-        let firstCharacterPosition = textView.beginningOfDocument
-        let characterPosition = textView.position(from: firstCharacterPosition, offset: position).require()
-        let characterRange = textView.textRange(from: characterPosition, to: characterPosition).require()
-        return characterRange
+    func textRange(from position: Int, in textView: UITextView) -> UITextRange? {
+        guard let characterPosition = textView.position(from: textView.beginningOfDocument, offset: position) else {
+            return nil
+        }
+        return textView.textRange(from: characterPosition, to: characterPosition)
     }
 
     func insertAtCurrentPosition(symbols: String, textView: UITextView) {
@@ -402,7 +402,7 @@ final class CodePlaygroundManager {
             text.insert(contentsOf: symbols, at: text.index(text.startIndex, offsetBy: cursorPosition))
             textView.text = text
             // Import here to update selectedTextRange before calling textViewDidChange #APPS-2352
-            textView.selectedTextRange = textRangeFrom(position: cursorPosition + symbols.count, textView: textView)
+            textView.selectedTextRange = textRange(from: cursorPosition + symbols.count, in: textView)
         } else {
             textView.replace(selectedRange, withText: symbols)
         }
@@ -440,8 +440,8 @@ final class CodePlaygroundManager {
             textView.delegate?.textViewDidChange?(textView)
         }
 
-        if textView.selectedTextRange != textRangeFrom(position: analyzed.position, textView: textView) {
-            textView.selectedTextRange = textRangeFrom(position: analyzed.position, textView: textView)
+        if textView.selectedTextRange != textRange(from: analyzed.position, in: textView) {
+            textView.selectedTextRange = textRange(from: analyzed.position, in: textView)
         }
 
         if let autocomplete = analyzed.autocomplete {
