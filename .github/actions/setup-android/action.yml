@@ -62,7 +62,7 @@ runs:
 
     - name: Setup Ruby
       if: ${{ inputs.setup-ruby == 'true' }}
-      uses: ruby/setup-ruby@v1.190.0
+      uses: ruby/setup-ruby@v1.194.0
       with:
         ruby-version: '3.3.0'
         bundler-cache: true

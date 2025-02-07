@@ -2,7 +2,7 @@ import SafariServices
 import shared
 import SVProgressHUD
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
 final class WebControllerManager: NSObject {
     static let shared = WebControllerManager()

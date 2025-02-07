@@ -27,7 +27,7 @@ jobs:
   automerge:
     needs: files-changed
     name: Automerge
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Checkout
@@ -37,7 +37,7 @@ jobs:
           token: ${{ secrets.GH_PAT }}
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.190.0
+        uses: ruby/setup-ruby@v1.194.0
         with:
           ruby-version: "3.3.0"
           bundler-cache: true
