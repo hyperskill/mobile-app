@@ -4,37 +4,37 @@ on:
   workflow_call:
     inputs:
       base:
-        description: 'Branch, tag, or commit SHA against which the changes will be detected'
-        default: 'develop'
+        description: "Branch, tag, or commit SHA against which the changes will be detected"
+        default: "develop"
         required: false
         type: string
       force_android:
-        description: 'Force Android changes'
+        description: "Force Android changes"
         required: false
         default: false
         type: boolean
       force_shared:
-        description: 'Force shared changes'
+        description: "Force shared changes"
         required: false
         default: false
         type: boolean
       force_ios:
-        description: 'Force iOS changes'
+        description: "Force iOS changes"
         required: false
         default: false
         type: boolean
       force_analytic:
-        description: 'Force analytic changes'
+        description: "Force analytic changes"
         required: false
         default: false
         type: boolean
     # Map the workflow outputs to job outputs
     outputs:
-      android: 
+      android:
         value: ${{ jobs.files-changed.outputs.android }}
       shared:
         value: ${{ jobs.files-changed.outputs.shared }}
-      ios: 
+      ios:
         value: ${{ jobs.files-changed.outputs.ios }}
       analytic:
         value: ${{ jobs.files-changed.outputs.analytic }}
@@ -51,12 +51,12 @@ jobs:
       analytic: ${{ inputs.force_analytic || steps.changes.outputs.analytic }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Detect changes
-      uses: dorny/paths-filter@v3.0.2
-      id: changes
-      with:
-        base: ${{ inputs.base }}
-        filters: .github/filters.yaml
+      - name: Detect changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          base: ${{ inputs.base }}
+          filters: .github/filters.yaml

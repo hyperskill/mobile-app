@@ -3,11 +3,11 @@ name: Build and Deploy Analytics Documentation to GitHub Pages
 on:
   push:
     branches:
-      - 'develop'
+      - "develop"
   workflow_dispatch:
     inputs:
       force_build:
-        description: 'Force build and deploy'
+        description: "Force build and deploy"
         required: false
         default: false
         type: boolean
@@ -43,7 +43,7 @@ jobs:
         uses: ./.github/actions/setup-android
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5.0.0
+        uses: actions/configure-pages@v5
 
       - name: Build Documentation
         run: ./gradlew dokkaAnalytics
@@ -52,10 +52,10 @@ jobs:
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v3.0.1
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: 'github-pages-analytics'
-          path: 'shared/build/dokka/analytics'
+          name: "github-pages-analytics"
+          path: "shared/build/dokka/analytics"
 
   deploy:
     needs: build
@@ -65,10 +65,10 @@ jobs:
     environment:
       name: github_pages_analytics
       url: ${{ steps.deployment.outputs.page_url }}
-    
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4.0.5
+        uses: actions/deploy-pages@v4
         with:
-          artifact_name: 'github-pages-analytics'
+          artifact_name: "github-pages-analytics"

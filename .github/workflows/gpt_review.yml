@@ -25,7 +25,7 @@ jobs:
           LANGUAGE: English
           OPENAI_API_ENDPOINT: https://api.openai.com/v1
           MODEL: gpt-3.5-turbo-16k # https://platform.openai.com/docs/models
-          PROMPT: 'Provide suggestions for improving the changes in this PR. If the PR has no clear issues, mention that no suggestions are needed. You must look at the code to see if there are any bugs, improvements, or optimizations. You must praise good changes. You must ask questions if something is not clear. This PR is for the Kotlin Multiplatform Mobile project, where the main languages are Kotlin and Swift.'
+          PROMPT: "Provide suggestions for improving the changes in this PR. If the PR has no clear issues, mention that no suggestions are needed. You must look at the code to see if there are any bugs, improvements, or optimizations. You must praise good changes. You must ask questions if something is not clear. This PR is for the Kotlin Multiplatform Mobile project, where the main languages are Kotlin and Swift."
           top_p: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-top_p
           temperature: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature
           max_tokens: 10000
