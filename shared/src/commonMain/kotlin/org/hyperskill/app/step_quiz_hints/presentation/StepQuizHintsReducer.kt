@@ -8,6 +8,7 @@ import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsClickedHy
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.domain.analytic.StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.InternalAction
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.InternalMessage
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.State
@@ -20,7 +21,7 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
         when (message) {
             is Message.InitWithStepId ->
                 if (state is State.Idle) {
-                    State.Loading(isInitialLoading = true) to setOf(Action.FetchHintsIds(message.stepId))
+                    State.Loading(isInitialLoading = true) to setOf(InternalAction.FetchHintsIds(message.stepId))
                 } else {
                     null
                 }
@@ -39,7 +40,7 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
             is Message.ReportHint ->
                 if (state is State.Content && state.currentHint != null) {
                     state to setOf(
-                        Action.ReportHint(
+                        InternalAction.ReportHint(
                             hintId = state.currentHint.id,
                             stepId = state.currentHint.targetId
                         )
@@ -65,12 +66,12 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
                     message.reaction in ReactionType.hintReactions
                 ) {
                     state to setOf(
-                        Action.ReactHint(
+                        InternalAction.ReactHint(
                             hintId = state.currentHint.id,
                             stepId = state.currentHint.targetId,
                             reaction = message.reaction
                         ),
-                        Action.LogAnalyticEvent(
+                        InternalAction.LogAnalyticEvent(
                             StepQuizHintsClickedHyperskillAnalyticEvent(
                                 route = stepRoute.analyticRoute,
                                 target = when (message.reaction) {
@@ -129,7 +130,7 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
             is Message.ReportHintNoticeHiddenEventMessage ->
                 if (state is State.Content && state.currentHint != null) {
                     state to setOf(
-                        Action.LogAnalyticEvent(
+                        InternalAction.LogAnalyticEvent(
                             StepQuizHintsHiddenReportHintNoticeHyperskillAnalyticEvent(
                                 stepRoute.analyticRoute,
                                 isReported = message.isReported
@@ -142,7 +143,7 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
             is Message.ClickedReportEventMessage ->
                 if (state is State.Content && state.currentHint != null) {
                     state to setOf(
-                        Action.LogAnalyticEvent(
+                        InternalAction.LogAnalyticEvent(
                             StepQuizHintsClickedHyperskillAnalyticEvent(
                                 stepRoute.analyticRoute,
                                 HyperskillAnalyticTarget.REPORT,
@@ -156,7 +157,7 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
             is Message.ReportHintNoticeShownEventMessage ->
                 if (state is State.Content) {
                     state to setOf(
-                        Action.LogAnalyticEvent(
+                        InternalAction.LogAnalyticEvent(
                             StepQuizHintsShownReportHintNoticeHyperskillAnalyticEvent(stepRoute.analyticRoute)
                         )
                     )
@@ -174,14 +175,14 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
                 val hintsIds = state.hintsIds.toMutableList()
                 val nextHintId = hintsIds.removeLast()
                 State.Loading() to setOfNotNull(
-                    Action.FetchNextHint(
+                    InternalAction.FetchNextHint(
                         nextHintId,
                         hintsIds,
                         state.areHintsLimited,
                         state.stepId
                     ),
                     if (logAnalyticEvent) {
-                        Action.LogAnalyticEvent(
+                        InternalAction.LogAnalyticEvent(
                             StepQuizHintsClickedHyperskillAnalyticEvent(
                                 route = stepRoute.analyticRoute,
                                 target = when (state.currentHint) {
@@ -197,7 +198,7 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
             }
             is State.NetworkError -> {
                 State.Loading() to setOf(
-                    Action.FetchNextHint(
+                    InternalAction.FetchNextHint(
                         nextHintId = state.nextHintId,
                         remainingHintsIds = state.hintsIds,
                         areHintsLimited = state.areHintsLimited,

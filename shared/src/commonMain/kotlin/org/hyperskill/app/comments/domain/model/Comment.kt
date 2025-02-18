@@ -15,8 +15,6 @@ data class Comment(
     val targetType: ContentType = ContentType.UNKNOWN,
     @SerialName("text")
     val text: String,
-    @SerialName("localized_text")
-    val localizedText: String,
     @SerialName("user")
     val user: CommentAuthor,
     @SerialName("time")
