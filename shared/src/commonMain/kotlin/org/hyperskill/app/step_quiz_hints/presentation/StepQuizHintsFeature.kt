@@ -11,7 +11,7 @@ object StepQuizHintsFeature {
         step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
 
     sealed interface State {
-        object Idle : State
+        data object Idle : State
 
         /**
          * @property isInitialLoading true in case of initial data loading, false in case of certain hint loading
@@ -52,11 +52,11 @@ object StepQuizHintsFeature {
     }
 
     sealed interface ViewState {
-        object Idle : ViewState
+        data object Idle : ViewState
 
-        object InitialLoading : ViewState
+        data object InitialLoading : ViewState
 
-        object HintLoading : ViewState
+        data object HintLoading : ViewState
 
         sealed interface Content : ViewState {
             object SeeHintButton : Content
@@ -68,7 +68,7 @@ object StepQuizHintsFeature {
             ) : Content
         }
 
-        object Error : ViewState
+        data object Error : ViewState
 
         enum class HintState {
             REACT_TO_HINT,
@@ -110,32 +110,32 @@ object StepQuizHintsFeature {
         /**
          * Indicates that react hint succeed
          */
-        object ReactHintSuccess : Message
+        data object ReactHintSuccess : Message
 
         /**
          * Indicates that react hint failed
          */
-        object ReactHintFailure : Message
+        data object ReactHintFailure : Message
 
         /**
          * Creates report for current hint, assumes that user confirmed that action
          */
-        object ReportHint : Message
+        data object ReportHint : Message
 
         /**
          * Indicates that report hint succeed
          */
-        object ReportHintSuccess : Message
+        data object ReportHintSuccess : Message
 
         /**
          * Indicates that report hint failed
          */
-        object ReportHintFailure : Message
+        data object ReportHintFailure : Message
 
         /**
          * Initiate loading next hint
          */
-        object LoadHintButtonClicked : Message
+        data object LoadHintButtonClicked : Message
 
         /**
          * Message to fill state with ready data
@@ -170,8 +170,8 @@ object StepQuizHintsFeature {
         /**
          * Analytic
          */
-        object ClickedReportEventMessage : Message
-        object ReportHintNoticeShownEventMessage : Message
+        data object ClickedReportEventMessage : Message
+        data object ReportHintNoticeShownEventMessage : Message
         data class ReportHintNoticeHiddenEventMessage(val isReported: Boolean) : Message
     }
 
@@ -183,13 +183,22 @@ object StepQuizHintsFeature {
     }
 
     sealed interface Action {
+        sealed interface ViewAction : Action {
+            /**
+             * Shows snackbar with error message
+             */
+            data object ShowNetworkError : ViewAction
+        }
+    }
+
+    internal sealed interface InternalAction : Action {
         /**
          * Reporting hint action
          *
          * @property hintId hint ID to be reported
          * @property stepId is used to create user storage record
          */
-        data class ReportHint(val hintId: Long, val stepId: Long) : Action
+        data class ReportHint(val hintId: Long, val stepId: Long) : InternalAction
 
         /**
          * Creating reaction for hint
@@ -198,14 +207,14 @@ object StepQuizHintsFeature {
          * @property stepId is used to create user storage record
          * @property reaction reaction from user
          */
-        data class ReactHint(val hintId: Long, val stepId: Long, val reaction: ReactionType) : Action
+        data class ReactHint(val hintId: Long, val stepId: Long, val reaction: ReactionType) : InternalAction
 
         /**
          * Loading all hints IDs for given step
          *
          * @property stepId step ID to load hints for it
          */
-        data class FetchHintsIds(val stepId: Long) : Action
+        data class FetchHintsIds(val stepId: Long) : InternalAction
 
         /**
          * Loading next hint action
@@ -220,20 +229,13 @@ object StepQuizHintsFeature {
             val remainingHintsIds: List<Long>,
             val areHintsLimited: Boolean,
             val stepId: Long
-        ) : Action
+        ) : InternalAction
 
         /**
          * Logging analytic event action
          *
          * @property analyticEvent event to be logged
          */
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-
-        sealed interface ViewAction : Action {
-            /**
-             * Shows snackbar with error message
-             */
-            object ShowNetworkError : ViewAction
-        }
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

@@ -74,7 +74,7 @@ internal class CommentsScreenViewStateMapper(
             authorAvatar = comment.user.avatar,
             authorFullName = comment.user.fullName,
             formattedTime = comment.time?.let { dateFormatter.formatTimeDistance(it) },
-            text = comment.localizedText,
+            text = comment.text,
             reactions = comment.reactions.filter { it.value > 0 && it.reactionType in ReactionType.commentReactions }
         )
 

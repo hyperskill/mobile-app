@@ -18,7 +18,7 @@ object StepQuizHintsViewStateMapper {
                     state.currentHint != null -> {
                         val hint = state.currentHint
                         StepQuizHintsFeature.ViewState.Content.HintCard(
-                            hintText = hint.localizedText.ifBlank { hint.text },
+                            hintText = hint.text,
                             authorAvatar = hint.user.avatar,
                             authorName = hint.user.fullName,
                             hintState = when {

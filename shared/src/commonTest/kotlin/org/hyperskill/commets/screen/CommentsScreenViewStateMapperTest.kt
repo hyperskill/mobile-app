@@ -79,7 +79,7 @@ class CommentsScreenViewStateMapperTest {
                             authorAvatar = comment.user.avatar,
                             authorFullName = comment.user.fullName,
                             formattedTime = null,
-                            text = comment.localizedText,
+                            text = comment.text,
                             reactions = comment.reactions
                         ),
                         replies = CommentsScreenViewState.DiscussionReplies.EmptyReplies

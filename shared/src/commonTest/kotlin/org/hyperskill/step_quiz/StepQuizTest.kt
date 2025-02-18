@@ -959,7 +959,7 @@ class StepQuizTest {
         assertContains(
             actions,
             StepQuizFeature.Action.StepQuizHintsAction(
-                StepQuizHintsFeature.Action.FetchNextHint(
+                StepQuizHintsFeature.InternalAction.FetchNextHint(
                     nextHintId = expectedNextHintId,
                     remainingHintsIds = listOf(0, 1),
                     areHintsLimited = false,
