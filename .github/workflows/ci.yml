@@ -118,14 +118,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.190.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.3.0"
           bundler-cache: true
           working-directory: "./iosHyperskillApp"
 
       - name: Cache Pods
-        uses: actions/cache@v4.1.2
+        uses: actions/cache@v4
         id: cache-pods
         with:
           path: "./iosHyperskillApp/Pods"
