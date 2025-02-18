@@ -11,7 +11,6 @@ fun Comment.Companion.stub(
     targetId: Long = 0,
     targetType: ContentType = ContentType.UNKNOWN,
     text: String = "",
-    localizedText: String = "",
     user: CommentAuthor = CommentAuthor.stub(),
     time: Instant? = null,
     reactions: List<CommentReaction> = emptyList()
@@ -21,7 +20,6 @@ fun Comment.Companion.stub(
         targetId = targetId,
         targetType = targetType,
         text = text,
-        localizedText = localizedText,
         user = user,
         time = time,
         reactions = reactions

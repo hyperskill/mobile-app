@@ -11,6 +11,7 @@ import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
 import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.InternalAction
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
@@ -29,7 +30,7 @@ internal class MainStepQuizHintsActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchHintsIds -> {
+            is InternalAction.FetchHintsIds -> {
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
@@ -66,7 +67,7 @@ internal class MainStepQuizHintsActionDispatcher(
                     )
                 )
             }
-            is Action.ReportHint -> {
+            is InternalAction.ReportHint -> {
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsReportHint()
                 sentryInteractor.startTransaction(sentryTransaction)
 
@@ -88,47 +89,14 @@ internal class MainStepQuizHintsActionDispatcher(
                         }
                     )
             }
-            is Action.ReactHint -> handleReactHintAction(action, ::onNewMessage)
-            is Action.FetchNextHint -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizHintsFetchNextHint()
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                commentsRepository
-                    .getComment(action.nextHintId)
-                    .onSuccess {
-                        onNewMessage(
-                            Message.NextHintLoaded(
-                                it,
-                                action.remainingHintsIds,
-                                action.areHintsLimited,
-                                action.stepId
-                            )
-                        )
-
-                        userStorageInteractor.updateUserStorage(
-                            UserStoragePathBuilder.buildSeenHint(it.targetId, it.id),
-                            HintState.SEEN.userStorageValue
-                        )
-                        sentryInteractor.finishTransaction(sentryTransaction)
-                    }
-                    .onFailure {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(
-                            Message.NextHintLoadingError(
-                                action.nextHintId,
-                                action.remainingHintsIds,
-                                action.areHintsLimited,
-                                action.stepId
-                            )
-                        )
-                    }
-            }
+            is InternalAction.ReactHint -> handleReactHintAction(action, ::onNewMessage)
+            is InternalAction.FetchNextHint -> handleFetchNextHintAction(action, ::onNewMessage)
             else -> {}
         }
     }
 
     private suspend fun handleReactHintAction(
-        action: Action.ReactHint,
+        action: InternalAction.ReactHint,
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(
@@ -151,6 +119,39 @@ internal class MainStepQuizHintsActionDispatcher(
             )
 
             Message.ReactHintSuccess
+        }.let(onNewMessage)
+    }
+
+    private suspend fun handleFetchNextHintAction(
+        action: InternalAction.FetchNextHint,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildStepQuizHintsFetchNextHint(),
+            onError = {
+                Message.NextHintLoadingError(
+                    action.nextHintId,
+                    action.remainingHintsIds,
+                    action.areHintsLimited,
+                    action.stepId
+                )
+            }
+        ) {
+            val comment = commentsRepository
+                .getComment(action.nextHintId)
+                .getOrThrow()
+
+            userStorageInteractor.updateUserStorage(
+                UserStoragePathBuilder.buildSeenHint(stepId = comment.targetId, hintId = comment.id),
+                HintState.SEEN.userStorageValue
+            )
+
+            Message.NextHintLoaded(
+                comment,
+                action.remainingHintsIds,
+                action.areHintsLimited,
+                action.stepId
+            )
         }.let(onNewMessage)
     }
 }
