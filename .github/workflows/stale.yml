@@ -4,6 +4,12 @@ on:
   # Runs at 01:30 UTC every day
   schedule:
     - cron: "30 1 * * *"
+  # Allow manual runs for testing and maintenance
+  workflow_dispatch:
+
+concurrency:
+  group: stale-workflow
+  cancel-in-progress: true
 
 jobs:
   stale:
@@ -11,16 +17,53 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
+      # contents: write # only needed if you later enable delete-branch: true
     steps:
       - uses: actions/stale@v10
         with:
-          days-before-stale: 30
-          days-before-close: 7
+          # Differentiate issues vs PRs
+          days-before-issue-stale: 30
+          days-before-issue-close: 7
+          days-before-pr-stale: 21
+          days-before-pr-close: -1 # do not auto-close PRs; nudge instead
+
+          # Labels and reasons
           stale-issue-label: "stale"
-          stale-issue-message: "This issue is stale because it has been open for 30 days with no activity."
-          close-issue-message: "This issue was closed because it has been inactive for 7 days since being marked as stale."
           stale-pr-label: "stale"
-          stale-pr-message: "This PR is stale because it has been open for 30 days with no activity."
-          close-pr-message: "This PR was closed because it has been inactive for 7 days since being marked as stale."
+          close-issue-label: "stale-closed"
+          close-issue-reason: "not_planned"
+
+          # Messaging (concise, actionable)
+          stale-issue-message: >
+            This issue is stale because it has been open for 30 days with no activity.
+            If this is still relevant, please add a comment or remove the "stale" label.
+            Otherwise, it will be closed in 7 days. To opt out, add the "no-stale" label.
+          close-issue-message: >
+            Closing this issue due to inactivity (7 days after being marked as stale).
+            If this is still relevant, comment to re-open and remove the "stale" label.
+          stale-pr-message: >
+            This PR is stale because it has had no activity for 21 days.
+            Please push new commits, request a review, or comment to keep it active.
+            Draft PRs are exempt. To opt out, add the "no-stale" label.
+
+          # Exemptions (tune as needed)
+          exempt-issue-labels: "no-stale,help wanted,good first issue,security,blocked"
           exempt-pr-labels: "wip,help wanted,awaiting changes,awaiting review,ready to pull"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          exempt-draft-pr: true
+          exempt-all-milestones: true
+          exempt-all-issue-assignees: true
+
+          # Housekeeping around state changes
+          remove-stale-when-updated: true
+          labels-to-add-when-unstale: "needs-attention"
+
+          # Processing and performance
+          sort-by: updated
+          ascending: true
+          operations-per-run: 200
+          enable-statistics: true
+
+          # Optional:
+          # start-date: "2024-01-01T00:00:00Z" # uncomment to only apply to newer issues/PRs
+          # delete-branch: true # if you later enable auto-close for PRs and want to prune branches
+          # (requires contents: write permission)
