@@ -1,18 +1,220 @@
+# Platform-specific labels
 shared:
-- changed-files:
-  - any-glob-to-any-file: shared/**
+  - changed-files:
+    - any-glob-to-any-file: 'shared/**'
 
 ios:
-- changed-files:
-  - any-glob-to-any-file: iosHyperskillApp/**
+  - changed-files:
+    - any-glob-to-any-file: 'iosHyperskillApp/**'
 
 android:
-- changed-files:
-  - any-glob-to-any-file: androidHyperskillApp/**
+  - changed-files:
+    - any-glob-to-any-file: 'androidHyperskillApp/**'
 
+# CI/CD and build system
 ci/cd:
-- changed-files:
-  - any-glob-to-any-file: ['.github/workflows/**', '.github/actions/**', '.github/dependabot.yml', '.github/filters.yaml', '.github/labeler.yml']
+  - changed-files:
+    - any-glob-to-any-file: 
+      - '.github/workflows/**'
+      - '.github/actions/**'
+      - '.github/dependabot.yml'
+      - '.github/filters.yaml'
+      - '.github/labeler.yml'
 
+build-system:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle.properties'
+      - 'buildSrc/**'
+      - 'buildsystem/**'
+      - '**/build.gradle.kts'
+      - '**/Podfile*'
+      - '**/fastlane/**'
+
+# Documentation
+documentation:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/*.md'
+      - 'docs/**'
+      - 'README*'
+      - 'CODE_OF_CONDUCT.md'
+      - 'SECURITY.md'
+
+# Testing
+testing:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/test/**'
+      - '**/tests/**'
+      - '**/*Test*/**'
+      - '**/*test*'
+      - '**/TestPlans/**'
+      - 'iosHyperskillAppTests/**'
+      - 'iosHyperskillAppUITests/**'
+      - 'shared/src/commonTest/**'
+      - 'shared/src/androidUnitTest/**'
+
+# Dependencies and configuration
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'Gemfile*'
+      - '**/Gemfile*'
+      - 'gradle/libs.versions.toml'
+      - '**/package*.json'
+      - '**/yarn.lock'
+      - '**/Podfile*'
+
+config:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'config/**'
+      - '**/*.properties'
+      - '**/*.yml'
+      - '**/*.yaml'
+      - '**/*.json'
+      - '.editorconfig'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'sentry.properties'
+      - '**/.swiftlint.yml'
+
+# Feature areas based on codebase structure
+auth:
+  - changed-files:
+    - any-glob-to-any-file: '**/auth/**'
+
+onboarding:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/onboarding/**'
+      - '**/welcome/**'
+      - '**/welcome_onboarding/**'
+      - '**/first_problem_onboarding/**'
+      - '**/notifications_onboarding/**'
+
+payments:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/paywall/**'
+      - '**/purchases/**'
+      - '**/subscriptions/**'
+      - '**/manage_subscription/**'
+      - '**/products/**'
+
+gamification:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/gamification_toolbar/**'
+      - '**/streaks/**'
+      - '**/streak_recovery/**'
+      - '**/share_streak/**'
+      - '**/hypercoins/**'
+      - '**/badges/**'
+      - '**/leaderboard/**'
+
+learning:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/learning_activities/**'
+      - '**/step/**'
+      - '**/step_quiz/**'
+      - '**/step_completion/**'
+      - '**/step_feedback/**'
+      - '**/topics/**'
+      - '**/topics_repetitions/**'
+      - '**/study_plan/**'
+      - '**/progresses/**'
+      - '**/submissions/**'
+
+problems:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/problems_limit_info/**'
+      - '**/challenges/**'
+      - '**/code/**'
+      - '**/run_code/**'
+      - '**/stage_implement/**'
+      - '**/stages/**'
+
+projects:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/projects/**'
+      - '**/project_selection/**'
+
+track:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/track/**'
+      - '**/track_selection/**'
+
+profile:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/profile/**'
+      - '**/profile_settings/**'
+      - '**/users/**'
+      - '**/users_interview_widget/**'
+
+notifications:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/notification/**'
+      - '**/notification_daily_study_reminder_widget/**'
+
+ui:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/home/**'
+      - '**/main/**'
+      - '**/progress_screen/**'
+      - '**/search/**'
+      - '**/search_results/**'
+
+networking:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/network/**'
+      - '**/providers/**'
+
+analytics:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/analytic/**'
+      - '**/sentry/**'
+      - '**/logging/**'
+
+# Root level changes
+root:
+  - changed-files:
+    - any-glob-to-any-file: 
+      - '*.sh'
+      - '*.gradle.kts'
+      - '*.properties'
+      - '*.md'
+
+# Release and versioning
 release:
-- base-branch: 'main'
+  - any:
+    - base-branch: 'main'
+    - changed-files:
+      - any-glob-to-any-file:
+        - '**/version*'
+        - '**/Version*'
+        - '**/fastlane/**'
+
+# Feature branch detection
+feature:
+  - head-branch: ['^feature', 'feature']
+
+# Hotfix detection  
+hotfix:
+  - head-branch: ['^hotfix', 'hotfix']
+
+# Bug fix detection
+bugfix:
+  - head-branch: ['^bugfix', '^fix', 'bugfix', 'fix']
