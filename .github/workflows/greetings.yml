@@ -1,16 +1,62 @@
 name: Greetings
 
-on: [pull_request_target, issues]
+on:
+  pull_request:
+    types:
+      - opened
+  issues:
+    types:
+      - opened
+
+permissions:
+  issues: write
+  pull-requests: write
 
 jobs:
   greeting:
+    name: Greet First-Time Contributors
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
+
     steps:
       - uses: actions/first-interaction@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-message: "Thanks for submitting your first issue, we will have a look as quickly as possible."
-          pr-message: "Thanks so much for your contribution, we are really appreciated this! We will have a look and merge it if everything checks out!"
+          issue-message: |
+            ## 👋 Welcome to Hyperskill Mobile App!
+
+            Thank you for submitting your first issue! We really appreciate your interest in improving the Hyperskill mobile learning experience.
+
+            ### What happens next?
+            - Our team will review your issue as soon as possible
+            - We may ask for additional information or clarification
+            - You can track the progress through issue updates
+
+            ### Getting started
+            - 📋 Check out our [Code of Conduct](https://github.com/hyperskill/mobile-app/blob/develop/CODE_OF_CONDUCT.md)
+            - 🔧 Learn about our tech stack in the [README](https://github.com/hyperskill/mobile-app#tech-stack)
+            - 📱 Download the app: [Android](https://play.google.com/store/apps/details?id=org.hyperskill.app.android) | [iOS](https://apps.apple.com/app/my-hyperskill/id1637230833)
+
+            Thanks for helping make coding education more accessible! 🚀
+          pr-message: |
+            ## 🎉 Welcome to Hyperskill Mobile App!
+
+            Thank you for your first contribution! We really appreciate your effort to improve the mobile learning experience for thousands of developers worldwide.
+
+            ### What happens next?
+            - Our team will review your pull request thoroughly
+            - We'll run automated checks and tests
+            - We may provide feedback or request changes
+            - Once approved, we'll merge your contribution
+
+            ### Before merge checklist
+            Please make sure you've completed the items in our [PR template](https://github.com/hyperskill/mobile-app/blob/develop/.github/PULL_REQUEST_TEMPLATE.md):
+            - ✅ YouTrack issue linked
+            - ✅ All checks passed
+            - ✅ Changes tested locally
+            - ✅ Analytics events documented (if applicable)
+
+            ### Resources
+            - 📋 [Code of Conduct](https://github.com/hyperskill/mobile-app/blob/develop/CODE_OF_CONDUCT.md)
+            - 🏗️ [Tech Stack Overview](https://github.com/hyperskill/mobile-app#tech-stack)
+            - 📱 [Download the app](https://play.google.com/store/apps/details?id=org.hyperskill.app.android) to test your changes
+
+            Thanks for contributing to coding education! 🚀
