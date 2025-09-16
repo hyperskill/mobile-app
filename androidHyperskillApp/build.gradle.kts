@@ -55,13 +55,11 @@ dependencies {
     ktlintRuleset(libs.ktlintRules)
 
     implementation(libs.android.material.progress.bar)
-    implementation(libs.android.sentry)
+    implementation(libs.android.sentry) {
+        exclude(group = "io.sentry", module = "sentry-android-ndk")
+    }
     implementation(libs.android.sentry.fragment)
     implementation(libs.android.parcelable)
-
-    debugImplementation(libs.android.flipper)
-    debugImplementation(libs.android.soloader)
-    releaseImplementation(libs.android.flipper.noop)
 
     implementation(libs.android.reactivex.rxandroid)
     implementation(libs.android.reactivex.rxjava)

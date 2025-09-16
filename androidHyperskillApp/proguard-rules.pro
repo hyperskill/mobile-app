@@ -120,8 +120,5 @@
     public static ** valueOf(java.lang.String);
 }
 
--keep class com.facebook.jni.** { *; }
--keep class com.facebook.flipper.** { *; }
-
 -dontwarn org.slf4j.impl.StaticLoggerBinder
 -dontwarn org.slf4j.impl.StaticMDCBinder
