@@ -121,7 +121,7 @@ ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlint
 plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 detekt-composeRules = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektComposeRules" }
 
-android-security = { module = "androidx.security:security-crypto", version = "1.1.0-alpha03" }
+android-security = { module = "androidx.security:security-crypto", version = "1.1.0" }
 android-material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
 android-flipper = { module = "com.facebook.flipper:flipper", version.ref = "flipper" }
 android-flipper-noop = { module = "com.facebook.flipper:flipper-noop", version.ref = "flipper" }
