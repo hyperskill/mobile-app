@@ -11,7 +11,6 @@ import org.hyperskill.app.android.core.extensions.NotificationChannelInitializer
 import org.hyperskill.app.android.core.injection.AndroidAppComponent
 import org.hyperskill.app.android.core.injection.AndroidAppComponentImpl
 import org.hyperskill.app.android.profile_settings.view.mapper.asNightMode
-import org.hyperskill.app.android.util.DebugToolsHelper
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.remote.UserAgentInfo
@@ -46,8 +45,6 @@ class HyperskillApp : Application(), ImageLoaderFactory {
         setTheme(R.style.AppTheme)
 
         application = this
-
-        DebugToolsHelper.initDebugTools(this)
 
         appGraph = AndroidAppComponentImpl(
             application = this,
