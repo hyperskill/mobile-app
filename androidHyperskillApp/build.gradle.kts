@@ -59,10 +59,6 @@ dependencies {
     implementation(libs.android.sentry.fragment)
     implementation(libs.android.parcelable)
 
-    debugImplementation(libs.android.flipper)
-    debugImplementation(libs.android.soloader)
-    releaseImplementation(libs.android.flipper.noop)
-
     implementation(libs.android.reactivex.rxandroid)
     implementation(libs.android.reactivex.rxjava)
     implementation(libs.android.reactivex.rxkotlin)
