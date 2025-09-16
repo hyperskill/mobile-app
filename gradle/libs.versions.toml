@@ -7,8 +7,8 @@ datetime = '0.6.0'
 mokoResources = "0.24.1"
 mokoKswift = "0.7.0"
 adapters = '1.1.1'
-sentry = '7.1.0'
-sentryAndroidGradlePlugin = '4.1.0'
+sentry = '8.0.0'
+sentryAndroidGradlePlugin = '5.0.0'
 fragment = '1.5.7'
 activity = '1.9.0'
 flipper = '0.148.0'
@@ -130,7 +130,7 @@ android-parcelable = { module = "com.chrynan.parcelable:parcelable-core", versio
 
 android-sentry = { module = "io.sentry:sentry-android", version.ref = "sentry" }
 android-sentry-fragment = { module = "io.sentry:sentry-android-fragment", version.ref = "sentry" }
-android-sentry-okhttp = { module = "io.sentry:sentry-android-okhttp", version.ref = "sentry" }
+android-sentry-okhttp = { module = "io.sentry:sentry-okhttp", version.ref = "sentry" }
 
 android-reactivex-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version = "2.1.0" }
 android-reactivex-rxjava = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.5" }
