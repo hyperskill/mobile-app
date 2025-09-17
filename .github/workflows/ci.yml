@@ -75,11 +75,29 @@ jobs:
           GITHUB_USER: ${{ github.actor }}
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Find ktlint SARIF file
         if: success() || failure()
+        run: |
+          # Try to find the main SARIF file first, fallback to any available one
+          if [ -f "shared/build/reports/ktlint/ktlintCommonMainSourceSetCheck/ktlintCommonMainSourceSetCheck.sarif" ]; then
+            SARIF_FILE="shared/build/reports/ktlint/ktlintCommonMainSourceSetCheck/ktlintCommonMainSourceSetCheck.sarif"
+          else
+            SARIF_FILE=$(find shared/build/reports/ktlint -name "*.sarif" -type f | head -1)
+          fi
+          
+          if [ -n "$SARIF_FILE" ] && [ -f "$SARIF_FILE" ]; then
+            echo "Found ktlint SARIF file: $SARIF_FILE"
+            echo "sarif_file=$SARIF_FILE" >> $GITHUB_ENV
+          else
+            echo "No ktlint SARIF files found"
+            echo "sarif_file=" >> $GITHUB_ENV
+          fi
+
+      - name: Upload ktlint SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure() && env.sarif_file != ''
         with:
-          sarif_file: shared/build/reports/ktlint
+          sarif_file: ${{ env.sarif_file }}
           category: ktlint
 
   detekt:
