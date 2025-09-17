@@ -95,7 +95,7 @@ jobs:
 
       - name: Upload ktlint SARIF
         uses: github/codeql-action/upload-sarif@v3
-        if: success() || failure() && env.sarif_file != ''
+        if: (success() || failure()) && env.sarif_file != ''
         with:
           sarif_file: ${{ env.sarif_file }}
           category: ktlint
