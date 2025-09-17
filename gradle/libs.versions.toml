@@ -138,7 +138,7 @@ android-splashscreen = { module = "androidx.core:core-splashscreen", version = "
 android-timepicker = { module = "io.github.ShawnLin013:number-picker", version = "2.4.13" }
 android-lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 
-android-desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version = "1.1.5" }
+android-desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version = "2.1.5" }
 
 #Analytic
 android-analytic-appsFlyer = { module = "com.appsflyer:af-android-sdk", version.ref = "appsFlyer" }
