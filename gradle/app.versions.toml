@@ -1,6 +1,6 @@
 [versions]
 minSdk = '24'
-targetSdk = '34'
-compileSdk = '34'
+targetSdk = '35'
+compileSdk = '35'
 versionName = '1.81'
 versionCode = '603'

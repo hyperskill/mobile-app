@@ -20,9 +20,6 @@ class ClarityDelegate(
         private val clarityConfig = ClarityConfig(
             projectId = BuildConfig.CLARITY_PROJECT_ID,
             logLevel = if (BuildConfig.DEBUG) LogLevel.Debug else LogLevel.None,
-            allowMeteredNetworkUsage = false,
-            allowedDomains = emptyList(),
-            disableOnLowEndDevices = true
         )
     }
 

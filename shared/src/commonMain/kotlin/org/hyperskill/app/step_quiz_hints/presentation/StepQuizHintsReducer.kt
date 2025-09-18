@@ -173,7 +173,7 @@ class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<Stat
         when (state) {
             is State.Content -> {
                 val hintsIds = state.hintsIds.toMutableList()
-                val nextHintId = hintsIds.removeLast()
+                val nextHintId = hintsIds.removeAt(hintsIds.lastIndex)
                 State.Loading() to setOfNotNull(
                     InternalAction.FetchNextHint(
                         nextHintId,
