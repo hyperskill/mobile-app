@@ -306,24 +306,34 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             },
             codeEditorKeyboardListener = { isKeyboardShown, insets, _ ->
                 if (isResumed) {
-                    setViewsVisibility(isKeyboardShown, insets)
+                    onKeyboardInsetsChanged(isKeyboardShown, insets)
                 }
             }
         )
     }
 
-    private fun setViewsVisibility(
+    private fun onKeyboardInsetsChanged(
         isKeyboardShown: Boolean,
         insets: WindowInsetsCompat
     ) {
         playgroundBinding?.fullScreenButtonContainer?.isVisible = !isKeyboardShown
         viewBinding.fullScreenAppBar.isVisible = !isKeyboardShown
+        applyKeyboardInsetsToCodeEditor(isKeyboardShown, insets)
+    }
+
+    private fun applyKeyboardInsetsToCodeEditor(
+        isKeyboardShown: Boolean,
+        insets: WindowInsetsCompat
+    ) {
+        val statusBarPadding = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
         playgroundBinding?.fullScreenCodeEditorLayout
             ?.updatePadding(
-                top = if (isKeyboardShown) {
-                    insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-                } else {
-                    0
+                top = when {
+                    isKeyboardShown -> statusBarPadding
+                    // On Android 10 and above code editor is shown as expected
+                    android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q -> 0
+                    // On Android 9 and lower code editor is hidden by pager view
+                    else -> statusBarPadding * 2
                 }
             )
     }
