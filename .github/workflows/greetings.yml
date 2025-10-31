@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/first-interaction@v3
         with:
-          issue-message: |
+          issue_message: |
             ## 👋 Welcome to Hyperskill Mobile App!
 
             Thank you for submitting your first issue! We really appreciate your interest in improving the Hyperskill mobile learning experience.
@@ -36,7 +36,7 @@ jobs:
             - 📱 Download the app: [Android](https://play.google.com/store/apps/details?id=org.hyperskill.app.android) | [iOS](https://apps.apple.com/app/my-hyperskill/id1637230833)
 
             Thanks for helping make coding education more accessible! 🚀
-          pr-message: |
+          pr_message: |
             ## 🎉 Welcome to Hyperskill Mobile App!
 
             Thank you for your first contribution! We really appreciate your effort to improve the mobile learning experience for thousands of developers worldwide.
