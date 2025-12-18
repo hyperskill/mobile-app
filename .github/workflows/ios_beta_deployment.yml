@@ -66,7 +66,7 @@ jobs:
 
       - name: Upload error log
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: iosHyperskillApp-iosHyperskillApp.log
           path: /Users/runner/Library/Logs/gym/iosHyperskillApp-iosHyperskillApp.log
