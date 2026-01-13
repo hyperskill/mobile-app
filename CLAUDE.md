@@ -8,6 +8,32 @@ This is the Hyperskill Mobile App, a cross-platform learning application built w
 
 Repository: https://github.com/hyperskill/mobile-app.git
 
+## Language & Platform Requirements
+
+### Languages & Tools
+| Component | Version |
+|-----------|---------|
+| Kotlin | 1.9.24 |
+| Xcode | 15.4 |
+| Java | 19 |
+| Ruby | 3.3.0 |
+
+### Android
+| Setting | Value |
+|---------|-------|
+| minSdk | 24 (Android 7.0) |
+| targetSdk | 35 (Android 15) |
+| compileSdk | 35 |
+
+### iOS
+| Setting | Value |
+|---------|-------|
+| Deployment Target | 14.0 |
+
+### CI Environment
+- **macOS runner**: macos-14
+- **Ubuntu runner**: ubuntu-latest
+
 ## Architecture
 
 ### Clean Architecture + Redux Pattern
