@@ -153,6 +153,13 @@ jobs:
         working-directory: "./iosHyperskillApp"
         run: bundle exec pod install
 
+      # TEMPORARY: export the lock file resolved by CocoaPods on CI
+      - name: Upload Manifest.lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: Manifest.lock
+          path: iosHyperskillApp/Pods/Manifest.lock
+
       - name: Run SwiftLint
         working-directory: "./iosHyperskillApp"
         run: ./lint.sh
