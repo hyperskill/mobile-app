@@ -209,7 +209,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AmplitudeSwift: 4daa595b157c73b9bc5f225f9b8faead90d044b3
   AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
-  AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
+  AppAuth: 7096ba7b9e9ec525036c79c633d4e796d4c02489
   AppsFlyerFramework: b3de9a49c6af8a8e38c44603e468b5e207f22466
   Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
@@ -222,9 +222,9 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 4d52717dd820707cc4eadec5eb981b4832ec8d5d
   Gifu: 416d4e38c4c2fed012f019e0a1d3ffcb58e5b842
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
-  GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
+  GoogleSignIn: 4ac041cf807e78942e3c0863775a98ee8c8e0f7c
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
-  GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
+  GTMAppAuth: 4a3fbbb34098b327feaa51cfbf98b0b12f6892e7
   GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   Highlightr: 683f05d5223cade533a78528a35c9f06e4caddf8
   IQKeyboardManagerSwift: 79fab21f451441935788dc5d80ded21c32685904
