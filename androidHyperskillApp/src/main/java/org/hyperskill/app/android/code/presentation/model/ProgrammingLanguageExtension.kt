@@ -1,12 +1,12 @@
 package org.hyperskill.app.android.code.presentation.model
 
 import android.content.Context
-// Aliased, because the ProgrammingLanguage.R entry from the star import below shadows the R class
-import org.hyperskill.app.android.R as AppR
 import org.hyperskill.app.code.domain.model.ProgrammingLanguage
 /* ktlint-disable */
 import org.hyperskill.app.code.domain.model.ProgrammingLanguage.*
+import org.hyperskill.app.android.R as AppR
 
+// The resources class is imported as AppR, because the star-imported ProgrammingLanguage.R entry shadows R
 fun ProgrammingLanguage?.getSymbols(context: Context): Array<String> =
     when (this) {
         PYTHON, PYTHON3, PYTHON3_1, PYTHON3_11 ->
