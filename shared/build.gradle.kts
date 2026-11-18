@@ -236,6 +236,25 @@ kswift {
     iosDeploymentTarget.set("14.0")
 }
 
+// Pods used for cinterop (RevenueCat) are built by the Kotlin CocoaPods plugin with their own deployment target,
+// which is too low for Xcode 26. Build them with the same deployment target as the shared framework.
+tasks.matching { it.name.startsWith("podInstallSynthetic") }.configureEach {
+    doLast {
+        val syntheticPodsProject = layout.buildDirectory
+            .file("cocoapods/synthetic/ios/Pods/Pods.xcodeproj/project.pbxproj")
+            .get()
+            .asFile
+        if (syntheticPodsProject.exists()) {
+            syntheticPodsProject.writeText(
+                syntheticPodsProject.readText().replace(
+                    Regex("IPHONEOS_DEPLOYMENT_TARGET = [0-9.]+;"),
+                    "IPHONEOS_DEPLOYMENT_TARGET = 14.0;"
+                )
+            )
+        }
+    }
+}
+
 // Copies generated shared Swift file by moko-kswift to iosHyperskillApp
 tasks.withType<KotlinNativeLink>()
     .matching { it.binary is Framework }

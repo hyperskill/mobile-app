@@ -236,11 +236,3 @@ jobs:
         with:
           name: iosHyperskillApp-iosHyperskillApp.log
           path: /Users/runner/Library/Logs/gym/iosHyperskillApp-iosHyperskillApp.log
-
-      # TEMPORARY: export the Podfile.lock resolved on CI to commit it back
-      - name: Upload Podfile.lock
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: Podfile.lock
-          path: iosHyperskillApp/Podfile.lock
