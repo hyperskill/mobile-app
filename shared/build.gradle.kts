@@ -272,28 +272,20 @@ tasks.withType<KotlinNativeLink>()
                 .dir("${binary.baseName}Swift")
                 .asFile
 
-            // Kotlin 2 compiles the project itself into an unpacked klib directory, but moko-kswift
-            // processes only packed *.klib files, so run its processor for the project klib manually.
+            // With Kotlin 2 the klib of the project itself is no longer among the link task inputs
+            // processed by moko-kswift, so run its processor for the project klib manually.
             val kswiftProcessor = dev.icerock.moko.kswift.plugin.KLibProcessor(
                 logger = logger,
                 extension = project.extensions.getByType<dev.icerock.moko.kswift.plugin.KSwiftExtension>()
             )
-            // TEMPORARY diagnostics
-            logger.lifecycle("kswift-debug input dirs: " + inputs.files.filter { it.isDirectory }.map { it.path })
-            inputs.files
-                .filter { it.isDirectory && it.resolve("default/manifest").exists() && !it.name.contains("cinterop") }
-                .forEach { unpackedKlib ->
-                    logger.lifecycle("kswift-debug processing: " + unpackedKlib.path)
-                    try {
-                        val metadata = dev.icerock.moko.kswift.plugin.KotlinMetadataLibraryProvider
-                            .readLibraryMetadata(unpackedKlib)
-                        logger.lifecycle("kswift-debug metadata name: " + metadata.name)
-                    } catch (e: Throwable) {
-                        logger.lifecycle("kswift-debug read failed: " + e + " | " + e.stackTrace.take(12).joinToString(" <- "))
-                    }
-                    kswiftProcessor.processFeatureContext(unpackedKlib, kSwiftGeneratedDir, binary as Framework)
+            fun File.isKlib(): Boolean =
+                extension == "klib" || resolve("default/manifest").exists()
+            binary.compilation.output.classesDirs.files
+                .flatMap { if (it.isKlib()) listOf(it) else it.listFiles().orEmpty().filter(File::isKlib) }
+                .forEach { projectKlib ->
+                    logger.lifecycle("moko-kswift: processing project klib ${projectKlib.path}")
+                    kswiftProcessor.processFeatureContext(projectKlib, kSwiftGeneratedDir, binary as Framework)
                 }
-            logger.lifecycle("kswift-debug generated: " + kSwiftGeneratedDir.listFiles()?.map { it.name })
 
             val kSwiftSharedGeneratedSwiftFile = kSwiftGeneratedDir
                 .resolve("Hyperskill-Mobile_shared.swift")
