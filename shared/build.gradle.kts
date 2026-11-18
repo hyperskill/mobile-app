@@ -259,6 +259,16 @@ tasks.matching { it.name.startsWith("podInstallSynthetic") }.configureEach {
 tasks.withType<KotlinNativeLink>()
     .matching { it.binary is Framework }
     .configureEach {
+        // moko-kswift can't read cinterop klibs with Kotlin 2 (it terminates the Gradle daemon),
+        // and they contain no sealed classes to process, so exclude them.
+        doFirst {
+            val klibNames = inputs.files.filter { it.extension == "klib" }.map { it.nameWithoutExtension }
+            logger.lifecycle("moko-kswift input klibs: $klibNames")
+            val kswiftExtension = project.extensions.getByType<dev.icerock.moko.kswift.plugin.KSwiftExtension>()
+            klibNames
+                .filter { it.contains("cinterop") }
+                .forEach(kswiftExtension::excludeLibrary)
+        }
         doLast {
             val kSwiftGeneratedDir = destinationDirectory.get()
                 .dir("${binary.baseName}Swift")
