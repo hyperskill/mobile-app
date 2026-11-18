@@ -75,9 +75,12 @@ jobs:
           GITHUB_USER: ${{ github.actor }}
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # ktlint produces one SARIF file per source set, and code scanning rejects
+      # several runs with the same category, so the upload must not fail the job
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
         if: success() || failure()
+        continue-on-error: true
         with:
           sarif_file: shared/build/reports/ktlint
           category: ktlint
@@ -132,6 +135,18 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('iosHyperskillApp/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
+
+      - name: Setup Java JDK
+        if: steps.cache-pods.outputs.cache-hit != 'true'
+        uses: actions/setup-java@v4
+        with:
+          java-version: "19"
+          distribution: "temurin"
+
+      # shared.podspec requires the Kotlin framework to exist before pod install
+      - name: Generate dummy shared framework
+        if: steps.cache-pods.outputs.cache-hit != 'true'
+        run: ./gradlew :shared:generateDummyFramework
 
       - name: Install Pods
         if: steps.cache-pods.outputs.cache-hit != 'true'
