@@ -279,7 +279,7 @@ tasks.withType<KotlinNativeLink>()
                 extension = project.extensions.getByType<dev.icerock.moko.kswift.plugin.KSwiftExtension>()
             )
             inputs.files
-                .filter { it.isDirectory && it.resolve("default/manifest").exists() }
+                .filter { it.isDirectory && it.resolve("default/manifest").exists() && !it.name.contains("cinterop") }
                 .forEach { unpackedKlib ->
                     kswiftProcessor.processFeatureContext(unpackedKlib, kSwiftGeneratedDir, binary as Framework)
                 }
