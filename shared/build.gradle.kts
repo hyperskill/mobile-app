@@ -47,9 +47,6 @@ kotlin {
             framework {
                 baseName = "shared"
                 isStatic = false
-                // Delete options passed to a system linker after upgrading to the Kotlin 1.9.10
-                // https://youtrack.jetbrains.com/issue/KT-60230
-                linkerOpts += "-ld64"
                 // Add export declarations to use moko-resources iOS extensions from Swift side
                 export(libs.mokoResources.main)
             }
@@ -82,8 +79,7 @@ kotlin {
             api(libs.multiplatform.settings)
         }
         commonTest.dependencies {
-            implementation(kotlin("test-common"))
-            implementation(kotlin("test-annotations-common"))
+            implementation(kotlin("test"))
             implementation(libs.kotlin.coroutines.core)
             implementation(libs.kotlin.coroutines.test)
             implementation(libs.mokoResources.test)

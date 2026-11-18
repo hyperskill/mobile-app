@@ -27,7 +27,7 @@ jobs:
   automerge:
     needs: files-changed
     name: Automerge
-    runs-on: macos-14
+    runs-on: macos-26
 
     steps:
       - name: Checkout

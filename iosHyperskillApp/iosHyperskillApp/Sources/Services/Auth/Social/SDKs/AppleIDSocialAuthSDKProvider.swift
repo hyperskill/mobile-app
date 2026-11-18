@@ -121,23 +121,19 @@ extension AppleIDSocialAuthSDKProvider: ASAuthorizationControllerDelegate {
     }
 
     private func handleDidCompleteWithError(_ error: Error) {
-        let sdkError: SocialAuthSDKError = {
+        let sdkError: SocialAuthSDKError =
             if let sdkError = error as? SocialAuthSDKError {
-                return sdkError
+                sdkError
             } else if let authorizationError = error as? ASAuthorizationError {
                 switch authorizationError.code {
                 case .canceled:
-                    return .canceled
-                case .unknown, .invalidResponse, .notHandled, .failed, .notInteractive:
-                    return .connectionError(originalError: error)
-                @unknown default:
-                    return .connectionError(originalError: error)
+                    .canceled
+                default:
+                    .connectionError(originalError: error)
                 }
             } else {
-                return .connectionError(originalError: error)
+                .connectionError(originalError: error)
             }
-        }()
-
         completionHandler?(.failure(sdkError))
     }
 }

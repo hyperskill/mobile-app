@@ -9,6 +9,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     kotlin("plugin.serialization")
+    kotlin("plugin.compose")
     alias(libs.plugins.sentry.androidGradle)
     id("com.google.gms.google-services")
 }
@@ -173,10 +174,6 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 
     compileOptions {

@@ -87,18 +87,8 @@ struct AuthCredentialsView: View {
     }
 }
 
-#Preview("iPhone 15 Pro") {
+#if DEBUG
+#Preview {
     AuthCredentialsAssembly().makeModule()
-        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
 }
-
-#Preview("iPhone SE (Dark)") {
-    AuthCredentialsAssembly().makeModule()
-        .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
-        .preferredColorScheme(.dark)
-}
-
-#Preview("iPad") {
-    AuthCredentialsAssembly().makeModule()
-        .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
-}
+#endif
