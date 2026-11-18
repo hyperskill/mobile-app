@@ -262,17 +262,28 @@ tasks.withType<KotlinNativeLink>()
         // moko-kswift can't read cinterop klibs with Kotlin 2 (it terminates the Gradle daemon),
         // and they contain no sealed classes to process, so exclude them.
         doFirst {
-            val klibNames = inputs.files.filter { it.extension == "klib" }.map { it.nameWithoutExtension }
-            logger.lifecycle("moko-kswift input klibs: $klibNames")
             val kswiftExtension = project.extensions.getByType<dev.icerock.moko.kswift.plugin.KSwiftExtension>()
-            klibNames
-                .filter { it.contains("cinterop") }
-                .forEach(kswiftExtension::excludeLibrary)
+            inputs.files
+                .filter { it.extension == "klib" && it.name.contains("cinterop") }
+                .forEach { kswiftExtension.excludeLibrary(it.nameWithoutExtension) }
         }
         doLast {
             val kSwiftGeneratedDir = destinationDirectory.get()
                 .dir("${binary.baseName}Swift")
                 .asFile
+
+            // Kotlin 2 compiles the project itself into an unpacked klib directory, but moko-kswift
+            // processes only packed *.klib files, so run its processor for the project klib manually.
+            val kswiftProcessor = dev.icerock.moko.kswift.plugin.KLibProcessor(
+                logger = logger,
+                extension = project.extensions.getByType<dev.icerock.moko.kswift.plugin.KSwiftExtension>()
+            )
+            inputs.files
+                .filter { it.isDirectory && it.resolve("default/manifest").exists() }
+                .forEach { unpackedKlib ->
+                    kswiftProcessor.processFeatureContext(unpackedKlib, kSwiftGeneratedDir, binary as Framework)
+                }
+
             val kSwiftSharedGeneratedSwiftFile = kSwiftGeneratedDir
                 .resolve("Hyperskill-Mobile_shared.swift")
 
