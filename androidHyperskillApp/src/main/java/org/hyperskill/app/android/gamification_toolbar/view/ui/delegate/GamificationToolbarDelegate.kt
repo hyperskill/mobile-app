@@ -153,7 +153,6 @@ class GamificationToolbarDelegate(
                 ProblemsLimitInfoBottomSheet.newInstance(
                     params = ProblemsLimitInfoModalFeatureParams(
                         action.subscription,
-                        action.chargeLimitsStrategy,
                         action.context
                     )
                 ).showIfNotExists(fragmentManager, ProblemsLimitInfoBottomSheet.TAG)

@@ -40,8 +40,7 @@ class StepQuizToolbarReducer(
     ): StepQuizToolbarReducerResult =
         State.Content(
             subscription = message.subscription,
-            subscriptionLimitType = message.subscriptionLimitType,
-            chargeLimitsStrategy = message.chargeLimitsStrategy
+            subscriptionLimitType = message.subscriptionLimitType
         ) to emptySet()
 
     private fun handleSubscriptionFetchError(): StepQuizToolbarReducerResult =
@@ -68,7 +67,6 @@ class StepQuizToolbarReducer(
                 ),
                 Action.ViewAction.ShowProblemsLimitInfoModal(
                     subscription = state.subscription,
-                    chargeLimitsStrategy = state.chargeLimitsStrategy,
                     context = ProblemsLimitInfoModalContext.Step(
                         launchSource = ProblemsLimitInfoModalLaunchSource.USER_INITIATED,
                         stepRoute = stepRoute

@@ -49,4 +49,4 @@ final class SearchViewModel: FeatureViewModel<
     }
 }
 
-extension SearchFeatureSearchResultsViewStateContent.Item: Identifiable {}
+extension shared.SearchFeatureSearchResultsViewStateContent.Item: @retroactive Swift.Identifiable {}

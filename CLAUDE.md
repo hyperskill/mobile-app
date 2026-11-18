@@ -13,8 +13,8 @@ Repository: https://github.com/hyperskill/mobile-app.git
 ### Languages & Tools
 | Component | Version |
 |-----------|---------|
-| Kotlin | 1.9.24 |
-| Xcode | 15.4 |
+| Kotlin | 2.2.21 |
+| Xcode | 26 |
 | Java | 19 |
 | Ruby | 3.3.0 |
 
@@ -22,8 +22,8 @@ Repository: https://github.com/hyperskill/mobile-app.git
 | Setting | Value |
 |---------|-------|
 | minSdk | 24 (Android 7.0) |
-| targetSdk | 35 (Android 15) |
-| compileSdk | 35 |
+| targetSdk | 36 (Android 16) |
+| compileSdk | 36 |
 
 ### iOS
 | Setting | Value |
@@ -31,7 +31,7 @@ Repository: https://github.com/hyperskill/mobile-app.git
 | Deployment Target | 14.0 |
 
 ### CI Environment
-- **macOS runner**: macos-14
+- **macOS runner**: macos-26
 - **Ubuntu runner**: ubuntu-latest
 
 ## Architecture

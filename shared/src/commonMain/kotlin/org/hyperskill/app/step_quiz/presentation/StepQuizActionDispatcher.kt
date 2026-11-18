@@ -9,11 +9,8 @@ import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
-import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
-import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.run_code.domain.model.RunCodeExecutionResult
 import org.hyperskill.app.run_code.domain.repository.RunCodeRepository
@@ -47,7 +44,6 @@ internal class StepQuizActionDispatcher(
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val subscriptionsInteractor: SubscriptionsInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val featuresDataSource: FeaturesDataSource,
     private val urlPathProcessor: UrlPathProcessor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
@@ -149,7 +145,7 @@ internal class StepQuizActionDispatcher(
                 }
             }
             is InternalAction.UpdateProblemsLimit ->
-                handleUpdateProblemsLimitAction(action, ::onNewMessage)
+                handleUpdateProblemsLimitAction(::onNewMessage)
             is InternalAction.CreateMagicLinkForUnsupportedQuiz -> {
                 urlPathProcessor
                     .processUrlPath(HyperskillUrlPath.Step(action.stepRoute))
@@ -193,7 +189,6 @@ internal class StepQuizActionDispatcher(
                 attempt = attempt,
                 submissionState = submissionState,
                 subscription = subscriptionWithLimitType.subscription,
-                chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
                 isProblemsLimitReached = subscriptionWithLimitType.isProblemsLimitReached
             )
@@ -321,14 +316,8 @@ internal class StepQuizActionDispatcher(
                 }
             }
 
-    private suspend fun handleUpdateProblemsLimitAction(
-        action: InternalAction.UpdateProblemsLimit,
-        onNewMessage: (Message) -> Unit
-    ) {
-        val features = featuresDataSource.getFeaturesMap()
-        if (!features.isFreemiumWrongSubmissionChargeLimitsEnabled) return
-
-        subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
+    private suspend fun handleUpdateProblemsLimitAction(onNewMessage: (Message) -> Unit) {
+        subscriptionsInteractor.chargeProblemsLimitsForWrongSubmission()
 
         val currentSubscriptionWithLimitType =
             subscriptionsInteractor.getSubscriptionWithLimitType().getOrElse { return }
@@ -336,8 +325,7 @@ internal class StepQuizActionDispatcher(
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
                 subscription = currentSubscriptionWithLimitType.subscription,
-                isProblemsLimitReached = currentSubscriptionWithLimitType.isProblemsLimitReached,
-                chargeLimitsStrategy = features.freemiumChargeLimitsStrategy
+                isProblemsLimitReached = currentSubscriptionWithLimitType.isProblemsLimitReached
             )
         )
     }

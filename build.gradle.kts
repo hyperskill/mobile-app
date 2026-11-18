@@ -14,6 +14,7 @@ buildscript {
     dependencies {
         classpath(libs.plugin.kotlin)
         classpath(libs.plugin.kotlinSerialization)
+        classpath(libs.plugin.composeCompiler)
         classpath(libs.plugin.android)
         classpath(libs.plugin.ktlint)
         classpath(libs.plugin.gradleVersionUpdates)
@@ -34,7 +35,7 @@ subprojects {
     afterEvaluate {
         if (project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.library")) {
             tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-                kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
+                compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
             }
         }
     }

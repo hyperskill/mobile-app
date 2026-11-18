@@ -12,7 +12,6 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Int
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.step.domain.model.stub
 
@@ -65,10 +64,7 @@ class StepCompletionTest {
         )
 
         assertEquals(initialState, actualState)
-        assertContains(
-            actualActions,
-            InternalAction.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION)
-        )
+        assertContains(actualActions, InternalAction.UpdateProblemsLimit)
     }
 
     @Test

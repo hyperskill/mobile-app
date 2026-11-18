@@ -1,6 +1,6 @@
 import SnapKit
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
 protocol ProcessedContentWebViewDelegate: AnyObject {
     func processedContentTextViewDidLoadContent(_ view: ProcessedContentWebView)

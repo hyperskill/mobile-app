@@ -47,9 +47,6 @@ kotlin {
             framework {
                 baseName = "shared"
                 isStatic = false
-                // Delete options passed to a system linker after upgrading to the Kotlin 1.9.10
-                // https://youtrack.jetbrains.com/issue/KT-60230
-                linkerOpts += "-ld64"
                 // Add export declarations to use moko-resources iOS extensions from Swift side
                 export(libs.mokoResources.main)
             }
@@ -82,8 +79,7 @@ kotlin {
             api(libs.multiplatform.settings)
         }
         commonTest.dependencies {
-            implementation(kotlin("test-common"))
-            implementation(kotlin("test-annotations-common"))
+            implementation(kotlin("test"))
             implementation(libs.kotlin.coroutines.core)
             implementation(libs.kotlin.coroutines.test)
             implementation(libs.mokoResources.test)
@@ -240,14 +236,57 @@ kswift {
     iosDeploymentTarget.set("14.0")
 }
 
+// Pods used for cinterop (RevenueCat) are built by the Kotlin CocoaPods plugin with their own deployment target,
+// which is too low for Xcode 26. Build them with the same deployment target as the shared framework.
+tasks.matching { it.name.startsWith("podInstallSynthetic") }.configureEach {
+    doLast {
+        val syntheticPodsProject = layout.buildDirectory
+            .file("cocoapods/synthetic/ios/Pods/Pods.xcodeproj/project.pbxproj")
+            .get()
+            .asFile
+        if (syntheticPodsProject.exists()) {
+            syntheticPodsProject.writeText(
+                syntheticPodsProject.readText().replace(
+                    Regex("IPHONEOS_DEPLOYMENT_TARGET = [0-9.]+;"),
+                    "IPHONEOS_DEPLOYMENT_TARGET = 14.0;"
+                )
+            )
+        }
+    }
+}
+
 // Copies generated shared Swift file by moko-kswift to iosHyperskillApp
 tasks.withType<KotlinNativeLink>()
     .matching { it.binary is Framework }
     .configureEach {
+        // moko-kswift can't read cinterop klibs with Kotlin 2 (it terminates the Gradle daemon),
+        // and they contain no sealed classes to process, so exclude them.
+        doFirst {
+            val kswiftExtension = project.extensions.getByType<dev.icerock.moko.kswift.plugin.KSwiftExtension>()
+            inputs.files
+                .filter { it.extension == "klib" && it.name.contains("cinterop") }
+                .forEach { kswiftExtension.excludeLibrary(it.nameWithoutExtension) }
+        }
         doLast {
             val kSwiftGeneratedDir = destinationDirectory.get()
                 .dir("${binary.baseName}Swift")
                 .asFile
+
+            // With Kotlin 2 the klib of the project itself is no longer among the link task inputs
+            // processed by moko-kswift, so run its processor for the project klib manually.
+            val kswiftProcessor = dev.icerock.moko.kswift.plugin.KLibProcessor(
+                logger = logger,
+                extension = project.extensions.getByType<dev.icerock.moko.kswift.plugin.KSwiftExtension>()
+            )
+            fun File.isKlib(): Boolean =
+                extension == "klib" || resolve("default/manifest").exists()
+            binary.compilation.output.classesDirs.files
+                .flatMap { if (it.isKlib()) listOf(it) else it.listFiles().orEmpty().filter(File::isKlib) }
+                .forEach { projectKlib ->
+                    logger.lifecycle("moko-kswift: processing project klib ${projectKlib.path}")
+                    kswiftProcessor.processFeatureContext(projectKlib, kSwiftGeneratedDir, binary as Framework)
+                }
+
             val kSwiftSharedGeneratedSwiftFile = kSwiftGeneratedDir
                 .resolve("Hyperskill-Mobile_shared.swift")
 

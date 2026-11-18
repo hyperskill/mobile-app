@@ -96,12 +96,9 @@ PODS:
   - PanModal (1.2.7)
   - PromisesObjC (2.4.0)
   - RevenueCat (4.41.1)
-  - Sentry (8.17.2):
-    - Sentry/Core (= 8.17.2)
-    - SentryPrivate (= 8.17.2)
-  - Sentry/Core (8.17.2):
-    - SentryPrivate (= 8.17.2)
-  - SentryPrivate (8.17.2)
+  - Sentry (8.58.4):
+    - Sentry/Core (= 8.58.4)
+  - Sentry/Core (8.58.4)
   - shared (1.0):
     - RevenueCat (= 4.41.1)
   - SkeletonUI (1.0.11)
@@ -130,7 +127,7 @@ DEPENDENCIES:
   - NukeUI (from `https://github.com/kean/NukeUI.git`, tag `0.8.3`)
   - PanModal (from `https://github.com/ivan-magda/PanModal.git`, branch `remove-presenting-appearance-transitions`)
   - RevenueCat (= 4.41.1)
-  - Sentry (= 8.17.2)
+  - Sentry (= 8.58.4)
   - shared (from `../shared`)
   - SkeletonUI (= 1.0.11)
   - SnapKit (= 5.7.1)
@@ -167,7 +164,6 @@ SPEC REPOS:
     - PromisesObjC
     - RevenueCat
     - Sentry
-    - SentryPrivate
     - SkeletonUI
     - SnapKit
     - STRegex
@@ -213,7 +209,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AmplitudeSwift: 4daa595b157c73b9bc5f225f9b8faead90d044b3
   AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
-  AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
+  AppAuth: 7096ba7b9e9ec525036c79c633d4e796d4c02489
   AppsFlyerFramework: b3de9a49c6af8a8e38c44603e468b5e207f22466
   Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
@@ -226,9 +222,9 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 4d52717dd820707cc4eadec5eb981b4832ec8d5d
   Gifu: 416d4e38c4c2fed012f019e0a1d3ffcb58e5b842
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
-  GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
+  GoogleSignIn: 4ac041cf807e78942e3c0863775a98ee8c8e0f7c
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
-  GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
+  GTMAppAuth: 4a3fbbb34098b327feaa51cfbf98b0b12f6892e7
   GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   Highlightr: 683f05d5223cade533a78528a35c9f06e4caddf8
   IQKeyboardManagerSwift: 79fab21f451441935788dc5d80ded21c32685904
@@ -240,8 +236,7 @@ SPEC CHECKSUMS:
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RevenueCat: 1e7be26ae57d83bfd4191c9c4f1a01b3b409b215
-  Sentry: 64a9f9c3637af913adcf53deced05bbe452d1410
-  SentryPrivate: 024c6fed507ac39ae98e6d087034160f942920d5
+  Sentry: 5321d74bdd28d6f6f8beaa1ca06f1fdc746bff49
   shared: 347ef463ef2f66af50fc8e59d533b6007bc63518
   SkeletonUI: a5514a3877d39f28229c852a567660d0f7542330
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
@@ -250,6 +245,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 1177593fe82412f60dfb7e58578b56066fe42f4f
+PODFILE CHECKSUM: 389bbbad3b56070e9e49693df7898cdc1a2ba708
 
 COCOAPODS: 1.16.2

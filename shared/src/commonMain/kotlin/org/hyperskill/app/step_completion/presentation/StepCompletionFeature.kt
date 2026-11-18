@@ -6,7 +6,6 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
 import org.hyperskill.app.topics.domain.model.Topic
 
@@ -165,7 +164,7 @@ object StepCompletionFeature {
 
         data class CheckTopicCompletionStatus(val topicId: Long) : InternalAction
 
-        data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
+        object UpdateProblemsLimit : InternalAction
 
         object UpdateLastTimeShareStreakShown : InternalAction
 

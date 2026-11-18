@@ -3,22 +3,19 @@ package org.hyperskill.app.problems_limit_info.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object ProblemsLimitInfoModalFeature {
     data class State(
         val subscription: Subscription,
-        val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
         val launchSource: ProblemsLimitInfoModalLaunchSource
     )
 
     internal fun initialState(
         subscription: Subscription,
-        chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
         launchSource: ProblemsLimitInfoModalLaunchSource
     ) =
-        State(subscription, chargeLimitsStrategy, launchSource)
+        State(subscription, launchSource)
 
     /**
      * [limitsDescription] represents a text displayed under the title.

@@ -38,7 +38,6 @@ import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -323,7 +322,7 @@ internal class StepQuizReducer(
                     stepQuizCodeBlanksState = stepQuizCodeBlanksState
                 ) to buildSet {
                     if (isProblemsLimitReached && shouldShowProblemsLimitModal) {
-                        addAll(showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy))
+                        addAll(showProblemsLimitReachedModal(message.subscription))
                     } else {
                         addAll(
                             getProblemOnboardingModalActions(
@@ -468,7 +467,7 @@ internal class StepQuizReducer(
                 if (submissionStatus == SubmissionStatus.WRONG &&
                     StepQuizResolver.isStepHasLimitedAttempts(stepRoute)
                 ) {
-                    add(InternalAction.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION))
+                    add(InternalAction.UpdateProblemsLimit)
                 }
 
                 if (submissionStatus == SubmissionStatus.CORRECT) {
@@ -509,7 +508,7 @@ internal class StepQuizReducer(
             state.copy(
                 stepQuizState = state.stepQuizState.copy(isProblemsLimitReached = isProblemsLimitReached)
             ) to if (isProblemsLimitReached && shouldShowProblemsLimitModal) {
-                showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy)
+                showProblemsLimitReachedModal(message.subscription)
             } else {
                 emptySet()
             }
@@ -633,14 +632,10 @@ internal class StepQuizReducer(
             else -> emptySet()
         }
 
-    private fun showProblemsLimitReachedModal(
-        subscription: Subscription,
-        chargeLimitsStrategy: FreemiumChargeLimitsStrategy
-    ): Set<Action> =
+    private fun showProblemsLimitReachedModal(subscription: Subscription): Set<Action> =
         setOf(
             Action.ViewAction.ShowProblemsLimitReachedModal(
                 subscription = subscription,
-                chargeLimitsStrategy = chargeLimitsStrategy,
                 context = ProblemsLimitInfoModalContext.Step(
                     launchSource = ProblemsLimitInfoModalLaunchSource.AUTOMATIC_NO_LIMITS_LEFT,
                     stepRoute = stepRoute
