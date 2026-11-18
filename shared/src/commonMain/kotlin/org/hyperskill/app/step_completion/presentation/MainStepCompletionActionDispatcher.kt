@@ -73,7 +73,7 @@ internal class MainStepCompletionActionDispatcher(
                 handleCheckTopicCompletionStatusAction(action, ::onNewMessage)
             }
             is InternalAction.UpdateProblemsLimit -> {
-                subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
+                subscriptionsInteractor.updateProblemsLimitsForCorrectSubmission()
             }
             is InternalAction.UpdateLastTimeShareStreakShown -> {
                 shareStreakInteractor.setLastTimeShareStreakShown()

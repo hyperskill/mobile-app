@@ -44,7 +44,6 @@ internal object ProblemsLimitInfoModalFeatureBuilder {
                 """
                 stepsLimitResetTime is in the past:
                 subscription: {$params.subscription},
-                chargeLimitsStrategy: ${params.chargeLimitsStrategy},
                 launchSource: ${params.context.launchSource}
                 """.trimIndent()
             )
@@ -53,7 +52,6 @@ internal object ProblemsLimitInfoModalFeatureBuilder {
         return ReduxFeature(
             initialState = ProblemsLimitInfoModalFeature.initialState(
                 params.subscription,
-                params.chargeLimitsStrategy,
                 params.context.launchSource
             ),
             reducer = problemsLimitInfoModalReducer

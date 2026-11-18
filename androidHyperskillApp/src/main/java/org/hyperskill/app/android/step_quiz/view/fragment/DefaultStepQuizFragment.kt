@@ -270,7 +270,6 @@ abstract class DefaultStepQuizFragment :
                 showProblemsLimitInfoBottomSheet(
                     ProblemsLimitInfoModalFeatureParams(
                         subscription = action.subscription,
-                        chargeLimitsStrategy = action.chargeLimitsStrategy,
                         context = action.context
                     )
                 )
@@ -304,7 +303,6 @@ abstract class DefaultStepQuizFragment :
                         showProblemsLimitInfoBottomSheet(
                             ProblemsLimitInfoModalFeatureParams(
                                 subscription = viewAction.subscription,
-                                chargeLimitsStrategy = viewAction.chargeLimitsStrategy,
                                 context = viewAction.context
                             )
                         )

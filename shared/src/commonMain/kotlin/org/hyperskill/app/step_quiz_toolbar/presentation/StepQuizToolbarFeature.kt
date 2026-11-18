@@ -3,7 +3,6 @@ package org.hyperskill.app.step_quiz_toolbar.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionWithLimitType
@@ -16,8 +15,7 @@ object StepQuizToolbarFeature {
         object Error : State
         data class Content(
             val subscription: Subscription,
-            val subscriptionLimitType: SubscriptionLimitType,
-            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+            val subscriptionLimitType: SubscriptionLimitType
         ) : State
     }
 
@@ -48,8 +46,7 @@ object StepQuizToolbarFeature {
         object SubscriptionFetchError : InternalMessage
         data class SubscriptionFetchSuccess(
             val subscription: Subscription,
-            val subscriptionLimitType: SubscriptionLimitType,
-            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+            val subscriptionLimitType: SubscriptionLimitType
         ) : InternalMessage
 
         data class SubscriptionChanged(
@@ -61,7 +58,6 @@ object StepQuizToolbarFeature {
         sealed interface ViewAction : Action {
             data class ShowProblemsLimitInfoModal(
                 val subscription: Subscription,
-                val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
                 val context: ProblemsLimitInfoModalContext
             ) : ViewAction
         }

@@ -19,7 +19,6 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Int
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
 import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams.ContinueBehaviour
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -235,7 +234,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
         if (message.stepId == state.currentStep.id) {
             state to buildSet {
                 if (StepQuizResolver.isStepHasLimitedAttempts(stepRoute)) {
-                    add(InternalAction.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION))
+                    add(InternalAction.UpdateProblemsLimit)
                 }
             }
         } else {

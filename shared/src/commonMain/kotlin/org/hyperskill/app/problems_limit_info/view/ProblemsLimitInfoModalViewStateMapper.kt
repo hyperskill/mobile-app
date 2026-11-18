@@ -8,7 +8,6 @@ import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.State
 import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.ViewState
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 
 internal class ProblemsLimitInfoModalViewStateMapper(
     private val resourceProvider: ResourceProvider,
@@ -23,86 +22,52 @@ internal class ProblemsLimitInfoModalViewStateMapper(
     @Suppress("MagicNumber")
     private fun getAutomaticNoLimitsLeftViewState(state: State): ViewState =
         ViewState(
-            title = getNoLimitsLeftTitle(state.chargeLimitsStrategy),
+            title = getNoLimitsLeftTitle(),
             limitsDescription = null,
             animation = ViewState.Animation.NO_LIMITS_LEFT,
-            leftLimitsText = getLeftLimitsText(state.chargeLimitsStrategy, 0),
+            leftLimitsText = getLeftLimitsText(0),
             resetInText = getResetInText(state.subscription.stepsLimitResetTime),
-            unlockDescription = getUnlockDescription(state.chargeLimitsStrategy),
+            unlockDescription = getUnlockDescription(),
             buttonText = getButtonText()
         )
 
-    private fun getNoLimitsLeftTitle(chargeLimitsStrategy: FreemiumChargeLimitsStrategy): String =
-        resourceProvider.getString(
-            when (chargeLimitsStrategy) {
-                FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
-                    SharedResources.strings.problems_limit_info_modal_no_lives_left_title
-                FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
-                    SharedResources.strings.problems_limit_info_modal_no_limits_left_title
-            }
-        )
+    private fun getNoLimitsLeftTitle(): String =
+        resourceProvider.getString(SharedResources.strings.problems_limit_info_modal_no_lives_left_title)
 
-    private fun getUnlockDescription(chargeLimitsStrategy: FreemiumChargeLimitsStrategy): String =
+    private fun getUnlockDescription(): String =
         resourceProvider.getString(
-            when (chargeLimitsStrategy) {
-                FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
-                    SharedResources.strings.problems_limit_info_modal_unlock_unlimited_lives_description
-                FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
-                    SharedResources.strings.problems_limit_info_modal_unlock_unlimited_problems_description
-            }
+            SharedResources.strings.problems_limit_info_modal_unlock_unlimited_lives_description
         )
 
     private fun getUserInitiatedViewState(state: State): ViewState =
         ViewState(
             title = getUserInitiatedTitle(
                 leftLimit = state.subscription.stepsLimitLeft,
-                limitTotal = state.subscription.stepsLimitTotal,
-                chargeLimitsStrategy = state.chargeLimitsStrategy
+                limitTotal = state.subscription.stepsLimitTotal
             ),
-            limitsDescription = getUserInitiatedLimitsDescription(state.chargeLimitsStrategy),
+            limitsDescription = getUserInitiatedLimitsDescription(),
             animation = getUserInitiatedAnimation(
                 leftLimit = state.subscription.stepsLimitLeft,
                 limitTotal = state.subscription.stepsLimitTotal
             ),
-            leftLimitsText = getLeftLimitsText(
-                chargeLimitsStrategy = state.chargeLimitsStrategy,
-                leftLimit = state.subscription.stepsLimitLeft
-            ),
+            leftLimitsText = getLeftLimitsText(state.subscription.stepsLimitLeft),
             resetInText = getResetInText(state.subscription.stepsLimitResetTime),
             unlockDescription = null,
             buttonText = getButtonText()
         )
 
     @Suppress("MagicNumber")
-    private fun getUserInitiatedTitle(
-        leftLimit: Int?,
-        limitTotal: Int?,
-        chargeLimitsStrategy: FreemiumChargeLimitsStrategy
-    ): String =
+    private fun getUserInitiatedTitle(leftLimit: Int?, limitTotal: Int?): String =
         when (leftLimit) {
-            null, 0 -> getNoLimitsLeftTitle(chargeLimitsStrategy)
+            null, 0 -> getNoLimitsLeftTitle()
             limitTotal ->
                 resourceProvider.getString(SharedResources.strings.problems_limit_info_modal_full_limits_title)
             else ->
-                resourceProvider.getString(
-                    when (chargeLimitsStrategy) {
-                        FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
-                            SharedResources.strings.problems_limit_info_modal_part_spent_lives_title
-                        FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
-                            SharedResources.strings.problems_limit_info_modal_part_spent_limits_title
-                    }
-                )
+                resourceProvider.getString(SharedResources.strings.problems_limit_info_modal_part_spent_lives_title)
         }
 
-    private fun getUserInitiatedLimitsDescription(chargeLimitsStrategy: FreemiumChargeLimitsStrategy): String =
-        resourceProvider.getString(
-            when (chargeLimitsStrategy) {
-                FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
-                    SharedResources.strings.problems_limit_info_modal_lives_description
-                FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
-                    SharedResources.strings.problems_limit_info_modal_problems_limits_description
-            }
-        )
+    private fun getUserInitiatedLimitsDescription(): String =
+        resourceProvider.getString(SharedResources.strings.problems_limit_info_modal_lives_description)
 
     @Suppress("MagicNumber")
     private fun getUserInitiatedAnimation(leftLimit: Int?, limitTotal: Int?): ViewState.Animation =
@@ -112,18 +77,10 @@ internal class ProblemsLimitInfoModalViewStateMapper(
             else -> ViewState.Animation.PARTIALLY_SPENT_LIMITS
         }
 
-    private fun getLeftLimitsText(
-        chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-        leftLimit: Int?
-    ): String? =
+    private fun getLeftLimitsText(leftLimit: Int?): String? =
         if (leftLimit != null) {
             resourceProvider.getQuantityString(
-                when (chargeLimitsStrategy) {
-                    FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
-                        SharedResources.plurals.problems_limit_info_modal_left_lives
-                    FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
-                        SharedResources.plurals.problems_limit_info_modal_left_problems
-                },
+                SharedResources.plurals.problems_limit_info_modal_left_lives,
                 leftLimit,
                 leftLimit
             )

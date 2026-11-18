@@ -8,7 +8,6 @@ import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModa
 import org.hyperskill.app.streaks.domain.model.HistoricalStreak
 import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionWithLimitType
@@ -23,7 +22,6 @@ object GamificationToolbarFeature {
             val currentStreak: Int,
             val historicalStreak: HistoricalStreak,
             val subscription: Subscription,
-            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
             internal val subscriptionLimitType: SubscriptionLimitType,
             internal val isRefreshing: Boolean = false
         ) : State
@@ -73,8 +71,7 @@ object GamificationToolbarFeature {
         data class FetchGamificationToolbarDataSuccess(
             val gamificationToolbarData: GamificationToolbarData,
             val subscription: Subscription,
-            val subscriptionLimitType: SubscriptionLimitType,
-            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+            val subscriptionLimitType: SubscriptionLimitType
         ) : InternalMessage
 
         object PullToRefresh : InternalMessage
@@ -101,7 +98,6 @@ object GamificationToolbarFeature {
             object ShowSearchScreen : ViewAction
             data class ShowProblemsLimitInfoModal(
                 val subscription: Subscription,
-                val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
                 val context: ProblemsLimitInfoModalContext
             ) : ViewAction
         }

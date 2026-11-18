@@ -26,7 +26,6 @@ import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
@@ -82,7 +81,6 @@ class StepQuizTest {
                     attempt,
                     submissionState,
                     subscription = limitReachedSubscription,
-                    chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                     problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                     isProblemsLimitReached = true
                 )
@@ -129,7 +127,6 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 subscription = limitReachedSubscription,
-                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isProblemsLimitReached = true
             )
@@ -187,7 +184,7 @@ class StepQuizTest {
         assertEquals(expectedState, actualState)
         assertContains(
             actualActions,
-            StepQuizFeature.InternalAction.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION)
+            StepQuizFeature.InternalAction.UpdateProblemsLimit
         )
     }
 
@@ -248,7 +245,6 @@ class StepQuizTest {
 
         val subscription = limitReachedSubscription
         val stepRoute = StepRoute.Learn.Step(step.id, null)
-        val chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION
 
         val initialState = StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
@@ -272,7 +268,6 @@ class StepQuizTest {
             initialState,
             StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
                 subscription = subscription,
-                chargeLimitsStrategy = chargeLimitsStrategy,
                 isProblemsLimitReached = true
             )
         )
@@ -295,7 +290,6 @@ class StepQuizTest {
             actualActions,
             StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal(
                 subscription = subscription,
-                chargeLimitsStrategy = chargeLimitsStrategy,
                 context = ProblemsLimitInfoModalContext.Step(
                     launchSource = ProblemsLimitInfoModalLaunchSource.AUTOMATIC_NO_LIMITS_LEFT,
                     stepRoute = stepRoute
@@ -330,7 +324,6 @@ class StepQuizTest {
             initialState,
             StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
                 subscription = limitReachedSubscription,
-                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 isProblemsLimitReached = true
             )
         )
@@ -394,7 +387,6 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 subscription = Subscription.stub(),
-                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isProblemsLimitReached = false
             )
@@ -458,7 +450,6 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 subscription = Subscription.stub(),
-                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isProblemsLimitReached = false
             )
@@ -702,7 +693,6 @@ class StepQuizTest {
                 submissionState,
                 subscription = Subscription.stub(),
                 isProblemsLimitReached = false,
-                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub()
             )
         )
@@ -755,7 +745,6 @@ class StepQuizTest {
                 submissionState,
                 subscription = Subscription.stub(),
                 isProblemsLimitReached = false,
-                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub()
             )
         )

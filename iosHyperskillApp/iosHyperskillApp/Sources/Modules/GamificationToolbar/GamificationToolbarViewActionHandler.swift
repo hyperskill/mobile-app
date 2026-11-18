@@ -22,7 +22,6 @@ enum GamificationToolbarViewActionHandler {
             let assembly = ProblemsLimitInfoModalAssembly(
                 params: ProblemsLimitInfoModalFeatureParams(
                     subscription: data.subscription,
-                    chargeLimitsStrategy: data.chargeLimitsStrategy,
                     context: data.context
                 )
             )

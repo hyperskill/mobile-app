@@ -21,9 +21,7 @@ import org.hyperskill.app.features.data.source.FeaturesDataSource
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
 import org.hyperskill.app.profile.domain.model.isMobileContentTrialEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
@@ -113,33 +111,28 @@ class SubscriptionsInteractor(
             canMakePayments = purchaseInteractor.canMakePayments().getOrDefault(false)
         )
 
-    suspend fun chargeProblemsLimits(chargeStrategy: FreemiumChargeLimitsStrategy) {
-        val isProblemsLimitEnabled = isProblemsLimitEnabled()
-        if (isProblemsLimitEnabled) {
-            when (chargeStrategy) {
-                FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION -> chargeLimitsAfterWrongSubmission()
-                FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION -> chargeLimitsAfterCorrectSubmission()
-            }
+    /**
+     * Problems limits are charged only for wrong submissions.
+     */
+    suspend fun chargeProblemsLimitsForWrongSubmission() {
+        if (isProblemsLimitEnabled()) {
+            decreaseStepsLimitLeft()
         }
     }
 
-    private suspend fun chargeLimitsAfterWrongSubmission() {
-        if (currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
-            decreaseStepsLimitLeft()
+    /**
+     * Correct submissions don't charge problems limits,
+     * but the first solved step can increase them.
+     */
+    suspend fun updateProblemsLimitsForCorrectSubmission() {
+        if (isProblemsLimitEnabled()) {
+            increaseLimitsForFirstStepCompletionIfNeeded()
         }
     }
 
     private suspend fun decreaseStepsLimitLeft() {
         currentSubscriptionStateRepository.updateState { subscription ->
             subscription.copy(stepsLimitLeft = subscription.stepsLimitLeft?.dec())
-        }
-    }
-
-    private suspend fun chargeLimitsAfterCorrectSubmission() {
-        increaseLimitsForFirstStepCompletionIfNeeded()
-
-        if (!currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
-            decreaseStepsLimitLeft()
         }
     }
 

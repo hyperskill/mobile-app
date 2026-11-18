@@ -12,7 +12,6 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalAction
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalMessage
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
-import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -103,7 +102,8 @@ internal class MainGamificationToolbarActionDispatcher(
                 }
 
                 val gamificationToolbarDataWithSource = toolbarDataDeferred.await().getOrThrow()
-                val profile = profileDeferred.await().getOrThrow()
+                // Profile is fetched along with the toolbar data to keep it up to date
+                profileDeferred.await().getOrThrow()
 
                 val subscriptionWithLimitType = getSubscription(
                     forceUpdate = action.forceUpdate,
@@ -113,8 +113,7 @@ internal class MainGamificationToolbarActionDispatcher(
                 InternalMessage.FetchGamificationToolbarDataSuccess(
                     gamificationToolbarData = gamificationToolbarDataWithSource.state,
                     subscription = subscriptionWithLimitType.subscription,
-                    subscriptionLimitType = subscriptionWithLimitType.subscriptionLimitType,
-                    chargeLimitsStrategy = profile.freemiumChargeLimitsStrategy,
+                    subscriptionLimitType = subscriptionWithLimitType.subscriptionLimitType
                 )
             }
         }.let(onNewMessage)

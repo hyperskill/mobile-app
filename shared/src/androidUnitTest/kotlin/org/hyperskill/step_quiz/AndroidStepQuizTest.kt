@@ -14,7 +14,6 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
@@ -99,7 +98,6 @@ class AndroidStepQuizTest {
                             stepsLimitLeft = 5,
                             stepsLimitTotal = 5
                         ),
-                        chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                         problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                         isProblemsLimitReached = false
                     )

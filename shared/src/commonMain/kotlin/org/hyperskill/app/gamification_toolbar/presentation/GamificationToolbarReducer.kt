@@ -14,7 +14,6 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.streaks.domain.model.HistoricalStreak
 import org.hyperskill.app.streaks.domain.model.StreakState
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionLimitType
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -34,8 +33,7 @@ class GamificationToolbarReducer(
                 createContentState(
                     gamificationToolbarData = message.gamificationToolbarData,
                     subscription = message.subscription,
-                    subscriptionLimitType = message.subscriptionLimitType,
-                    chargeLimitsStrategy = message.chargeLimitsStrategy
+                    subscriptionLimitType = message.subscriptionLimitType
                 ) to emptySet()
             is InternalMessage.PullToRefresh ->
                 handlePullToRefreshMessage(state)
@@ -215,7 +213,6 @@ class GamificationToolbarReducer(
             state to setOf(
                 Action.ViewAction.ShowProblemsLimitInfoModal(
                     subscription = state.subscription,
-                    chargeLimitsStrategy = state.chargeLimitsStrategy,
                     context = ProblemsLimitInfoModalContext.GamificationToolbar(screen)
                 ),
                 InternalAction.LogAnalyticEvent(
@@ -229,15 +226,13 @@ class GamificationToolbarReducer(
     private fun createContentState(
         gamificationToolbarData: GamificationToolbarData,
         subscription: Subscription,
-        subscriptionLimitType: SubscriptionLimitType,
-        chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+        subscriptionLimitType: SubscriptionLimitType
     ): State.Content =
         State.Content(
             trackProgress = gamificationToolbarData.trackProgress,
             currentStreak = gamificationToolbarData.currentStreak,
             historicalStreak = HistoricalStreak(gamificationToolbarData.streakState),
             subscription = subscription,
-            chargeLimitsStrategy = chargeLimitsStrategy,
             subscriptionLimitType = subscriptionLimitType
         )
 }

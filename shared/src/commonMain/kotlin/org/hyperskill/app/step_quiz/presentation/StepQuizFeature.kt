@@ -16,7 +16,6 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object StepQuizFeature {
@@ -156,14 +155,12 @@ object StepQuizFeature {
             val submissionState: SubmissionState,
             val subscription: Subscription,
             val isProblemsLimitReached: Boolean,
-            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
             val problemsOnboardingFlags: ProblemsOnboardingFlags
         ) : InternalMessage
 
         data class UpdateProblemsLimitResult(
             val subscription: Subscription,
-            val isProblemsLimitReached: Boolean,
-            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+            val isProblemsLimitReached: Boolean
         ) : InternalMessage
 
         data class ProblemsLimitChanged(
@@ -214,7 +211,6 @@ object StepQuizFeature {
 
             data class ShowProblemsLimitReachedModal(
                 val subscription: Subscription,
-                val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
                 val context: ProblemsLimitInfoModalContext
             ) : ViewAction
 
@@ -274,7 +270,7 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
+        data object UpdateProblemsLimit : InternalAction
 
         data class CreateMagicLinkForUnsupportedQuiz(val stepRoute: StepRoute) : InternalAction
 

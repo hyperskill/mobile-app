@@ -294,7 +294,6 @@ private extension StepQuizView {
             presentProblemsLimitInfoModal(
                 params: ProblemsLimitInfoModalFeatureParams(
                     subscription: data.subscription,
-                    chargeLimitsStrategy: data.chargeLimitsStrategy,
                     context: data.context
                 )
             )
@@ -373,7 +372,6 @@ private extension StepQuizView {
             presentProblemsLimitInfoModal(
                 params: ProblemsLimitInfoModalFeatureParams(
                     subscription: data.subscription,
-                    chargeLimitsStrategy: data.chargeLimitsStrategy,
                     context: data.context
                 )
             )
