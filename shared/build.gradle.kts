@@ -278,11 +278,22 @@ tasks.withType<KotlinNativeLink>()
                 logger = logger,
                 extension = project.extensions.getByType<dev.icerock.moko.kswift.plugin.KSwiftExtension>()
             )
+            // TEMPORARY diagnostics
+            logger.lifecycle("kswift-debug input dirs: " + inputs.files.filter { it.isDirectory }.map { it.path })
             inputs.files
                 .filter { it.isDirectory && it.resolve("default/manifest").exists() && !it.name.contains("cinterop") }
                 .forEach { unpackedKlib ->
+                    logger.lifecycle("kswift-debug processing: " + unpackedKlib.path)
+                    try {
+                        val metadata = dev.icerock.moko.kswift.plugin.KotlinMetadataLibraryProvider
+                            .readLibraryMetadata(unpackedKlib)
+                        logger.lifecycle("kswift-debug metadata name: " + metadata.name)
+                    } catch (e: Throwable) {
+                        logger.lifecycle("kswift-debug read failed: " + e + " | " + e.stackTrace.take(12).joinToString(" <- "))
+                    }
                     kswiftProcessor.processFeatureContext(unpackedKlib, kSwiftGeneratedDir, binary as Framework)
                 }
+            logger.lifecycle("kswift-debug generated: " + kSwiftGeneratedDir.listFiles()?.map { it.name })
 
             val kSwiftSharedGeneratedSwiftFile = kSwiftGeneratedDir
                 .resolve("Hyperskill-Mobile_shared.swift")
